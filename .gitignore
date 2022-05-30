@@ -5,7 +5,7 @@
 # myFile
 *.exe
 *.code-workspace
-*.ink
+*.lnk
 
 # Compiled Lua sources
 luac.out
