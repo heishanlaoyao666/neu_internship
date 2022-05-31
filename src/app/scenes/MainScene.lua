@@ -1,3 +1,6 @@
+---require
+-- require("AudioEngine")
+---
 local MainScene =
     class(
     "MainScene",
@@ -5,9 +8,9 @@ local MainScene =
         return display.newScene("MainScene")
     end
 )
+---local
 
-local size = cc.Director:getInstance():getWinSize()
-
+---
 function MainScene:ctor()
     -- local label =
     --     display.newTTFLabel(
@@ -22,7 +25,7 @@ end
 
 function MainScene:onEnter()
     --- 由于找不到cs中的editbox,这个页面用自己拼的
-    local bg = cc.Sprite:create("ui/main/bg_menu.jpg")
+    local bg = cc.Sprite:create(ConstantsUtil.PATH_BG_JPG)
     bg:setPosition(cc.p(size.width / 2, size.height / 2))
     bg:setAnchorPoint(0.5, 0.5)
     bg:addTo(self)

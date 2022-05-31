@@ -5,6 +5,7 @@ require("framework.init")
 local AppBase = require("framework.AppBase")
 local MyApp = class("MyApp", AppBase)
 local Log = require("app.util.Log")
+local ConstantsUtil = require("app.util.ConstantsUtil")
 
 function MyApp:ctor()
     MyApp.super.ctor(self)
