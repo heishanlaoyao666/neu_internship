@@ -118,11 +118,45 @@ can not get file data of D:/CocosProjects/empty/src/libpdebug.lua
 
 Inner height <= scrollview height, it will be force sized!
 
-[LUA-print] [INFO]settingButton
+[LUA-print] [INFO]rankButton
 
 [LUA-print] [INFO]begin
 
+[LUA-print] [INFO]rankButton
+
+[LUA-print] [INFO]end
+
+cocos2d: padding: 0,0,0,0
+
+Inner height <= scrollview height, it will be force sized!
+
+[LUA-print] [INFO]backButton
+
+[LUA-print] [INFO]begin
+
+[LUA-print] [INFO]backButton
+
+[LUA-print] [INFO]backButton
+
+[LUA-print] [INFO]backButton
+
+[LUA-print] [INFO]backButton
+
+[LUA-print] [INFO]backButton
+
+[LUA-print] [INFO]backButton
+
+[LUA-print] [INFO]backButton
+
+[LUA-print] [INFO]backButton
+
+[LUA-print] [INFO]end
+
+Inner height <= scrollview height, it will be force sized!
+
 [LUA-print] [INFO]settingButton
+
+[LUA-print] [INFO]begin
 
 [LUA-print] [INFO]settingButton
 
@@ -142,29 +176,47 @@ Inner width <= scrollview width, it will be force sized!
 
 [LUA-print] [INFO]end
 
-[LUA-print] [INFO]effectControlButton
+[LUA-print] [INFO]backButton
 
 [LUA-print] [INFO]begin
 
-[LUA-print] [INFO]effectControlButton
+[LUA-print] [INFO]backButton
 
-[LUA-print] [INFO]effectControlButton
+[LUA-print] [INFO]backButton
 
 [LUA-print] [INFO]end
 
-[LUA-print] [INFO]musicControlButton
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/CocosProjects/empty/src/app/scenes/SettingScene.lua"]:99: error in function 'lua_cocos2dx_UserDefault_setBoolForKey'.
+     argument #1 is 'table'; 'cc.UserDefault' expected.
+
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'setBoolForKey'
+	[string "D:/CocosProjects/empty/src/app/scenes/SettingScene.lua"]:99: in function 'onExit'
+	[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:143: in function <[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:138>
+	[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:348: in function <[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:346>
+
+[LUA-print] ----------------------------------------
+
+Inner height <= scrollview height, it will be force sized!
+
+[LUA-print] [INFO]settingButton
 
 [LUA-print] [INFO]begin
 
-[LUA-print] [INFO]musicControlButton
-
-[LUA-print] [INFO]musicControlButton
-
-[LUA-print] [INFO]musicControlButton
-
-[LUA-print] [INFO]musicControlButton
+[LUA-print] [INFO]settingButton
 
 [LUA-print] [INFO]end
+
+Inner height <= scrollview height, it will be force sized!
+
+Inner width <= scrollview width, it will be force sized!
+
+Inner width <= scrollview width, it will be force sized!
 
 [LUA-print] [INFO]effectControlButton
 
@@ -188,7 +240,7 @@ Inner width <= scrollview width, it will be force sized!
 
 [LUA-print] ----------------------------------------
 
-[LUA-print] LUA ERROR: [string "D:/CocosProjects/empty/src/app/scenes/SettingScene.lua"]:98: error in function 'lua_cocos2dx_UserDefault_setBoolForKey'.
+[LUA-print] LUA ERROR: [string "D:/CocosProjects/empty/src/app/scenes/SettingScene.lua"]:99: error in function 'lua_cocos2dx_UserDefault_setBoolForKey'.
      argument #1 is 'table'; 'cc.UserDefault' expected.
 
 
@@ -196,7 +248,7 @@ Inner width <= scrollview width, it will be force sized!
 [LUA-print] 
 stack traceback:
 	[C]: in function 'setBoolForKey'
-	[string "D:/CocosProjects/empty/src/app/scenes/SettingScene.lua"]:98: in function 'onExit'
+	[string "D:/CocosProjects/empty/src/app/scenes/SettingScene.lua"]:99: in function 'onExit'
 	[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:143: in function <[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:138>
 	[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:348: in function <[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:346>
 
@@ -232,15 +284,11 @@ Inner width <= scrollview width, it will be force sized!
 
 [LUA-print] [INFO]backButton
 
-[LUA-print] [INFO]backButton
-
-[LUA-print] [INFO]backButton
-
 [LUA-print] [INFO]end
 
 [LUA-print] ----------------------------------------
 
-[LUA-print] LUA ERROR: [string "D:/CocosProjects/empty/src/app/scenes/SettingScene.lua"]:98: error in function 'lua_cocos2dx_UserDefault_setBoolForKey'.
+[LUA-print] LUA ERROR: [string "D:/CocosProjects/empty/src/app/scenes/SettingScene.lua"]:99: error in function 'lua_cocos2dx_UserDefault_setBoolForKey'.
      argument #1 is 'table'; 'cc.UserDefault' expected.
 
 
@@ -248,93 +296,11 @@ Inner width <= scrollview width, it will be force sized!
 [LUA-print] 
 stack traceback:
 	[C]: in function 'setBoolForKey'
-	[string "D:/CocosProjects/empty/src/app/scenes/SettingScene.lua"]:98: in function 'onExit'
+	[string "D:/CocosProjects/empty/src/app/scenes/SettingScene.lua"]:99: in function 'onExit'
 	[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:143: in function <[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:138>
 	[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:348: in function <[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:346>
 
 [LUA-print] ----------------------------------------
 
 Inner height <= scrollview height, it will be force sized!
-
-[LUA-print] [INFO]settingButton
-
-[LUA-print] [INFO]begin
-
-[LUA-print] [INFO]settingButton
-
-[LUA-print] [INFO]settingButton
-
-[LUA-print] [INFO]end
-
-Inner height <= scrollview height, it will be force sized!
-
-Inner width <= scrollview width, it will be force sized!
-
-Inner width <= scrollview width, it will be force sized!
-
-[LUA-print] [INFO]musicControlButton
-
-[LUA-print] [INFO]begin
-
-[LUA-print] [INFO]musicControlButton
-
-[LUA-print] [INFO]end
-
-[LUA-print] [INFO]backButton
-
-[LUA-print] [INFO]begin
-
-[LUA-print] [INFO]backButton
-
-[LUA-print] [INFO]end
-
-[LUA-print] ----------------------------------------
-
-[LUA-print] LUA ERROR: [string "D:/CocosProjects/empty/src/app/scenes/SettingScene.lua"]:98: error in function 'lua_cocos2dx_UserDefault_setBoolForKey'.
-     argument #1 is 'table'; 'cc.UserDefault' expected.
-
-
-
-[LUA-print] 
-stack traceback:
-	[C]: in function 'setBoolForKey'
-	[string "D:/CocosProjects/empty/src/app/scenes/SettingScene.lua"]:98: in function 'onExit'
-	[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:143: in function <[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:138>
-	[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:348: in function <[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:346>
-
-[LUA-print] ----------------------------------------
-
-Inner height <= scrollview height, it will be force sized!
-
-[LUA-print] [INFO]settingButton
-
-[LUA-print] [INFO]begin
-
-[LUA-print] [INFO]settingButton
-
-[LUA-print] [INFO]settingButton
-
-[LUA-print] [INFO]end
-
-Inner height <= scrollview height, it will be force sized!
-
-Inner width <= scrollview width, it will be force sized!
-
-Inner width <= scrollview width, it will be force sized!
-
-[LUA-print] ----------------------------------------
-
-[LUA-print] LUA ERROR: [string "D:/CocosProjects/empty/src/app/scenes/SettingScene.lua"]:98: error in function 'lua_cocos2dx_UserDefault_setBoolForKey'.
-     argument #1 is 'table'; 'cc.UserDefault' expected.
-
-
-
-[LUA-print] 
-stack traceback:
-	[C]: in function 'setBoolForKey'
-	[string "D:/CocosProjects/empty/src/app/scenes/SettingScene.lua"]:98: in function 'onExit'
-	[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:143: in function <[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:138>
-	[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:348: in function <[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:346>
-
-[LUA-print] ----------------------------------------
 

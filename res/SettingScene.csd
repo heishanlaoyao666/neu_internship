@@ -47,7 +47,7 @@
                     <PreSize X="0.3400" Y="0.4300" />
                     <FileData Type="Normal" Path="ui/setting/bg_music_contrl_cover.png" Plist="" />
                   </AbstractNodeData>
-                  <AbstractNodeData Name="music_control" ActionTag="-1271034893" ZOrder="1" Tag="27" IconVisible="False" LeftMargin="186.0000" RightMargin="4.7500" TopMargin="24.8750" BottomMargin="24.8750" TouchEnable="True" FontSize="14" ButtonText="Button" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="249" Scale9Height="45" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
+                  <AbstractNodeData Name="music_control" ActionTag="-1271034893" ZOrder="1" Tag="27" IconVisible="False" LeftMargin="186.0000" RightMargin="4.7500" TopMargin="24.8750" BottomMargin="24.8750" TouchEnable="True" FontSize="14" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="249" Scale9Height="45" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
                     <Size X="209.2500" Y="50.2500" />
                     <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
                     <Position X="290.6250" Y="50.0000" />
@@ -57,7 +57,7 @@
                     <PreSize X="0.5231" Y="0.5025" />
                     <TextColor A="255" R="65" G="65" B="70" />
                     <DisabledFileData Type="Default" Path="Default/Button_Disable.png" Plist="" />
-                    <PressedFileData Type="Normal" Path="ui/setting/soundon2_cover.png" Plist="" />
+                    <PressedFileData Type="Normal" Path="ui/setting/soundon1_cover.png" Plist="" />
                     <NormalFileData Type="Normal" Path="ui/setting/soundon1_cover.png" Plist="" />
                     <OutlineColor A="255" R="255" G="0" B="0" />
                     <ShadowColor A="255" R="110" G="110" B="110" />
@@ -87,7 +87,7 @@
                     <PreSize X="0.3400" Y="0.4300" />
                     <FileData Type="Normal" Path="ui/setting/sound_click_contrl_cover.png" Plist="" />
                   </AbstractNodeData>
-                  <AbstractNodeData Name="effect_control" ActionTag="-120231819" ZOrder="1" Tag="30" IconVisible="False" LeftMargin="186.0000" RightMargin="4.7500" TopMargin="24.8750" BottomMargin="24.8750" TouchEnable="True" FontSize="14" ButtonText="Button" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="249" Scale9Height="45" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
+                  <AbstractNodeData Name="effect_control" ActionTag="-120231819" ZOrder="1" Tag="30" IconVisible="False" LeftMargin="186.0000" RightMargin="4.7500" TopMargin="24.8750" BottomMargin="24.8750" TouchEnable="True" FontSize="14" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="249" Scale9Height="45" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
                     <Size X="209.2500" Y="50.2500" />
                     <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
                     <Position X="290.6250" Y="50.0000" />
@@ -97,7 +97,7 @@
                     <PreSize X="0.5231" Y="0.5025" />
                     <TextColor A="255" R="65" G="65" B="70" />
                     <DisabledFileData Type="Default" Path="Default/Button_Disable.png" Plist="" />
-                    <PressedFileData Type="Normal" Path="ui/setting/soundon2_cover.png" Plist="" />
+                    <PressedFileData Type="Normal" Path="ui/setting/soundon1_cover.png" Plist="" />
                     <NormalFileData Type="Normal" Path="ui/setting/soundon1_cover.png" Plist="" />
                     <OutlineColor A="255" R="255" G="0" B="0" />
                     <ShadowColor A="255" R="110" G="110" B="110" />

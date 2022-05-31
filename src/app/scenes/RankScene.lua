@@ -7,8 +7,6 @@ local RankScene =
 )
 
 ---local
-local musicKey = cc.UserDefault:getInstance():getBoolForKey("music_key", true)
-local effectKey = cc.UserDefault:getInstance():getBoolForKey("effect_key", true)
 ---
 
 function RankScene:ctor()
@@ -34,6 +32,69 @@ function RankScene:onEnter()
             end
         end
     )
+
+    local rankBg = ccui.ImageView:create("ui/rank/rank_bg.png")
+    local rankList = tolua.cast(ccui.Helper:seekWidgetByName(rankScene, "rank_list"), "ccui.ListView")
+    ---TODO rankList
+    local scoreInit = 10000;
+    local delta = 1000;
+    for i = 1, 5 do
+        -- base
+        local itemLayer = ccui.Layout:create()
+        local itemWidth = size.width * 0.8333
+        local itemHeight = size.height * 0.1
+        itemLayer:setContentSize(itemWidth, itemHeight)
+        rankList:pushBackCustomItem(itemLayer)
+        -- body
+        if i == 0 then
+            -- 表头
+            -- 应该不需要表头 是个人都能看出来是怎么个意思
+            -- local itemBg = ccui.ImageView:create("ui/rank/rank_bg.png")
+            -- itemBg:setAnchorPoint(0.5, 0.5)
+            -- itemBg:setScale9Enabled(true)
+            -- itemBg:setContentSize(itemWidth, itemHeight)
+            -- itemBg:pos(itemWidth * 0.5, 0)
+            -- itemBg:addTo(itemLayer)
+        else
+            -- 表内容
+            -- 背景
+        
+            
+            -- local btn = ccui.Button:create("ui/rank/rank_bg.png", "ui/rank/rank_bg.png")
+            -- btn:setAnchorPoint(0.5, 0.5)
+            -- btn:setScale9Enabled(true)
+            -- btn:setContentSize(itemWidth, itemHeight / 7)
+            -- btn:setTitleText(" 排名" .. i .. " ")
+            -- btn:pos(itemWidth * 0.5, 0)
+            -- btn:setTitleFontSize(20)
+            -- btn:addTo(itemLayer)
+
+            local itemBg = ccui.ImageView:create("ui/rank/rank_item_bg.png")
+            itemBg:setAnchorPoint(0.5, 0.5)
+            itemBg:setScale9Enabled(true)
+            itemBg:setContentSize(itemWidth, itemHeight)
+            itemBg:pos(itemWidth * 0.5, 0)
+            itemBg:addTo(itemLayer)
+
+            local itemRank = ccui.TextBMFont:create(tostring(i), "ui/rank/islandcvbignum.fnt")
+            itemRank:setAnchorPoint(0.5, 1)
+            itemRank:pos(itemWidth * 0.05, itemHeight * 0.5)
+            -- itemRank:setContentSize(itemWidth * 0.01, itemHeight * 0.01)
+            itemRank:addTo(itemLayer)
+
+            local itemNickname = ccui.Text:create("123456", "FontNormal.ttf", 30)
+            itemNickname:setAnchorPoint(0.5, 0.5)
+            itemNickname:pos(itemWidth * 0.4, 0)
+            itemNickname:addTo(itemLayer)
+
+            local itemScore = ccui.Text:create(tostring(scoreInit), "FontNormal.ttf", 30)
+            itemScore:setAnchorPoint(0.5, 0.5)
+            itemScore:pos(itemWidth * 0.7, 0)
+            itemScore:addTo(itemLayer)
+
+            scoreInit = scoreInit - delta;
+        end
+    end
 end
 
 function RankScene:onExit()

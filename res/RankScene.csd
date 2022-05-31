@@ -31,15 +31,15 @@
             <OutlineColor A="255" R="255" G="0" B="0" />
             <ShadowColor A="255" R="110" G="110" B="110" />
           </AbstractNodeData>
-          <AbstractNodeData Name="rank_list" ActionTag="511061771" Tag="35" IconVisible="False" PositionPercentXEnabled="True" PositionPercentYEnabled="True" PercentWidthEnable="True" PercentHeightEnable="True" PercentWidthEnabled="True" PercentHeightEnabled="True" LeftMargin="40.0080" RightMargin="40.0080" TopMargin="120.2400" BottomMargin="99.7920" TouchEnable="True" ClipAble="False" BackColorAlpha="102" ColorAngle="90.0000" Scale9Width="1" Scale9Height="1" ScrollDirectionType="0" DirectionType="Vertical" ctype="ListViewObjectData">
+          <AbstractNodeData Name="rank_list" ActionTag="511061771" Tag="35" IconVisible="False" PositionPercentXEnabled="True" PositionPercentYEnabled="True" PercentWidthEnable="True" PercentHeightEnable="True" PercentWidthEnabled="True" PercentHeightEnabled="True" LeftMargin="40.0080" RightMargin="40.0080" TopMargin="118.3820" BottomMargin="101.6500" TouchEnable="True" ClipAble="False" BackColorAlpha="102" ComboBoxIndex="1" ColorAngle="90.0000" LeftEage="52" RightEage="52" TopEage="33" BottomEage="33" Scale9OriginX="-52" Scale9OriginY="-33" Scale9Width="104" Scale9Height="66" ScrollDirectionType="0" ItemMargin="5" DirectionType="Vertical" HorizontalType="Align_HorizontalCenter" ctype="ListViewObjectData">
             <Size X="399.9840" Y="499.9680" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-            <Position X="240.0000" Y="349.7760" />
+            <Position X="240.0000" Y="351.6340" />
             <Scale ScaleX="1.0000" ScaleY="1.0000" />
             <CColor A="255" R="255" G="255" B="255" />
-            <PrePosition X="0.5000" Y="0.4858" />
+            <PrePosition X="0.5000" Y="0.4884" />
             <PreSize X="0.8333" Y="0.6944" />
-            <SingleColor A="255" R="150" G="150" B="255" />
+            <SingleColor A="255" R="75" G="170" B="217" />
             <FirstColor A="255" R="150" G="150" B="255" />
             <EndColor A="255" R="255" G="255" B="255" />
             <ColorVector ScaleY="1.0000" />
