@@ -19,8 +19,9 @@ function SettingScene:onEnter()
     ccui.Helper:doLayout(bg)
 
     local musicControlButton = tolua.cast(ccui.Helper:seekWidgetByName(settingScene, "music_control"), "ccui.Button")
-    if ~musicKey then
+    if musicKey==false then
         --- 如果处于关闭状态 替换成关闭的样子
+        --- TODO loadTextures出来的按钮背景会变得尺寸错误 csb文件里面设置的就没问题
         musicControlButton:loadTextures(ConstantsUtil.PATH_SETTING_CLOSE_PNG, ConstantsUtil.PATH_SETTING_CLOSE_PNG)
     end
     musicControlButton:addTouchEventListener(
@@ -34,7 +35,7 @@ function SettingScene:onEnter()
                 Log.i("end")
                 --- 判断当前音乐情况
                 --- 配置音乐
-                if musicKey then
+                if musicKey==true then
                     --- 当前开启 点击后关闭
                     musicControlButton:loadTextures(ConstantsUtil.PATH_SETTING_CLOSE_PNG, ConstantsUtil.PATH_SETTING_CLOSE_PNG)
                     musicKey = false
@@ -48,9 +49,10 @@ function SettingScene:onEnter()
     )
 
     local effectControlButton = tolua.cast(ccui.Helper:seekWidgetByName(settingScene, "effect_control"), "ccui.Button")
-    if ~effectKey then
+    --- 如果这里用 ~effectKey 就会出现找不到这个类的错误
+    if effectKey==false then
         --- 如果处于关闭状态 替换成关闭的样子
-        effectControlButton:loadTextures("ui/setting/soundon2_cover.png", "ui/setting/soundon2_cover.png")
+        effectControlButton:loadTextures(ConstantsUtil.PATH_SETTING_CLOSE_PNG, ConstantsUtil.PATH_SETTING_CLOSE_PNG)
     end
     effectControlButton:addTouchEventListener(
         function(ref, event)
@@ -63,13 +65,13 @@ function SettingScene:onEnter()
                 Log.i("end")
                 --- 判断当前音效是怎样的
                 --- 配置音效
-                if effectKey then
+                if effectKey==true then
                     --- 当前开启 点击后关闭
-                    effectControlButton:loadTextures("ui/setting/soundon2_cover.png", "ui/setting/soundon2_cover.png")
+                    effectControlButton:loadTextures(ConstantsUtil.PATH_SETTING_CLOSE_PNG, ConstantsUtil.PATH_SETTING_CLOSE_PNG)
                     effectKey = false
                 else
                     --- 当前关闭 点击后开启
-                    effectControlButton:loadTextures("ui/setting/soundon1_cover.png", "ui/setting/soundon1_cover.png")
+                    effectControlButton:loadTextures(ConstantsUtil.PATH_SETTING_OPEN_PNG, ConstantsUtil.PATH_SETTING_OPEN_PNG)
                     effectKey = true
                 end
             end
