@@ -14,7 +14,15 @@ end
 
 function MyApp:run()
     cc.FileUtils:getInstance():addSearchPath("res/")
-
+    --- play music
+    Audio.loadFile(ConstantsUtil.PATH_BACKGROUND_MUSIC, 
+    function ()
+        local musicKey = UserDefault:getBoolForKey(ConstantsUtil.MUSIC_KEY, true)
+        if musicKey == true then
+            Audio.playBGM(ConstantsUtil.PATH_BACKGROUND_MUSIC, true)
+        end
+    end)
+    -- cc.RDAudio:getInstance():loadFileAsyn(ConstantsUtil.PATH_BACKGROUND_MUSIC, 1, nil)
     local director = cc.Director:getInstance()
     director:setAnimationInterval(1.0 / 60)
     self:enterScene("MainScene")

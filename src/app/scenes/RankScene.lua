@@ -41,8 +41,8 @@ function RankScene:onEnter()
     for i = 1, 5 do
         -- base
         local itemLayer = ccui.Layout:create()
-        local itemWidth = size.width * 0.8333
-        local itemHeight = size.height * 0.1
+        local itemWidth = WinSize.width * 0.8333
+        local itemHeight = WinSize.height * 0.1
         itemLayer:setContentSize(itemWidth, itemHeight)
         rankList:pushBackCustomItem(itemLayer)
         -- body
@@ -78,7 +78,8 @@ function RankScene:onEnter()
 
             local itemRank = ccui.TextBMFont:create(tostring(i), "ui/rank/islandcvbignum.fnt")
             itemRank:setAnchorPoint(0.5, 1)
-            itemRank:pos(itemWidth * 0.05, itemHeight * 0.5)
+            itemRank:setScale(0.5)
+            itemRank:pos(itemWidth * 0.08, itemHeight * 0.45)
             -- itemRank:setContentSize(itemWidth * 0.01, itemHeight * 0.01)
             itemRank:addTo(itemLayer)
 

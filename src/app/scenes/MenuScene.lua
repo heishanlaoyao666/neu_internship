@@ -13,7 +13,7 @@ function MenuScene:ctor()
 end
 
 function MenuScene:onEnter()
-    local menuScene = cc.CSLoader:getInstance():createNodeWithFlatBuffersFile("MenuScene.csb"):addTo(self, 1)
+    local menuScene = CSLoader:createNodeWithFlatBuffersFile("MenuScene.csb"):addTo(self, 1)
     local bg = ccui.Helper:seekWidgetByName(menuScene, "background")
     ccui.Helper:doLayout(bg)
 

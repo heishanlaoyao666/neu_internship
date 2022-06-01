@@ -6,15 +6,15 @@ local SettingScene =
     end
 )
 --- local
-local musicKey = cc.UserDefault:getInstance():getBoolForKey(ConstantsUtil.MUSIC_KEY, true)
-local effectKey = cc.UserDefault:getInstance():getBoolForKey(ConstantsUtil.EFFECT_KEY, true)
+local musicKey = UserDefault:getBoolForKey(ConstantsUtil.MUSIC_KEY, true)
+local effectKey = UserDefault:getBoolForKey(ConstantsUtil.EFFECT_KEY, true)
 ---
 
 function SettingScene:ctor()
 end
 
 function SettingScene:onEnter()
-    local settingScene = cc.CSLoader:getInstance():createNodeWithFlatBuffersFile("SettingScene.csb"):addTo(self, 1)
+    local settingScene = CSLoader:createNodeWithFlatBuffersFile("SettingScene.csb"):addTo(self, 1)
     local bg = ccui.Helper:seekWidgetByName(settingScene, ConstantsUtil.BACKGROUND)
     ccui.Helper:doLayout(bg)
 
@@ -37,10 +37,12 @@ function SettingScene:onEnter()
                 --- 配置音乐
                 if musicKey==true then
                     --- 当前开启 点击后关闭
+                    Audio.stopBGM()
                     musicControlButton:loadTextures(ConstantsUtil.PATH_SETTING_CLOSE_PNG, ConstantsUtil.PATH_SETTING_CLOSE_PNG)
                     musicKey = false
                 else
                     --- 当前关闭 点击后开启
+                    Audio.playBGM(ConstantsUtil.PATH_BACKGROUND_MUSIC, true)
                     musicControlButton:loadTextures(ConstantsUtil.PATH_SETTING_OPEN_PNG, ConstantsUtil.PATH_SETTING_OPEN_PNG)
                     musicKey = true
                 end
@@ -96,8 +98,9 @@ function SettingScene:onEnter()
 end
 
 function SettingScene:onExit()
-    cc.UserDefault:setBoolForKey(ConstantsUtil.MUSIC_KEY, musicKey)
-    cc.UserDefault:setBoolForKey(ConstantsUtil.EFFECT_KEY, effectKey)
+    Log.i("OnExit")
+    UserDefault:setBoolForKey(ConstantsUtil.MUSIC_KEY, musicKey)
+    UserDefault:setBoolForKey(ConstantsUtil.EFFECT_KEY, effectKey)
 end
 
 return SettingScene

@@ -12,29 +12,20 @@ local MainScene =
 
 ---
 function MainScene:ctor()
-    -- local label =
-    --     display.newTTFLabel(
-    --     {
-    --         text = "Hello, World",
-    --         size = 64
-    --     }
-    -- )
-    -- label:align(display.CENTER, display.cx, display.cy)
-    -- label:addTo(self)
 end
 
 function MainScene:onEnter()
     --- 由于找不到cs中的editbox,这个页面用自己拼的
     local bg = cc.Sprite:create(ConstantsUtil.PATH_BG_JPG)
-    bg:setPosition(cc.p(size.width / 2, size.height / 2))
+    bg:setPosition(cc.p(WinSize.width / 2, WinSize.height / 2))
     bg:setAnchorPoint(0.5, 0.5)
     bg:addTo(self)
 
-    local nicknameField = ccui.EditBox:create(cc.size(0.4 * size.width, 0.05 * size.height), nil, 0)
+    local nicknameField = ccui.EditBox:create(cc.size(0.4 * WinSize.width, 0.05 * WinSize.height), nil, 0)
     nicknameField:setMaxLength(6) --设置输入最大长度为6
     nicknameField:setText("请输入昵称")
     nicknameField:setFont("ui/font/FontNormal.ttf", 22)
-    nicknameField:setPosition(cc.p(size.width * 0.5, size.height * 0.5))
+    nicknameField:setPosition(cc.p(WinSize.width * 0.5, WinSize.height * 0.5))
     nicknameField:setAnchorPoint(0.5, 0.5)
     nicknameField:registerScriptEditBoxHandler(
         function(eventType)
@@ -53,8 +44,8 @@ function MainScene:onEnter()
     nicknameField:addTo(self)
 
     local registerButton = ccui.Button:create("ui/register/register.png", "ui/register/register.png")
-    registerButton:setContentSize(size.width * 0.3, size.height * 0.681)
-    registerButton:setPosition(cc.p(size.width * 0.5, size.height * 0.7))
+    registerButton:setContentSize(WinSize.width * 0.3, WinSize.height * 0.681)
+    registerButton:setPosition(cc.p(WinSize.width * 0.5, WinSize.height * 0.7))
     registerButton:setAnchorPoint(0.5, 0.5)
     registerButton:setTitleText("")
     registerButton:addTouchEventListener(
@@ -134,6 +125,10 @@ function MainScene:onEnter()
     -- registerButton:setAnchorPoint(0.5, 0.5)
     -- registerButton:setPosition(240, 300)
     -- self:addChild(registerButton)
+end
+
+function MainScene:playMusic() 
+    
 end
 
 function MainScene:onExit()
