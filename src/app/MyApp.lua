@@ -23,8 +23,8 @@ function MyApp:run()
         end
     end)
     -- cc.RDAudio:getInstance():loadFileAsyn(ConstantsUtil.PATH_BACKGROUND_MUSIC, 1, nil)
-    local director = cc.Director:getInstance()
-    director:setAnimationInterval(1.0 / 60)
+    -- local director = cc.Director:getInstance()
+    -- director:setAnimationInterval(1.0 / 60)
     self:enterScene("MainScene")
 
     -- local scene = require("app.scenes.MainScene")

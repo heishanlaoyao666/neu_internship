@@ -118,83 +118,29 @@ D:/CocosProjects/empty/src/framework/audio.lua
 
 [LUA-print] [INFO]registerButton
 
+[LUA-print] [INFO]registerButton
+
 [LUA-print] [INFO]end
 
 [LUA-print] [INFO]请输入昵
 
 Inner height <= scrollview height, it will be force sized!
 
-[LUA-print] [INFO]rankButton
+[LUA-print] [INFO]newGameButton
 
 [LUA-print] [INFO]begin
 
-[LUA-print] [INFO]rankButton
+[LUA-print] [INFO]newGameButton
 
 [LUA-print] [INFO]end
-
-cocos2d: padding: 0,0,0,0
-
-Inner height <= scrollview height, it will be force sized!
-
-[LUA-print] [INFO]backButton
-
-[LUA-print] [INFO]begin
-
-[LUA-print] [INFO]backButton
-
-[LUA-print] [INFO]backButton
-
-[LUA-print] [INFO]end
-
-Inner height <= scrollview height, it will be force sized!
-
-[LUA-print] [INFO]settingButton
-
-[LUA-print] [INFO]begin
-
-[LUA-print] [INFO]settingButton
-
-[LUA-print] [INFO]end
-
-Inner height <= scrollview height, it will be force sized!
 
 Inner width <= scrollview width, it will be force sized!
 
-Inner width <= scrollview width, it will be force sized!
+[LUA-print] [INFO]touch begin
 
-[LUA-print] [INFO]musicControlButton
+[LUA-print] [INFO]touch end
 
-[LUA-print] [INFO]begin
+[LUA-print] [INFO]touch begin
 
-[LUA-print] [INFO]musicControlButton
-
-[LUA-print] [INFO]end
-
-[LUA-print] [INFO]backButton
-
-[LUA-print] [INFO]begin
-
-[LUA-print] [INFO]backButton
-
-[LUA-print] [INFO]end
-
-[LUA-print] [INFO]OnExit
-
-Inner height <= scrollview height, it will be force sized!
-
-[LUA-print] [INFO]settingButton
-
-[LUA-print] [INFO]begin
-
-[LUA-print] [INFO]settingButton
-
-[LUA-print] [INFO]end
-
-Inner height <= scrollview height, it will be force sized!
-
-Inner width <= scrollview width, it will be force sized!
-
-Inner width <= scrollview width, it will be force sized!
-
-[LUA-print] [INFO]OnExit
+[LUA-print] [INFO]touch end
 

@@ -48,6 +48,22 @@ function MenuScene:onEnter()
             end
         end
     )
+
+    local newGameButton = tolua.cast(ccui.Helper:seekWidgetByName(menuScene, "new_game"), "ccui.Button")
+    newGameButton:addTouchEventListener(
+        function(ref, event)
+            Log.i("newGameButton")
+            if cc.EventCode.BEGAN == event then
+                --- 按下
+                Log.i("begin")
+            elseif cc.EventCode.ENDED == event then
+                --- 松开
+                Log.i("end")
+                local newGameScene = import("app.scenes.GameScene").new()
+                display.replaceScene(newGameScene)
+            end
+        end
+    )
 end
 
 function MenuScene:onExit()
