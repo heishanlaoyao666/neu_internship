@@ -17,6 +17,25 @@ end
 function GameScene:onEnter()
     local gameScene = CSLoader:createNodeWithFlatBuffersFile("GameScene.csb"):addTo(self, 1)
 
+    --- 背景移动
+    local bg0 = tolua.cast(ccui.Helper:seekWidgetByName(gameScene, "background_0"), "cc.Sprite")
+    local bg1 = tolua.cast(ccui.Helper:seekWidgetByName(gameScene, "background_1"), "cc.Sprite")
+    local bg = {}
+    bg[0] = bg0
+    bg[1] = bg1
+    local nowBg = 0
+
+    local function backgroundMove()
+        bg[nowBg]:setPositionY(bg[nowBg]:getPositionY() - ConstantsUtil.SPEED_BG_MOVE)
+        bg[(nowBg + 1) % 2]:setPositionY(bg[nowBg]:getPositionY() + WinSize.height - ConstantsUtil.SPEED_BG_MOVE) --- 吐槽 为什么连异或操作都没有 裂开
+        if bg[(nowBg + 1) % 2]:getPositionY() == WinSize.height / 2 then
+            bg[nowBg]:setPositionY(WinSize.height * 1.5)
+            nowBg = (nowBg + 1) % 2
+        end
+    end
+    backgroundEntry = Scheduler:scheduleScriptFunc(backgroundMove, 1.0 / 60, false)
+    -- Director:sharedDirector():getScheduler():unscheduleScriptEntry(backgroundEntry)
+
     --- 我方飞机相关
     local myRole = tolua.cast(ccui.Helper:seekWidgetByName(gameScene, "my_role"), "cc.Sprite")
     local myFireBloom = tolua.cast(ccui.Helper:seekWidgetByName(gameScene, "role_fire"), "cc.ParticleSystemQuad")
@@ -58,6 +77,7 @@ function GameScene:onEnter()
 end
 
 function GameScene:onExit()
+    Scheduler:unscheduleScriptEntry(backgroundEntry)
 end
 
 return GameScene

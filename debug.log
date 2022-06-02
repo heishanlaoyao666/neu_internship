@@ -118,8 +118,6 @@ D:/CocosProjects/empty/src/framework/audio.lua
 
 [LUA-print] [INFO]registerButton
 
-[LUA-print] [INFO]registerButton
-
 [LUA-print] [INFO]end
 
 [LUA-print] [INFO]请输入昵
@@ -135,6 +133,30 @@ Inner height <= scrollview height, it will be force sized!
 [LUA-print] [INFO]end
 
 Inner width <= scrollview width, it will be force sized!
+
+[LUA-print] [INFO]touch begin
+
+[LUA-print] [INFO]touch end
+
+[LUA-print] [INFO]touch begin
+
+[LUA-print] [INFO]touch end
+
+[LUA-print] [INFO]touch begin
+
+[LUA-print] [INFO]touch end
+
+[LUA-print] [INFO]touch begin
+
+[LUA-print] [INFO]touch end
+
+[LUA-print] [INFO]touch begin
+
+[LUA-print] [INFO]touch end
+
+[LUA-print] [INFO]touch begin
+
+[LUA-print] [INFO]touch end
 
 [LUA-print] [INFO]touch begin
 
