@@ -2,6 +2,15 @@ local GameOverScene = class("GameOverScene", function()
     return display.newScene("GameOverScene")
 end)
 
+function GameOverScene:effectMusic(path)
+    if cc.UserDefault:getInstance():getBoolForKey("effectMusic") then
+        audio.loadFile(path, function ()
+            audio.playEffect(path, false)
+        end)
+    end
+end
+
+
 function GameOverScene:ctor()
     local inputLayer = ccui.Layout:create()
     inputLayer:setBackGroundColor(cc.c3b(255, 255, 255))

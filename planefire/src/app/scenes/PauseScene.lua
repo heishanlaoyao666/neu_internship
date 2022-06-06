@@ -15,11 +15,20 @@ function PauseScene:ctor()
     self:initView()
 end
 
+function PauseScene:effectMusic(path)
+    if cc.UserDefault:getInstance():getBoolForKey("effectMusic") then
+        audio.loadFile(path, function ()
+            audio.playEffect(path, false)
+        end)
+    end
+end
+
 function PauseScene:initView()
     --返回按钮
     local btn = ccui.Button:create("ui/continue/pauseResume.png","ui/continue/pauseResume.png")
     btn:setScale9Enabled(true)
     btn:addTouchEventListener(function(sender, eventType)
+        self:effectMusic("sounds/buttonEffet.ogg")
         display.resume()
         self:removeFromParent(true)
     end)
@@ -31,6 +40,7 @@ function PauseScene:initView()
     local btn = ccui.Button:create("ui/continue/pauseBackRoom.png","ui/continue/pauseBackRoom.png")
     btn:setScale9Enabled(true)
     btn:addTouchEventListener(function(sender, eventType)
+        self:effectMusic("sounds/buttonEffet.ogg")
         display.resume()
         local AnotherScene = require("src/app/scenes/MenuScene.lua")
         local MenuScene = AnotherScene:new()

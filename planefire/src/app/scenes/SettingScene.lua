@@ -12,12 +12,21 @@ function SettingScene:ctor()
     self:initView()
 end
 
+function SettingScene:effectMusic(path)
+    if cc.UserDefault:getInstance():getBoolForKey("effectMusic") then
+        audio.loadFile(path, function ()
+            audio.playEffect(path, false)
+        end)
+    end
+end
+
 function SettingScene:initView()
     --返回按钮
     local btn = ccui.Button:create("ui/back_peek0.png", "ui/back_peek1.png")
     btn:setScale9Enabled(true)
     btn:setContentSize(cc.size(140,50))
     btn:addTouchEventListener(function(sender, eventType)
+        self:effectMusic("sounds/buttonEffet.ogg")
         if 2 == eventType then
             local AnotherScence = require("src/app/scenes/MenuScene")
             local MenuScene = AnotherScence:new()
@@ -52,6 +61,7 @@ function SettingScene:initView()
     checkbox1:setAnchorPoint(0.5, 0.5)
     checkbox1:setScale(0.5)
     checkbox1:addEventListener(function(sender, eventType)
+        self:effectMusic("sounds/buttonEffet.ogg")
         if eventType == ccui.CheckBoxEventType.selected then
             print("On")
             cc.UserDefault:getInstance():setBoolForKey("mainMainMusic", true)
@@ -90,6 +100,7 @@ function SettingScene:initView()
     checkbox2:setAnchorPoint(0.5, 0.5)
     checkbox2:setScale(0.5)
     checkbox2:addEventListener(function(sender, eventType)
+        self:effectMusic("sounds/buttonEffet.ogg")
         if eventType == ccui.CheckBoxEventType.selected then
             cc.UserDefault:getInstance():setBoolForKey("effectMusic", true)
         elseif eventType == ccui.CheckBoxEventType.unselected then

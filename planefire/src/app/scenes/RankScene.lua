@@ -15,12 +15,20 @@ function RankScene:ctor()
         local title = ccui.Text:create("rank", "ui/font/FontNormal.ttf",80)
         title:setContentSize(cc.size(200, 80))
         title:setColor(cc.c3b(0, 0, 255))
-        title:pos(display.cx, display.cy + 150)
+        title:pos(display.cx, display.cy + 200)
         title:setAnchorPoint(0.5, 0.5)
         title:addTo(self)
     end
 
     self:createBottomPanel()
+end
+
+function RankScene:effectMusic(path)
+    if cc.UserDefault:getInstance():getBoolForKey("effectMusic") then
+        audio.loadFile(path, function ()
+            audio.playEffect(path, false)
+        end)
+    end
 end
 
 function RankScene:createBottomPanel()
@@ -30,6 +38,7 @@ function RankScene:createBottomPanel()
     btn:setContentSize(cc.size(140,50))
     btn:addTouchEventListener(function(sender, eventType)
         if 2 == eventType then
+            self:effectMusic("sounds/buttonEffet.ogg")
             local AnotherScence = require("src/app/scenes/MenuScene")
             local MenuScene = AnotherScence:new()
             display.replaceScene(MenuScene, "fade", 0.5, cc.c3b(255, 255, 255))
@@ -45,7 +54,7 @@ function RankScene:createBottomPanel()
     listView:setBackGroundColor(cc.c3b(100, 100, 100))
 	listView:setContentSize(420, 320)
     listView:setAnchorPoint(0.5, 0.5)
-	listView:setPosition(display.cx, display.cy - 100)
+	listView:setPosition(display.cx, display.cy - 50)
     listView:setDirection(1)
 	listView:addTo(self)
 

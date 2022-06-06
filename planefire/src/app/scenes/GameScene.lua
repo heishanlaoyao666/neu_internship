@@ -4,20 +4,44 @@ end)
 
 scheduler = require("framework.scheduler")
 
+function GameScene:effectMusic(path)
+    if cc.UserDefault:getInstance():getBoolForKey("effectMusic") then
+        audio.loadFile(path, function ()
+            audio.playEffect(path, false)
+        end)
+    end
+end
+
 function GameScene:ctor()
     --数据
     local score = 0
-    local point = 10
+    local point = 100
 
     --背景图片
     local background = display.newSprite("img_bg/img_bg_1.jpg")
-    background:pos(display.cx, display.cy)
+    background:pos(display.cx, 0)
+    background:setAnchorPoint(0.5,0)
     self:addChild(background)
+
+    local background1 = display.newSprite("img_bg/img_bg_1.jpg")
+    background1:pos(display.cx, 1440)
+    background1:setAnchorPoint(0.5,0)
+    self:addChild(background1)
+
+    local function bgMove()
+        if background:getPositionY() == -1440 then
+            background:pos(display.cx, 0)
+            background1:pos(display.cx, 1440)
+        end
+        background:runAction(cc.MoveTo:create(15,cc.p(display.cx,-1440)))
+        background1:runAction(cc.MoveTo:create(15,cc.p(display.cx,0)))
+    end
 
     --暂停按钮
     local btn = ccui.Button:create("ui/battle/uiPause.png", "ui/battle/uiPause.png")
     btn:setScale9Enabled(true)
     btn:addTouchEventListener(function(sender, eventType)
+        self:effectMusic("sounds/buttonEffet.ogg")
         display.pause()
         require("src/app/scenes/PauseScene.lua"):new():addTo(self)
     end)
@@ -191,7 +215,7 @@ function GameScene:ctor()
                 explosionAnimation(x,y)
                 enemies[k]:removeSelf()
                 enemies[k] = nil
-                point = point - 10
+                point = point - 20
                 if point == 0 then
                     effectMusic("sounds/shipDestroyEffect.ogg")
                     cc.UserDefault:getInstance():setStringForKey("score", score)
@@ -207,6 +231,8 @@ function GameScene:ctor()
     handler2 = scheduler.scheduleGlobal(enemy,1)
     handler3 = scheduler.scheduleGlobal(boxclid,0.1)
     handler4 = scheduler.scheduleGlobal(hurtclid,0.1)
+    bgMove()
+    handler5 = scheduler.scheduleGlobal(bgMove,15)
 
 end
 
@@ -227,6 +253,7 @@ function GameScene:onExit()
     scheduler.unscheduleGlobal(handler2)
     scheduler.unscheduleGlobal(handler3)
     scheduler.unscheduleGlobal(handler4)
+    scheduler.unscheduleGlobal(handler5)
 end
 
 return GameScene

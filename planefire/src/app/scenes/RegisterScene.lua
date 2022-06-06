@@ -1,9 +1,9 @@
 
-local MainScene = class("MainScene", function()
-    return display.newScene("MainScene")
+local RegisterScene = class("RegisterScene", function()
+    return display.newScene("RegisterScene")
 end)
 
-function MainScene:ctor()
+function RegisterScene:ctor()
     do
         --背景图片
         local background = display.newSprite("ui/main/bg_menu.jpg")
@@ -13,7 +13,15 @@ function MainScene:ctor()
     self:initView()
 end
 
-function MainScene:initView()
+function RegisterScene:effectMusic(path)
+    if cc.UserDefault:getInstance():getBoolForKey("effectMusic") then
+        audio.loadFile(path, function ()
+            audio.playEffect(path, false)
+        end)
+    end
+end
+
+function RegisterScene:initView()
     --标题文字
     local title = display.newTTFLabel({
         text = "飞机大战",
@@ -37,6 +45,7 @@ function MainScene:initView()
     btn:addTouchEventListener(function(sender, eventType)
         if 2 == eventType then
             --转换到主菜单界面
+            self:effectMusic("sounds/buttonEffet.ogg")
             id = tostring(getUUID())
             name = tostring(locationEditbox:getText())
             if id == "" and name == "" then
@@ -61,6 +70,7 @@ function MainScene:initView()
     btn:setContentSize(cc.size(140,50))
     btn:addTouchEventListener(function(sender, eventType)
         if 2 == eventType then
+            self:effectMusic("sounds/buttonEffet.ogg")
             local AnotherScence = require("src/app/scenes/MenuScene")
             local MenuScene = AnotherScence:new()
             display.replaceScene(MenuScene, "fade", 0.5, cc.c3b(255, 255, 255))
@@ -77,10 +87,10 @@ function getUUID()
     return uuid
 end
 
-function MainScene:onEnter()
+function RegisterScene:onEnter()
 end
 
-function MainScene:onExit()
+function RegisterScene:onExit()
 end
 
-return MainScene
+return RegisterScene
