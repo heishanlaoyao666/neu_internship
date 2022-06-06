@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\res",
+    "\\res\\img_bg",
+    "\\res\\ui",
+    "\\res\\ui\\main",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\scenes"
+  ],
+  "SelectedNode": "\\src\\app\\scenes\\MainScene.lua",
+  "PreviewInSolutionExplorer": false
+}
