@@ -1,6 +1,7 @@
 # myDir
 .idea
 .vscode
+frameworks
 
 # myFile
 *.exe

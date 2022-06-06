@@ -1,3 +1,4 @@
+--- TODO 后面有时间再拆出来
 local BulletLayer =
     class(
     "BulletLayer",
@@ -13,7 +14,7 @@ function Bullet:create(x, y)
     local layer = bullet:init(x, y)
     local x = layer:getContentSize().width
     local y = layer:getContentSize().height
-    Log.i(tostring(x) .. ' ' .. tostring(y))
+    Log.i(tostring(x) .. " " .. tostring(y))
     bullet:addChild(layer)
     bullet:setContentSize(x, y)
     return bullet

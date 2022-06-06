@@ -118,6 +118,8 @@ D:/CocosProjects/empty/src/framework/audio.lua
 
 [LUA-print] [INFO]registerButton
 
+[LUA-print] [INFO]registerButton
+
 [LUA-print] [INFO]end
 
 [LUA-print] [INFO]请输入昵
@@ -132,85 +134,17 @@ Inner height <= scrollview height, it will be force sized!
 
 [LUA-print] [INFO]end
 
-[LUA-print] ----------------------------------------
-
-[LUA-print] LUA ERROR: [string "D:/CocosProjects/empty/src/app/scenes/GameScene.lua"]:182: error in function 'tolua_cocos2d_Scheduler_scheduleScriptFunc'.
-     argument #2 is 'nil'; '[not function]' expected.
-
-
-
-[LUA-print] 
-stack traceback:
-	[C]: in function 'scheduleScriptFunc'
-	[string "D:/CocosProjects/empty/src/app/scenes/GameScene.lua"]:182: in function 'onEnter'
-	[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:141: in function <[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:138>
-	[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:348: in function <[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:346>
-
-[LUA-print] ----------------------------------------
+cocos2d: padding: 0,0,0,0
 
 Inner width <= scrollview width, it will be force sized!
 
 [LUA-print] [INFO]touch begin
 
-[LUA-print] ----------------------------------------
+[LUA-print] [INFO]100
 
-[LUA-print] LUA ERROR: [string "D:/CocosProjects/empty/src/app/scenes/GameScene.lua"]:139: attempt to index a nil value
+[LUA-print] [INFO]80
 
-
-[LUA-print] 
-stack traceback:
-	[string "D:/CocosProjects/empty/src/app/scenes/GameScene.lua"]:139: in function <[string "D:/CocosProjects/empty/src/app/scenes/GameScene.lua"]:133>
-
-[LUA-print] ----------------------------------------
-
-[LUA-print] ----------------------------------------
-
-[LUA-print] LUA ERROR: [string "D:/CocosProjects/empty/src/app/scenes/GameScene.lua"]:139: attempt to index a nil value
-
-
-[LUA-print] 
-stack traceback:
-	[string "D:/CocosProjects/empty/src/app/scenes/GameScene.lua"]:139: in function <[string "D:/CocosProjects/empty/src/app/scenes/GameScene.lua"]:133>
-
-[LUA-print] ----------------------------------------
-
-[LUA-print] ----------------------------------------
-
-[LUA-print] LUA ERROR: [string "D:/CocosProjects/empty/src/app/scenes/GameScene.lua"]:139: attempt to index a nil value
-
-
-[LUA-print] 
-stack traceback:
-	[string "D:/CocosProjects/empty/src/app/scenes/GameScene.lua"]:139: in function <[string "D:/CocosProjects/empty/src/app/scenes/GameScene.lua"]:133>
-
-[LUA-print] ----------------------------------------
-
-[LUA-print] ----------------------------------------
-
-[LUA-print] LUA ERROR: [string "D:/CocosProjects/empty/src/app/scenes/GameScene.lua"]:139: attempt to index a nil value
-
-
-[LUA-print] 
-stack traceback:
-	[string "D:/CocosProjects/empty/src/app/scenes/GameScene.lua"]:139: in function <[string "D:/CocosProjects/empty/src/app/scenes/GameScene.lua"]:133>
-
-[LUA-print] ----------------------------------------
+[LUA-print] [INFO]60
 
 [LUA-print] [INFO]touch end
-
-[LUA-print] ----------------------------------------
-
-[LUA-print] LUA ERROR: [string "D:/CocosProjects/empty/src/app/scenes/GameScene.lua"]:190: error in function 'tolua_cocos2d_Scheduler_unscheduleScriptEntry'.
-     argument #2 is 'nil'; 'number' expected.
-
-
-
-[LUA-print] 
-stack traceback:
-	[C]: in function 'unscheduleScriptEntry'
-	[string "D:/CocosProjects/empty/src/app/scenes/GameScene.lua"]:190: in function 'onExit'
-	[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:143: in function <[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:138>
-	[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:348: in function <[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:346>
-
-[LUA-print] ----------------------------------------
 

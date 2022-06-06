@@ -7,6 +7,11 @@ ConstantsUtil.MUSIC_KEY = "music_key"
 ConstantsUtil.EFFECT_KEY = "effect_key"
 
 --- constants
+ConstantsUtil.DEFAULT_HP = 100
+ConstantsUtil.DEFAULT_SCORE = 0
+
+ConstantsUtil.MINUS_ENEMY_COLLISION = 20
+
 ConstantsUtil.FPS = 60
 ConstantsUtil.SPEED_BG_MOVE = 5
 ConstantsUtil.SPEED_BULLET_MOVE = 15
@@ -33,6 +38,9 @@ ConstantsUtil.PATH_SMALL_ENEMY_PNG = "player/small_enemy.png"
 ConstantsUtil.PATH_SETTING_CLOSE_PNG = "ui/setting/soundon2_cover.png"
 ConstantsUtil.PATH_SETTING_OPEN_PNG = "ui/setting/soundon1_cover.png"
 ConstantsUtil.PATH_BACKGROUND_MUSIC = "sounds/bgMusic.ogg"
+ConstantsUtil.PATH_EXPLOSION_PLIST = "animation/explosion.plist"
+ConstantsUtil.PATH_EXPLOSION_PNG = "animation/explosion.png"
+ConstantsUtil.PATH_BIG_NUM = "ui/rank/islandcvbignum.fnt"
 
 --- object
 Director = cc.Director:getInstance()

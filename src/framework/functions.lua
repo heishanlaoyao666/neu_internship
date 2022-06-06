@@ -21,7 +21,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 ]]
-
 --------------------------------
 -- @module functions
 
@@ -30,7 +29,6 @@ THE SOFTWARE.
 提供一组常用函数，以及对 Lua 标准库的扩展
 
 ]]
-
 --[[--
 
 输出格式化字符串
@@ -99,7 +97,9 @@ end
 
 ]]
 function checktable(value)
-    if type(value) ~= "table" then value = {} end
+    if type(value) ~= "table" then
+        value = {}
+    end
     return value
 end
 
@@ -296,12 +296,15 @@ function class(classname, super)
 
         if superType == "table" then
             -- copy fields from super
-            for k,v in pairs(super) do cls[k] = v end
+            for k, v in pairs(super) do
+                cls[k] = v
+            end
             cls.__create = super.__create
-            cls.super    = super
+            cls.super = super
         else
             cls.__create = super
-            cls.ctor = function() end
+            cls.ctor = function()
+            end
         end
 
         cls.__cname = classname
@@ -310,12 +313,13 @@ function class(classname, super)
         function cls.new(...)
             local instance = cls.__create(...)
             -- copy fields from class to native object
-            for k,v in pairs(cls) do instance[k] = v end
+            for k, v in pairs(cls) do
+                instance[k] = v
+            end
             instance.class = cls
             instance:ctor(...)
             return instance
         end
-
     else
         -- inherited from Lua Object
         if super then
@@ -323,7 +327,8 @@ function class(classname, super)
             setmetatable(cls, {__index = super})
             cls.super = super
         else
-            cls = {ctor = function() end}
+            cls = {ctor = function()
+                end}
         end
 
         cls.__cname = classname
@@ -469,7 +474,7 @@ function import(moduleName, currentModuleName)
 
         if not currentModuleNameParts then
             if not currentModuleName then
-                local n,v = debug.getlocal(3, 1)
+                local n, v = debug.getlocal(3, 1)
                 currentModuleName = v
             end
 
@@ -535,7 +540,6 @@ function handler(obj, method)
     end
 end
 
-
 --------------------------------
 -- @module math
 
@@ -548,9 +552,12 @@ end
 -- end --
 
 function math.newrandomseed()
-    local ok, socket = pcall(function()
-        return require("socket")
-    end)
+    local ok, socket =
+        pcall(
+        function()
+            return require("socket")
+        end
+    )
 
     if ok then
         -- 如果集成了 socket 模块，则使用 socket.gettime() 获取随机数种子
@@ -570,7 +577,7 @@ end
 -- 对数值进行四舍五入，如果不是数值则返回 0
 -- @function [parent=#math] round
 -- @param number value 输入值
--- @return number#number 
+-- @return number#number
 
 -- end --
 
@@ -588,7 +595,7 @@ end
 -- end --
 
 function math.angle2radian(angle)
-	return angle*math.pi/180
+    return angle * math.pi / 180
 end
 
 -- start --
@@ -600,10 +607,8 @@ end
 -- end --
 
 function math.radian2angle(radian)
-	return radian/math.pi*180
+    return radian / math.pi * 180
 end
-
-
 
 --------------------------------
 -- @module io
@@ -614,7 +619,7 @@ end
 -- 检查指定的文件或目录是否存在，如果存在返回 true，否则返回 false
 -- @function [parent=#io] exists
 -- @param string path 要检查的文件或目录的完全路径
--- @return boolean#boolean 
+-- @return boolean#boolean
 
 --[[--
 
@@ -632,7 +637,6 @@ end
 ~~~
 
 ]]
-
 -- end --
 
 function io.exists(path)
@@ -650,7 +654,7 @@ end
 -- 读取文件内容，返回包含文件内容的字符串，如果失败返回 nil
 -- @function [parent=#io] readfile
 -- @param string path 文件完全路径
--- @return string#string 
+-- @return string#string
 
 --[[--
 
@@ -659,7 +663,6 @@ end
 io.readfile() 会一次性读取整个文件的内容，并返回一个字符串，因此该函数不适宜读取太大的文件。
 
 ]]
-
 -- end --
 
 function io.readfile(path)
@@ -680,7 +683,7 @@ end
 -- @param string path 文件完全路径
 -- @param string content 要写入的内容
 -- @param string mode 写入模式，默认值为 "w+b"
--- @return boolean#boolean 
+-- @return boolean#boolean
 
 --[[--
 
@@ -696,14 +699,15 @@ end
 **Android 特别提示:** 在 Android 平台上，文件只能写入存储卡所在路径，assets 和 data 等目录都是无法写入的。
 
 ]]
-
 -- end --
 
 function io.writefile(path, content, mode)
     mode = mode or "w+b"
     local file = io.open(path, mode)
     if file then
-        if file:write(content) == nil then return false end
+        if file:write(content) == nil then
+            return false
+        end
         io.close(file)
         return true
     else
@@ -717,7 +721,7 @@ end
 -- 拆分一个路径字符串，返回组成路径的各个部分
 -- @function [parent=#io] pathinfo
 -- @param string path 要分拆的路径字符串
--- @return table#table 
+-- @return table#table
 
 --[[--
 
@@ -736,7 +740,6 @@ local pathinfo  = io.pathinfo("/var/app/test/abc.png")
 ~~~
 
 ]]
-
 -- end --
 
 function io.pathinfo(path)
@@ -771,7 +774,7 @@ end
 -- 返回指定文件的大小，如果失败返回 false
 -- @function [parent=#io] filesize
 -- @param string path 文件完全路径
--- @return integer#integer 
+-- @return integer#integer
 
 -- end --
 
@@ -787,7 +790,6 @@ function io.filesize(path)
     return size
 end
 
-
 --------------------------------
 -- @module table
 
@@ -797,7 +799,7 @@ end
 -- 计算表格包含的字段数量
 -- @function [parent=#table] nums
 -- @param table t 要检查的表格
--- @return integer#integer 
+-- @return integer#integer
 
 --[[--
 
@@ -806,7 +808,6 @@ end
 Lua table 的 "#" 操作只对依次排序的数值下标数组有效，table.nums() 则计算 table 中所有不为 nil 的值的个数。
 
 ]]
-
 -- end --
 
 function table.nums(t)
@@ -823,7 +824,7 @@ end
 -- 返回指定表格中的所有键
 -- @function [parent=#table] keys
 -- @param table hashtable 要检查的表格
--- @return table#table 
+-- @return table#table
 
 --[[--
 
@@ -838,7 +839,6 @@ local keys = table.keys(hashtable)
 ~~~
 
 ]]
-
 -- end --
 
 function table.keys(hashtable)
@@ -855,7 +855,7 @@ end
 -- 返回指定表格中的所有值
 -- @function [parent=#table] values
 -- @param table hashtable 要检查的表格
--- @return table#table 
+-- @return table#table
 
 --[[--
 
@@ -870,7 +870,6 @@ local values = table.values(hashtable)
 ~~~
 
 ]]
-
 -- end --
 
 function table.values(hashtable)
@@ -903,7 +902,6 @@ table.merge(dest, src)
 ~~~
 
 ]]
-
 -- end --
 
 function table.merge(dest, src)
@@ -939,19 +937,18 @@ table.insertto(dest, src, 5)
 ~~~
 
 ]]
-
 -- end --
 
 function table.insertto(dest, src, begin)
-	begin = checkint(begin)
-	if begin <= 0 then
-		begin = #dest + 1
-	end
+    begin = checkint(begin)
+    if begin <= 0 then
+        begin = #dest + 1
+    end
 
-	local len = #src
-	for i = 0, len - 1 do
-		dest[i + begin] = src[i + 1]
-	end
+    local len = #src
+    for i = 0, len - 1 do
+        dest[i + begin] = src[i + 1]
+    end
 end
 
 -- start --
@@ -962,7 +959,7 @@ end
 -- @param table array 表格
 -- @param mixed value 要查找的值
 -- @param integer begin 起始索引值
--- @return integer#integer 
+-- @return integer#integer
 
 --[[--
 
@@ -976,14 +973,15 @@ print(table.indexof(array, "b")) -- 输出 2
 ~~~
 
 ]]
-
 -- end --
 
 function table.indexof(array, value, begin)
     for i = begin or 1, #array do
-        if array[i] == value then return i end
+        if array[i] == value then
+            return i
+        end
     end
-	return false
+    return false
 end
 
 -- start --
@@ -1007,12 +1005,13 @@ print(table.keyof(hashtable, "chukong")) -- 输出 comp
 ~~~
 
 ]]
-
 -- end --
 
 function table.keyof(hashtable, value)
     for k, v in pairs(hashtable) do
-        if v == value then return k end
+        if v == value then
+            return k
+        end
     end
     return nil
 end
@@ -1025,7 +1024,7 @@ end
 -- @param table array 表格
 -- @param mixed value 要删除的值
 -- @param boolean removeall 是否删除所有相同的值
--- @return integer#integer 
+-- @return integer#integer
 
 --[[--
 
@@ -1039,7 +1038,6 @@ print(table.removebyvalue(array, "c", true)) -- 输出 2
 ~~~
 
 ]]
-
 -- end --
 
 function table.removebyvalue(array, value, removeall)
@@ -1050,7 +1048,9 @@ function table.removebyvalue(array, value, removeall)
             c = c + 1
             i = i - 1
             max = max - 1
-            if not removeall then break end
+            if not removeall then
+                break
+            end
         end
         i = i + 1
     end
@@ -1099,7 +1099,6 @@ end
 ~~~
 
 ]]
-
 -- end --
 
 function table.map(t, fn)
@@ -1141,11 +1140,10 @@ end
 ~~~
 
 ]]
-
 -- end --
 
 function table.walk(t, fn)
-    for k,v in pairs(t) do
+    for k, v in pairs(t) do
         fn(v, k)
     end
 end
@@ -1190,12 +1188,13 @@ end
 ~~~
 
 ]]
-
 -- end --
 
 function table.filter(t, fn)
     for k, v in pairs(t) do
-        if not fn(v, k) then t[k] = nil end
+        if not fn(v, k) then
+            t[k] = nil
+        end
     end
 end
 
@@ -1229,7 +1228,6 @@ end
 ~~~
 
 ]]
-
 -- end --
 
 function table.unique(t, bArray)
@@ -1250,14 +1248,12 @@ function table.unique(t, bArray)
     return n
 end
 
-
 --------------------------------
 -- @module string
 
-
 string._htmlspecialchars_set = {}
 string._htmlspecialchars_set["&"] = "&amp;"
-string._htmlspecialchars_set["\""] = "&quot;"
+string._htmlspecialchars_set['"'] = "&quot;"
 string._htmlspecialchars_set["'"] = "&#039;"
 string._htmlspecialchars_set["<"] = "&lt;"
 string._htmlspecialchars_set[">"] = "&gt;"
@@ -1282,7 +1278,6 @@ print(string.htmlspecialchars("<ABC>"))
 ~~~
 
 ]]
-
 -- end --
 
 function string.htmlspecialchars(input)
@@ -1312,7 +1307,6 @@ print(string.restorehtmlspecialchars("&lt;ABC&gt;"))
 ~~~
 
 ]]
-
 -- end --
 
 function string.restorehtmlspecialchars(input)
@@ -1343,7 +1337,6 @@ print(string.nl2br("Hello\nWorld"))
 ~~~
 
 ]]
-
 -- end --
 
 function string.nl2br(input)
@@ -1371,7 +1364,6 @@ print(string.text2html("<Hello>\nWorld"))
 ~~~
 
 ]]
-
 -- end --
 
 function string.text2html(input)
@@ -1408,16 +1400,19 @@ local res = string.split(input, "-+-")
 ~~~
 
 ]]
-
 -- end --
 
 function string.split(input, delimiter)
     input = tostring(input)
     delimiter = tostring(delimiter)
-    if (delimiter=='') then return false end
-    local pos,arr = 0, {}
+    if (delimiter == "") then
+        return false
+    end
+    local pos, arr = 0, {}
     -- for each divider found
-    for st,sp in function() return string.find(input, delimiter, pos, true) end do
+    for st, sp in function()
+        return string.find(input, delimiter, pos, true)
+    end do
         table.insert(arr, string.sub(input, pos, st - 1))
         pos = sp + 1
     end
@@ -1454,7 +1449,6 @@ print(string.ltrim(input))
 -   回到行首符 \r
 
 ]]
-
 -- end --
 
 function string.ltrim(input)
@@ -1483,7 +1477,6 @@ print(string.rtrim(input))
 ~~~
 
 ]]
-
 -- end --
 
 function string.rtrim(input)
@@ -1504,7 +1497,6 @@ end
 去掉字符串首尾的空白字符，返回结果
 
 ]]
-
 -- end --
 
 function string.trim(input)
@@ -1533,7 +1525,6 @@ print(string.ucfirst(input))
 ~~~
 
 ]]
-
 -- end --
 
 function string.ucfirst(input)
@@ -1567,7 +1558,6 @@ print(string.urlencode(input))
 ~~~
 
 ]]
-
 -- end --
 
 function string.urlencode(input)
@@ -1602,13 +1592,19 @@ print(string.urldecode(input))
 ~~~
 
 ]]
-
 -- end --
 
 function string.urldecode(input)
-    input = string.gsub (input, "+", " ")
-    input = string.gsub (input, "%%(%x%x)", function(h) return string.char(checknumber(h,16)) end)
-    input = string.gsub (input, "\r\n", "\n")
+    input = string.gsub(input, "+", " ")
+    input =
+        string.gsub(
+        input,
+        "%%(%x%x)",
+        function(h)
+            return string.char(checknumber(h, 16))
+        end
+    )
+    input = string.gsub(input, "\r\n", "\n")
     return input
 end
 
@@ -1633,16 +1629,15 @@ print(string.utf8len(input))
 ~~~
 
 ]]
-
 -- end --
 
 function string.utf8len(input)
     local left = string.len(input)
-    local cnt  = 0
-    local arr  = {0, 0xc0, 0xe0, 0xf0, 0xf8, 0xfc}
+    local cnt = 0
+    local arr = {0, 0xc0, 0xe0, 0xf0, 0xf8, 0xfc}
     while left > 0 do
         local tmp = string.byte(input, -left)
-        local i   = #arr
+        local i = #arr
         while arr[i] do
             if tmp >= arr[i] then
                 left = left - i
@@ -1675,15 +1670,74 @@ print(string.formatnumberthousands(1924235))
 ~~~
 
 ]]
-
 -- end --
 
 function string.formatnumberthousands(num)
     local formatted = tostring(checknumber(num))
     local k
     while true do
-        formatted, k = string.gsub(formatted, "^(-?%d+)(%d%d%d)", '%1,%2')
-        if k == 0 then break end
+        formatted, k = string.gsub(formatted, "^(-?%d+)(%d%d%d)", "%1,%2")
+        if k == 0 then
+            break
+        end
     end
     return formatted
+end
+
+--[[
+    vardump的完整版
+
+    @params object
+    @params label
+
+    @return vardumpStr
+]]
+function vardump(object, label)
+    local lookupTable = {}
+    local result = {}
+
+    local function _v(v)
+        if type(v) == "string" then
+            v = '"' .. v .. '"'
+        end
+        return tostring(v)
+    end
+
+    local function _vardump(object, label, indent, nest)
+        label = label or "<var>"
+        local postfix = ""
+        if nest > 1 then
+            postfix = ","
+        end
+        if type(object) ~= "table" then
+            result[#result + 1] = string.format("%s%s = %s%s", indent, tostring(label), _v(object), postfix)
+        elseif not lookupTable[object] then
+            lookupTable[object] = true
+            result[#result + 1] = string.format("%s%s = {", indent, tostring(label))
+            local indent2 = indent .. "    "
+            local keys = {}
+            local values = {}
+            for k, v in pairs(object) do
+                keys[#keys + 1] = k
+                values[k] = v
+            end
+            table.sort(
+                keys,
+                function(a, b)
+                    if type(a) == "number" and type(b) == "number" then
+                        return a < b
+                    else
+                        return tostring(a) < tostring(b)
+                    end
+                end
+            )
+            for i, k in ipairs(keys) do
+                _vardump(values[k], k, indent2, nest + 1)
+            end
+            result[#result + 1] = string.format("%s}%s", indent, postfix)
+        end
+    end
+    _vardump(object, label, "", 1)
+
+    return table.concat(result, "\n")
 end

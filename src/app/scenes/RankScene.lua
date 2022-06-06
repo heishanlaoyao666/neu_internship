@@ -76,7 +76,7 @@ function RankScene:onEnter()
             itemBg:pos(itemWidth * 0.5, 0)
             itemBg:addTo(itemLayer)
 
-            local itemRank = ccui.TextBMFont:create(tostring(i), "ui/rank/islandcvbignum.fnt")
+            local itemRank = ccui.TextBMFont:create(tostring(i), ConstantsUtil.PATH_BIG_NUM)
             itemRank:setAnchorPoint(0.5, 1)
             itemRank:setScale(0.5)
             itemRank:pos(itemWidth * 0.08, itemHeight * 0.45)
