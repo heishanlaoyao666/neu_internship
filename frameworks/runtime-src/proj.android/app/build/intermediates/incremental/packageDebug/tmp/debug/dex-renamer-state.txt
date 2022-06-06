@@ -1,4 +1,0 @@
-#Fri May 27 11:34:18 CST 2022
-base.0=D\:\\CocosProjects\\empty\\frameworks\\runtime-src\\proj.android\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
-renamed.0=classes.dex
-path.0=classes.dex

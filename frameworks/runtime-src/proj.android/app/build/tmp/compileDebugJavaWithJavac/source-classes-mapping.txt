@@ -1,6 +1,0 @@
-org/cocos2dx/lua/AppActivity.java
- org.cocos2dx.lua.AppActivity
-com/jj/empty/BuildConfig.java
- com.jj.empty.BuildConfig
-org/cocos2dx/lib/QuickHTTPInterface.java
- org.cocos2dx.lib.QuickHTTPInterface
