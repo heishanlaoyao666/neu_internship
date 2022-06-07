@@ -117,13 +117,14 @@ function BattleScene:createSpritePanel()
     local enemyCreatetime=0
     local function updata(delta)
 
+        --进行碰撞检测
+
         enemyCreatetime=enemyCreatetime+delta
         if enemyCreatetime>=1 then
             enemyCreate(layer)
             enemyCreatetime=0
         end
         
-
     end
 
     --开始游戏调度
@@ -188,6 +189,7 @@ function playerCreate(node)
     particleSystem:rotation(180)
     particleSystem:addTo(playerPlane)
     --玩家飞机触控
+    
     playerPlane:addNodeEventListener(cc.NODE_TOUCH_EVENT,function (event)
         local x=playerPlane:getContentSize().width
         --不明确
@@ -227,7 +229,13 @@ function bulletCreate(node,playerPlane)
     local function updata(delta)
         --子弹移动
         local x,y=bullet:getPosition()
-        bullet:setPosition(x,y+1.5)
+        if y>(height+bullet:getContentSize().height) then
+            bullet:removeFromParent()
+            return
+            else
+                bullet:setPosition(x,y+1.5)
+        end
+
         --碰撞检测
     end
     bullet:scheduleUpdateWithPriorityLua(updata,0)

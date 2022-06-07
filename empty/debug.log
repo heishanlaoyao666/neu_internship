@@ -2,7 +2,7 @@ Quick-Cocos2dx-Community C++ support ready.
 
 ------------------------------------------------
 
-LOAD LUA FILE: D:/cocos2D/empty/src/main.lua
+LOAD LUA FILE: D:/cocos2D/player/neu_internship/empty/src/main.lua
 
 ------------------------------------------------
 
@@ -24,7 +24,7 @@ LOAD LUA FILE: D:/cocos2D/empty/src/main.lua
 
 [LUA-print] [INFO] # device.language              = cn
 
-[LUA-print] [INFO] # device.writablePath          = D:\cocos2D\empty\
+[LUA-print] [INFO] # device.writablePath          = D:\cocos2D\player\neu_internship\empty\
 
 [LUA-print] [INFO] # device.directorySeparator    = \
 
@@ -36,27 +36,27 @@ LOAD LUA FILE: D:/cocos2D/empty/src/main.lua
 
 [LUA-print] [INFO] # CONFIG_SCREEN_WIDTH          = 640.00
 
-[LUA-print] [INFO] # CONFIG_SCREEN_HEIGHT         = 1092.27
+[LUA-print] [INFO] # CONFIG_SCREEN_HEIGHT         = 960.00
 
-[LUA-print] [INFO] # display.widthInPixels        = 562.50
+[LUA-print] [INFO] # display.widthInPixels        = 640.00
 
 [LUA-print] [INFO] # display.heightInPixels       = 960.00
 
-[LUA-print] [INFO] # display.contentScaleFactor   = 0.88
+[LUA-print] [INFO] # display.contentScaleFactor   = 1.00
 
 [LUA-print] [INFO] # display.width                = 640.00
 
-[LUA-print] [INFO] # display.height               = 1092.27
+[LUA-print] [INFO] # display.height               = 960.00
 
 [LUA-print] [INFO] # display.cx                   = 320.00
 
-[LUA-print] [INFO] # display.cy                   = 546.13
+[LUA-print] [INFO] # display.cy                   = 480.00
 
 [LUA-print] [INFO] # display.left                 = 0.00
 
 [LUA-print] [INFO] # display.right                = 640.00
 
-[LUA-print] [INFO] # display.top                  = 1092.27
+[LUA-print] [INFO] # display.top                  = 960.00
 
 [LUA-print] [INFO] # display.bottom               = 0.00
 
@@ -64,9 +64,9 @@ LOAD LUA FILE: D:/cocos2D/empty/src/main.lua
 
 [LUA-print] [INFO] # display.c_right              = 320.00
 
-[LUA-print] [INFO] # display.c_top                = 546.13
+[LUA-print] [INFO] # display.c_top                = 480.00
 
-[LUA-print] [INFO] # display.c_bottom             = -546.13
+[LUA-print] [INFO] # display.c_bottom             = -480.00
 
 [LUA-print] [INFO] #
 
