@@ -39,7 +39,7 @@ display 模块封装了绝大部分与显示有关的功能，并负责根据 co
 
 -   display.sizeInPixels.width,
 -   display.sizeInPixels.height 屏幕的像素分辨率
--   display.widthInPixels,
+-   .widthInPixels,
 -   display.heightInPixels 屏幕的像素分辨率
 -   display.contentScaleFactor 内容缩放因子
 -   display.size.width,

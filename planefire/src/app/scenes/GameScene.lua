@@ -3,6 +3,7 @@ local GameScene = class("GameScene", function()
 end)
 
 scheduler = require("framework.scheduler")
+--json = require("framework.json")
 
 function GameScene:effectMusic(path)
     if cc.UserDefault:getInstance():getBoolForKey("effectMusic") then
@@ -21,15 +22,15 @@ function GameScene:ctor()
     local background = display.newSprite("img_bg/img_bg_1.jpg")
     background:pos(display.cx, 0)
     background:setAnchorPoint(0.5,0)
-    self:addChild(background)
+    background:addTo(self)
 
     local background1 = display.newSprite("img_bg/img_bg_1.jpg")
     background1:pos(display.cx, 1440)
     background1:setAnchorPoint(0.5,0)
-    self:addChild(background1)
+    background1:addTo(self)
 
     local function bgMove()
-        if background:getPositionY() == -1440 then
+        if background:getPositionY() <= -1280 then
             background:pos(display.cx, 0)
             background1:pos(display.cx, 1440)
         end
@@ -37,11 +38,13 @@ function GameScene:ctor()
         background1:runAction(cc.MoveTo:create(15,cc.p(display.cx,0)))
     end
 
+
     --暂停按钮
     local btn = ccui.Button:create("ui/battle/uiPause.png", "ui/battle/uiPause.png")
     btn:setScale9Enabled(true)
     btn:addTouchEventListener(function(sender, eventType)
         self:effectMusic("sounds/buttonEffet.ogg")
+        self.luaToJson()
         display.pause()
         require("src/app/scenes/PauseScene.lua"):new():addTo(self)
     end)
@@ -84,7 +87,7 @@ function GameScene:ctor()
         end
     end
 
-    local plane = cc.Sprite:create("player/red_plane.png")
+    plane = cc.Sprite:create("player/red_plane.png")
     plane:pos(display.cx, display.cy - 380)
     plane:runAction(cc.MoveTo:create(1,cc.p(display.cx,display.cy-250)))
     --触控
@@ -106,7 +109,7 @@ function GameScene:ctor()
 	plane:setTouchMode(cc.TOUCH_MODE_ONE_BY_ONE)
 	plane:setTouchEnabled(true)
     plane:setAnchorPoint(0.5, 0.5)
-    self:addChild(plane)
+    plane:addTo(self)
 
     --粒子系统
     local particleSystem = cc.ParticleSystemQuad:create("particle/fire.plist")
@@ -124,12 +127,12 @@ function GameScene:ctor()
         bullet:setAnchorPoint(0.5, 0.5)
         bullet:setScale(0.5)
         bullet:runAction(cc.MoveTo:create(0.5,cc.p(x, 720)))
-        self:addChild(bullet)
+        bullet:addTo(self)
         table.insert(bullets, bullet)
         effectMusic("sounds/fireEffect.ogg")
         --bullet:removeSelf()
         for k, v in pairs(bullets) do
-            local _,bullety = bullets[k]:getPosition()
+            local _,bullety = v:getPosition()
             if bullety >= 720 then
                 bullets[k]:removeSelf()
                 bullets[k] = nil
@@ -147,7 +150,7 @@ function GameScene:ctor()
         e:pos(x, 740)
         e:setAnchorPoint(0.5, 0.5)
         e:runAction(cc.MoveTo:create(2,cc.p(x, -10)))
-        self:addChild(e)
+        e:addTo(self)
         table.insert(enemies, e)
         --e:removeSelf()
         for k, v in pairs(enemies) do
@@ -163,9 +166,9 @@ function GameScene:ctor()
     local function explosionAnimation(x,y)
         local spriteFrame  = cc.SpriteFrameCache:getInstance()
         spriteFrame:addSpriteFrames("animation/explosion.plist")
-        local sprite = cc.Sprite:createWithSpriteFrameName("explosion_01.png")
-        sprite:pos(x,y)
-        self:addChild(sprite)
+        local boom = cc.Sprite:createWithSpriteFrameName("explosion_01.png")
+        boom:pos(x,y)
+        boom:addTo(self)
         local animation =cc.Animation:create()
         for i=2,12 do
             local frameName = string.format("explosion_%02d.png",i)
@@ -175,15 +178,20 @@ function GameScene:ctor()
         animation:setDelayPerUnit(0.15)          --设置两个帧播放时间
         animation:setRestoreOriginalFrame(true)    --动画执行后还原初始状态
         local action =cc.Animate:create(animation)
-        sprite:runAction(action)
+        local function CallBack()
+            boom:removeSelf()
+        end
+        local cb = cc.CallFunc:create(CallBack)
+        local seq = cc.Sequence:create(action,cb)
+        boom:runAction(cc.Sequence:create(seq))
     end
 
     --碰撞检测
     local function boxclid()
         for k1, v1 in pairs(enemies) do
             for k2, v2 in pairs(bullets) do
-                local rectA = bullets[k2]:getBoundingBox()
-                local rectB = enemies[k1]:getBoundingBox()
+                local rectA = v2:getBoundingBox()
+                local rectB = v1:getBoundingBox()
                 if(math.abs(bullets[k2]:getPositionX() - enemies[k1]:getPositionX()) * 2 <= (rectA.width + rectB.width))
                     and
                     (math.abs(bullets[k2]:getPositionY() - enemies[k1]:getPositionY()) * 2 <= (rectA.height + rectB.height))
@@ -216,7 +224,7 @@ function GameScene:ctor()
                 enemies[k]:removeSelf()
                 enemies[k] = nil
                 point = point - 20
-                if point == 0 then
+                if point <= 0 then
                     effectMusic("sounds/shipDestroyEffect.ogg")
                     cc.UserDefault:getInstance():setStringForKey("score", score)
                     display.pause()
@@ -227,12 +235,30 @@ function GameScene:ctor()
         end
     end
 
-    handler1 = scheduler.scheduleGlobal(fire,0.2)
-    handler2 = scheduler.scheduleGlobal(enemy,1)
-    handler3 = scheduler.scheduleGlobal(boxclid,0.1)
-    handler4 = scheduler.scheduleGlobal(hurtclid,0.1)
+    --json 转码
+    self.luaToJson = function()
+        local enemiesPosition = {}
+        for k, v in pairs(enemies) do
+            local x,y = v:getPosition()
+            table.insert(enemiesPosition, {x, y})
+        end
+        local planePosition = {plane:getPosition()}
+        local t = {
+            enemiesPosition,
+            planePosition,
+            point,
+            score,
+        }
+        local str_json = json.encode(t)
+        print(str_json)
+    end
+
+    self.handler1 = scheduler.scheduleGlobal(fire,0.2)
+    self.handler2 = scheduler.scheduleGlobal(enemy,1)
+    self.handler3 = scheduler.scheduleGlobal(boxclid,0.1)
+    self.handler4 = scheduler.scheduleGlobal(hurtclid,0.1)
     bgMove()
-    handler5 = scheduler.scheduleGlobal(bgMove,15)
+    self.handler5 = scheduler.scheduleGlobal(bgMove,15)
 
 end
 
@@ -249,11 +275,11 @@ function GameScene:onEnter()
 end
 
 function GameScene:onExit()
-    scheduler.unscheduleGlobal(handler1)
-    scheduler.unscheduleGlobal(handler2)
-    scheduler.unscheduleGlobal(handler3)
-    scheduler.unscheduleGlobal(handler4)
-    scheduler.unscheduleGlobal(handler5)
+    scheduler.unscheduleGlobal(self.handler1)
+    scheduler.unscheduleGlobal(self.handler2)
+    scheduler.unscheduleGlobal(self.handler3)
+    scheduler.unscheduleGlobal(self.handler4)
+    scheduler.unscheduleGlobal(self.handler5)
 end
 
 return GameScene

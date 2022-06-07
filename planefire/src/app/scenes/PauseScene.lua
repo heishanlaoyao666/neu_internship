@@ -2,6 +2,7 @@ local PauseScene = class("PauseScene", function()
     return display.newScene("PauseScene")
 end)
 
+
 function PauseScene:ctor()
     local inputLayer = ccui.Layout:create()
     inputLayer:setBackGroundColor(cc.c3b(255, 255, 255))
@@ -44,6 +45,7 @@ function PauseScene:initView()
         display.resume()
         local AnotherScene = require("src/app/scenes/MenuScene.lua")
         local MenuScene = AnotherScene:new()
+
         display.replaceScene(MenuScene, "fade", 0.5, cc.c3b(255, 255, 255))
     end)
     btn:setAnchorPoint(0.5,0.5)

@@ -72,7 +72,7 @@ function RegisterScene:initView()
         if 2 == eventType then
             self:effectMusic("sounds/buttonEffet.ogg")
             local AnotherScence = require("src/app/scenes/MenuScene")
-            local MenuScene = AnotherScence:new()
+            local MenuScene = AnotherScence:ctor()
             display.replaceScene(MenuScene, "fade", 0.5, cc.c3b(255, 255, 255))
         end
     end)
