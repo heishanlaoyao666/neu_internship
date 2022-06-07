@@ -7,8 +7,13 @@ end
 
 local audio = require("framework.audio")
 
+audio.loadFile("texture/sounds/buttonEffet.ogg", function ()
+end)
+
+
 function menu:onEnter()
 
+    audio.playBGM("texture/sounds/mainMainMusic.ogg")
     local b2 = display.newSprite("texture/ui/main/bg_menu.jpg")
     :pos(display.cx,display.cy)
     :addTo(self)
@@ -22,9 +27,10 @@ function menu:onEnter()
 
     confirmButton:addTouchEventListener(function(sender, eventType)
 		if 2 == eventType then
+      audio.playEffect("texture/sounds/buttonEffet.ogg")
 			print("you type string =", locationEditbox:getText())
 		end
-	end)
+	  end)
 
     local confirmButton1 = ccui.Button:create("texture/ui/main/new_game1.png", "texture/ui/main/new_game2.png")
     confirmButton1:setAnchorPoint(0.5, 0.5)
@@ -36,10 +42,11 @@ function menu:onEnter()
     -- 点击输出输入框的内容
     confirmButton1:addTouchEventListener(function(sender1, eventType)
 		if 2 == eventType then
-			local  play1 = import("src.app.scenes.play1"):new()
-            display.replaceScene(play1)
+			  local  play1 = import("src.app.scenes.play1"):new()
+        audio.playEffect("texture/sounds/buttonEffet.ogg")
+        display.replaceScene(play1)
 		end
-	end)
+	  end)
 
     local confirmButton2 = ccui.Button:create("texture/ui/main/rank_menu.png", "texture/ui/main/rank_menu2.png")
     confirmButton2:setAnchorPoint(0.5, 0.5)
@@ -51,9 +58,10 @@ function menu:onEnter()
     -- 点击输出输入框的内容
     confirmButton2:addTouchEventListener(function(sender2, eventType)
 		if 2 == eventType then
+      audio.playEffect("texture/sounds/buttonEffet.ogg")
 			print("you type string =", locationEditbox:getText())
 		end
-	end)
+	  end)
 
     local confirmButton3 = ccui.Button:create("texture/ui/main/shezhi1_cover.png", "texture/ui/main/shezhi2_cover.png")
     confirmButton3:setAnchorPoint(0.5, 0.5)
@@ -65,10 +73,11 @@ function menu:onEnter()
     -- 点击输出输入框的内容
     confirmButton3:addTouchEventListener(function(sender3, eventType)
 		if 2 == eventType then
+      audio.playEffect("texture/sounds/buttonEffet.ogg")
       local  shezhi1 = import("src.app.scenes.shezhi"):new()
       display.replaceScene(shezhi1)
 		end
-	end)
+	  end)
 end
 
 function menu:onExit()

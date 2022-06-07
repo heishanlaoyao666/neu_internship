@@ -51,6 +51,18 @@ function play1:ctor()
     :addTo(self)
     }}
 
+    display .addSpriteFrames( "texture/animation/explosion.plist" , "texture/animation/explosion.png")--2.根据散图名获取精灵帧数组
+    local frames = display.newFrames( "explosion_%02d.png",1,35)--这里散图名为a0.png-a5.png--3.根据精灵帧数组获取动画
+    local animation = display.newAnimation(frames,1/35)--4.通过动画获得动作
+    local animate = cc.Animate : create(animation)--5.创建精灵
+
+    sprite = display.newSprite("#explosion_01.png")
+    sprite:addTo(self) 
+    sprite:setPosition(display.cx,display.cy)
+    sprite : runAction(animate)
+    donghua = {{sprite = sprite , life = 0}}
+    print(donghua[1].sprite)
+
     palyerPlane:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
 		dump(event)
 		if event.name == "began" then
@@ -382,13 +394,74 @@ function play1:update(dt)
     end
     z = 0
     for _,v in pairs(enemyDeath) do
+        
+        audio.playEffect("texture/sounds/explodeEffect.ogg")
+        --[[display.addSpriteFrames("texture/animation/explosion.plist","texture/animation/explosion.png")
+        local spirte = display.newSprite("#explosion_01.png")
+        sprite:setPosition(display.cx, display.cy)
+        self:addChild(spirte, 5)
+
+        local frames = display.newFrames("explosion_%02d.png", 1, 35)
+        local animation = display.newAnimation(frames, 1 / 35) -- 0.5 秒播放 8 桢
+        local animate = cc.Animate:create(animation)
+        sprite:runAction(animate)]]
+
+        --[[local spriteFrame = cc.SpriteFrameCache:getInstance()
+        spriteFrame:addSpriteFrames("texture/animation/explosion.plist")
+        local sprite = cc.Sprite:createWithSpriteFrameName("explosion_01.png")
+        sprite:pos(enemy[v-z].x , enemy[v-z].yl)
+        self:addChild(sprite)
+        local animation = cc.Animation:create()
+        for i = 2,12 do 
+            local frameName = string.format("explosion_%02d.png",i)
+            local spriteFrame1 = spriteFrame:getSpriteFrame(frameName)
+            animation:addSpriteFrames(spriteFrame1)
+        end
+        animation:setDelayPerUnit(0.15)
+        animation:setRestoreOriginalFrame(true)
+        local action = cc.Animate:create(animation)
+        sprite:runAction(action)]]
+
+        --1.通过文件加载精灵帧
+        display .addSpriteFrames( "texture/animation/explosion.plist" , "texture/animation/explosion.png")--2.根据散图名获取精灵帧数组
+        local frames = display.newFrames( "explosion_%02d.png",1,35)--这里散图名为a0.png-a5.png--3.根据精灵帧数组获取动画
+        local animation = display.newAnimation(frames,1/35)--4.通过动画获得动作
+        local animate = cc.Animate : create(animation)--5.创建精灵
+        sprite = display.newSprite("#explosion_01.png")
+        sprite:setPosition(enemy[v-z].x,enemy[v-z].y)
+        sprite :addTo(self)
+        --6.执行帧动画
+        sprite : runAction(animate)
+        sprite:setScale(0.5)
+        donghua1 = {sprite = sprite , life = 1}
+        table.insert(donghua,donghua1)
+
         enemy[v-z].x = nil
         enemy[v-z].y = nil
         self:removeChild(enemy[v-z].enemy1)
-        audio.playEffect("texture/sounds/explodeEffect.ogg")
         enemy[v-z].enemy1 = nil
         table.remove(enemy,v-z)
         z = z + 1
+    end
+
+    donghuaDeath = {}
+    z = 0
+    for _,v in pairs(donghua) do
+        v.life = v.life - dt
+        z = z + 1
+        if v.life <= 0 then
+            table.insert(donghuaDeath,z)
+        end
+    end
+
+    z = 0
+    for _,v in pairs(donghuaDeath) do
+        print(donghua[v-z].sprite)
+        print(donghua[v-z].life)
+        self:removeChild(donghua[v-z].sprite)
+        donghua[v-z].donghua1 = nil
+        table.remove(donghua,v-z)
+        z = z+1
     end
 end
 

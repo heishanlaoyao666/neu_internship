@@ -7,6 +7,9 @@ local audio = require("framework.audio")
 function shezhi:ctor()  
 end
 
+audio.loadFile("texture/sounds/buttonEffet.ogg", function ()
+end)
+
 
 function shezhi:onEnter()
 
@@ -25,6 +28,7 @@ function shezhi:onEnter()
 
     back:addTouchEventListener(function(sender, eventType)
 		if 2 == eventType then
+      audio.playEffect("texture/sounds/buttonEffet.ogg")
 			local  menu = import("src.app.scenes.menu"):new()
             display.replaceScene(menu)
 		end
@@ -46,6 +50,7 @@ function shezhi:onEnter()
 
     set1:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
 		dump(event)
+    audio.playEffect("texture/sounds/buttonEffet.ogg")
 		if event.name == "began" then
             set1:setVisible(false)
             set2:setVisible(true)
@@ -59,6 +64,7 @@ function shezhi:onEnter()
 
     set2:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
 		dump(event)
+    audio.playEffect("texture/sounds/buttonEffet.ogg")
 		if event.name == "began" then
             set2:setVisible(false)
             set1:setVisible(true)
@@ -89,6 +95,7 @@ function shezhi:onEnter()
 
     set3:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
 		dump(event)
+    audio.playEffect("texture/sounds/buttonEffet.ogg")
 		if event.name == "began" then
             set3:setVisible(false)
             set4:setVisible(true)
@@ -101,6 +108,7 @@ function shezhi:onEnter()
 
     set4:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
 		dump(event)
+    audio.playEffect("texture/sounds/buttonEffet.ogg")
 		if event.name == "began" then
             set4:setVisible(false)
             set3:setVisible(true)

@@ -7,6 +7,9 @@ end
 
 local audio = require("framework.audio")
 
+audio.loadFile("texture/sounds/buttonEffet.ogg", function ()
+end)
+
 function register:onEnter()
     local b2 = display.newSprite("texture/ui/main/bg_menu.jpg")
     :pos(display.cx,display.cy)
@@ -69,6 +72,7 @@ function register:onEnter()
     -- 点击输出输入框的内容
     confirmButton:addTouchEventListener(function(sender, eventType)
 		if 2 == eventType then
+            audio.playEffect("texture/sounds/buttonEffet.ogg")
 			print("you type string =", editTxt:getText())
             local  menu = import("src.app.scenes.menu"):new()
             display.replaceScene(menu)

@@ -5,6 +5,10 @@ end)
 
 local audio = require("framework.audio")
 
+audio.loadFile("texture/sounds/buttonEffet.ogg", function ()
+end)
+
+
 --函数，第一个是主屏幕。第二个是背景移动速度
 local function  blackgroungd1(mainScene1,speed)
     audio.loadFile("texture/sounds/mainMainMusic.ogg", function ()
