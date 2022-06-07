@@ -21,6 +21,9 @@ function MenuScene:onEnter()
     rankButton:addTouchEventListener(
         function(ref, event)
             Log.i("rankButton")
+            if effectKey then
+                Audio.playEffectSync(ConstantsUtil.PATH_BUTTON_EFFECT, false)
+            end
             if cc.EventCode.BEGAN == event then
                 --- 按下
                 Log.i("begin")
@@ -37,6 +40,9 @@ function MenuScene:onEnter()
     settingButton:addTouchEventListener(
         function(ref, event)
             Log.i("settingButton")
+            if effectKey then
+                Audio.playEffectSync(ConstantsUtil.PATH_BUTTON_EFFECT, false)
+            end
             if cc.EventCode.BEGAN == event then
                 --- 按下
                 Log.i("begin")
@@ -53,6 +59,9 @@ function MenuScene:onEnter()
     newGameButton:addTouchEventListener(
         function(ref, event)
             Log.i("newGameButton")
+            if effectKey then
+                Audio.playEffectSync(ConstantsUtil.PATH_BUTTON_EFFECT, false)
+            end
             if cc.EventCode.BEGAN == event then
                 --- 按下
                 Log.i("begin")
@@ -61,6 +70,23 @@ function MenuScene:onEnter()
                 Log.i("end")
                 local newGameScene = import("app.scenes.GameScene").new()
                 display.replaceScene(newGameScene)
+            end
+        end
+    )
+
+    local continueButton = tolua.cast(ccui.Helper:seekWidgetByName(menuScene, "continue"), "ccui.Button")
+    continueButton:addTouchEventListener(
+        function(ref, event)
+            Log.i("continueButton")
+            if effectKey then
+                Audio.playEffectSync(ConstantsUtil.PATH_BUTTON_EFFECT, false)
+            end
+            if cc.EventCode.BEGAN == event then
+                --- 按下
+                Log.i("begin")
+            elseif cc.EventCode.ENDED == event then
+                --- 松开
+                Log.i("end")
             end
         end
     )

@@ -21,6 +21,9 @@ function RankScene:onEnter()
     backButton:addTouchEventListener(
         function(ref, event)
             Log.i("backButton")
+            if effectKey then
+                Audio.playEffectSync(ConstantsUtil.PATH_BUTTON_EFFECT, false)
+            end
             if cc.EventCode.BEGAN == event then
                 --- 按下
                 Log.i("begin")
@@ -36,8 +39,8 @@ function RankScene:onEnter()
     local rankBg = ccui.ImageView:create("ui/rank/rank_bg.png")
     local rankList = tolua.cast(ccui.Helper:seekWidgetByName(rankScene, "rank_list"), "ccui.ListView")
     ---TODO rankList
-    local scoreInit = 10000;
-    local delta = 1000;
+    local scoreInit = 10000
+    local delta = 1000
     for i = 1, 5 do
         -- base
         local itemLayer = ccui.Layout:create()
@@ -58,8 +61,7 @@ function RankScene:onEnter()
         else
             -- 表内容
             -- 背景
-        
-            
+
             -- local btn = ccui.Button:create("ui/rank/rank_bg.png", "ui/rank/rank_bg.png")
             -- btn:setAnchorPoint(0.5, 0.5)
             -- btn:setScale9Enabled(true)
@@ -93,7 +95,7 @@ function RankScene:onEnter()
             itemScore:pos(itemWidth * 0.7, 0)
             itemScore:addTo(itemLayer)
 
-            scoreInit = scoreInit - delta;
+            scoreInit = scoreInit - delta
         end
     end
 end

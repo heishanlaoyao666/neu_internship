@@ -120,6 +120,12 @@ D:/CocosProjects/empty/src/framework/audio.lua
 
 [LUA-print] [INFO]registerButton
 
+[LUA-print] [INFO]registerButton
+
+[LUA-print] [INFO]registerButton
+
+[LUA-print] [INFO]registerButton
+
 [LUA-print] [INFO]end
 
 [LUA-print] [INFO]请输入昵
@@ -138,13 +144,67 @@ cocos2d: padding: 0,0,0,0
 
 Inner width <= scrollview width, it will be force sized!
 
+[LUA-print] [INFO]enemyNodeNew
+
+[LUA-print] [INFO]enemyNodeNew
+
+[LUA-print] [INFO]enemyNodeNew
+
 [LUA-print] [INFO]touch begin
 
-[LUA-print] [INFO]100
+[LUA-print] [INFO]enemyNodeNew
 
-[LUA-print] [INFO]80
+[LUA-print] [INFO]enemyNodeNew
 
-[LUA-print] [INFO]60
+[LUA-print] [INFO]enemyNodeNew
+
+[LUA-print] [INFO]enemyNodeNew
+
+[LUA-print] [INFO]enemyNodeNew
+
+[LUA-print] [INFO]enemyNodeNew
+
+[LUA-print] [INFO]enemyNodeNew
+
+[LUA-print] [INFO]enemyNodeNew
+
+[LUA-print] [INFO]enemyNodeNew
+
+[LUA-print] [INFO]enemyNodeNew
+
+[LUA-print] [INFO]enemyNodeNew
+
+[LUA-print] [INFO]enemyNodeNew
+
+[LUA-print] [INFO]enemyNodeNew
+
+[LUA-print] [INFO]enemyNodeNew
+
+[LUA-print] [INFO]enemyNodeNew
+
+[LUA-print] [INFO]enemyNodeNew
+
+[LUA-print] [INFO]enemyNodeNew
+
+[LUA-print] [INFO]enemyNodeNew
+
+[LUA-print] [INFO]enemyNodeNew
+
+[LUA-print] [INFO]enemyNodeNew
 
 [LUA-print] [INFO]touch end
+
+[LUA-print] [INFO]enemyNodeNew
+
+[LUA-print] [INFO]enemyNodeNew
+
+[LUA-print] [INFO]enemyNodeNew
+
+[LUA-print] [INFO]enemyNodeNew
+
+[LUA-print] [INFO]enemyNodeNew
+
+[LUA-print] [INFO]enemyNodeNew
+
+[LUA-print] [INFO]enemyNodeNew
 

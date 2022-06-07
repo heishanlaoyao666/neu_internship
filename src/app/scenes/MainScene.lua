@@ -51,6 +51,9 @@ function MainScene:onEnter()
     registerButton:addTouchEventListener(
         function(ref, event)
             Log.i("registerButton")
+            if effectKey then
+                Audio.playEffectSync(ConstantsUtil.PATH_BUTTON_EFFECT, false)
+            end
             if cc.EventCode.BEGAN == event then
                 --- 按下
                 Log.i("begin")
@@ -125,10 +128,6 @@ function MainScene:onEnter()
     -- registerButton:setAnchorPoint(0.5, 0.5)
     -- registerButton:setPosition(240, 300)
     -- self:addChild(registerButton)
-end
-
-function MainScene:playMusic() 
-    
 end
 
 function MainScene:onExit()
