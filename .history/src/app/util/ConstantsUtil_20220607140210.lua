@@ -35,7 +35,7 @@ ConstantsUtil.INTERVAL_ENEMY = 1.0
 ConstantsUtil.INTERVAL_COLLISION = 1.0 / 60
 
 ConstantsUtil.BORN_PLACE_ENEMY = 0.7
-ConstantsUtil.DIE_PLACE_ENEMY = 1.3
+ConstantsUtil.DIE_PLACE_ENEMY = -10
 ConstantsUtil.DIE_BULLET = WinSize.height
 
 ConstantsUtil.MASK_COLLISION = 0x01

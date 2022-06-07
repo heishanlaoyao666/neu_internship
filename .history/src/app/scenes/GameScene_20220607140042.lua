@@ -9,7 +9,8 @@ local GameScene =
     end
 )
 ---local
-
+local enemyNode = require("app.node.EnemyNode")
+local bulletNode = require("app.node.BulletNode")
 ---
 function GameScene:ctor()
     display.addSpriteFrames(ConstantsUtil.PATH_EXPLOSION_PLIST, ConstantsUtil.PATH_EXPLOSION_PNG)
@@ -86,11 +87,8 @@ function GameScene:onEnter()
 
     --- 我方飞机相关
     local myRole = tolua.cast(ccui.Helper:seekWidgetByName(gameScene, "my_role"), "cc.Sprite")
-    -- myRole:setScale(1.5)
     myRole:setTag(ConstantsUtil.TAG_MY_ROLE)
     local myFireBloom = tolua.cast(ccui.Helper:seekWidgetByName(gameScene, "role_fire"), "cc.ParticleSystemQuad")
-    -- myFireBloom:setScale(1.5)
-    -- local myBullet = tolua.cast(ccui.Helper:seekWidgetByName(gameScene, "role_bullet"), "cc.Sprite")
 
     --- 我方飞机登场
     local roleShowUp = cc.MoveTo:create(2, cc.p(WinSize.width * 0.5, WinSize.height * 0.17))
@@ -126,54 +124,24 @@ function GameScene:onEnter()
     listener1:registerScriptHandler(onTouchBegan, cc.Handler.EVENT_TOUCH_BEGAN)
     listener1:registerScriptHandler(onTouchMoved, cc.Handler.EVENT_TOUCH_MOVED)
     listener1:registerScriptHandler(onTouchEnded, cc.Handler.EVENT_TOUCH_ENDED)
-    -- eventDispatcher:addEventListenerWithSceneGraphPriority(listener1, myRole) --分发监听事件
+    eventDispatcher:addEventListenerWithSceneGraphPriority(listener1, myRole) --分发监听事件
 
-    --- 子弹发射
-    local bulletArray = {}
+    -- 子弹发射
     local function addBullet()
-        local x, y = myRole:getPosition()
-        local bullet = cc.Sprite:create(ConstantsUtil.PATH_BULLET_PNG)
-        bullet:setTag(ConstantsUtil.TAG_BULLET)
-        local bulletPosition = cc.p(x, y + myRole:getContentSize().height / 2 + bullet:getContentSize().height / 2)
-        bullet:setPosition(bulletPosition)
-        bullet:addTo(self)
-
-        local function bulletMove()
-            local bulletY = bullet:getPositionY() + ConstantsUtil.SPEED_BULLET_MOVE
-            bullet:setPositionY(bulletY)
-            if bulletY > WinSize.height then
-                bullet:removeFromParent()
-                table.removebyvalue(bulletArray, bullet, false)
-            end
-        end
-        -- 每帧刷新一次
-        bullet:scheduleUpdateWithPriorityLua(bulletMove, 0)
-        table.insert(bulletArray, bullet)
+        bulletNode:create(myRole:getPositionX(), myRole:getPositionY() + myRole:getContentSize().height / 2):addTo(
+            self,
+            ConstantsUtil.LEVEL_VISIABLE_MEDIUM
+        )
     end
     addBulletEntry = Scheduler:scheduleScriptFunc(addBullet, ConstantsUtil.INTERVAL_BULLET, false)
 
     --- 敌军
-    local enemyArray = {}
     local function newEnemy()
-        -- body
-        local enemyX = math.random() * WinSize.width
-        local enemyY = ConstantsUtil.BORN_PLACE_ENEMY * WinSize.height
-        local enemy = cc.Sprite:create(ConstantsUtil.PATH_SMALL_ENEMY_PNG)
-        -- enemy:setScale(1.5)
-        enemy:setTag(ConstantsUtil.TAG_ENEMY)
-        enemy:setPosition(enemyX, enemyY)
-        enemy:addTo(self)
-
-        local function enemyMove()
-            local newEnemyY = enemy:getPositionY() - ConstantsUtil.SPEED_ENEMY_MOVE
-            enemy:setPositionY(newEnemyY)
-            if newEnemyY <= ConstantsUtil.DIE_PLACE_ENEMY then
-                enemy:removeFromParent()
-                table.removebyvalue(enemyArray, enemy, false)
-            end
-        end
-        enemy:scheduleUpdateWithPriorityLua(enemyMove, 0)
-        table.insert(enemyArray, enemy)
+        enemyNode:create(math.random() * WinSize.width, ConstantsUtil.BORN_PLACE_ENEMY * WinSize.height):addTo(
+            self,
+            ConstantsUtil.LEVEL_VISIABLE_MEDIUM
+        )
+        Log.i("enemyNodeNew")
     end
     addEnemyEntry = Scheduler:scheduleScriptFunc(newEnemy, ConstantsUtil.INTERVAL_ENEMY, false)
 
@@ -190,88 +158,88 @@ function GameScene:onEnter()
     end
 
     --- 子弹与敌人碰撞
-    local function collisionBetweenBUlletAndEnemy()
-        local bulletArraySize = #(bulletArray)
-        local enemyArraySize = #(enemyArray)
-        for i = 1, bulletArraySize do
-            if #(bulletArray) < i then
-                break
-            end
-            local rectA = bulletArray[i]:getBoundingBox()
-            for j = 1, enemyArraySize do
-                if #(enemyArray) < j then
-                    break
-                end
-                local rectB = enemyArray[j]:getBoundingBox()
-                if
-                    math.abs(bulletArray[i]:getPositionX() - enemyArray[j]:getPositionX()) * 2 <=
-                        (rectA.width + rectB.width) and
-                        (math.abs(bulletArray[i]:getPositionY() - enemyArray[j]:getPositionY()) * 2) <=
-                            (rectA.height + rectB.height)
-                 then
-                    --sound
+    -- local function collisionBetweenBUlletAndEnemy()
+    --     local bulletArraySize = #(bulletArray)
+    --     local enemyArraySize = #(enemyArray)
+    --     for i = 1, bulletArraySize do
+    --         if #(bulletArray) < i then
+    --             break
+    --         end
+    --         local rectA = bulletArray[i]:getBoundingBox()
+    --         for j = 1, enemyArraySize do
+    --             if #(enemyArray) < j then
+    --                 break
+    --             end
+    --             local rectB = enemyArray[j]:getBoundingBox()
+    --             if
+    --                 math.abs(bulletArray[i]:getPositionX() - enemyArray[j]:getPositionX()) * 2 <=
+    --                     (rectA.width + rectB.width) and
+    --                     (math.abs(bulletArray[i]:getPositionY() - enemyArray[j]:getPositionY()) * 2) <=
+    --                         (rectA.height + rectB.height)
+    --              then
+    --                 --sound
 
-                    -- score
-                    if score_val < 999 then
-                        score_val = score_val + ConstantsUtil.PLUS_ENEMY_SCORE
-                        score_item:setString(TypeConvert.Integer2StringLeadingZero(score_val, 3))
-                    end
-                    -- 爆炸动画
-                    getExplosion(enemyArray[j]:getPositionX(), enemyArray[j]:getPositionY())
-                    -- body
-                    bulletArray[i]:removeFromParent()
-                    enemyArray[j]:removeFromParent()
-                    table.remove(bulletArray, i)
-                    table.remove(enemyArray, j)
-                    i = i - 1
-                    j = j - 1
-                    bulletArraySize = bulletArraySize - 1
-                    enemyArraySize = enemyArraySize - 1
-                end
-            end
-        end
-    end
-    collisionBetweenBUlletAndEnemyEntry =
-        Scheduler:scheduleScriptFunc(collisionBetweenBUlletAndEnemy, ConstantsUtil.INTERVAL_COLLISION, false)
+    --                 -- score
+    --                 if score_val < 999 then
+    --                     score_val = score_val + ConstantsUtil.PLUS_ENEMY_SCORE
+    --                     score_item:setString(TypeConvert.Integer2StringLeadingZero(score_val, 3))
+    --                 end
+    --                 -- 爆炸动画
+    --                 getExplosion(enemyArray[j]:getPositionX(), enemyArray[j]:getPositionY())
+    --                 -- body
+    --                 bulletArray[i]:removeFromParent()
+    --                 enemyArray[j]:removeFromParent()
+    --                 table.remove(bulletArray, i)
+    --                 table.remove(enemyArray, j)
+    --                 i = i - 1
+    --                 j = j - 1
+    --                 bulletArraySize = bulletArraySize - 1
+    --                 enemyArraySize = enemyArraySize - 1
+    --             end
+    --         end
+    --     end
+    -- end
+    -- collisionBetweenBUlletAndEnemyEntry =
+    --     Scheduler:scheduleScriptFunc(collisionBetweenBUlletAndEnemy, ConstantsUtil.INTERVAL_COLLISION, false)
 
-    -- 敌人与自己碰撞
-    local function collisionBetweenMyRoleAndEnemy()
-        local enemyArraySize = #(enemyArray)
-        local rectMyRole = myRole:getBoundingBox()
-        for i = 1, enemyArraySize do
-            if #(enemyArray) < i then
-                break
-            end
-            local rect = enemyArray[i]:getBoundingBox()
-            if
-                math.abs((enemyArray[i]:getPositionX() - myRole:getPositionX())) * 2 <= (rect.width + rectMyRole.width) and
-                    math.abs(enemyArray[i]:getPositionY() - myRole:getPositionY()) * 2 <=
-                        (rect.height + rectMyRole.height)
-             then
-                --- 爆炸动画
-                if hp_val - ConstantsUtil.MINUS_ENEMY_COLLISION > 0 then
-                    hp_val = hp_val - ConstantsUtil.MINUS_ENEMY_COLLISION
-                    hp_item:setString(TypeConvert.Integer2StringLeadingZero(hp_val, 3))
-                end
-                getExplosion(myRole:getPositionX(), myRole:getPositionY())
-                --body
-                enemyArray[i]:removeFromParent()
-                table.remove(enemyArray, i)
-                i = i - 1
-                enemyArraySize = enemyArraySize - 1
-            end
-        end
-    end
-    collisionBetweenMyRoleAndEnemyEntry =
-        Scheduler:scheduleScriptFunc(collisionBetweenMyRoleAndEnemy, ConstantsUtil.INTERVAL_COLLISION, false)
+    -- -- 敌人与自己碰撞
+    -- local function collisionBetweenMyRoleAndEnemy()
+    --     local enemyArraySize = #(enemyArray)
+    --     local rectMyRole = myRole:getBoundingBox()
+    --     for i = 1, enemyArraySize do
+    --         if #(enemyArray) < i then
+    --             break
+    --         end
+    --         local rect = enemyArray[i]:getBoundingBox()
+    --         if
+    --             math.abs((enemyArray[i]:getPositionX() - myRole:getPositionX())) * 2 <= (rect.width + rectMyRole.width) and
+    --                 math.abs(enemyArray[i]:getPositionY() - myRole:getPositionY()) * 2 <=
+    --                     (rect.height + rectMyRole.height)
+    --          then
+    --             --- 爆炸动画
+    --             if hp_val - ConstantsUtil.MINUS_ENEMY_COLLISION > 0 then
+    --                 hp_val = hp_val - ConstantsUtil.MINUS_ENEMY_COLLISION
+    --                 hp_item:setString(TypeConvert.Integer2StringLeadingZero(hp_val, 3))
+    --             end
+    --             getExplosion(myRole:getPositionX(), myRole:getPositionY())
+    --             --body
+    --             enemyArray[i]:removeFromParent()
+    --             table.remove(enemyArray, i)
+    --             i = i - 1
+    --             enemyArraySize = enemyArraySize - 1
+    --         end
+    --     end
+    -- end
+    -- collisionBetweenMyRoleAndEnemyEntry =
+    --     Scheduler:scheduleScriptFunc(collisionBetweenMyRoleAndEnemy, ConstantsUtil.INTERVAL_COLLISION, false)
 end
 
 function GameScene:onExit()
     Scheduler:unscheduleScriptEntry(backgroundEntry)
     Scheduler:unscheduleScriptEntry(addBulletEntry)
     Scheduler:unscheduleScriptEntry(addEnemyEntry)
-    Scheduler:unscheduleScriptEntry(collisionBetweenBUlletAndEnemyEntry)
-    Scheduler:unscheduleScriptEntry(collisionBetweenMyRoleAndEnemyEntry)
+    -- Scheduler:unscheduleScriptEntry(collisionBetweenBUlletAndEnemyEntry)
+    -- Scheduler:unscheduleScriptEntry(collisionBetweenMyRoleAndEnemyEntry)
 end
 
 return GameScene
