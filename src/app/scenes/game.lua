@@ -11,6 +11,8 @@ end)
 
 function game:ctor()
 
+    audio.stopBGM("res/sounds/bgMusic.ogg")
+    audio.playBGM("res/sounds/fireEffect.ogg",true)
     local life=100
     local score=0
 
@@ -18,6 +20,7 @@ function game:ctor()
     sp:pos(display.cx, display.cy)
     sp:addTo(self)
     sp:setScale(1.3)
+
 
     local spFile = display.newSprite("res/ui/battle/ui_life.png")
     spFile:pos(display.cx-50,display.top-50)
@@ -36,23 +39,120 @@ function game:ctor()
     font2:addTo(self)
 
     local pauseButton = ccui.Button:create("res/ui/battle/uiPause.png", 1)
-    pauseButton:addTouchEventListener(function(sender, eventType)
-        if 2 == eventType then
-            display.pause()
-            local startLayer = ccui.Layout:create()
-            startLayer:setBackGroundColorType(1)
-            startLayer:setContentSize(cc.size(width,height))
-            startLayer:setPosition(display.cx, display.cy)
-            startLayer:setAnchorPoint(cc.p(0.5, 0.5))
-            startLayer:setOpacity(127)
-            startLayer:addTo(self)
-            self:pauseUI()
-        end
-    end)
     pauseButton:setAnchorPoint(1,1)
     pauseButton:setScale(2)
     pauseButton:pos(display.cx-200, display.top )
     pauseButton:addTo(self)
+    pauseButton:addTouchEventListener(function(sender, eventType)
+        if 2 == eventType then
+
+            display.pause()
+
+            local startLayer =  cc.LayerColor:create({r=30,g=30,b=30,a=127}, display.width, display.height);
+            startLayer:addTo(self)
+
+
+            local resButton = ccui.Button:create("res/ui/continue/pauseBackRoom.png", 1)
+            resButton:pos(display.cx,display.cy)
+            resButton:addTo(self)
+            resButton:addTouchEventListener(function (sender,eventType)
+                if 2 == eventType then
+                    local AnotherScene=require("app/scenes/MainScene"):new()
+                    display:replaceScene(AnotherScene,"fade",0.5)
+                end
+            end)
+
+
+            local conButton = ccui.Button:create("res/ui/continue/pauseResume.png", 1)
+            conButton:pos(display.cx,display.cy-80)
+            conButton:addTo(self)
+            conButton:addTouchEventListener(function (sender,eventType)
+                if 2 == eventType then
+                    self:removeChild(conButton)
+                    self:removeChild(startLayer)
+                    self:removeChild(resButton)
+                    display.resume()
+                end
+            end)
+
+
+        end
+    end)
+
+
+
+    ---战机
+
+    local plane = display.newSprite("res/player/red_plane.png")
+    plane:pos(display.cx, 0)
+    plane:runAction(cc.MoveTo:create(2,cc.p(display.cx,display.cy-300)))
+    plane:addTo(self)
+
+    ---战机移动
+    local planeX=0
+    sp:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
+        dump(event)
+        if event.name == "began" then
+            planeX=event.x
+            plane:runAction(cc.MoveTo:create(0.25,cc.p(planeX,display.cy-300)))
+            return true
+        end
+    end)
+    sp:setTouchMode(cc.TOUCH_MODE_ONE_BY_ONE)
+    sp:setTouchEnabled(true)
+
+    ---拖尾
+    local bg=cc.Sprite:create("res/particle/fire.png")
+    bg:pos(25, 0)
+    bg:addTo(plane)
+
+    local particleSystem = cc.ParticleSystemQuad:create("res/particle/fire.plist")
+    particleSystem:setRotation(180)
+    particleSystem:pos(25, 0)
+    particleSystem:addTo(plane)
+
+    ---子弹
+
+    local i=1
+    local ziDan={}
+    local scheduler  =require(cc.PACKAGE_NAME..".scheduler")
+    local function onInterval(dt)
+
+        if cc.UserDefault:getInstance():getBoolForKey("yinxiao")=="true"then
+            audio:playBGM("res/sounds/fireEffect.ogg",true)
+            end
+            ziDan[i] =cc.Sprite:create("res/player/blue_bullet.png")
+            local x1,y1=plane:getPosition()
+            ziDan[i]:pos(x1,y1)
+            ziDan[i]:runAction(cc.MoveTo:create(2,cc.p(x1,display.top)))
+            ziDan[i]:addTo(self)
+            i=i+1
+        if i>10 then
+            self:removeChild(ziDan[i-10])
+        end
+    end
+    scheduler.scheduleGlobal(onInterval,0.2)
+
+    ---敌方战机
+
+    local enemyCount=1
+    local enemyPlane={}
+    local scheduler  =require(cc.PACKAGE_NAME..".scheduler")
+    local function onInterval(dt)
+
+        enemyPlane[enemyCount] =cc.Sprite:create("res/player/small_enemy.png")
+        local xX=math.random(display.width)
+        enemyPlane[enemyCount]:pos(xX,display.top)
+        enemyPlane[enemyCount]:runAction(cc.MoveTo:create(2,cc.p(xX,0)))
+        enemyPlane[enemyCount]:addTo(self)
+        enemyCount=enemyCount+1
+        if enemyCount>10 then
+            self:removeChild(enemyPlane[enemyCount-3])
+        end
+    end
+    scheduler.scheduleGlobal(onInterval,1)
+
+
 
 end
 

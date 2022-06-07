@@ -9,6 +9,8 @@ end
 --初始化界面函数
 function MainScene:iniInterface()
 
+
+
     --背景图片
     local sp = display.newSprite("res/ui/main/bg_menu.jpg")
     sp:pos(display.cx, display.cy)
@@ -36,6 +38,7 @@ function MainScene:iniInterface()
             self:loadBtns()
         end
     end
+
     if cc.UserDefault:getInstance():getBoolForKey("yinyue") then
         audio.loadFile("res/sounds/bgMusic.ogg",loadedCB)
     else
