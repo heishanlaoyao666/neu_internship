@@ -12,7 +12,7 @@ local GameScene =
 local pauseNode = require("app.node.PauseNode")
 ---
 function GameScene:ctor()
-    ConstantsUtil.puase = false
+    self.pause = false
     display.addSpriteFrames(ConstantsUtil.PATH_EXPLOSION_PLIST, ConstantsUtil.PATH_EXPLOSION_PNG)
 end
 
@@ -34,10 +34,10 @@ function GameScene:onEnter()
                 --- 按下
             elseif cc.EventCode.ENDED == event then
                 --- 松开
-                if ConstantsUtil.puase == false then
+                if self.pause == false then
                     --- 当前关闭 点击后开启
-                    ConstantsUtil.puase = true
-                    local pause = pauseNode:create(cc.c4b(0, 0, 0, 110))
+                    self.puase = true
+                    local pause = pauseNode:create()
                     pause:addTo(self)
                     Director:pause()
                 end

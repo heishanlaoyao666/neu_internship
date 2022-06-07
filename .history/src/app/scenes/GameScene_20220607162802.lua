@@ -9,10 +9,9 @@ local GameScene =
     end
 )
 ---local
-local pauseNode = require("app.node.PauseNode")
+
 ---
 function GameScene:ctor()
-    ConstantsUtil.puase = false
     display.addSpriteFrames(ConstantsUtil.PATH_EXPLOSION_PLIST, ConstantsUtil.PATH_EXPLOSION_PNG)
 end
 
@@ -32,15 +31,15 @@ function GameScene:onEnter()
             -- end
             if cc.EventCode.BEGAN == event then
                 --- 按下
+                Log.i("begin")
             elseif cc.EventCode.ENDED == event then
                 --- 松开
-                if ConstantsUtil.puase == false then
-                    --- 当前关闭 点击后开启
-                    ConstantsUtil.puase = true
-                    local pause = pauseNode:create(cc.c4b(0, 0, 0, 110))
-                    pause:addTo(self)
-                    Director:pause()
-                end
+                Log.i("end")
+                local pauseNode = cc.Node:create()
+                local pauseLayer = cc.LayerColor:create(cc.c4b(0, 0, 0, 110))
+                pauseLayer:addTo(pauseNode)
+                pauseNode:addTo(self)
+                Director:pause()
             end
         end
     )
@@ -83,6 +82,7 @@ function GameScene:onEnter()
         end
     end
     backgroundEntry = Scheduler:scheduleScriptFunc(backgroundMove, ConstantsUtil.INTERVAL_BACKGROUND_MOVE, false)
+    -- Director:sharedDirector():getScheduler():unscheduleScriptEntry(backgroundEntry)
 
     --- 我方飞机相关
     local myRole = tolua.cast(ccui.Helper:seekWidgetByName(gameScene, "my_role"), "cc.Sprite")
@@ -127,10 +127,6 @@ function GameScene:onEnter()
     --- 子弹发射
     local bulletArray = {}
     local function addBullet()
-        if effectKey then
-            Audio.playEffectSync(ConstantsUtil.PATH_FIRE_EFFECT, false)
-        end
-
         local x, y = myRole:getPosition()
         local bullet = cc.Sprite:create(ConstantsUtil.PATH_BULLET_PNG)
         bullet:setTag(ConstantsUtil.TAG_BULLET)
@@ -209,11 +205,8 @@ function GameScene:onEnter()
                         (math.abs(bulletArray[i]:getPositionY() - enemyArray[j]:getPositionY()) * 2) <=
                             (rectA.height + rectB.height)
                  then
-                    -- 爆炸
                     --sound
-                    if effectKey then
-                        Audio.playEffectSync(ConstantsUtil.PATH_EXPLOSION_EFFECT, false)
-                    end
+
                     -- score
                     if score_val < 999 then
                         score_val = score_val + ConstantsUtil.PLUS_ENEMY_SCORE
@@ -251,10 +244,6 @@ function GameScene:onEnter()
                     math.abs(enemyArray[i]:getPositionY() - myRole:getPositionY()) * 2 <=
                         (rect.height + rectMyRole.height)
              then
-                -- sound
-                if effectKey then
-                    Audio.playEffectSync(ConstantsUtil.PATH_DESTROY_EFFECT, false)
-                end
                 --- 爆炸动画
                 if hp_val - ConstantsUtil.MINUS_ENEMY_COLLISION > 0 then
                     hp_val = hp_val - ConstantsUtil.MINUS_ENEMY_COLLISION

@@ -78,6 +78,5 @@ ConstantsUtil.PATH_BIG_NUM = "ui/rank/islandcvbignum.fnt"
 --- global variable
 musicKey = UserDefault:getBoolForKey(ConstantsUtil.MUSIC_KEY, true)
 effectKey = UserDefault:getBoolForKey(ConstantsUtil.EFFECT_KEY, true)
-pause = false
 
 return ConstantsUtil

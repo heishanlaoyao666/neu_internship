@@ -9,10 +9,9 @@ local GameScene =
     end
 )
 ---local
-local pauseNode = require("app.node.PauseNode")
+
 ---
 function GameScene:ctor()
-    ConstantsUtil.puase = false
     display.addSpriteFrames(ConstantsUtil.PATH_EXPLOSION_PLIST, ConstantsUtil.PATH_EXPLOSION_PNG)
 end
 
@@ -21,6 +20,9 @@ function GameScene:onEnter()
         CSLoader:createNodeWithFlatBuffersFile("GameScene.csb"):addTo(self, ConstantsUtil.LEVEL_VISIABLE_LOW)
 
     --- 蒙版
+    local pauseNode = cc.Node:create()
+    local pauseLayer = cc.LayerColor:create(cc.c4b(0, 0, 0, 110))
+    pauseLayer:addTo(pauseNode)
 
     --- 暂停
     local pauseButton = tolua.cast(ccui.Helper:seekWidgetByName(gameScene, "pause"), "ccui.Button")
@@ -32,14 +34,17 @@ function GameScene:onEnter()
             -- end
             if cc.EventCode.BEGAN == event then
                 --- 按下
+                Log.i("begin")
             elseif cc.EventCode.ENDED == event then
                 --- 松开
-                if ConstantsUtil.puase == false then
+                Log.i("end")
+                if pauseKey == true then
+                    --- 当前开启 点击后关闭
+                else
                     --- 当前关闭 点击后开启
-                    ConstantsUtil.puase = true
-                    local pause = pauseNode:create(cc.c4b(0, 0, 0, 110))
-                    pause:addTo(self)
+                    pauseNode:addTo(self)
                     Director:pause()
+                    pauseKey = true
                 end
             end
         end

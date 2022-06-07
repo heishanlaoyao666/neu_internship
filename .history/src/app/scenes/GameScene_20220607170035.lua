@@ -37,7 +37,7 @@ function GameScene:onEnter()
                 if ConstantsUtil.puase == false then
                     --- 当前关闭 点击后开启
                     ConstantsUtil.puase = true
-                    local pause = pauseNode:create(cc.c4b(0, 0, 0, 110))
+                    local pause = pauseNode:create()
                     pause:addTo(self)
                     Director:pause()
                 end

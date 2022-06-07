@@ -130,19 +130,83 @@ Inner height <= scrollview height, it will be force sized!
 
 [LUA-print] [INFO]newGameButton
 
-[LUA-print] [INFO]newGameButton
-
 [LUA-print] [INFO]end
 
 cocos2d: padding: 0,0,0,0
 
 Inner width <= scrollview width, it will be force sized!
 
-[LUA-print] [INFO]pauseButton
-
-[LUA-print] [INFO]begin
+[LUA-print] [INFO]touch begin
 
 [LUA-print] [INFO]pauseButton
 
-[LUA-print] [INFO]end
+[LUA-print] [INFO]touch end
+
+[LUA-print] [INFO]pauseButton
+
+Inner height <= scrollview height, it will be force sized!
+
+[LUA-print] [INFO]continueButton
+
+[LUA-print] [INFO]continueButton
+
+[LUA-print] [INFO]touch begin
+
+[LUA-print] [INFO]touch end
+
+[LUA-print] [INFO]touch begin
+
+[LUA-print] [INFO]pauseButton
+
+[LUA-print] [INFO]touch end
+
+[LUA-print] [INFO]pauseButton
+
+Inner height <= scrollview height, it will be force sized!
+
+[LUA-print] [INFO]continueButton
+
+[LUA-print] [INFO]continueButton
+
+[LUA-print] [INFO]continueButton
+
+[LUA-print] [INFO]touch begin
+
+[LUA-print] [INFO]touch end
+
+[LUA-print] [INFO]touch begin
+
+[LUA-print] [INFO]pauseButton
+
+[LUA-print] [INFO]pauseButton
+
+[LUA-print] [INFO]touch end
+
+[LUA-print] [INFO]pauseButton
+
+Inner height <= scrollview height, it will be force sized!
+
+[LUA-print] [INFO]backButton
+
+[LUA-print] [INFO]backButton
+
+[LUA-print] [INFO]continueButton
+
+[LUA-print] [INFO]continueButton
+
+[LUA-print] [INFO]touch begin
+
+[LUA-print] [INFO]touch end
+
+[LUA-print] [INFO]touch begin
+
+[LUA-print] [INFO]pauseButton
+
+[LUA-print] [INFO]pauseButton
+
+[LUA-print] [INFO]touch end
+
+[LUA-print] [INFO]pauseButton
+
+Inner height <= scrollview height, it will be force sized!
 

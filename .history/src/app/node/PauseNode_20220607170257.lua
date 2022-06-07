@@ -26,7 +26,7 @@ function PauseNode:init(itsColor)
     local listView = ccui.ListView:create():addTo(layer, ConstantsUtil.LEVEL_VISIABLE_MEDIUM)
     listView:setAnchorPoint(0.5, 0.5)
     listView:setPosition(WinSize.width / 2, WinSize.height / 2)
-    listView:setContentSize(WinSize.width * 0.8, WinSize.height * 0.3)
+    listView:setContentSize(WinSize.width * 0.8, WinSize.height * 0.8)
 
     local continueButton =
         ccui.Button:create(ConstantsUtil.PATH_INGAME_CONTINUE_PNG):addTo(
@@ -42,7 +42,6 @@ function PauseNode:init(itsColor)
                 --- 按下
             elseif cc.EventCode.ENDED == event then
                 --- 松开
-                layer:removeFromParent()
                 ConstantsUtil.puase = false
                 Director:resume()
             end

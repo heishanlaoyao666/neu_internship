@@ -50,18 +50,10 @@ ConstantsUtil.LEVEL_VISIABLE_LOW = 0
 
 --- path
 ConstantsUtil.PATH_BG_JPG = "ui/main/bg_menu.jpg"
-
 ConstantsUtil.PATH_BULLET_PNG = "player/blue_bullet.png"
 ConstantsUtil.PATH_SMALL_ENEMY_PNG = "player/small_enemy.png"
-
 ConstantsUtil.PATH_SETTING_CLOSE_PNG = "ui/setting/soundon2_cover.png"
 ConstantsUtil.PATH_SETTING_OPEN_PNG = "ui/setting/soundon1_cover.png"
-
-ConstantsUtil.PATH_INGAME_CONTINUE_PNG = "ui/continue/pauseResume.png"
-ConstantsUtil.PATH_INGAME_BACK_PNG = "ui/continue/pauseBackRoom.png"
-
-ConstantsUtil.PATH_OVER_BACK_PNG = "ui/gameover/back.png"
-ConstantsUtil.PATH_OVER_RESTART_PNG = "ui/gameover/restart.png"
 
 ConstantsUtil.PATH_BACKGROUND_MUSIC = "sounds/bgMusic.ogg"
 ConstantsUtil.PATH_MAIN_MUSIC = "sounds/mainMainMusic.ogg"
@@ -78,6 +70,5 @@ ConstantsUtil.PATH_BIG_NUM = "ui/rank/islandcvbignum.fnt"
 --- global variable
 musicKey = UserDefault:getBoolForKey(ConstantsUtil.MUSIC_KEY, true)
 effectKey = UserDefault:getBoolForKey(ConstantsUtil.EFFECT_KEY, true)
-pause = false
 
 return ConstantsUtil
