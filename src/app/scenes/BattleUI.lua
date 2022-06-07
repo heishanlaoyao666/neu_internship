@@ -17,13 +17,6 @@ function BattleUI:ctor()
 end
 
 function BattleUI:onEnter()
-	print(cc.UserDefault:getInstance():getStringForKey("yinyue"))
-
-	if cc.UserDefault:getInstance():getStringForKey("yinyue")==true then
-		audio.loadFile("res\\sounds\\bgMusic.ogg", function ()
-			audio.playBGM("res\\sounds\\bgMusic.ogg",true)
-		end)
-	end
 	local width,height = 480,720
 		-- body
 	-- local startLayer = ccui.Layout:create()
@@ -36,36 +29,33 @@ function BattleUI:onEnter()
 
 	local layer=display.newSprite("res\\img_bg\\img_bg_1.jpg")
 	layer:setAnchorPoint(cc.p(0.5, 0))
-	layer:setContentSize(cc.size(width,height))
 	layer:setPosition(display.cx, 0)
 	layer:addTo(self)
-	-- layer:runAction(cc.MoveTo:create(1280/150,cc.p(display.cx,-1280)))
+	--layer:runAction(cc.MoveTo:create(1280/150,cc.p(display.cx,-1280)))
+	layer:runAction(cc.MoveTo:create(15,cc.p(display.cx,-1280)))
 
-	-- local layer1=display.newSprite("res\\img_bg\\img_bg_1.jpg")
-	-- layer1:setAnchorPoint(cc.p(0.5, 0))
-	-- layer1:setContentSize(cc.size(width,height))
-	-- layer1:setPosition(display.cx,1280)
-	-- layer1:addTo(self)
-	-- layer1:runAction(cc.MoveTo:create(2*1280/150,cc.p(display.cx,-1280)))
+	local layer1=display.newSprite("res\\img_bg\\img_bg_1.jpg")
+	layer1:setAnchorPoint(cc.p(0.5, 0))
+	layer1:setPosition(display.cx,1280)
+	layer1:addTo(self)
+	--layer1:runAction(cc.MoveTo:create(1280*2/150,cc.p(display.cx,-1280)))
+	layer1:runAction(cc.MoveTo:create(15,cc.p(display.cx,0)))
 
-	-- function move1()
-	-- 	-- body
-	-- 	if layer:getPositionY()<=-1280 then
-	-- 		layer:pos(display.cx,layer1:getPositionY())
-	-- 		layer:runAction(cc.MoveTo:create(layer1:getPositionY()/150,cc.p(display.cx,-1280)))
-	-- 	end
-	-- end
+	local function bgMove()
+        if layer:getPositionY() <= -1270 then
+            layer:pos(display.cx, 0)
+            layer1:pos(display.cx, 1280)
+        end
+        layer:runAction(cc.MoveTo:create(15,cc.p(display.cx,-1280)))
+        layer1:runAction(cc.MoveTo:create(15,cc.p(display.cx,0)))
+    end
+	scheduler.scheduleGlobal(bgMove,15)
 
-	-- function move2()
-	-- 	-- body
-	-- 	if layer1:getPositionY()<=-1280 then
-	-- 		layer1:pos(display.cx,layer:getPositionY())
-	-- 		layer1:runAction(cc.MoveTo:create(layer:getPositionY()/150,cc.p(display.cx,-1280)))
-	-- 	end
-	-- end
-
-	-- scheduler.scheduleGlobal(move1,0.05)
-	-- scheduler.scheduleGlobal(move2,0.05)
+	if cc.UserDefault:getInstance():getStringForKey("yinyue")==true then
+		audio.loadFile("res\\sounds\\bgMusic.ogg", function ()
+			audio.playBGM("res\\sounds\\bgMusic.ogg",true)
+		end)
+	end
 	--生命
 	local sprite3 = display.newSprite("res\\ui\\battle\\ui_life.png")
 	sprite3:setAnchorPoint(0,1)
@@ -193,12 +183,15 @@ function ani(x,y)
         animation:setDelayPerUnit(0.15)          --设置两个帧播放时间
         animation:setRestoreOriginalFrame(true)    --动画执行后还原初始状态
         local action =cc.Animate:create(animation)
-        sprite:runAction(action)
-
+		local function CallBack()
+			sprite:removeSelf()
+        end
+        local cb = cc.CallFunc:create(CallBack)--创建回调函数
+        local seq = cc.Sequence:create(action,cb)
+        sprite:runAction(seq)
 end
 
 --碰撞
-
 local function boxclid()
 	for k1, v1 in pairs(enemies) do
 		--local x,y = v1.getPosition()
@@ -261,6 +254,19 @@ local function boxclid1()
 end
 handle3=scheduler.scheduleGlobal(boxclid, 0.1)
 handle4=scheduler.scheduleGlobal(boxclid1, 0.1)
+
+function save()
+	-- body
+	local save = {}
+    table.insert(save,{playerPlane:getPosition()})
+    for i,v in pairs(enemies) do
+	-- body
+	table.insert(save,{v:getPosition()})
+end
+    table.insert(save,{cc.UserDefault:getInstance():getStringForKey("grade")})
+    local str = json.encode(save)
+	print(str)
+end
 --暂停
     local cancelButton = ccui.Button:create("res\\ui\\battle\\uiPause.png",  1)
     cancelButton:setAnchorPoint(0,1)
@@ -268,9 +274,7 @@ handle4=scheduler.scheduleGlobal(boxclid1, 0.1)
 	--cancelButton:setContentSize(cc.size(50, 40))
 	cancelButton:addTouchEventListener(function(sender, eventType)
 		if 2 == eventType then
-			-- local AnotherScene=require("app.scenes.PauseUI"):new()
-			-- display.replaceScene(AnotherScene, "fade", 0.5)
-			--playerPlane:setTouchEnabled(false)
+			save()
 			require("app.scenes.PauseUI"):new():addTo(self)
 			display.pause()
 		end

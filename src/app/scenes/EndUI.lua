@@ -18,7 +18,7 @@ end
 
 function EndUI:onEnter()
 	audio.pauseAll()
-	local width,height = 480,720
+	local width,height = 480,920
 	local startLayer = ccui.Layout:create()
     --startLayer:setBackGroundImage("res\\ui\\main\\bg_menu.jpg")
 	startLayer:setBackGroundColorType(1)

@@ -33,8 +33,8 @@ function zhucheUI:onEnter()
     :addTo(self)
 
     local locationEditbox = ccui.EditBox:create(cc.size(display.width-150, 40), "ButtonNormal.png", 1)
-	locationEditbox:setAnchorPoint(0,0)
-	locationEditbox:pos(70, display.top - 270)
+	locationEditbox:setAnchorPoint(0.5,0)
+	locationEditbox:pos(display.cx, display.top - 270)
 	self:addChild(locationEditbox)
 
 	local function getUUID() local curTime = os.time() local uuid = curTime + math.random(10000000)

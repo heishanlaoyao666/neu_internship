@@ -1,7 +1,7 @@
 local eventDispatcher = cc.Director:getInstance():getEventDispatcher()
 
 local scheduler = require("framework.scheduler")
-
+local json = require("framework.json")
 local PauseUI = class("PauseUI", function()
 	return display.newScene("PauseUI")
 end)
@@ -17,8 +17,9 @@ function PauseUI:ctor()
 end
 
 function PauseUI:onEnter()
+
 	audio.pauseAll()
-	local width,height = 480,720
+	local width,height = 480,920
 	local startLayer = ccui.Layout:create()
     --startLayer:setBackGroundImage("res\\ui\\main\\bg_menu.jpg")
 	startLayer:setBackGroundColorType(1)
@@ -27,7 +28,9 @@ function PauseUI:onEnter()
     startLayer:setAnchorPoint(cc.p(0.5, 0.5))
 	startLayer:setOpacity(127)
 	startLayer:addTo(self)
-
+	-- local tb={"ss","a"}
+	-- local str = json.encode(tb)
+	-- print(str)
 --返回战斗
 local cancelButton = ccui.Button:create("res\\ui\\continue\\pauseResume.png",  1)
 cancelButton:setAnchorPoint(0.5,1)
@@ -48,16 +51,16 @@ end)
 cancelButton:pos(display.cx, display.top-230 )
 cancelButton:addTo(self)
 
-local json = {}
+-- local json = {}
 
-local cjson
-local function safeLoad()
-    cjson = require("cjson")
-end
+-- local cjson
+-- local function safeLoad()
+--     cjson = require("cjson")
+-- end
 
-if not pcall(safeLoad) then 
-    cjson = nil
-end
+-- if not pcall(safeLoad) then 
+--     cjson = nil
+-- end
 
 --返回菜单
     local cancelButton1 = ccui.Button:create("res\\ui\\continue\\pauseBackRoom.png",  1)
@@ -67,7 +70,6 @@ end
 	cancelButton1:setTitleFontSize(25)
 	cancelButton1:addTouchEventListener(function(sender, eventType)
 		if 2 == eventType then
-
 			if cc.UserDefault:getInstance():getBoolForKey("yinxiao") then
                 audio.playEffect("res\\sounds\\buttonEffet.ogg",false)
             end
