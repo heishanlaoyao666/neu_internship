@@ -16,6 +16,20 @@ function ShezhiScene:ctor()
     self:createMiddleMiddlePanel()
     --创建中下版本号
     self:createMiddleBelowPanel()
+    --音乐
+    local MusicOn = cc.UserDefault:getInstance():getBoolForKey("BGM")
+			if MusicOn == true then
+				print("12345")
+				local audio3 = require("framework.audio")
+				audio3.loadFile("sounds/bgMusic.ogg", function ()
+					audio3.playBGM("sounds/bgMusic.ogg")
+				end)
+			else
+				local audio = require("framework.audio")
+				audio.loadFile("sounds/bgMusic.ogg", function ()
+					audio.stopBGM("sounds/bgMusic.ogg")
+				end)
+			end
 end
 
 function ShezhiScene:createMiddleMiddlePanel()
@@ -59,13 +73,18 @@ function ShezhiScene:createMiddleMiddlePanel()
             end
         end
         --按照state执行命令
-        if state then
-            print("1")
-            else 
-                print("2")
-            
+        cc.UserDefault:getInstance():setBoolForKey("BGM",state)
+        if state == true then
+            local audio3 = require("framework.audio")
+            audio3.loadFile("sounds/bgMusic.ogg", function ()
+                audio3.playBGM("sounds/bgMusic.ogg")
+            end)
+        else
+            local audio = require("framework.audio")
+            audio.loadFile("sounds/bgMusic.ogg", function ()
+                audio.stopBGM("sounds/bgMusic.ogg")
+            end)
         end
-
     end
     local bg_music_contrlButton=ccui.CheckBox:create(
         "ui/setting/soundon2_cover.png",
@@ -75,6 +94,8 @@ function ShezhiScene:createMiddleMiddlePanel()
         "ui/setting/soundon1_cover.png")
     bg_music_contrlButton:setAnchorPoint(0.5,0.5)
     bg_music_contrlButton:pos(width*0.5, height*0.7)
+    --设置选择状态
+    bg_music_contrlButton:setSelected(cc.UserDefault:getInstance():getBoolForKey("BGM"))
     bg_music_contrlButton:addTo(settingLayer)
     bg_music_contrlButton:addEventListener(onChangedCheckBox1)
 
@@ -92,6 +113,7 @@ function ShezhiScene:createMiddleMiddlePanel()
             end
         end
         --按照state执行命令
+        cc.UserDefault:getInstance():setBoolForKey("Effect",state)
         if state then
             print("1")
             else 
@@ -108,6 +130,8 @@ function ShezhiScene:createMiddleMiddlePanel()
         "ui/setting/soundon1_cover.png")
     sound_click_contrlButton:setAnchorPoint(0.5,0.5)
     sound_click_contrlButton:pos(width*0.5, height*0.5)
+    --设置选择状态
+    sound_click_contrlButton:setSelected(cc.UserDefault:getInstance():getBoolForKey("Effect"))
     sound_click_contrlButton:addTo(settingLayer)
     sound_click_contrlButton:addEventListener(onChangedCheckBox2)
 end

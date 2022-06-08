@@ -18,6 +18,7 @@ function RegisterScene:ctor()
     --判断是否切换场景  
     -- 贴下测居中放
     --self:createBottomPanel()
+    
 end
 --[[--
     创建注册面板

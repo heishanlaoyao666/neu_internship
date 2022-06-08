@@ -2,4 +2,6 @@
 <userDefaultRoot>
     <id>1662098484</id>
     <name>123456</name>
+    <BGM>false</BGM>
+    <Effect>true</Effect>
 </userDefaultRoot>

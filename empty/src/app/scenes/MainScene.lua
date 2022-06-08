@@ -19,6 +19,20 @@ function MainScene:ctor()
     cc.FileUtils:getInstance():addSearchPath("res/")
     -- 贴居中
     self:createMiddleMiddlePanel()
+    --音乐
+    local MusicOn = cc.UserDefault:getInstance():getBoolForKey("BGM")
+    if MusicOn == true then
+        print("12345")
+        local audio3 = require("framework.audio")
+        audio3.loadFile("sounds/bgMusic.ogg", function ()
+            audio3.playBGM("sounds/bgMusic.ogg")
+        end)
+    else
+        local audio = require("framework.audio")
+        audio.loadFile("sounds/bgMusic.ogg", function ()
+            audio.stopBGM("sounds/bgMusic.ogg")
+        end)
+    end
 end
 
 --[[--
