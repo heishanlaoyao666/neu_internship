@@ -5,4 +5,5 @@
     <mainMainMusic>false</mainMainMusic>
     <effectMusic>false</effectMusic>
     <score>10</score>
+    <isDoc>true</isDoc>
 </userDefaultRoot>

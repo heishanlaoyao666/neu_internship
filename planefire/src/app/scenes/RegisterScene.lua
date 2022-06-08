@@ -40,8 +40,8 @@ function RegisterScene:initView()
     locationEditbox:addTo(self)
 
     --注册确定按钮
-    local btn = ccui.Button:create("ui/register/register.png")        btn:setScale9Enabled(true)
-    btn:setContentSize(cc.size(180,60))
+    local btn = ccui.Button:create("ui/register/register.png")        
+    btn:setScale9Enabled(true)
     btn:addTouchEventListener(function(sender, eventType)
         if 2 == eventType then
             --转换到主菜单界面

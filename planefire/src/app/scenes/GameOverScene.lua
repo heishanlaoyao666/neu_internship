@@ -50,7 +50,7 @@ function GameOverScene:initView()
         display.replaceScene(GameScene, "fade", 0.5, cc.c3b(255, 255, 255))
     end)
     btn:setAnchorPoint(0.5,0.5)
-    btn:pos(display.cx, display.cy - 50)
+    btn:pos(display.cx, display.top*3/5)
     btn:addTo(self)
 
     --返回主菜单按钮
@@ -64,7 +64,7 @@ function GameOverScene:initView()
         display.replaceScene(MenuScene, "fade", 0.5, cc.c3b(255, 255, 255))
     end)
     btn:setAnchorPoint(0.5,0.5)
-    btn:pos(display.cx, display.cy - 150)
+    btn:pos(display.cx, display.cy.top*2/5)
     btn:addTo(self)
 end
 

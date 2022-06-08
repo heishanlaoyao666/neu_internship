@@ -24,7 +24,6 @@ function SettingScene:initView()
     --返回按钮
     local btn = ccui.Button:create("ui/back_peek0.png", "ui/back_peek1.png")
     btn:setScale9Enabled(true)
-    btn:setContentSize(cc.size(140,50))
     btn:addTouchEventListener(function(sender, eventType)
         self:effectMusic("sounds/buttonEffet.ogg")
         if 2 == eventType then
@@ -33,15 +32,15 @@ function SettingScene:initView()
             display.replaceScene(MenuScene, "fade", 0.5, cc.c3b(255, 255, 255))
         end
     end)
-    btn:setAnchorPoint(0.5, 0.5)
-    btn:pos(display.cx - 180, display.cy + 320)
+    btn:setAnchorPoint(0, 1)
+    btn:pos(display.left, display.top)
     btn:addTo(self)
 
     --音乐控制按钮
     local btn = ccui.Button:create("ui/setting/bg_music_contrl_cover.png")
     btn:setScale9Enabled(true)
     btn:setAnchorPoint(0.5, 0.5)
-    btn:pos(display.cx - 80, display.cy + 200)
+    btn:pos(display.right * 2/5, display.top * 3/5)
     btn:addTo(self)
 
     --音乐开关按钮
@@ -57,7 +56,7 @@ function SettingScene:initView()
     else
         checkbox1:setSelected(false)
     end
-    checkbox1:pos(display.cx + 80, display.cy + 200)
+    checkbox1:pos(display.right * 3/5, display.top * 3/5)
     checkbox1:setAnchorPoint(0.5, 0.5)
     checkbox1:setScale(0.5)
     checkbox1:addEventListener(function(sender, eventType)
@@ -80,7 +79,7 @@ function SettingScene:initView()
     local btn = ccui.Button:create("ui/setting/sound_click_contrl_cover.png")
     btn:setScale9Enabled(true)
     btn:setAnchorPoint(0.5, 0.5)
-    btn:pos(display.cx - 80, display.cy + 120)
+    btn:pos(display.right * 2/5, display.top * 2/5)
     btn:addTo(self)
 
     --音效开关按钮
@@ -96,7 +95,7 @@ function SettingScene:initView()
     else
         checkbox2:setSelected(false)
     end
-    checkbox2:pos(display.cx + 80, display.cy + 120)
+    checkbox2:pos(display.right * 3/5, display.top * 2/5)
     checkbox2:setAnchorPoint(0.5, 0.5)
     checkbox2:setScale(0.5)
     checkbox2:addEventListener(function(sender, eventType)
@@ -111,16 +110,16 @@ function SettingScene:initView()
     checkbox2:addTo(self)
 
     --版本号
-    local version = cc.Label:createWithTTF("版本号:1.0.0v","ui/font/FontNormal.ttf",24)
-    version:pos(display.cx, display.cy - 150)
+    local version = cc.Label:createWithTTF("版本号:1.0.0v","ui/font/FontNormal.ttf",12)
+    version:pos(display.cx, display.top * 3/10)
     version:setColor(cc.c3b(255, 0, 0))
     version:setAnchorPoint(0.5, 0.5)
     version:setOpacity(100)
     version:addTo(self)
 
     --联系方式
-    local mes = cc.Label:createWithTTF("联系方式:15504026800","ui/font/FontNormal.ttf",24)
-    mes:pos(display.cx, display.cy - 200)
+    local mes = cc.Label:createWithTTF("联系方式:15504026800","ui/font/FontNormal.ttf",12)
+    mes:pos(display.cx, display.top * 1/5)
     mes:setColor(cc.c3b(255, 0, 0))
     mes:setAnchorPoint(0.5, 0.5)
     mes:addTo(self)

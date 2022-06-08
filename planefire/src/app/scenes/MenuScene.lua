@@ -28,10 +28,10 @@ function MenuScene:initView()
     --标题文字
     local title = display.newTTFLabel({
         text = "飞机大战",
-        size = 64,
+        size = 32,
         color = display.COLOR_BLUE,
         x = display.cx,
-        y = display.cy + 250,
+        y = display.top * 7/8,
     })
     title:align(display.CENTER)
     self:addChild(title)
@@ -42,6 +42,7 @@ function MenuScene:initView()
     btn:addTouchEventListener(function(sender, eventType)
         local id = cc.UserDefault:getInstance():getStringForKey("id")
         local name= cc.UserDefault:getInstance():getStringForKey("name")
+        cc.UserDefault:getInstance():setBoolForKey("isDoc", false)
         if id == "" then
             local AnotherScence = require("src/app/scenes/RegisterScene")
             local RegisterScene = AnotherScence:new()
@@ -53,21 +54,22 @@ function MenuScene:initView()
         end
         self:effectMusic("sounds/buttonEffet.ogg")
     end)
-    btn:pos(display.cx, display.cy + 120)
+    btn:pos(display.cx, display.top * 3/4)
     btn:addTo(self)
 
     --继续按钮
     local btn = ccui.Button:create("ui/main/continue_menu.png", "ui/main/continue_menu2.png")
     btn:setScale9Enabled(true)
     btn:addTouchEventListener(function(sender, eventType)
-        --[[if 2 == eventType then
-            local AnotherScence = require("src/app/scenes/MenuScene")
-            local MenuScene = AnotherScence:new()
-            display.replaceScene(MenuScene, "fade", 0.5, cc.c3b(255, 255, 255))
-        end]]
+        if 2 == eventType then
+            cc.UserDefault:getInstance():setBoolForKey("isDoc", true)
+            local AnotherScence = require("src/app/scenes/GameScene")
+            local GameScene = AnotherScence:new()
+            display.replaceScene(GameScene, "fade", 0.5, cc.c3b(255, 255, 255))
+        end
         self:effectMusic("sounds/buttonEffet.ogg")
     end)
-    btn:pos(display.cx, display.cy + 20)
+    btn:pos(display.cx, display.top * 5/8)
     btn:addTo(self)
 
     --排行榜按钮
@@ -81,7 +83,7 @@ function MenuScene:initView()
         end
         self:effectMusic("sounds/buttonEffet.ogg")
     end)
-    btn:pos(display.cx, display.cy - 80)
+    btn:pos(display.cx, display.top * 1/2)
     btn:addTo(self)
 
     --设置按钮
@@ -95,7 +97,7 @@ function MenuScene:initView()
         end
         self:effectMusic("sounds/buttonEffet.ogg")
     end)
-    btn:pos(display.cx, display.cy - 180)
+    btn:pos(display.cx, display.top * 3/8)
     btn:addTo(self)
 end
 

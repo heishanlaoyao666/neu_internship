@@ -12,10 +12,9 @@ function RankScene:ctor()
 
     do
         --标题
-        local title = ccui.Text:create("rank", "ui/font/FontNormal.ttf",80)
-        title:setContentSize(cc.size(200, 80))
+        local title = ccui.Text:create("rank", "ui/font/FontNormal.ttf",24)
         title:setColor(cc.c3b(0, 0, 255))
-        title:pos(display.cx, display.cy + 200)
+        title:pos(display.cx, display.top * 3/4)
         title:setAnchorPoint(0.5, 0.5)
         title:addTo(self)
     end
@@ -44,8 +43,8 @@ function RankScene:createBottomPanel()
             display.replaceScene(MenuScene, "fade", 0.5, cc.c3b(255, 255, 255))
         end
     end)
-    btn:setAnchorPoint(0.5, 0.5)
-    btn:pos(display.cx - 180, display.cy + 320)
+    btn:setAnchorPoint(0, 1)
+    btn:pos(display.left, display.top)
     btn:addTo(self)
 
 
@@ -54,7 +53,7 @@ function RankScene:createBottomPanel()
     listView:setBackGroundColor(cc.c3b(100, 100, 100))
 	listView:setContentSize(420, 320)
     listView:setAnchorPoint(0.5, 0.5)
-	listView:setPosition(display.cx, display.cy - 50)
+	listView:setPosition(display.cx, display.cy)
     listView:setDirection(1)
 	listView:addTo(self)
 
@@ -72,7 +71,7 @@ function RankScene:createBottomPanel()
         font_rank:setAnchorPoint(0, 0)
         img_bg:addChild(font_rank)
 
-        local font_name = ccui.Text:create("昵称" .. tostring(i), "ui/font/FontNormal.ttf",50)
+        local font_name = ccui.Text:create("昵称" .. tostring(i), "ui/font/FontNormal.ttf",24)
         font_name:setContentSize(cc.size(400, 80))
         font_name:pos(80, 10)
         font_name:setAnchorPoint(0, 0)
@@ -93,19 +92,19 @@ function RankScene:createBottomPanel()
         img_bg:setContentSize(cc.size(420, 80))
         listView:pushBackCustomItem(img_bg)
 
-        local font_rank = ccui.Text:create(tostring(i), "ui/font/FontNormal.ttf",50)
+        local font_rank = ccui.Text:create(tostring(i), "ui/font/FontNormal.ttf",24)
         font_rank:setContentSize(cc.size(400, 80))
         font_rank:pos(25, 10)
         font_rank:setAnchorPoint(0, 0)
         img_bg:addChild(font_rank)
 
-        local font_name = ccui.Text:create("昵称" .. tostring(i), "ui/font/FontNormal.ttf",50)
+        local font_name = ccui.Text:create("昵称" .. tostring(i), "ui/font/FontNormal.ttf",24)
         font_name:setContentSize(cc.size(400, 80))
         font_name:pos(80, 10)
         font_name:setAnchorPoint(0, 0)
         img_bg:addChild(font_name)
 
-        local font_point = ccui.Text:create(tostring(point), "ui/font/FontNormal.ttf",50)
+        local font_point = ccui.Text:create(tostring(point), "ui/font/FontNormal.ttf",24)
         point = point - 1000
         font_point:setContentSize(cc.size(400, 80))
         font_point:pos(220, 10)

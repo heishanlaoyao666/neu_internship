@@ -3,7 +3,6 @@ local GameScene = class("GameScene", function()
 end)
 
 scheduler = require("framework.scheduler")
---json = require("framework.json")
 
 function GameScene:effectMusic(path)
     if cc.UserDefault:getInstance():getBoolForKey("effectMusic") then
@@ -49,7 +48,7 @@ function GameScene:ctor()
         require("src/app/scenes/PauseScene.lua"):new():addTo(self)
     end)
     btn:setAnchorPoint(0, 1)
-    btn:pos(display.left + 10, display.top - 20)
+    btn:pos(display.left, display.top)
     btn:addTo(self)
 
     --生命UI
@@ -89,7 +88,9 @@ function GameScene:ctor()
 
     plane = cc.Sprite:create("player/red_plane.png")
     plane:pos(display.cx, display.cy - 380)
-    plane:runAction(cc.MoveTo:create(1,cc.p(display.cx,display.cy-250)))
+    if cc.UserDefault:getInstance():getBoolForKey("isDoc") == false then
+        plane:runAction(cc.MoveTo:create(1,cc.p(display.cx,display.cy-250)))
+    end
     --触控
     plane:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
 		dump(event)
@@ -160,6 +161,25 @@ function GameScene:ctor()
                 enemies[k] = nil
             end
         end
+    end
+
+    --继续游戏
+    if cc.UserDefault:getInstance():getBoolForKey("isDoc") then
+        local file = io.open("D:/wk/helloworld/document.txt")
+        io.input(file)
+        local f = io.read()
+        local t = json.decode(f)
+        for k, v in pairs(t[1]) do
+            local e = cc.Sprite:create("player/small_enemy.png")
+            e:pos(v[1], v[2])
+            e:setAnchorPoint(0.5, 0.5)
+            e:runAction(cc.MoveTo:create(2,cc.p(v[1], -10)))
+            e:addTo(self)
+            table.insert(enemies, e)
+        end
+        plane:pos(t[2][1], t[2][2])
+        font_lift:setString(t[3])
+        font_score:setString(t[4])
     end
 
     --爆炸动画
@@ -250,7 +270,10 @@ function GameScene:ctor()
             score,
         }
         local str_json = json.encode(t)
-        print(str_json)
+        file = io.open("D:/wk/helloworld/document.txt","w+")
+        io.output(file)
+        io.write(str_json)
+        io.close()
     end
 
     self.handler1 = scheduler.scheduleGlobal(fire,0.2)

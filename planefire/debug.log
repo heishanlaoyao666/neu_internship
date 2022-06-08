@@ -36,27 +36,27 @@ LOAD LUA FILE: D:/wk/helloworld/src/main.lua
 
 [LUA-print] [INFO] # CONFIG_SCREEN_WIDTH          = 480.00
 
-[LUA-print] [INFO] # CONFIG_SCREEN_HEIGHT         = 720.00
+[LUA-print] [INFO] # CONFIG_SCREEN_HEIGHT         = 640.00
 
-[LUA-print] [INFO] # display.widthInPixels        = 640.00
+[LUA-print] [INFO] # display.widthInPixels        = 720.00
 
 [LUA-print] [INFO] # display.heightInPixels       = 960.00
 
-[LUA-print] [INFO] # display.contentScaleFactor   = 1.33
+[LUA-print] [INFO] # display.contentScaleFactor   = 1.50
 
 [LUA-print] [INFO] # display.width                = 480.00
 
-[LUA-print] [INFO] # display.height               = 720.00
+[LUA-print] [INFO] # display.height               = 640.00
 
 [LUA-print] [INFO] # display.cx                   = 240.00
 
-[LUA-print] [INFO] # display.cy                   = 360.00
+[LUA-print] [INFO] # display.cy                   = 320.00
 
 [LUA-print] [INFO] # display.left                 = 0.00
 
 [LUA-print] [INFO] # display.right                = 480.00
 
-[LUA-print] [INFO] # display.top                  = 720.00
+[LUA-print] [INFO] # display.top                  = 640.00
 
 [LUA-print] [INFO] # display.bottom               = 0.00
 
@@ -64,13 +64,9 @@ LOAD LUA FILE: D:/wk/helloworld/src/main.lua
 
 [LUA-print] [INFO] # display.c_right              = 240.00
 
-[LUA-print] [INFO] # display.c_top                = 360.00
+[LUA-print] [INFO] # display.c_top                = 320.00
 
-[LUA-print] [INFO] # display.c_bottom             = -360.00
+[LUA-print] [INFO] # display.c_bottom             = -320.00
 
 [LUA-print] [INFO] #
-
-[LUA-print] [[[194,510.78237915039]],[240,110],100,0]
-
-[LUA-print] [[[194,510.78237915039]],[240,110],100,0]
 
