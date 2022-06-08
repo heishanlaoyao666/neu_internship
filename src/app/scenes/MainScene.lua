@@ -75,6 +75,7 @@ function MainScene:createStartPanel()
                     audio.playEffect("res\\sounds\\buttonEffet.ogg",false)
                 end
                 if cc.UserDefault:getInstance():getStringForKey("id")~="" then
+                    cc.UserDefault:getInstance():setBoolForKey("document",false)
                 local AnotherScene=require("src\\app\\scenes\\BattleUI.lua"):new()
                 display.replaceScene(AnotherScene, "fade", 0.5)
                 -- if cc.UserDefault:getInstance():getStringForKey("yinyue") then
@@ -93,10 +94,13 @@ function MainScene:createStartPanel()
         btn:addTouchEventListener(function(sender, eventType)
             -- ccui.TouchEventType
             if 2 == eventType then -- touch end
+            if cc.UserDefault:getInstance():getBoolForKey("document") then
+                local AnotherScene=require("src\\app\\scenes\\BattleUI.lua"):new()
+                display.replaceScene(AnotherScene, "fade", 0.5)
+            end
             if cc.UserDefault:getInstance():getBoolForKey("yinxiao") then
                 audio.playEffect("res\\sounds\\buttonEffet.ogg",false)
             end
-            require("app.scenes.zhucheUI"):new()
         end
     end)
         -- body

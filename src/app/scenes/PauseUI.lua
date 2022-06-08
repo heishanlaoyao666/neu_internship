@@ -1,7 +1,6 @@
 local eventDispatcher = cc.Director:getInstance():getEventDispatcher()
 
 local scheduler = require("framework.scheduler")
-local json = require("framework.json")
 local PauseUI = class("PauseUI", function()
 	return display.newScene("PauseUI")
 end)
@@ -51,17 +50,6 @@ end)
 cancelButton:pos(display.cx, display.top-230 )
 cancelButton:addTo(self)
 
--- local json = {}
-
--- local cjson
--- local function safeLoad()
---     cjson = require("cjson")
--- end
-
--- if not pcall(safeLoad) then 
---     cjson = nil
--- end
-
 --返回菜单
     local cancelButton1 = ccui.Button:create("res\\ui\\continue\\pauseBackRoom.png",  1)
     cancelButton1:setAnchorPoint(0.5,1)
@@ -70,6 +58,8 @@ cancelButton:addTo(self)
 	cancelButton1:setTitleFontSize(25)
 	cancelButton1:addTouchEventListener(function(sender, eventType)
 		if 2 == eventType then
+			save()
+			cc.UserDefault:getInstance():setBoolForKey("document",true)
 			if cc.UserDefault:getInstance():getBoolForKey("yinxiao") then
                 audio.playEffect("res\\sounds\\buttonEffet.ogg",false)
             end

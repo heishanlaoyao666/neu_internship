@@ -19,13 +19,6 @@ end
 function BattleUI:onEnter()
 	local width,height = 480,720
 		-- body
-	-- local startLayer = ccui.Layout:create()
-    -- startLayer:setBackGroundImage("res\\img_bg\\img_bg_1.jpg")
-	-- startLayer:setBackGroundColorType(1)
-    -- startLayer:setContentSize(cc.size(width,height))
-    -- startLayer:setPosition(display.cx, display.cy)
-    -- startLayer:setAnchorPoint(cc.p(0.5, 0.5))
-	-- startLayer:addTo(self)
 
 	local layer=display.newSprite("res\\img_bg\\img_bg_1.jpg")
 	layer:setAnchorPoint(cc.p(0.5, 0))
@@ -56,13 +49,29 @@ function BattleUI:onEnter()
 			audio.playBGM("res\\sounds\\bgMusic.ogg",true)
 		end)
 	end
-	--生命
+
 	local sprite3 = display.newSprite("res\\ui\\battle\\ui_life.png")
 	sprite3:setAnchorPoint(0,1)
     sprite3:pos(display.left+120, display.top -20)
 	sprite3:addTo(self)
 
-	cc.UserDefault:getInstance():setStringForKey("life",100)
+	if cc.UserDefault:getInstance():getBoolForKey("document") then
+		file = io.open("C:\\workspace\\hello\\src\\save.txt", "r")
+        io.input(file)
+	    local tb = io.read()
+        document=json.decode(tb)
+	    print(tb)
+		print(#document)
+        io.close(file)
+	end
+
+	if cc.UserDefault:getInstance():getBoolForKey("document") then
+		cc.UserDefault:getInstance():setStringForKey("life",tostring(document[#document-1][1]))
+	else
+		cc.UserDefault:getInstance():setStringForKey("life",100)
+	end
+	
+	--cc.UserDefault:getInstance():setStringForKey("life",100)
 	local font = ccui.TextBMFont:create(cc.UserDefault:getInstance():getStringForKey("life"), "islandcvbignum.fnt")
 		font:setScale(0.3)
 		font:setAnchorPoint(0,1)
@@ -74,7 +83,12 @@ function BattleUI:onEnter()
 	sprite1:setAnchorPoint(0,1)
     sprite1:pos(display.left+330,display.top -20)
 	sprite1:addTo(self)
-	cc.UserDefault:getInstance():setStringForKey("grade",0)
+	if cc.UserDefault:getInstance():getBoolForKey("document") then
+		cc.UserDefault:getInstance():setStringForKey("grade",tostring(document[#document][1]))
+	else
+		cc.UserDefault:getInstance():setStringForKey("grade",0)
+	end
+	--cc.UserDefault:getInstance():setStringForKey("grade",0)
 	local font1 = ccui.TextBMFont:create(cc.UserDefault:getInstance():getStringForKey("grade"), "islandcvbignum.fnt")
 		font1:setScale(0.3)
 		font1:setAnchorPoint(0,1)
@@ -83,15 +97,20 @@ function BattleUI:onEnter()
 
 	--我方飞机
 	local playerPlane = display.newSprite("res\\player\\red_plane.png")
-    playerPlane:pos(display.cx, 0)
 	playerPlane:addTo(self)
-	playerPlane:runAction(cc.MoveTo:create(2,cc.p(display.cx,display.cy-250)))
 	--尾焰(粒子系统)
 	local particle=cc.ParticleSystemQuad:create("res\\particle\\fire.plist")
 	particle:setRotation(180)
-	particle:setPosition(display.cx, -25)
-	particle:runAction(cc.MoveTo:create(2,cc.p(display.cx,display.cy-275)))
 	particle:addTo(self)
+	if cc.UserDefault:getInstance():getBoolForKey("document") then
+		playerPlane:pos(document[1][1],document[1][2])
+		particle:setPosition(document[1][1],document[1][2]-25)
+	else
+		playerPlane:pos(display.cx, 0)
+		particle:setPosition(display.cx, -25)
+		playerPlane:runAction(cc.MoveTo:create(2,cc.p(display.cx,display.cy-250)))
+		particle:runAction(cc.MoveTo:create(2,cc.p(display.cx,display.cy-275)))
+	end
 --子弹
 	local bullets ={}
 	local function fire()
@@ -99,6 +118,7 @@ function BattleUI:onEnter()
 	if cc.UserDefault:getInstance():getBoolForKey("yinxiao") then
 		audio.playEffect("res\\sounds\\fireEffect.ogg",false)
 	end
+
 	bullet =display.newSprite("res\\player\\blue_bullet.png")
 	local px,py= playerPlane:getPosition()
 	bullet:addTo(self)
@@ -146,14 +166,15 @@ function BattleUI:onEnter()
 	--敌机
 
 	local enemies = {}
+
 	function enemy()
 		-- body
 	local enemyPlane =display.newSprite("res\\player\\small_enemy.png")
-	enemyPlane:pos(math.random(10, 470), display.cy+350)
-	local enemyPosX = enemyPlane:getPosition()
-	enemyPlane:addTo(self)
-	enemyPlane:runAction(cc.MoveTo:create(4,cc.p(enemyPosX,0)))
-	table.insert(enemies, enemyPlane)
+		enemyPlane:pos(math.random(10, 470), display.top+100)
+		table.insert(enemies, enemyPlane)
+		local enemyPosX,enemyPosY = enemyPlane:getPosition()
+	    enemyPlane:addTo(self)
+	    enemyPlane:runAction(cc.MoveTo:create(4,cc.p(enemyPosX,0)))
 	for i,v in pairs(enemies) do
 		-- body
 		local _,py1 = v:getPosition()
@@ -163,6 +184,32 @@ function BattleUI:onEnter()
 		end
 	end
 	end
+
+	function enemy1(n)
+		-- body
+	local enemyPlane =display.newSprite("res\\player\\small_enemy.png")
+			-- body
+		enemyPlane:pos(document[n][1],document[n][2])
+		table.insert(enemies, enemyPlane)
+		local enemyPosX,enemyPosY = enemyPlane:getPosition()
+	    enemyPlane:addTo(self)
+	    enemyPlane:runAction(cc.MoveTo:create(enemyPosY/((display.top+100)/4),cc.p(enemyPosX,0)))
+	for i,v in pairs(enemies) do
+		-- body
+		local _,py1 = v:getPosition()
+		if py1<=100 then
+			enemies[i]:removeSelf()
+			enemies[i]=nil
+		end
+	end
+end
+
+	if cc.UserDefault:getInstance():getBoolForKey("document") then
+		for n=2,(#document-2) do
+		    enemy1(n)
+		end
+	end
+
 	handle2=scheduler.scheduleGlobal(enemy, 1)
 
 
@@ -241,6 +288,7 @@ local function boxclid1()
 				cc.UserDefault:getInstance():setStringForKey("life",cc.UserDefault:getInstance():getStringForKey("life")-20)
 				font:setString(cc.UserDefault:getInstance():getStringForKey("life"))
 				if cc.UserDefault:getInstance():getStringForKey("life")=="0" then
+					cc.UserDefault:getInstance():setBoolForKey("document",false)
 					audio.playEffect("res\\sounds\\shipDestroyEffect.ogg",false)
 					local x1,y1 = playerPlane:getPosition()
 				    ani(x1,y1)
@@ -263,9 +311,22 @@ function save()
 	-- body
 	table.insert(save,{v:getPosition()})
 end
+    table.insert(save,{cc.UserDefault:getInstance():getStringForKey("life")})
     table.insert(save,{cc.UserDefault:getInstance():getStringForKey("grade")})
-    local str = json.encode(save)
+    str = json.encode(save)
 	print(str)
+	file = io.open("C:\\workspace\\hello\\src\\save.txt", "w")
+-- 设置默认输出文件为save.txt
+    io.output(file)
+    io.write(str)
+    io.close(file)
+
+	-- file = io.open("C:\\workspace\\hello\\save.txt", "r")
+    -- io.input(file)
+	-- local tb = io.read()
+    -- local document=json.decode(tb)
+	-- print(tb)
+    -- io.close(file)
 end
 --暂停
     local cancelButton = ccui.Button:create("res\\ui\\battle\\uiPause.png",  1)
@@ -274,7 +335,7 @@ end
 	--cancelButton:setContentSize(cc.size(50, 40))
 	cancelButton:addTouchEventListener(function(sender, eventType)
 		if 2 == eventType then
-			save()
+			--save()
 			require("app.scenes.PauseUI"):new():addTo(self)
 			display.pause()
 		end
