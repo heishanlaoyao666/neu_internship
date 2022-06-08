@@ -65,7 +65,8 @@ ConstantsUtil.PATH_FIRE_EFFECT = "sounds/fireEffect.ogg"
 ConstantsUtil.PATH_EXPLOSION_PLIST = "animation/explosion.plist"
 ConstantsUtil.PATH_EXPLOSION_PNG = "animation/explosion.png"
 
-ConstantsUtil.PATH_BIG_NUM = "ui/rank/islandcvbignum.fnt"
+ConstantsUtil.PATH_BIG_NUM_FNT = "ui/rank/islandcvbignum.fnt"
+ConstantsUtil.PATH_NORMAL_FONT_TTF = "ui/font/FontNormal.ttf"
 
 --- global variable
 musicKey = UserDefault:getBoolForKey(ConstantsUtil.MUSIC_KEY, true)

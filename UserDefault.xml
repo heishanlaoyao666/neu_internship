@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <userDefaultRoot>
     <music_key>false</music_key>
-    <effect_key>true</effect_key>
+    <effect_key>false</effect_key>
 </userDefaultRoot>
