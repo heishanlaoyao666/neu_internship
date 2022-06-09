@@ -4,10 +4,10 @@ require("framework.init")
 
 local AppBase = require("framework.AppBase")
 local MyApp = class("MyApp", AppBase)
-local ConstantsUtil = require("app.util.ConstantsUtil")
 local Log = require("app.util.Log")
 local TypeConvert = require("app.util.TypeConvert")
-local GameHandler = require("app.dataStorage.GameHandler")
+local ConstantsUtil = require("app.util.ConstantsUtil")
+local GameHandler = require("app.handler.GameHandler")
 
 function MyApp:ctor()
     MyApp.super.ctor(self)

@@ -98,38 +98,31 @@ function GameScene:onEnter()
     end
     addBulletEntry = Scheduler:scheduleScriptFunc(addBullet, ConstantsUtil.INTERVAL_BULLET, false)
 
-    -- -- 子弹发射
+    -- 子弹发射
     -- local function addBullet()
     --     if effectKey then
     --         Audio.playEffectSync(ConstantsUtil.PATH_FIRE_EFFECT, false)
     --     end
 
     --     local x, y = myRole:getPosition()
-    --     local bulletNode = cc.Node:create():addTo(self)
-    --     local layer = ccui.Layout:create():addTo(bulletNode)
-    --     local bullet = cc.Sprite:create(ConstantsUtil.PATH_BULLET_PNG):addTo(layer)
-    --     -- layer:setContentSize(bullet:getBoundingBox().width, bullet:getBoundingBox().height)
-    --     -- bulletNode:setContentSize(bullet:getBoundingBox().width, bullet:getBoundingBox().height)
-    --     Log.i(tostring(bulletNode:getBoundingBox().width) .. " " .. tostring(bulletNode:getBoundingBox().height))
+    --     -- local bulletNode = cc.Node:create():addTo(self)
+    --     -- local layer = ccui.Layout:create():addTo(bulletNode)
+    --     local bullet = cc.Sprite:create(ConstantsUtil.PATH_BULLET_PNG):addTo(self)
+    --     bullet:setTag(ConstantsUtil.TAG_BULLET)
     --     local bulletPosition = cc.p(x, y + myRole:getContentSize().height / 2 + bullet:getContentSize().height / 2)
     --     bullet:setPosition(bulletPosition)
-    --     -- layer:setPosition(bulletPosition)
-    --     -- bulletNode:setPosition(bulletPosition)
 
     --     local function bulletMove()
     --         local bulletY = bullet:getPositionY() + ConstantsUtil.SPEED_BULLET_MOVE
     --         bullet:setPositionY(bulletY)
-    --         -- layer:setPositionY(bulletY)
-    --         -- bulletNode:setPositionY(bulletY)
     --         if bulletY > WinSize.height then
-    --             bulletNode:removeAllChildren()
-    --             bulletNode:removeFromParent()
-    --             table.removebyvalue(GameHandler.BulletArray, bulletNode, false)
+    --             bullet:removeFromParent()
+    --             table.removebyvalue(GameHandler.BulletArray, bullet, false)
     --         end
     --     end
     --     -- 每帧刷新一次
     --     bullet:scheduleUpdateWithPriorityLua(bulletMove, 0)
-    --     table.insert(GameHandler.BulletArray, bulletNode)
+    --     table.insert(GameHandler.BulletArray, bullet)
     -- end
     -- addBulletEntry = Scheduler:scheduleScriptFunc(addBullet, ConstantsUtil.INTERVAL_BULLET, false)
 
@@ -214,7 +207,7 @@ function GameScene:onEnter()
         explosionSprite:runAction(animate)
     end
 
-    --- 子弹与敌人碰撞 Test
+    --- 子弹与敌人碰撞
     local function collisionBetweenBUlletAndEnemy()
         local bulletArraySize = #(GameHandler.BulletArray)
         local enemyArraySize = #(GameHandler.EnemyArray)
@@ -222,24 +215,22 @@ function GameScene:onEnter()
             if #(GameHandler.BulletArray) < i then
                 break
             end
-            if GameHandler.BulletArray[i] == nil then
-                Log.i("nil!!!!!!!!!!!!!!!!!")
-            end
-            -- local rectA = GameHandler.BulletArray[i]:getBoundingBox()
+            Log.i(type(GameHandler.BulletArray[i]))
+            local rectA = GameHandler.BulletArray[i]:getBoundingBox()
             for j = 1, enemyArraySize do
                 if #(GameHandler.EnemyArray) < j then
                     break
                 end
                 local rectB = GameHandler.EnemyArray[j]:getBoundingBox()
-                -- 这里就算在Model中覆盖 getPositionX 也没有用，裂开
                 if
                     math.abs(GameHandler.BulletArray[i]:getPositionX() - GameHandler.EnemyArray[j]:getPositionX()) * 2 <=
-                        (GameHandler.BulletArray[i]:getWidth() + rectB.width) and
+                        (rectA.width + rectB.width) and
                         (math.abs(GameHandler.BulletArray[i]:getPositionY() - GameHandler.EnemyArray[j]:getPositionY()) *
                             2) <=
-                            (GameHandler.BulletArray[i]:getHeight() + rectB.height)
+                            (rectA.height + rectB.height)
                  then
-                    -- sound
+                    -- 爆炸
+                    --sound
                     if effectKey then
                         Audio.playEffectSync(ConstantsUtil.PATH_EXPLOSION_EFFECT, false)
                     end
@@ -267,64 +258,6 @@ function GameScene:onEnter()
     end
     collisionBetweenBUlletAndEnemyEntry =
         Scheduler:scheduleScriptFunc(collisionBetweenBUlletAndEnemy, ConstantsUtil.INTERVAL_COLLISION, false)
-
-    -- --- 子弹与敌人碰撞
-    -- local function collisionBetweenBUlletAndEnemy()
-    --     local bulletArraySize = #(GameHandler.BulletArray)
-    --     local enemyArraySize = #(GameHandler.EnemyArray)
-    --     for i = 1, bulletArraySize do
-    --         if #(GameHandler.BulletArray) < i then
-    --             break
-    --         end
-    --         if GameHandler.BulletArray[i] == nil then
-    --             Log.i("nil!!!!!!!!!!!!!!!!!")
-    --         end
-    --         local rectA = GameHandler.BulletArray[i]:getBoundingBox()
-    --         for j = 1, enemyArraySize do
-    --             if #(GameHandler.EnemyArray) < j then
-    --                 break
-    --             end
-    --             local rectB = GameHandler.EnemyArray[j]:getBoundingBox()
-    --             Log.i(
-    --                 tostring(GameHandler.BulletArray[i]:getPositionY()) ..
-    --                     " " .. tostring(GameHandler.BulletArray[i]:getPositionX())
-    --             )
-    --             -- 这里就算在Model中覆盖 getPositionX 也没有用，裂开
-    --             if
-    --                 math.abs(GameHandler.BulletArray[i]:getPositionX() - GameHandler.EnemyArray[j]:getPositionX()) * 2 <=
-    --                     (rectA.width + rectB.width) and
-    --                     (math.abs(GameHandler.BulletArray[i]:getPositionY() - GameHandler.EnemyArray[j]:getPositionY()) *
-    --                         2) <=
-    --                         (rectA.height + rectB.height)
-    --              then
-    --                 -- sound
-    --                 if effectKey then
-    --                     Audio.playEffectSync(ConstantsUtil.PATH_EXPLOSION_EFFECT, false)
-    --                 end
-    --                 -- score
-    --                 if self.myRoleWithTail:getMyScore() < 999 then
-    --                     self.myRoleWithTail:setMyScore(
-    --                         self.myRoleWithTail:getMyScore() + ConstantsUtil.PLUS_ENEMY_SCORE
-    --                     )
-    --                     score_item:setString(TypeConvert.Integer2StringLeadingZero(self.myRoleWithTail:getMyScore(), 3))
-    --                 end
-    --                 -- 爆炸动画
-    --                 getExplosion(GameHandler.EnemyArray[j]:getPositionX(), GameHandler.EnemyArray[j]:getPositionY())
-    --                 -- body
-    --                 GameHandler.BulletArray[i]:removeFromParent()
-    --                 GameHandler.EnemyArray[j]:removeFromParent()
-    --                 table.remove(GameHandler.BulletArray, i)
-    --                 table.remove(GameHandler.EnemyArray, j)
-    --                 i = i - 1
-    --                 j = j - 1
-    --                 bulletArraySize = bulletArraySize - 1
-    --                 enemyArraySize = enemyArraySize - 1
-    --             end
-    --         end
-    --     end
-    -- end
-    -- collisionBetweenBUlletAndEnemyEntry =
-    --     Scheduler:scheduleScriptFunc(collisionBetweenBUlletAndEnemy, ConstantsUtil.INTERVAL_COLLISION, false)
 
     -- -- 敌人与自己碰撞
     -- local function collisionBetweenMyRoleAndEnemy()

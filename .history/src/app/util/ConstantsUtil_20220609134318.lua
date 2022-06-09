@@ -91,8 +91,18 @@ ConstantsUtil.PATH_EXPLOSION_PNG = "animation/explosion.png"
 ConstantsUtil.PATH_BIG_NUM = "ui/rank/islandcvbignum.fnt"
 
 --- global variable
-ConstantsUtil.musicKey = UserDefault:getBoolForKey(ConstantsUtil.MUSIC_KEY, true)
-ConstantsUtil.effectKey = UserDefault:getBoolForKey(ConstantsUtil.EFFECT_KEY, true)
-ConstantsUtil.username = ""
+musicKey = UserDefault:getBoolForKey(ConstantsUtil.MUSIC_KEY, true)
+effectKey = UserDefault:getBoolForKey(ConstantsUtil.EFFECT_KEY, true)
+
+username = ""
+
+pause = false
+
+-- save for gameScene
+ConstantsUtil.bulletArray = {}
+ConstantsUtil.enemyArray = {}
+
+isContinue = false
+nowScene = nil
 
 return ConstantsUtil

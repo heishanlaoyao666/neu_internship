@@ -9,9 +9,9 @@ local MyRoleNode =
 local PlaneModel = require("app.model.PlaneModel")
 --
 
-function MyRoleNode:create(painting)
+function MyRoleNode:create(painting, duration, targetX, targetY)
     local myRoleNode = MyRoleNode.new()
-    myRoleNode:addChild(myRoleNode:init(painting))
+    myRoleNode:addChild(myRoleNode:init(painting, duration, targetX, targetY))
     return myRoleNode
 end
 

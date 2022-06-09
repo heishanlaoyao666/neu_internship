@@ -231,6 +231,10 @@ function GameScene:onEnter()
                     break
                 end
                 local rectB = GameHandler.EnemyArray[j]:getBoundingBox()
+                Log.i(
+                    tostring(GameHandler.BulletArray[i]:getPositionY()) ..
+                        " " .. tostring(GameHandler.BulletArray[i]:getPositionX())
+                )
                 -- 这里就算在Model中覆盖 getPositionX 也没有用，裂开
                 if
                     math.abs(GameHandler.BulletArray[i]:getPositionX() - GameHandler.EnemyArray[j]:getPositionX()) * 2 <=

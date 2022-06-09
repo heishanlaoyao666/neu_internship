@@ -34,11 +34,9 @@ ConstantsUtil.INTERVAL_BACKGROUND_MOVE = 1.0 / 60
 ConstantsUtil.INTERVAL_ENEMY = 1.0
 ConstantsUtil.INTERVAL_COLLISION = 1.0 / 60
 
-ConstantsUtil.BORN_PLACE_ENEMY = 0.7
-ConstantsUtil.DIE_PLACE_ENEMY = -10
-ConstantsUtil.DIE_BULLET = WinSize.height
-
-ConstantsUtil.MASK_COLLISION = 0x01
+ConstantsUtil.BORN_PLACE_ENEMY_Y = 1.3 * WinSize.height
+ConstantsUtil.DIE_PLACE_ENEMY_Y = 0.0 * WinSize.height
+ConstantsUtil.DIE_BULLET = 1.0 * WinSize.height
 
 ConstantsUtil.TAG_BULLET = 0x01
 ConstantsUtil.TAG_ENEMY = 0x02

@@ -33,14 +33,6 @@ function BulletNode:getPosition()
     return cc.p(self.dataModel.x, self.dataModel.y)
 end
 
-function BulletNode:getWidth()
-    return self.bullet:getBoundingBox().width
-end
-
-function BulletNode:getHeight()
-    return self.bullet:getBoundingBox().height
-end
-
 function BulletNode:init()
     -- body
     local layer = ccui.Layout:create()
@@ -62,16 +54,14 @@ function BulletNode:init()
         if self.dataModel.y > WinSize.height then
             self.bullet:removeFromParent()
             self:removeFromParent()
-            -- table.removebyvalue(GameHandler.BulletArray, self.bullet, false)
-            table.removebyvalue(GameHandler.BulletArray, self, false)
+            table.removebyvalue(GameHandler.BulletArray, self.bullet, false)
         -- table.removebyvalue(GameHandler.BulletData, self.dataModel, false)
         end
     end
     -- 每帧刷新一次
     self.bullet:scheduleUpdateWithPriorityLua(bulletMove, 0)
     Log.i("type: " .. type(self.bullet))
-    -- table.insert(GameHandler.BulletArray, self.bullet)
-    table.insert(GameHandler.BulletArray, self)
+    table.insert(GameHandler.BulletArray, tolua.cast(self.bullet, "cc.Sprite"))
     -- table.insert(GameHandler.BulletData, self.dataModel)
     return layer
 end

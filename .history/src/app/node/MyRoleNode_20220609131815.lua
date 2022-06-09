@@ -9,33 +9,17 @@ local MyRoleNode =
 local PlaneModel = require("app.model.PlaneModel")
 --
 
-function MyRoleNode:create(painting)
+function MyRoleNode:create(painting, duration, targetX, targetY)
     local myRoleNode = MyRoleNode.new()
-    myRoleNode:addChild(myRoleNode:init(painting))
+    myRoleNode:addChild(myRoleNode:init(painting, duration, targetX, targetY))
     return myRoleNode
 end
 
 function MyRoleNode:setMyPosition(x, y)
-    self.myRole:setPosition(x, y)
-    self.tailFlame:setPosition(x, y - ConstantsUtil.DEFAULT_DELTA_HEIGHT)
-    self.dataModel.x = x
-    self.dataModel.y = y
-end
-
-function MyRoleNode:setMyHp(hp)
-    self.dataModel.hp = hp
-end
-
-function MyRoleNode:setMyScore(score)
-    self.dataModel.score = score
-end
-
-function MyRoleNode:getMyHp()
-    return self.dataModel.hp
-end
-
-function MyRoleNode:getMyScore()
-    return self.dataModel.score
+    self.x = x
+    self.y = y
+    self.myRole:setPositionY(y)
+    self.tailFlame:setPositionY(y - ConstantsUtil.DEFAULT_DELTA_HEIGHT)
 end
 
 function MyRoleNode:ctor()
@@ -45,28 +29,29 @@ function MyRoleNode:ctor()
     self.myRole = nil
 end
 
--- 把登场的移动拆分出来，需要scene自己去调用
-function MyRoleNode:initMove(duration, targetX, targetY)
-    local myRoleShow = cc.MoveTo:create(duration, cc.p(targetX, targetY))
-    local tailFlameShow = cc.MoveTo:create(duration, cc.p(targetX, targetY - ConstantsUtil.DEFAULT_DELTA_HEIGHT))
-    self.myRole:runAction(myRoleShow)
-    self.tailFlame:runAction(tailFlameShow)
-    self.dataModel.x = targetX
-    self.dataModel.y = targetY
-end
-
-function MyRoleNode:init(painting)
+function MyRoleNode:init(painting, duration, targetX, targetY)
+    -- body
     local layer = ccui.Layout:create()
     self.myRole = cc.Sprite:create(ConstantsUtil.PATH_ROLE[painting]):addTo(layer)
     self.tailFlame = cc.ParticleSystemQuad:create(ConstantsUtil.PATH_TAIL_FLAME_PLIST):addTo(layer)
 
     self.myRole:setName(ConstantsUtil.TAG_MY_ROLE)
     self.myRole:setAnchorPoint(0.5, 0.5)
-    self.myRole:setPosition(self.dataModel.x, self.dataModel.y)
+    self.myRole:setPosition(ConstantsUtil.INIT_PLANE_X, ConstantsUtil.INIT_PLANE_Y)
 
     self.tailFlame:setAnchorPoint(0.5, 0.5)
     self.tailFlame:setRotation(180)
-    self.tailFlame:setPosition(self.dataModel.x, self.dataModel.y - ConstantsUtil.DEFAULT_DELTA_HEIGHT)
+    self.tailFlame:setPosition(
+        ConstantsUtil.INIT_PLANE_X,
+        ConstantsUtil.INIT_PLANE_Y - ConstantsUtil.DEFAULT_DELTA_HEIGHT
+    )
+
+    local myRoleShow = cc.MoveTo:create(duration, cc.p(targetX, targetY))
+    local tailFlameShow = cc.MoveTo:create(duration, cc.p(targetX, targetY - ConstantsUtil.DEFAULT_DELTA_HEIGHT))
+    self.myRole:runAction(myRoleShow)
+    self.tailFlame:runAction(tailFlameShow)
+    self.dataModel.x = targetX
+    self.dataModel.y = targetY
 
     --- 单点触摸移动
     local function onTouchBegan(touch, event)

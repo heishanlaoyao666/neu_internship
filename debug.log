@@ -130,23 +130,1625 @@ Inner height <= scrollview height, it will be force sized!
 
 [LUA-print] [INFO]newGameButton
 
-[LUA-print] [INFO]newGameButton
-
 [LUA-print] [INFO]end
-
-[LUA-print] [INFO]50
-
-[LUA-print] [INFO]0
-
-[LUA-print] [INFO]30
 
 cocos2d: padding: 0,0,0,0
 
 Inner width <= scrollview width, it will be force sized!
 
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]touch begin
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]touch end
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
 [LUA-print] [INFO]touch begin
 
 [LUA-print] [INFO]pauseButton
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]pauseButton
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]type: userdata
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]pauseButton
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
+
+[LUA-print] [INFO]BulletNode:getPositionX
 
 [LUA-print] [INFO]touch end
 
@@ -154,23 +1756,19 @@ Inner width <= scrollview width, it will be force sized!
 
 Inner height <= scrollview height, it will be force sized!
 
-[LUA-print] [INFO]backButton
-
-[LUA-print] [INFO]backButton
-
-Inner height <= scrollview height, it will be force sized!
-
 [LUA-print] ----------------------------------------
 
-[LUA-print] LUA ERROR: [string "D:/CocosProjects/empty/src/framework/shortcodes.lua"]:69: invalid 'cobj' in function 'lua_cocos2dx_Node_getLocalZOrder'
+[LUA-print] LUA ERROR: [string "D:/CocosProjects/empty/src/app/scenes/GameScene.lua"]:399: error in function 'tolua_cocos2d_Scheduler_unscheduleScriptEntry'.
+     argument #2 is 'nil'; 'number' expected.
+
 
 
 [LUA-print] 
 stack traceback:
-	[C]: in function 'getLocalZOrder'
-	[string "D:/CocosProjects/empty/src/framework/shortcodes.lua"]:69: in function 'addTo'
-	[string "D:/CocosProjects/empty/src/app/scenes/GameScene.lua"]:297: in function 'setMyRole'
-	[string "D:/CocosProjects/empty/src/app/scenes/MenuScene.lua"]:93: in function <[string "D:/CocosProjects/empty/src/app/scenes/MenuScene.lua"]:81>
+	[C]: in function 'unscheduleScriptEntry'
+	[string "D:/CocosProjects/empty/src/app/scenes/GameScene.lua"]:399: in function 'onExit'
+	[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:143: in function <[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:138>
+	[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:348: in function <[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:346>
 
 [LUA-print] ----------------------------------------
 
