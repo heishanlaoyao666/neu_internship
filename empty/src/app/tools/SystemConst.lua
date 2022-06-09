@@ -45,7 +45,9 @@ GameSceneNodeTag = {
 	Bullet = 3,
 	ExplosionParticleSystem = 4,
 	StatusBarScore = 5,
-	StatusBarLife = 6
+	StatusBarLife = 6,
+	Spine=7,
+	Unable=8
 },
 
 -- 字体

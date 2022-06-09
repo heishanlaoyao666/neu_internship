@@ -18,6 +18,8 @@ local scoreChange
 local playerCreate
 local bulletCreate
 local enemyCreate
+local spineCreate
+local spriteFrameCreate
 local width, height = display.width, display.top
 --[[--
     构造函数
@@ -187,8 +189,8 @@ function BattleScene:createSpritePanel()
     layer:setPosition(width*0.5, height *0.5)
     layer:setAnchorPoint(0.5, 0.5)
     layer:addTo(self)
-    local player=playerCreate()
-    layer:addChild(player, 10, SystemConst.GameSceneNodeTag.Fighter)
+    local enemy=playerCreate()
+    layer:addChild(enemy, 10, SystemConst.GameSceneNodeTag.Fighter)
     --注册敌人飞机
     local enemyCreatetime=0
     local bulletCreatetime=0
@@ -198,8 +200,8 @@ function BattleScene:createSpritePanel()
         --生成子弹
         if bulletCreatetime>=1 then
             local bullet=bulletCreate()
-            local x,y=player:getPosition()
-            bullet:setPosition(x,y+player:getContentSize().height*2)
+            local x,y=enemy:getPosition()
+            bullet:setPosition(x,y+enemy:getContentSize().height*2)
             layer:addChild(bullet, 10, SystemConst.GameSceneNodeTag.Bullet)
             bulletCreatetime=0
         end
@@ -209,19 +211,59 @@ function BattleScene:createSpritePanel()
             layer:addChild(enemy, 10, SystemConst.GameSceneNodeTag.Enemy)
             enemyCreatetime=0
         end
-        --进行碰撞检测
+        --进行碰撞检测 敌人和玩家
         for i, v in pairs(layer:getChildren()) do
             if(v:getTag()==SystemConst.GameSceneNodeTag.Enemy)then
+                if v:isVisible() ==false then
+                    break
+                end
                 local rectA=v:getBoundingBox()
-                local rectB=player:getBoundingBox()
-                if(math.abs(v:getPositionX()-player:getPositionX())*2<=(rectA.width+rectB.width)) 
-                and (math.abs(v:getPositionY()-player:getPositionY())*2<=(rectA.height+rectB.height)) then
-                    lifeChange(-5)
-                    v:Destroy()
+                local rectB=enemy:getBoundingBox()
+                if(math.abs(v:getPositionX()-enemy:getPositionX())*2<=(rectA.width+rectB.width)) 
+                and (math.abs(v:getPositionY()-enemy:getPositionY())*2<=(rectA.height+rectB.height)) then
+                    local spine=spineCreate()
+                    spine:setPosition(v:getPosition())
+                    layer:addChild(spine, 20, SystemConst.GameSceneNodeTag.Spine)
+                    lifeChange(-20)
+                    v:setVisible(false)
                 end
             end
         end
+        --进行碰撞检测 子弹和敌人
+        for i, bullet in pairs(layer:getChildren()) do
+            if(bullet~=nil and bullet:getTag()==SystemConst.GameSceneNodeTag.Bullet)then
+                if bullet:isVisible() ==false then
+                    break
+                end
+                for i, enemybox in pairs(layer:getChildren()) do
+                    if(enemybox~=nil and enemybox:getTag()==SystemConst.GameSceneNodeTag.Enemy)then
+                        if enemybox:isVisible() ==false then
+                            break
+                        end
+                        local rectA=bullet:getBoundingBox()
+                        local rectB=enemybox:getBoundingBox()
+                        if(math.abs(bullet:getPositionX()-enemybox:getPositionX())*2<=(rectA.width+rectB.width)) 
+                        and (math.abs(bullet:getPositionY()-enemybox:getPositionY())*2<=(rectA.height+rectB.height)) then
+                           local sprite=spriteFrameCreate(layer)
+                           sprite:setPosition(enemybox:getPosition())
+                           sprite:run()
+                           layer:addChild(sprite,20,SystemConst.GameSceneNodeTag.Spine)
+                            -- lifeChange(-5)
+                            bullet:setVisible(false)
+                            enemybox:setVisible(false)
+                        end
+                    end
+                end
+            end
+        end
+        --统一销毁
+        for i, v in pairs(layer:getChildren()) do
+            if v:isVisible() ==false then
+                v:Destroy()
+            end
+        end
     end
+
     --恢复游戏调度
     function layer:startUpdata()
         
@@ -328,7 +370,7 @@ function bulletCreate()
 
     function bullet:Destroy()
         --销毁
-
+        bullet:removeFromParent()
     end
     return bullet
 end
@@ -449,7 +491,54 @@ function gameoverPanelBack(scale)
     gameoverPanel:setScale(tonumber(scale))
     
 end
+function spineCreate()
+    -- tips
+	local spineSP = sp.SkeletonAnimation:createWithJsonFile(
+		"spine/fireBoom/7_1_fireBoom.json", "spine/fireBoom/7_1_fireBoom.atlas"
+	)
+	spineSP:setScale(1)
+	spineSP:setAnimation(0, "7_1_fireBoom", false)
+	-- aim mode
+    --音效
+    local MusicOn = cc.UserDefault:getInstance():getBoolForKey("Effect")
+    if MusicOn == true then
+        local audio3 = require("framework.audio")
+        audio3.loadFile("sounds/shipDestroyEffect.ogg", function ()
+            audio3.playEffect("sounds/shipDestroyEffect.ogg")
+        end)
+    end
+    return spineSP
+end
+function spriteFrameCreate()
+    display.addSpriteFrames("animation/explosion.plist", "animation/explosion.png")
+    local actions = {}
+    local sprite=cc.Sprite:create("animation/explosion.png")
+    local frames = display.newFrames("explosion_%02d.png", 1, 35)
+    local animation = display.newAnimation(frames, 1 / 35) -- 0.5 秒播放 8 桢
 
+    local animate = cc.Animate:create(animation)
+
+    local callFunc = cc.CallFunc:create(function()
+        sprite:removeFromParent()
+    end)
+    local removeFunc = cc.RemoveSelf:create()
+    table.insert(actions, animate)
+    table.insert(actions, callFunc)
+    table.insert(actions, removeFunc)
+    function sprite:run()
+        sprite:stopAllActions()
+        sprite:runAction(cc.Sequence:create(actions))
+        --音效
+        local MusicOn = cc.UserDefault:getInstance():getBoolForKey("Effect")
+        if MusicOn == true then
+            local audio3 = require("framework.audio")
+            audio3.loadFile("sounds/explodeEffect.ogg", function ()
+                audio3.playEffect("sounds/explodeEffect.ogg")
+            end)
+        end
+    end
+    return sprite
+end
 function lifeChange(number)
     life=life+tonumber(number)
     menuPanel:updataUI(life,score)
