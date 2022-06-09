@@ -18,6 +18,9 @@ function Rank:ctor()
     listView:setDirection(1)
     listView:addTo(self)
     local score={"10000","9000","8000","7000","6000"}
+    if(score[1]<cc.UserDefault:getInstance():getStringForKey("score") )  then
+        score[1]=cc.UserDefault:getInstance():getStringForKey("score")
+    end
     for i = 1, 5 do
         local img = ccui.ImageView:create("res/ui/rank/rank_item_bg.png")
         img:setScale9Enabled(true)  --开启九宫格

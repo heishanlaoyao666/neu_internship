@@ -2,10 +2,19 @@ local MainScene = class("MainScene", function()
     return display.newScene("MainScene")
 end)
 
+function MainScene:yinXiao(path)
+    if cc.UserDefault:getInstance():getBoolForKey("yinxiao") then
+        audio.loadFile(path, function ()
+            audio.playEffect(path, false)
+        end)
+    end
+end
+
 function MainScene:ctor()
 
     self:iniInterface()
 end
+
 --初始化界面函数
 function MainScene:iniInterface()
 
@@ -16,6 +25,8 @@ function MainScene:iniInterface()
     sp:pos(display.cx, display.cy)
     sp:addTo(self)
     sp:setScale(1.3)
+
+
 
 
     --背景音乐
@@ -75,6 +86,7 @@ function MainScene:iniInterface()
         local btn = ccui.Button:create(btn_Name[i],btn_Name[i+4] ,1)
         btn:addTouchEventListener(function(sender, eventType)
           if 2 == eventType then
+              self:yinXiao("res/sounds/buttonEffet.ogg")
               if i==1 then
                   if cc.UserDefault:getInstance():getStringForKey("id")=="a" then
                       local AnotherScene=require("app/scenes/zhuCe"):new()
@@ -96,6 +108,7 @@ function MainScene:iniInterface()
                   display.replaceScene(AnotherScene,"fade",0.5)
           end
         end)
+
 
 
     if not btnSize then

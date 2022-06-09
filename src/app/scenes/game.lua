@@ -8,18 +8,72 @@ local game = class("game", function()
     return display.newScene("game")
 end)
 
+function game:yinXiao(path)
+    if cc.UserDefault:getInstance():getBoolForKey("yinxiao") then
+        audio.loadFile(path, function ()
+            audio.playEffect(path, false)
+        end)
+    end
+end
 
 function game:ctor()
 
+
+    ---背景音乐加载
+    local loadedCB = function(fn, success)
+        local channelCount = 0
+        if not success then
+            print("Fail to load audio:" .. fn)
+            return
+        end
+        channelCount = channelCount + 1
+        local playWay = audio.playBGM
+        local text = "Play BGM:"
+        if channelCount > 1 then
+            playWay = audio.playEffect
+            text = "Play Effect:"
+        end
+        playWay(fn)
+        if channelCount == 2 then
+            self:loadBtns()
+        end
+    end
+
     audio.stopBGM("res/sounds/bgMusic.ogg")
-    audio.playBGM("res/sounds/fireEffect.ogg",true)
+
     local life=100
     local score=0
 
+--背景滚动
     local sp = display.newSprite("res/img_bg/img_bg_1.jpg")
-    sp:pos(display.cx, display.cy)
+    sp:setAnchorPoint(0.5,0)
+    sp:pos(display.cx, 0)
     sp:addTo(self)
-    sp:setScale(1.3)
+    sp:setScale(1)
+    sp:runAction(cc.MoveTo:create(3,cc.p(display.cx,-1275)))
+
+    local sp1 = display.newSprite("res/img_bg/img_bg_1.jpg")
+    sp1:pos(display.cx, 1275)
+    sp1:setAnchorPoint(0.5,0)
+    sp1:addTo(self)
+    sp1:setScale(1)
+    sp1:runAction(cc.MoveTo:create(6,cc.p(display.cx,-1275)))
+    local cut=2
+    local scheduler  =require(cc.PACKAGE_NAME..".scheduler")
+    local function onInterval(dt)
+        if cut==2 then
+            sp:pos(display.cx, 1275)
+            sp:runAction(cc.MoveTo:create(6,cc.p(display.cx,-1275)))
+            cut=0
+        elseif cut==0 then
+            sp1:pos(display.cx,1275)
+            sp1:runAction(cc.MoveTo:create(6,cc.p(display.cx,-1275)))
+            cut=2
+
+        end
+
+    end
+    scheduler.scheduleGlobal(onInterval,3)
 
 
     local spFile = display.newSprite("res/ui/battle/ui_life.png")
@@ -34,6 +88,7 @@ function game:ctor()
     spScore:pos(display.cx+148,display.top-50)
     spScore:addTo(self)
     spScore:setScale(1.3)
+
     local font2 = ccui.TextBMFont:create(score, "res/ui/battle/num_account.fnt")
     font2:pos(display.cx+208,display.top-50)
     font2:addTo(self)
@@ -44,10 +99,11 @@ function game:ctor()
     pauseButton:pos(display.cx-200, display.top )
     pauseButton:addTo(self)
     pauseButton:addTouchEventListener(function(sender, eventType)
+    game:yinXiao("res/sounds/buttonEffet.ogg")
         if 2 == eventType then
-
+            self.luaToJson()
+            cc.UserDefault:getInstance():setBoolForKey("iscundang",true)
             display.pause()
-
             local startLayer =  cc.LayerColor:create({r=30,g=30,b=30,a=127}, display.width, display.height);
             startLayer:addTo(self)
 
@@ -57,8 +113,12 @@ function game:ctor()
             resButton:addTo(self)
             resButton:addTouchEventListener(function (sender,eventType)
                 if 2 == eventType then
+
+                    cc.UserDefault:getInstance():setBoolForKey("yinxiao",ture)
+                    self:yinXiao("res/sounds/buttonEffet.ogg")
+                    display.resume()
                     local AnotherScene=require("app/scenes/MainScene"):new()
-                    display:replaceScene(AnotherScene,"fade",0.5)
+                    display.replaceScene(AnotherScene, "fade", 0.5)
                 end
             end)
 
@@ -67,6 +127,7 @@ function game:ctor()
             conButton:pos(display.cx,display.cy-80)
             conButton:addTo(self)
             conButton:addTouchEventListener(function (sender,eventType)
+                self:yinXiao("res/sounds/buttonEffet.ogg")
                 if 2 == eventType then
                     self:removeChild(conButton)
                     self:removeChild(startLayer)
@@ -100,6 +161,16 @@ function game:ctor()
     end)
     sp:setTouchMode(cc.TOUCH_MODE_ONE_BY_ONE)
     sp:setTouchEnabled(true)
+    sp1:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
+        dump(event)
+        if event.name == "began" then
+            planeX=event.x
+            plane:runAction(cc.MoveTo:create(0.25,cc.p(planeX,display.cy-300)))
+            return true
+        end
+    end)
+    sp1:setTouchMode(cc.TOUCH_MODE_ONE_BY_ONE)
+    sp1:setTouchEnabled(true)
 
     ---拖尾
     local bg=cc.Sprite:create("res/particle/fire.png")
@@ -112,26 +183,23 @@ function game:ctor()
     particleSystem:addTo(plane)
 
     ---子弹
-
     local i=1
     local ziDan={}
     local scheduler  =require(cc.PACKAGE_NAME..".scheduler")
     local function onInterval(dt)
-
-        if cc.UserDefault:getInstance():getBoolForKey("yinxiao")=="true"then
-            audio:playBGM("res/sounds/fireEffect.ogg",true)
-            end
+            self:yinXiao("res/sounds/fireEffect.ogg")
             ziDan[i] =cc.Sprite:create("res/player/blue_bullet.png")
             local x1,y1=plane:getPosition()
             ziDan[i]:pos(x1,y1)
             ziDan[i]:runAction(cc.MoveTo:create(2,cc.p(x1,display.top)))
             ziDan[i]:addTo(self)
-            i=i+1
-        if i>10 then
-            self:removeChild(ziDan[i-10])
+                i=i+1
+            if i>6 then
+            self:removeChild(ziDan[i-6])
+                ziDan[i-6]=nil
         end
     end
-    scheduler.scheduleGlobal(onInterval,0.2)
+    scheduler.scheduleGlobal(onInterval,0.3)
 
     ---敌方战机
 
@@ -139,26 +207,146 @@ function game:ctor()
     local enemyPlane={}
     local scheduler  =require(cc.PACKAGE_NAME..".scheduler")
     local function onInterval(dt)
-
         enemyPlane[enemyCount] =cc.Sprite:create("res/player/small_enemy.png")
         local xX=math.random(display.width)
         enemyPlane[enemyCount]:pos(xX,display.top)
-        enemyPlane[enemyCount]:runAction(cc.MoveTo:create(2,cc.p(xX,0)))
+        enemyPlane[enemyCount]:runAction(cc.MoveTo:create(1.5,cc.p(xX,0)))
         enemyPlane[enemyCount]:addTo(self)
         enemyCount=enemyCount+1
-        if enemyCount>10 then
+
+        if enemyCount>3 then
             self:removeChild(enemyPlane[enemyCount-3])
+            enemyPlane[enemyCount-3]=nil
         end
     end
     scheduler.scheduleGlobal(onInterval,1)
 
 
+    ---爆炸动画
+    local function explosionAnimation(x,y)
+        local spriteFrame  = cc.SpriteFrameCache:getInstance()
+        spriteFrame:addSpriteFrames("res/animation/explosion.plist")
+        local boom = cc.Sprite:createWithSpriteFrameName("explosion_01.png")
+        boom:pos(x,y)
+        boom:addTo(self)
+        local animation =cc.Animation:create()
+        for i=2,12 do
+            local frameName = string.format("explosion_%02d.png",i)
+            local spriteFrame = spriteFrame:getSpriteFrame(frameName)
+            animation:addSpriteFrame(spriteFrame)
+        end
+        animation:setDelayPerUnit(0.15)
+        animation:setRestoreOriginalFrame(true)
+        local action =cc.Animate:create(animation)
+        local function CallBack()
+            boom:removeSelf()
+        end
+        local cb = cc.CallFunc:create(CallBack)
+        local seq = cc.Sequence:create(action,cb)
+        boom:runAction(cc.Sequence:create(seq))
+    end
+
+    ---碰撞检测
+    local scheduler  =require(cc.PACKAGE_NAME..".scheduler")
+    local function onInterval(dt)
+        for k1, v1 in pairs(enemyPlane) do
+            for k2, v2 in pairs(ziDan) do
+
+                local rectA = v2:getBoundingBox()
+                local rectB = v1:getBoundingBox()
+                if(math.abs(ziDan[k2]:getPositionX() - enemyPlane[k1]:getPositionX()) * 2 <= (rectA.width + rectB.width))
+                        and
+                        (math.abs(ziDan[k2]:getPositionY() - enemyPlane[k1]:getPositionY()) * 2 <= (rectA.height + rectB.height))
+                then
+                    game:yinXiao("res/sounds/explodeEffect.ogg")
+                    local x,y=enemyPlane[k1]:getPosition()
+                    explosionAnimation(x,y)
+                    ziDan[k2]:removeSelf()
+                    enemyPlane[k1]:removeSelf()
+                    ziDan[k2] = nil
+                    enemyPlane[k1] = nil
+                    score = score + 10
+                    font2:setString(score)
+                end
+            end
+        end
+        for k, v in pairs(enemyPlane) do
+            local rectA = plane:getBoundingBox()
+            local rectB = enemyPlane[k]:getBoundingBox()
+            if(math.abs(plane:getPositionX() - enemyPlane[k]:getPositionX()) * 2 <= (rectA.width + rectB.width))
+                    and
+                    (math.abs(plane:getPositionY() - enemyPlane[k]:getPositionY()) * 2 <= (rectA.height + rectB.height))
+            then
+                local x,y = enemyPlane[k]:getPosition()
+                explosionAnimation(x,y)
+                enemyPlane[k]:removeSelf()
+                enemyPlane[k] = nil
+                life = life - 20
+                font1:setString(life)
+                if life<=0 then
+                    display.pause()
+
+                    local startLayer =  cc.LayerColor:create({r=30,g=30,b=30,a=127}, display.width, display.height);
+                    startLayer:addTo(self)
+
+                    local resButton = ccui.Button:create("res/ui/gameover/back.png", 1)
+                    resButton:pos(display.cx,display.cy)
+                    resButton:addTo(self)
+                    resButton:addTouchEventListener(function (sender,eventType)
+                        if 2 == eventType then
+                            self:yinXiao("res/sounds/buttonEffet.ogg")
+                            display.resume()
+                            require("app/scenes/MainScene"):new():addTo(self)
+                        end
+                    end)
+
+                    local resButton1 = ccui.Button:create("res/ui/gameover/restrart.png", 1)
+                    resButton1:pos(display.cx,display.cy-200)
+                    resButton1:addTo(self)
+                    resButton1:addTouchEventListener(function (sender,eventType)
+                        if 2 == eventType then
+                            self:yinXiao("res/sounds/buttonEffet.ogg")
+                            display.resume()
+                            require("app/scenes/game"):new():addTo(self)
+                        end
+                    end)
+
+                end
+             end
+        end
+    end
+    scheduler.scheduleGlobal(onInterval,0.05)
+
+
+
+    ---Json
+    self.luaToJson = function()
+        local enemiesPosition = {}
+        for k, v in pairs(enemyPlane) do
+            local x,y = v:getPosition()
+            table.insert(enemiesPosition, {x, y})
+        end
+        local planePosition = {plane:getPosition()}
+        local t = {
+            enemiesPosition,
+            planePosition,
+            life,
+            score,
+        }
+        local str_json = json.encode(t)
+        file = io.open("D:/wk/empty/cundang.txt","w+")
+        io.output(file)
+        io.write(str_json)
+        io.close()
+    end
+
 
 end
 
 
-function game:pauseUI()
 
+
+function game:pauseUI()
 
 end
 return game

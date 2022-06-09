@@ -82,3 +82,530 @@ cocos2d: padding: 0,0,0,0
 
 Get data from file(1) failed, error code is 2
 
+Get data from file(1) failed, error code is 2
+
+Get data from file(1) failed, error code is 2
+
+Get data from file(1) failed, error code is 2
+
+Get data from file(1) failed, error code is 2
+
+Get data from file(1) failed, error code is 2
+
+Get data from file(1) failed, error code is 2
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:189: attempt to call method 'yinXiao' (a nil value)
+
+
+[LUA-print] 
+stack traceback:
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:189: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:188>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/framework/shortcodes.lua"]:69: invalid 'cobj' in function 'lua_cocos2dx_Node_addChild'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'addChild'
+	[string "D:/wk/empty/src/framework/shortcodes.lua"]:69: in function 'addTo'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:213: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:208>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:189: attempt to call method 'yinXiao' (a nil value)
+
+
+[LUA-print] 
+stack traceback:
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:189: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:188>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:189: attempt to call method 'yinXiao' (a nil value)
+
+
+[LUA-print] 
+stack traceback:
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:189: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:188>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+Get data from file(1) failed, error code is 2
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:189: attempt to call method 'yinXiao' (a nil value)
+
+
+[LUA-print] 
+stack traceback:
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:189: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:188>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/framework/shortcodes.lua"]:114: invalid 'cobj' in function 'lua_cocos2dx_Node_setPosition'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'setPosition'
+	[string "D:/wk/empty/src/framework/shortcodes.lua"]:114: in function 'pos'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:65: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:63>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/framework/shortcodes.lua"]:69: invalid 'cobj' in function 'lua_cocos2dx_Node_addChild'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'addChild'
+	[string "D:/wk/empty/src/framework/shortcodes.lua"]:69: in function 'addTo'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:213: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:208>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:189: attempt to call method 'yinXiao' (a nil value)
+
+
+[LUA-print] 
+stack traceback:
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:189: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:188>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:189: attempt to call method 'yinXiao' (a nil value)
+
+
+[LUA-print] 
+stack traceback:
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:189: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:188>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/wk/empty/src/app/scenes/game.lua"]:254: invalid 'cobj' in function 'lua_cocos2dx_Node_getBoundingBox'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'getBoundingBox'
+	[string "D:/wk/empty/src/app/scenes/game.lua"]:254: in function <[string "D:/wk/empty/src/app/scenes/game.lua"]:250>
+
+[LUA-print] ----------------------------------------
+
