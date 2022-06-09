@@ -17,7 +17,7 @@ end
 
 --构造
 function EnemyNode:ctor(x)
-    self.dataModel = EnemyModel.new(x)
+    self.dataModel = EnemyNode.new(x)
     self.enemy = nil
 end
 

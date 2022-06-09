@@ -55,6 +55,7 @@ function BulletNode:init()
         -- self:setPositionY(self.dataModel.y)
         --
         if self.dataModel.y > WinSize.height then
+            self:removeAllChildren()
             self:removeFromParent()
             -- table.removebyvalue(GameHandler.BulletArray, self.bullet, false)
             table.removebyvalue(GameHandler.BulletArray, self, false)

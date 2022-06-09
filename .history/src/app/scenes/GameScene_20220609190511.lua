@@ -104,7 +104,7 @@ function GameScene:onEnter()
     -- 敌军 Test
     local function newEnemy()
         -- body
-        local enemy = EnemyNode:create(math.random() * WinSize.width):addTo(self)
+        local enemy = EnemyNode:craet(math.random() * WinSize.width):addTo(self)
     end
     addEnemyEntry = Scheduler:scheduleScriptFunc(newEnemy, ConstantsUtil.INTERVAL_ENEMY, false)
 
@@ -185,8 +185,7 @@ function GameScene:onEnter()
         explosionSprite:runAction(animate)
     end
 
-    --TODO 要么是子弹与敌人碰撞 要么是自己与敌人碰撞 所以可以给敌人写个碰撞函数
-    -- 子弹与敌人碰撞 Test
+    --- 子弹与敌人碰撞 Test
     local function collisionBetweenBUlletAndEnemy()
         local bulletArraySize = #(GameHandler.BulletArray)
         local enemyArraySize = #(GameHandler.EnemyArray)
@@ -194,16 +193,22 @@ function GameScene:onEnter()
             if #(GameHandler.BulletArray) < i then
                 break
             end
+            if GameHandler.BulletArray[i] == nil then
+                Log.i("nil!!!!!!!!!!!!!!!!!")
+            end
+            -- local rectA = GameHandler.BulletArray[i]:getBoundingBox()
             for j = 1, enemyArraySize do
                 if #(GameHandler.EnemyArray) < j then
                     break
                 end
+                local rectB = GameHandler.EnemyArray[j]:getBoundingBox()
+                -- 这里就算在Model中覆盖 getPositionX 也没有用，裂开
                 if
                     math.abs(GameHandler.BulletArray[i]:getPositionX() - GameHandler.EnemyArray[j]:getPositionX()) * 2 <=
-                        (GameHandler.BulletArray[i]:getWidth() + GameHandler.EnemyArray[j]:getWidth()) and
+                        (GameHandler.BulletArray[i]:getWidth() + rectB.width) and
                         (math.abs(GameHandler.BulletArray[i]:getPositionY() - GameHandler.EnemyArray[j]:getPositionY()) *
                             2) <=
-                            (GameHandler.BulletArray[i]:getHeight() + GameHandler.EnemyArray[j]:getHeight())
+                            (GameHandler.BulletArray[i]:getHeight() + rectB.height)
                  then
                     -- sound
                     if effectKey then

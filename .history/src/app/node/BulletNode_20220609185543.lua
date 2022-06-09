@@ -45,8 +45,12 @@ function BulletNode:init()
     local layer = ccui.Layout:create()
     self.bullet = cc.Sprite:create(ConstantsUtil.PATH_BULLET_PNG):addTo(layer)
     self.dataModel.y = self.dataModel.y + self.bullet:getContentSize().height / 2
+    --
     self.bullet:setPosition(self.dataModel.x, self.dataModel.y)
+    -- self:setPosion(self.dataModel.x, self.dataModel.y)
+    --
     self.bullet:setAnchorPoint(0.5, 0.5)
+    self.bullet:setTag(ConstantsUtil.TAG_BULLET)
 
     local function bulletMove()
         self.dataModel.y = self.dataModel.y + ConstantsUtil.SPEED_BULLET_MOVE
@@ -55,6 +59,7 @@ function BulletNode:init()
         -- self:setPositionY(self.dataModel.y)
         --
         if self.dataModel.y > WinSize.height then
+            self.bullet:removeFromParent()
             self:removeFromParent()
             -- table.removebyvalue(GameHandler.BulletArray, self.bullet, false)
             table.removebyvalue(GameHandler.BulletArray, self, false)

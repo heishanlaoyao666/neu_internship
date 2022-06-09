@@ -185,8 +185,7 @@ function GameScene:onEnter()
         explosionSprite:runAction(animate)
     end
 
-    --TODO 要么是子弹与敌人碰撞 要么是自己与敌人碰撞 所以可以给敌人写个碰撞函数
-    -- 子弹与敌人碰撞 Test
+    --- 子弹与敌人碰撞 Test
     local function collisionBetweenBUlletAndEnemy()
         local bulletArraySize = #(GameHandler.BulletArray)
         local enemyArraySize = #(GameHandler.EnemyArray)

@@ -97,40 +97,69 @@ function GameScene:onEnter()
         local bullet = BulletNode:create(x, y + myRole:getContentSize().height / 2):addTo(self)
     end
     addBulletEntry = Scheduler:scheduleScriptFunc(addBullet, ConstantsUtil.INTERVAL_BULLET, false)
+
+    -- -- 子弹发射
+    -- local function addBullet()
+    --     if effectKey then
+    --         Audio.playEffectSync(ConstantsUtil.PATH_FIRE_EFFECT, false)
+    --     end
+
+    --     local x, y = myRole:getPosition()
+    --     local bulletNode = cc.Node:create():addTo(self)
+    --     local layer = ccui.Layout:create():addTo(bulletNode)
+    --     local bullet = cc.Sprite:create(ConstantsUtil.PATH_BULLET_PNG):addTo(layer)
+    --     -- layer:setContentSize(bullet:getBoundingBox().width, bullet:getBoundingBox().height)
+    --     -- bulletNode:setContentSize(bullet:getBoundingBox().width, bullet:getBoundingBox().height)
+    --     Log.i(tostring(bulletNode:getBoundingBox().width) .. " " .. tostring(bulletNode:getBoundingBox().height))
+    --     local bulletPosition = cc.p(x, y + myRole:getContentSize().height / 2 + bullet:getContentSize().height / 2)
+    --     bullet:setPosition(bulletPosition)
+    --     -- layer:setPosition(bulletPosition)
+    --     -- bulletNode:setPosition(bulletPosition)
+
+    --     local function bulletMove()
+    --         local bulletY = bullet:getPositionY() + ConstantsUtil.SPEED_BULLET_MOVE
+    --         bullet:setPositionY(bulletY)
+    --         -- layer:setPositionY(bulletY)
+    --         -- bulletNode:setPositionY(bulletY)
+    --         if bulletY > WinSize.height then
+    --             bulletNode:removeAllChildren()
+    --             bulletNode:removeFromParent()
+    --             table.removebyvalue(GameHandler.BulletArray, bulletNode, false)
+    --         end
+    --     end
+    --     -- 每帧刷新一次
+    --     bullet:scheduleUpdateWithPriorityLua(bulletMove, 0)
+    --     table.insert(GameHandler.BulletArray, bulletNode)
+    -- end
+    -- addBulletEntry = Scheduler:scheduleScriptFunc(addBullet, ConstantsUtil.INTERVAL_BULLET, false)
+
     -- 敌军初始化
     if GameHandler.isContinue == true then
     end
 
-    -- 敌军 Test
+    -- 敌军
     local function newEnemy()
         -- body
-        local enemy = EnemyNode:create(math.random() * WinSize.width):addTo(self)
+        local enemyX = math.random() * WinSize.width
+        local enemyY = ConstantsUtil.BORN_PLACE_ENEMY * WinSize.height
+        local enemy = cc.Sprite:create(ConstantsUtil.PATH_SMALL_ENEMY_PNG)
+        -- enemy:setScale(1.5)
+        enemy:setTag(ConstantsUtil.TAG_ENEMY)
+        enemy:setPosition(enemyX, enemyY)
+        enemy:addTo(self)
+
+        local function enemyMove()
+            local newEnemyY = enemy:getPositionY() - ConstantsUtil.SPEED_ENEMY_MOVE
+            enemy:setPositionY(newEnemyY)
+            if newEnemyY <= ConstantsUtil.DIE_PLACE_ENEMY then
+                enemy:removeFromParent()
+                table.removebyvalue(GameHandler.EnemyArray, enemy, false)
+            end
+        end
+        enemy:scheduleUpdateWithPriorityLua(enemyMove, 0)
+        table.insert(GameHandler.EnemyArray, enemy)
     end
     addEnemyEntry = Scheduler:scheduleScriptFunc(newEnemy, ConstantsUtil.INTERVAL_ENEMY, false)
-
-    -- -- 敌军
-    -- local function newEnemy()
-    --     -- body
-    --     local enemyX = math.random() * WinSize.width
-    --     local enemyY = ConstantsUtil.BORN_PLACE_ENEMY * WinSize.height
-    --     local enemy = cc.Sprite:create(ConstantsUtil.PATH_SMALL_ENEMY_PNG)
-    --     -- enemy:setScale(1.5)
-    --     enemy:setTag(ConstantsUtil.TAG_ENEMY)
-    --     enemy:setPosition(enemyX, enemyY)
-    --     enemy:addTo(self)
-
-    --     local function enemyMove()
-    --         local newEnemyY = enemy:getPositionY() - ConstantsUtil.SPEED_ENEMY_MOVE
-    --         enemy:setPositionY(newEnemyY)
-    --         if newEnemyY <= ConstantsUtil.DIE_PLACE_ENEMY then
-    --             enemy:removeFromParent()
-    --             table.removebyvalue(GameHandler.EnemyArray, enemy, false)
-    --         end
-    --     end
-    --     enemy:scheduleUpdateWithPriorityLua(enemyMove, 0)
-    --     table.insert(GameHandler.EnemyArray, enemy)
-    -- end
-    -- addEnemyEntry = Scheduler:scheduleScriptFunc(newEnemy, ConstantsUtil.INTERVAL_ENEMY, false)
 
     --- 子弹发射
     -- local function addBullet()
@@ -185,8 +214,7 @@ function GameScene:onEnter()
         explosionSprite:runAction(animate)
     end
 
-    --TODO 要么是子弹与敌人碰撞 要么是自己与敌人碰撞 所以可以给敌人写个碰撞函数
-    -- 子弹与敌人碰撞 Test
+    --- 子弹与敌人碰撞 Test
     local function collisionBetweenBUlletAndEnemy()
         local bulletArraySize = #(GameHandler.BulletArray)
         local enemyArraySize = #(GameHandler.EnemyArray)
@@ -194,16 +222,22 @@ function GameScene:onEnter()
             if #(GameHandler.BulletArray) < i then
                 break
             end
+            if GameHandler.BulletArray[i] == nil then
+                Log.i("nil!!!!!!!!!!!!!!!!!")
+            end
+            -- local rectA = GameHandler.BulletArray[i]:getBoundingBox()
             for j = 1, enemyArraySize do
                 if #(GameHandler.EnemyArray) < j then
                     break
                 end
+                local rectB = GameHandler.EnemyArray[j]:getBoundingBox()
+                -- 这里就算在Model中覆盖 getPositionX 也没有用，裂开
                 if
                     math.abs(GameHandler.BulletArray[i]:getPositionX() - GameHandler.EnemyArray[j]:getPositionX()) * 2 <=
-                        (GameHandler.BulletArray[i]:getWidth() + GameHandler.EnemyArray[j]:getWidth()) and
+                        (GameHandler.BulletArray[i]:getWidth() + rectB.width) and
                         (math.abs(GameHandler.BulletArray[i]:getPositionY() - GameHandler.EnemyArray[j]:getPositionY()) *
                             2) <=
-                            (GameHandler.BulletArray[i]:getHeight() + GameHandler.EnemyArray[j]:getHeight())
+                            (GameHandler.BulletArray[i]:getHeight() + rectB.height)
                  then
                     -- sound
                     if effectKey then

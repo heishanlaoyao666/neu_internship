@@ -6,7 +6,7 @@ local EnemyNode =
     end
 )
 -- local
-local EnemyModel = require("app.model.EnemyModel")
+local EnemyModel = require("app.node.EnemyModel")
 --
 
 function EnemyNode:create(x, y)
@@ -25,19 +25,19 @@ function EnemyNode:getPosition()
     return cc.p(self.dataModel.x, self.dataModel.y)
 end
 
-function EnemyNode:getPositionX()
+function EnemyModel:getPositionX()
     return self.dataModel.x
 end
 
-function EnemyNode:getPositionY()
+function EnemyModel:getPositionY()
     return self.dataModel.y
 end
 
-function EnemyNode:getWidth()
+function EnemyModel:getWidth()
     return self.enemy:getBoundingBox().width
 end
 
-function EnemyNode:getHeight()
+function EnemyModel:getHeight()
     return self.enemy:getBoundingBox().height
 end
 
@@ -50,7 +50,8 @@ function EnemyNode:init()
         self.dataModel.y = self.dataModel.y - ConstantsUtil.SPEED_ENEMY_MOVE
         self.enemy:setPositionY(self.dataModel.y)
         if self.dataModel.y <= ConstantsUtil.DIE_PLACE_ENEMY then
-            self:removeFromParent() -- 这个函数会把子节点也全部cleanup
+            self:removeAllChildren()
+            self:removeFromParent()
             table.removebyvalue(GameHandler.EnemyArray, self, false)
         end
     end
