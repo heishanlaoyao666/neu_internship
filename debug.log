@@ -16,11 +16,21 @@ LOAD LUA FILE: D:/CocosProjects/empty/src/main.lua
 
 [LUA-print] [LuaPanda] reGetSock success
 
-[LUA-print] [LuaPanda] First connect failed!
+[LUA-print] [LuaPanda] First connect success!
 
-[LUA-print] [LuaPanda] change hook state :0
+[LUA-print] [LuaPanda] changeRunState :1 | from:lua
 
-[LUA-print] [LuaPanda] change [Coroutine] HookState: 0
+[LUA-print] [LuaPanda] connectSuccess
+
+can not get file data of D:/CocosProjects/empty/src/libpdebug.lua
+
+can not get file data of D:/CocosProjects/empty/src/libpdebug.lua
+
+[LUA-print] [LuaPanda] changeRunState :2 | from:lua
+
+[LUA-print] [LuaPanda] change hook state :3
+
+[LUA-print] [LuaPanda] changeRunState :3 | from:lua
 
 [LUA-print] ===========================================================
 
@@ -54,9 +64,9 @@ LOAD LUA FILE: D:/CocosProjects/empty/src/main.lua
 
 [LUA-print] [INFO] # CONFIG_SCREEN_HEIGHT         = 720.00
 
-[LUA-print] [INFO] # display.widthInPixels        = 720.00
+[LUA-print] [INFO] # display.widthInPixels        = 480.00
 
-[LUA-print] [INFO] # display.heightInPixels       = 1280.00
+[LUA-print] [INFO] # display.heightInPixels       = 720.00
 
 [LUA-print] [INFO] # display.contentScaleFactor   = 1.00
 
@@ -94,11 +104,7 @@ D:/CocosProjects/empty/src/framework/audio.lua
 
 [LUA-print] [INFO]FileUtil.loadGame
 
-[LUA-print] [INFO]{  "enemyData":[{      "y":-4,      "x":401.47386639006    },{      "y":-4,      "x":23.812543450463    },{      "y":686,      "x":396.84010123512    }],  "planeData":{    "hp":20,    "x":177.1032409668,    "y":231.90841674805,    "score":30  },  "bulletData":[{      "y":726.30206298828,      "x":260.96542358398    },{      "y":726.30206298828,      "x":260.96542358398    },{      "y":726.30206298828,      "x":260.96542358398    },{      "y":533.40841674805,      "x":177.1032409668    },{      "y":353.40841674805,      "x":177.1032409668    }]}
-
-[LUA-print] [LuaPanda] Reconnect !
-
-[LUA-print] [LuaPanda] reconnect failed
+[LUA-print] [INFO]{  "rankData":[{      "nickname":"Zoybzo",      "score":19    },{      "nickname":"请输入昵",      "score":4    }]}
 
 [LUA-print] [INFO]480 720
 
@@ -108,7 +114,17 @@ D:/CocosProjects/empty/src/framework/audio.lua
 
 [Edit text] content size = (182.000000, 36.000000)
 
-[LUA-print] cur text is 	请输入昵
+[LUA-print] cur text is 	
+
+[LUA-print] cur text is 	H
+
+[LUA-print] cur text is 	Ha
+
+[LUA-print] cur text is 	Had
+
+[LUA-print] cur text is 	Hade
+
+[LUA-print] cur text is 	Hades
 
 [LUA-print] [INFO]registerButton
 
@@ -120,23 +136,45 @@ D:/CocosProjects/empty/src/framework/audio.lua
 
 [LUA-print] [INFO]end
 
-[LUA-print] [INFO]请输入昵
+[LUA-print] [INFO]Hades
 
 Inner height <= scrollview height, it will be force sized!
+
+[LUA-print] [INFO]FileUtil.loadGame
+
+[LUA-print] [INFO]{  "rankData":[{      "nickname":"Zoybzo",      "score":19    },{      "nickname":"请输入昵",      "score":4    }]}
 
 cocos2d: padding: 0,0,0,0
 
+Inner height <= scrollview height, it will be force sized!
+
+Inner height <= scrollview height, it will be force sized!
+
 Inner width <= scrollview width, it will be force sized!
 
-[LUA-print] [LuaPanda] Reconnect !
+[LUA-print] [INFO]Zoybzo 19
 
-[LUA-print] [LuaPanda] reconnect failed
+[LUA-print] [INFO]请输入昵 4
 
-[LUA-print] [LuaPanda] Reconnect !
+[LUA-print] [INFO]Hades 3
 
-[LUA-print] [LuaPanda] reconnect failed
+Inner height <= scrollview height, it will be force sized!
 
-[LUA-print] [INFO]Score: 000
+Inner width <= scrollview width, it will be force sized!
+
+[LUA-print] [INFO]restartButton
+
+[LUA-print] [INFO]restartButton
+
+Inner width <= scrollview width, it will be force sized!
+
+[LUA-print] [INFO]Zoybzo 19
+
+[LUA-print] [INFO]Hades 17
+
+[LUA-print] [INFO]请输入昵 4
+
+[LUA-print] [INFO]Hades 3
 
 Inner height <= scrollview height, it will be force sized!
 
@@ -149,6 +187,72 @@ Inner width <= scrollview width, it will be force sized!
 [LUA-print] [INFO]backButton
 
 Inner height <= scrollview height, it will be force sized!
+
+[LUA-print] [INFO]FileUtil.loadGame
+
+[LUA-print] [INFO]{  "rankData":[{      "score":19,      "nickname":"Zoybzo"    },{      "score":17,      "nickname":"Hades"    },{      "score":4,      "nickname":"请输入昵"    },{      "score":3,      "nickname":"Hades"    }]}
+
+Inner height <= scrollview height, it will be force sized!
+
+Inner height <= scrollview height, it will be force sized!
+
+Inner width <= scrollview width, it will be force sized!
+
+[LUA-print] [INFO]Zoybzo 19
+
+[LUA-print] [INFO]Hades 17
+
+[LUA-print] [INFO]请输入昵 4
+
+[LUA-print] [INFO]Hades 3
+
+[LUA-print] [INFO]Hades 0
+
+Inner height <= scrollview height, it will be force sized!
+
+Inner width <= scrollview width, it will be force sized!
+
+[LUA-print] [INFO]backButton
+
+[LUA-print] [INFO]backButton
+
+[LUA-print] [INFO]backButton
+
+Inner height <= scrollview height, it will be force sized!
+
+[LUA-print] [INFO]FileUtil.loadGame
+
+[LUA-print] [INFO]{  "rankData":[{      "score":19,      "nickname":"Zoybzo"    },{      "score":17,      "nickname":"Hades"    },{      "score":4,      "nickname":"请输入昵"    },{      "score":3,      "nickname":"Hades"    },{      "score":0,      "nickname":"Hades"    }]}
+
+Inner height <= scrollview height, it will be force sized!
+
+Inner height <= scrollview height, it will be force sized!
+
+Inner width <= scrollview width, it will be force sized!
+
+[LUA-print] [INFO]Zoybzo 19
+
+[LUA-print] [INFO]Hades 17
+
+[LUA-print] [INFO]请输入昵 4
+
+[LUA-print] [INFO]Hades 3
+
+[LUA-print] [INFO]Hades 1
+
+Inner height <= scrollview height, it will be force sized!
+
+Inner width <= scrollview width, it will be force sized!
+
+[LUA-print] [INFO]backButton
+
+[LUA-print] [INFO]backButton
+
+Inner height <= scrollview height, it will be force sized!
+
+[LUA-print] [INFO]FileUtil.loadGame
+
+[LUA-print] [INFO]{  "rankData":[{      "score":19,      "nickname":"Zoybzo"    },{      "score":17,      "nickname":"Hades"    },{      "score":4,      "nickname":"请输入昵"    },{      "score":3,      "nickname":"Hades"    },{      "score":1,      "nickname":"Hades"    }]}
 
 Inner height <= scrollview height, it will be force sized!
 

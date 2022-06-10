@@ -83,16 +83,7 @@ end
 function GameHandler.toSaveRank()
     local tmpRankData = {}
     for i = 1, #(GameHandler.RankData) do
-        if GameHandler.RankData[i] == nil then
-            Log.i("This is nil.")
-        else
-            Log.i(tostring(GameHandler.RankData[i].nickname .. " " .. GameHandler.RankData[i].score))
-            local data = {
-                nickname = GameHandler.RankData[i].nickname,
-                score = GameHandler.RankData[i].score
-            }
-            table.insert(tmpRankData, data)
-        end
+        table.insert(tmpRankData, GameHandler.RankData[i]:data2Json())
     end
     local obj = {
         rankData = tmpRankData

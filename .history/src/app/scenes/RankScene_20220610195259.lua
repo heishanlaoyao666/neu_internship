@@ -39,13 +39,13 @@ function RankScene:onEnter()
     for i = 1, #(GameHandler.RankData) do
         local itemLayer = ccui.Layout:create()
         local item = RankNode:create(i, 0, 0, GameHandler.RankData[i]):addTo(itemLayer)
-        local itemWidth = WinSize.width * 0.8333
-        local itemHeight = WinSize.height * 0.1
-        itemLayer:setContentSize(itemWidth, itemHeight)
         -- rankList:addChild(item)
         -- rankList:pushBackDefaultItem(item)
         rankList:pushBackCustomItem(itemLayer)
         -- base
+        -- local itemWidth = WinSize.width * 0.8333
+        -- local itemHeight = WinSize.height * 0.1
+        -- itemLayer:setContentSize(itemWidth, itemHeight)
 
         -- local itemBg = ccui.ImageView:create("ui/rank/rank_item_bg.png")
         -- itemBg:setAnchorPoint(0.5, 0.5)

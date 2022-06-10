@@ -28,10 +28,6 @@ function GameHandler.updateRank(nickname, score)
     local rankData = RankModel.new(nickname, score)
     table.insert(GameHandler.RankData, rankData)
     table.sort(GameHandler.RankData, RankModel.cmp)
-    for i = 6, #(GameHandler.RankData) do
-        table.remove(GameHandler.RankData, i)
-    end
-    FileUtil.saveRank()
 end
 
 function GameHandler.cleanupData()
@@ -83,16 +79,7 @@ end
 function GameHandler.toSaveRank()
     local tmpRankData = {}
     for i = 1, #(GameHandler.RankData) do
-        if GameHandler.RankData[i] == nil then
-            Log.i("This is nil.")
-        else
-            Log.i(tostring(GameHandler.RankData[i].nickname .. " " .. GameHandler.RankData[i].score))
-            local data = {
-                nickname = GameHandler.RankData[i].nickname,
-                score = GameHandler.RankData[i].score
-            }
-            table.insert(tmpRankData, data)
-        end
+        table.insert(tmpRankData, GameHandler.RankData[i]:data2Json())
     end
     local obj = {
         rankData = tmpRankData

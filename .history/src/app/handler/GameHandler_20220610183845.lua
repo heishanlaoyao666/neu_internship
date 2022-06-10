@@ -1,9 +1,5 @@
 GameHandler = GameHandler or {}
 
--- local
-local RankModel = require("app.model.RankModel")
---
-
 GameHandler.myRole = nil
 GameHandler.PlaneData = nil
 
@@ -22,16 +18,6 @@ GameHandler.isContinue = UserDefault:getBoolForKey(ConstantsUtil.CONTINUE_KEY, f
 function GameHandler.updateContinue(val)
     GameHandler.isContinue = val
     UserDefault:setBoolForKey(ConstantsUtil.CONTINUE_KEY, GameHandler.isContinue)
-end
-
-function GameHandler.updateRank(nickname, score)
-    local rankData = RankModel.new(nickname, score)
-    table.insert(GameHandler.RankData, rankData)
-    table.sort(GameHandler.RankData, RankModel.cmp)
-    for i = 6, #(GameHandler.RankData) do
-        table.remove(GameHandler.RankData, i)
-    end
-    FileUtil.saveRank()
 end
 
 function GameHandler.cleanupData()
@@ -56,7 +42,7 @@ function GameHandler.cleanupView()
     end
 end
 
-function GameHandler.toSaveGame()
+function GameHandler.toSave()
     local tmpBulletData = {}
     for i = 1, #(GameHandler.BulletData) do
         table.insert(tmpBulletData, GameHandler.BulletData[i]:data2Json())
@@ -74,34 +60,10 @@ function GameHandler.toSaveGame()
     return obj
 end
 
-function GameHandler.toLoadGame(obj)
+function GameHandler.toLoad(obj)
     GameHandler.PlaneData = obj.planeData
     GameHandler.BulletData = obj.bulletData
     GameHandler.EnemyData = obj.enemyData
-end
-
-function GameHandler.toSaveRank()
-    local tmpRankData = {}
-    for i = 1, #(GameHandler.RankData) do
-        if GameHandler.RankData[i] == nil then
-            Log.i("This is nil.")
-        else
-            Log.i(tostring(GameHandler.RankData[i].nickname .. " " .. GameHandler.RankData[i].score))
-            local data = {
-                nickname = GameHandler.RankData[i].nickname,
-                score = GameHandler.RankData[i].score
-            }
-            table.insert(tmpRankData, data)
-        end
-    end
-    local obj = {
-        rankData = tmpRankData
-    }
-    return obj
-end
-
-function GameHandler.toLoadRank(obj)
-    GameHandler.RankData = obj.rankData
 end
 
 return GameHandler

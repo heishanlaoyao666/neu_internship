@@ -18,7 +18,6 @@ function OverNode:ctor()
 end
 
 function OverNode:init(itsColor)
-    GameHandler.updateRank(ConstantsUtil.username, GameHandler.myRole:getMyScore())
     -- body
     local layer = ccui.Layout:create()
     local overLayer = cc.LayerColor:create(itsColor):addTo(layer)

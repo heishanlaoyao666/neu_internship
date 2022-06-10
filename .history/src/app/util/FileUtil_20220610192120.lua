@@ -62,7 +62,6 @@ end
 function FileUtil.loadRank()
     Log.i("FileUtil.loadGame")
     local str = FileUtil.fileRead(ConstantsUtil.PATH_RANK_JSON)
-    Log.i(str)
     local obj, pos, err = json.decode(str, 1, nil)
     if obj == nil then
         Log.e("JSON Error: obj is nullptr")

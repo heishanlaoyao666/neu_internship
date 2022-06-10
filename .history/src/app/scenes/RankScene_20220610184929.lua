@@ -7,15 +7,12 @@ local RankScene =
 )
 
 ---local
-local RankNode = require("app.node.RankNode")
 ---
 
 function RankScene:ctor()
 end
 
 function RankScene:onEnter()
-    FileUtil.loadRank()
-
     local rankScene = cc.CSLoader:getInstance():createNodeWithFlatBuffersFile("RankScene.csb"):addTo(self, 1)
     local bg = ccui.Helper:seekWidgetByName(rankScene, "background")
     ccui.Helper:doLayout(bg)
@@ -34,18 +31,18 @@ function RankScene:onEnter()
         end
     )
 
+    local rankBg = ccui.ImageView:create("ui/rank/rank_bg.png")
     local rankList = tolua.cast(ccui.Helper:seekWidgetByName(rankScene, "rank_list"), "ccui.ListView")
     -- rankList
+    local scoreInit = 10000
+    local delta = 1000
     for i = 1, #(GameHandler.RankData) do
-        local itemLayer = ccui.Layout:create()
-        local item = RankNode:create(i, 0, 0, GameHandler.RankData[i]):addTo(itemLayer)
-        local itemWidth = WinSize.width * 0.8333
-        local itemHeight = WinSize.height * 0.1
-        itemLayer:setContentSize(itemWidth, itemHeight)
-        -- rankList:addChild(item)
-        -- rankList:pushBackDefaultItem(item)
-        rankList:pushBackCustomItem(itemLayer)
         -- base
+        -- local itemLayer = ccui.Layout:create()
+        -- local itemWidth = WinSize.width * 0.8333
+        -- local itemHeight = WinSize.height * 0.1
+        -- itemLayer:setContentSize(itemWidth, itemHeight)
+        -- rankList:pushBackCustomItem(itemLayer)
 
         -- local itemBg = ccui.ImageView:create("ui/rank/rank_item_bg.png")
         -- itemBg:setAnchorPoint(0.5, 0.5)
@@ -69,6 +66,8 @@ function RankScene:onEnter()
         -- itemScore:setAnchorPoint(0.5, 0.5)
         -- itemScore:pos(itemWidth * 0.7, 0)
         -- itemScore:addTo(itemLayer)
+
+        scoreInit = scoreInit - delta
     end
 end
 
