@@ -21,6 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 ]]
+
 --------------------------------
 -- @module display
 
@@ -66,19 +67,16 @@ display 模块封装了绝大部分与显示有关的功能，并负责根据 co
 ]]
 local display = {}
 
-local sharedDirector = cc.Director:getInstance()
-local sharedTextureCache = cc.Director:getInstance():getTextureCache()
+local sharedDirector         = cc.Director:getInstance()
+local sharedTextureCache     = cc.Director:getInstance():getTextureCache()
 local sharedSpriteFrameCache = cc.SpriteFrameCache:getInstance()
-local sharedAnimationCache = cc.AnimationCache:getInstance()
+local sharedAnimationCache   = cc.AnimationCache:getInstance()
 
 -- check device screen size
 local glview = sharedDirector:getOpenGLView()
 if nil == glview then
-    glview =
-        cc.GLViewImpl:createWithRect(
-        "QuickCocos",
-        cc.rect(0, 0, CONFIG_SCREEN_WIDTH or 900, CONFIG_SCREEN_HEIGHT or 640)
-    )
+    glview = cc.GLViewImpl:createWithRect("QuickCocos",
+        cc.rect(0, 0, CONFIG_SCREEN_WIDTH or 900, CONFIG_SCREEN_HEIGHT or 640))
     sharedDirector:setOpenGLView(glview)
 end
 
@@ -105,157 +103,68 @@ end
 
 local scale, scaleX, scaleY
 
--- if CONFIG_SCREEN_AUTOSCALE and CONFIG_SCREEN_AUTOSCALE ~= "NONE" then
---     if type(CONFIG_SCREEN_AUTOSCALE_CALLBACK) == "function" then
---         scaleX, scaleY = CONFIG_SCREEN_AUTOSCALE_CALLBACK(w, h, device.model)
---     end
+if CONFIG_SCREEN_AUTOSCALE and CONFIG_SCREEN_AUTOSCALE ~="NONE" then
+	if type(CONFIG_SCREEN_AUTOSCALE_CALLBACK) == "function" then
+		scaleX, scaleY = CONFIG_SCREEN_AUTOSCALE_CALLBACK(w, h, device.model)
+	end
 
---     if CONFIG_SCREEN_AUTOSCALE == "FILL_ALL" then
---         --        CONFIG_SCREEN_WIDTH = w
---         --        CONFIG_SCREEN_HEIGHT = h
---         scale = 1.0
---         if cc.bPlugin_ then
---             glview:setDesignResolutionSize(CONFIG_SCREEN_WIDTH, CONFIG_SCREEN_HEIGHT, cc.ResolutionPolicy.EXACT_FIT)
---         else
---             glview:setDesignResolutionSize(CONFIG_SCREEN_WIDTH, CONFIG_SCREEN_HEIGHT, cc.ResolutionPolicy.FILL_ALL)
---         end
---     else
---         if not scaleX or not scaleY then
---             scaleX, scaleY = w / CONFIG_SCREEN_WIDTH, h / CONFIG_SCREEN_HEIGHT
---         end
+	if CONFIG_SCREEN_AUTOSCALE == "EXACT_FIT" then
+		scale = 1.0
+		glview:setDesignResolutionSize(CONFIG_SCREEN_WIDTH, CONFIG_SCREEN_HEIGHT, cc.ResolutionPolicy.EXACT_FIT)
+	elseif CONFIG_SCREEN_AUTOSCALE == "FILL_ALL" then
+		CONFIG_SCREEN_WIDTH = w
+		CONFIG_SCREEN_HEIGHT = h
+		scale = 1.0
+		glview:setDesignResolutionSize(CONFIG_SCREEN_WIDTH, CONFIG_SCREEN_HEIGHT, cc.ResolutionPolicy.SHOW_ALL)
+	else
+		if not scaleX or not scaleY then
+			scaleX, scaleY = w / CONFIG_SCREEN_WIDTH, h / CONFIG_SCREEN_HEIGHT
+		end
 
---         if CONFIG_SCREEN_AUTOSCALE == "FIXED_WIDTH" then
---             scale = scaleX
---             CONFIG_SCREEN_HEIGHT = h / scale
---         elseif CONFIG_SCREEN_AUTOSCALE == "FIXED_HEIGHT" then
---             scale = scaleY
---             CONFIG_SCREEN_WIDTH = w / scale
---         else
---             --            scale = 1.0
---             --            printError(string.format("display - invalid CONFIG_SCREEN_AUTOSCALE \"%s\"", CONFIG_SCREEN_AUTOSCALE))
---             if (scaleX > scaleY) then
---                 scale = scaleX
---                 CONFIG_SCREEN_HEIGHT = h / scale
---             else
---                 scale = scaleY
---                 CONFIG_SCREEN_WIDTH = w / scale
---             end
---         end
---         glview:setDesignResolutionSize(CONFIG_SCREEN_WIDTH, CONFIG_SCREEN_HEIGHT, cc.ResolutionPolicy.NO_BORDER)
---     end
--- else
---     CONFIG_SCREEN_WIDTH = w
---     CONFIG_SCREEN_HEIGHT = h
---     scale = 1.0
--- end
-
-if CONFIG_SCREEN_AUTOSCALE and CONFIG_SCREEN_AUTOSCALE ~= "NONE" then
-    if type(CONFIG_SCREEN_AUTOSCALE_CALLBACK) == "function" then
-        scaleX, scaleY = CONFIG_SCREEN_AUTOSCALE_CALLBACK(w, h, device.model)
-    end
-
-    if CONFIG_SCREEN_AUTOSCALE == "FILL_ALL" then
-        --添加 修改 begin
-        CONFIG_SCREEN_WIDTH = w
-        CONFIG_SCREEN_HEIGHT = h
-        scale = 1.0
-        if cc.bPlugin_ then
-            glview:setDesignResolutionSize(CONFIG_SCREEN_WIDTH, CONFIG_SCREEN_HEIGHT, cc.ResolutionPolicy.NO_BORDER)
-        else
-            glview:setDesignResolutionSize(CONFIG_SCREEN_WIDTH, CONFIG_SCREEN_HEIGHT, cc.ResolutionPolicy.FILL_ALL)
-        end
-    elseif CONFIG_SCREEN_AUTOSCALE == "EXACT_FIT" then
-        scale = 1.0
-        glview:setDesignResolutionSize(CONFIG_SCREEN_WIDTH, CONFIG_SCREEN_HEIGHT, cc.ResolutionPolicy.EXACT_FIT)
-    elseif CONFIG_SCREEN_AUTOSCALE == "SHOW_ALL" then
-        --添加 修改 end
-        scale = 1.0
-        glview:setDesignResolutionSize(CONFIG_SCREEN_WIDTH, CONFIG_SCREEN_HEIGHT, cc.ResolutionPolicy.SHOW_ALL)
-    else
-        if not scaleX or not scaleY then
-            scaleX, scaleY = w / CONFIG_SCREEN_WIDTH, h / CONFIG_SCREEN_HEIGHT
-        end
-
-        if CONFIG_SCREEN_AUTOSCALE == "FIXED_WIDTH" then
-            scale = scaleX
-            CONFIG_SCREEN_HEIGHT = h / scale
-        elseif CONFIG_SCREEN_AUTOSCALE == "FIXED_HEIGHT" then
-            scale = scaleY
-            CONFIG_SCREEN_WIDTH = w / scale
-        else
-            scale = 1.0
-            printError(string.format('display - invalid CONFIG_SCREEN_AUTOSCALE "%s"', CONFIG_SCREEN_AUTOSCALE))
-        end
-        glview:setDesignResolutionSize(CONFIG_SCREEN_WIDTH, CONFIG_SCREEN_HEIGHT, cc.ResolutionPolicy.NO_BORDER)
-    end
+		if CONFIG_SCREEN_AUTOSCALE == "FIXED_WIDTH" then
+			scale = scaleX
+			CONFIG_SCREEN_HEIGHT = h / scale
+		elseif CONFIG_SCREEN_AUTOSCALE == "FIXED_HEIGHT" then
+			scale = scaleY
+			CONFIG_SCREEN_WIDTH = w / scale
+		elseif CONFIG_SCREEN_AUTOSCALE == "FIXED_AUTO" then
+			if scaleX < scaleY then
+				scale = scaleX
+				CONFIG_SCREEN_HEIGHT = h / scale
+			else
+				scale = scaleY
+				CONFIG_SCREEN_WIDTH  = w / scale
+			end
+		else
+			scale = 1.0
+			printError(string.format("display - invalid CONFIG_SCREEN_AUTOSCALE \"%s\"", CONFIG_SCREEN_AUTOSCALE))
+		end
+		glview:setDesignResolutionSize(CONFIG_SCREEN_WIDTH, CONFIG_SCREEN_HEIGHT, cc.ResolutionPolicy.NO_BORDER)
+	end
 else
-    CONFIG_SCREEN_WIDTH = w
-    CONFIG_SCREEN_HEIGHT = h
-    scale = 1.0
+	CONFIG_SCREEN_WIDTH = w
+	CONFIG_SCREEN_HEIGHT = h
+	scale = 1.0
 end
 
--- if CONFIG_SCREEN_AUTOSCALE and CONFIG_SCREEN_AUTOSCALE ~="NONE" then
--- 	if type(CONFIG_SCREEN_AUTOSCALE_CALLBACK) == "function" then
--- 		scaleX, scaleY = CONFIG_SCREEN_AUTOSCALE_CALLBACK(w, h, device.model)
--- 	end
-
--- 	if CONFIG_SCREEN_AUTOSCALE == "EXACT_FIT" then
--- 		scale = 1.0
--- 		glview:setDesignResolutionSize(CONFIG_SCREEN_WIDTH, CONFIG_SCREEN_HEIGHT, cc.ResolutionPolicy.EXACT_FIT)
--- 	elseif CONFIG_SCREEN_AUTOSCALE == "FILL_ALL" then
--- 		CONFIG_SCREEN_WIDTH = w
--- 		CONFIG_SCREEN_HEIGHT = h
--- 		scale = 1.0
--- 		glview:setDesignResolutionSize(CONFIG_SCREEN_WIDTH, CONFIG_SCREEN_HEIGHT, cc.ResolutionPolicy.SHOW_ALL)
--- 	else
--- 		if not scaleX or not scaleY then
--- 			scaleX, scaleY = w / CONFIG_SCREEN_WIDTH, h / CONFIG_SCREEN_HEIGHT
--- 		end
-
--- 		if CONFIG_SCREEN_AUTOSCALE == "FIXED_WIDTH" then
--- 			scale = scaleX
--- 			CONFIG_SCREEN_HEIGHT = h / scale
--- 		elseif CONFIG_SCREEN_AUTOSCALE == "FIXED_HEIGHT" then
--- 			scale = scaleY
--- 			CONFIG_SCREEN_WIDTH = w / scale
--- 		elseif CONFIG_SCREEN_AUTOSCALE == "FIXED_AUTO" then
--- 			if scaleX < scaleY then
--- 				scale = scaleX
--- 				CONFIG_SCREEN_HEIGHT = h / scale
--- 			else
--- 				scale = scaleY
--- 				CONFIG_SCREEN_WIDTH  = w / scale
--- 			end
--- 		else
--- 			scale = 1.0
--- 			printError(string.format("display - invalid CONFIG_SCREEN_AUTOSCALE \"%s\"", CONFIG_SCREEN_AUTOSCALE))
--- 		end
--- 		glview:setDesignResolutionSize(CONFIG_SCREEN_WIDTH, CONFIG_SCREEN_HEIGHT, cc.ResolutionPolicy.NO_BORDER)
--- 	end
--- else
--- 	CONFIG_SCREEN_WIDTH = w
--- 	CONFIG_SCREEN_HEIGHT = h
--- 	scale = 1.0
--- end
-
 local winSize = sharedDirector:getWinSize()
-display.screenScale = 2.0
+display.screenScale        = 2.0
 display.contentScaleFactor = scale
-display.size = {width = winSize.width, height = winSize.height}
-display.width = display.size.width
-display.height = display.size.height
-display.cx = display.width / 2
-display.cy = display.height / 2
-display.c_left = -display.width / 2
-display.c_right = display.width / 2
-display.c_top = display.height / 2
-display.c_bottom = -display.height / 2
-display.left = 0
-display.right = display.width
-display.top = display.height
-display.bottom = 0
-display.widthInPixels = display.sizeInPixels.width
-display.heightInPixels = display.sizeInPixels.height
+display.size               = {width = winSize.width, height = winSize.height}
+display.width              = display.size.width
+display.height             = display.size.height
+display.cx                 = display.width / 2
+display.cy                 = display.height / 2
+display.c_left             = -display.width / 2
+display.c_right            = display.width / 2
+display.c_top              = display.height / 2
+display.c_bottom           = -display.height / 2
+display.left               = 0
+display.right              = display.width
+display.top                = display.height
+display.bottom             = 0
+display.widthInPixels      = display.sizeInPixels.width
+display.heightInPixels     = display.sizeInPixels.height
 
 printInfo(string.format("# CONFIG_SCREEN_AUTOSCALE      = %s", CONFIG_SCREEN_AUTOSCALE))
 printInfo(string.format("# CONFIG_SCREEN_WIDTH          = %0.2f", CONFIG_SCREEN_WIDTH))
@@ -277,87 +186,80 @@ printInfo(string.format("# display.c_top                = %0.2f", display.c_top)
 printInfo(string.format("# display.c_bottom             = %0.2f", display.c_bottom))
 printInfo("#")
 
-display.COLOR_WHITE = cc.c3b(255, 255, 255)
-display.COLOR_YELLOW = cc.c3b(255, 255, 0)
-display.COLOR_GREEN = cc.c3b(0, 255, 0)
-display.COLOR_BLUE = cc.c3b(0, 0, 255)
-display.COLOR_RED = cc.c3b(255, 0, 0)
+display.COLOR_WHITE   = cc.c3b(255, 255, 255)
+display.COLOR_YELLOW  = cc.c3b(255, 255, 0)
+display.COLOR_GREEN   = cc.c3b(0, 255, 0)
+display.COLOR_BLUE    = cc.c3b(0, 0, 255)
+display.COLOR_RED     = cc.c3b(255, 0, 0)
 display.COLOR_MAGENTA = cc.c3b(255, 0, 255)
-display.COLOR_BLACK = cc.c3b(0, 0, 0)
-display.COLOR_ORANGE = cc.c3b(255, 127, 0)
-display.COLOR_GRAY = cc.c3b(166, 166, 166)
+display.COLOR_BLACK   = cc.c3b(0, 0, 0)
+display.COLOR_ORANGE  = cc.c3b(255, 127, 0)
+display.COLOR_GRAY    = cc.c3b(166, 166, 166)
 
-display.AUTO_SIZE = 0
-display.FIXED_SIZE = 1
-display.LEFT_TO_RIGHT = 0
-display.RIGHT_TO_LEFT = 1
-display.TOP_TO_BOTTOM = 2
-display.BOTTOM_TO_TOP = 3
+display.AUTO_SIZE      = 0
+display.FIXED_SIZE     = 1
+display.LEFT_TO_RIGHT  = 0
+display.RIGHT_TO_LEFT  = 1
+display.TOP_TO_BOTTOM  = 2
+display.BOTTOM_TO_TOP  = 3
 
-display.CENTER = 1
-display.LEFT_TOP = 2
-display.TOP_LEFT = 2
-display.CENTER_TOP = 3
-display.TOP_CENTER = 3
-display.RIGHT_TOP = 4
-display.TOP_RIGHT = 4
-display.CENTER_LEFT = 5
-display.LEFT_CENTER = 5
-display.CENTER_RIGHT = 6
-display.RIGHT_CENTER = 6
-display.BOTTOM_LEFT = 7
-display.LEFT_BOTTOM = 7
-display.BOTTOM_RIGHT = 8
-display.RIGHT_BOTTOM = 8
-display.BOTTOM_CENTER = 9
-display.CENTER_BOTTOM = 9
+display.CENTER        = 1
+display.LEFT_TOP      = 2; display.TOP_LEFT      = 2
+display.CENTER_TOP    = 3; display.TOP_CENTER    = 3
+display.RIGHT_TOP     = 4; display.TOP_RIGHT     = 4
+display.CENTER_LEFT   = 5; display.LEFT_CENTER   = 5
+display.CENTER_RIGHT  = 6; display.RIGHT_CENTER  = 6
+display.BOTTOM_LEFT   = 7; display.LEFT_BOTTOM   = 7
+display.BOTTOM_RIGHT  = 8; display.RIGHT_BOTTOM  = 8
+display.BOTTOM_CENTER = 9; display.CENTER_BOTTOM = 9
 
 display.ANCHOR_POINTS = {
-    cc.p(0.5, 0.5), -- CENTER
-    cc.p(0, 1), -- TOP_LEFT
-    cc.p(0.5, 1), -- TOP_CENTER
-    cc.p(1, 1), -- TOP_RIGHT
-    cc.p(0, 0.5), -- CENTER_LEFT
-    cc.p(1, 0.5), -- CENTER_RIGHT
-    cc.p(0, 0), -- BOTTOM_LEFT
-    cc.p(1, 0), -- BOTTOM_RIGHT
-    cc.p(0.5, 0) -- BOTTOM_CENTER
+    cc.p(0.5, 0.5),  -- CENTER
+    cc.p(0, 1),      -- TOP_LEFT
+    cc.p(0.5, 1),    -- TOP_CENTER
+    cc.p(1, 1),      -- TOP_RIGHT
+    cc.p(0, 0.5),    -- CENTER_LEFT
+    cc.p(1, 0.5),    -- CENTER_RIGHT
+    cc.p(0, 0),      -- BOTTOM_LEFT
+    cc.p(1, 0),      -- BOTTOM_RIGHT
+    cc.p(0.5, 0),    -- BOTTOM_CENTER
 }
 
 display.SCENE_TRANSITIONS = {
-    CROSSFADE = {cc.TransitionCrossFade, 2},
-    FADE = {cc.TransitionFade, 3, cc.c3b(0, 0, 0)},
-    FADEBL = {cc.TransitionFadeBL, 2},
-    FADEDOWN = {cc.TransitionFadeDown, 2},
-    FADETR = {cc.TransitionFadeTR, 2},
-    FADEUP = {cc.TransitionFadeUp, 2},
-    FLIPANGULAR = {cc.TransitionFlipAngular, 3, cc.TRANSITION_ORIENTATION_LEFT_OVER},
-    FLIPX = {cc.TransitionFlipX, 3, cc.TRANSITION_ORIENTATION_LEFT_OVER},
-    FLIPY = {cc.TransitionFlipY, 3, cc.TRANSITION_ORIENTATION_UP_OVER},
-    JUMPZOOM = {cc.TransitionJumpZoom, 2},
-    MOVEINB = {cc.TransitionMoveInB, 2},
-    MOVEINL = {cc.TransitionMoveInL, 2},
-    MOVEINR = {cc.TransitionMoveInR, 2},
-    MOVEINT = {cc.TransitionMoveInT, 2},
-    PAGETURN = {cc.TransitionPageTurn, 3, false},
-    ROTOZOOM = {cc.TransitionRotoZoom, 2},
-    SHRINKGROW = {cc.TransitionShrinkGrow, 2},
-    SLIDEINB = {cc.TransitionSlideInB, 2},
-    SLIDEINL = {cc.TransitionSlideInL, 2},
-    SLIDEINR = {cc.TransitionSlideInR, 2},
-    SLIDEINT = {cc.TransitionSlideInT, 2},
-    SPLITCOLS = {cc.TransitionSplitCols, 2},
-    SPLITROWS = {cc.TransitionSplitRows, 2},
-    TURNOFFTILES = {cc.TransitionTurnOffTiles, 2},
+    CROSSFADE       = {cc.TransitionCrossFade, 2},
+    FADE            = {cc.TransitionFade, 3, cc.c3b(0, 0, 0)},
+    FADEBL          = {cc.TransitionFadeBL, 2},
+    FADEDOWN        = {cc.TransitionFadeDown, 2},
+    FADETR          = {cc.TransitionFadeTR, 2},
+    FADEUP          = {cc.TransitionFadeUp, 2},
+    FLIPANGULAR     = {cc.TransitionFlipAngular, 3, cc.TRANSITION_ORIENTATION_LEFT_OVER},
+    FLIPX           = {cc.TransitionFlipX, 3, cc.TRANSITION_ORIENTATION_LEFT_OVER},
+    FLIPY           = {cc.TransitionFlipY, 3, cc.TRANSITION_ORIENTATION_UP_OVER},
+    JUMPZOOM        = {cc.TransitionJumpZoom, 2},
+    MOVEINB         = {cc.TransitionMoveInB, 2},
+    MOVEINL         = {cc.TransitionMoveInL, 2},
+    MOVEINR         = {cc.TransitionMoveInR, 2},
+    MOVEINT         = {cc.TransitionMoveInT, 2},
+    PAGETURN        = {cc.TransitionPageTurn, 3, false},
+    ROTOZOOM        = {cc.TransitionRotoZoom, 2},
+    SHRINKGROW      = {cc.TransitionShrinkGrow, 2},
+    SLIDEINB        = {cc.TransitionSlideInB, 2},
+    SLIDEINL        = {cc.TransitionSlideInL, 2},
+    SLIDEINR        = {cc.TransitionSlideInR, 2},
+    SLIDEINT        = {cc.TransitionSlideInT, 2},
+    SPLITCOLS       = {cc.TransitionSplitCols, 2},
+    SPLITROWS       = {cc.TransitionSplitRows, 2},
+    TURNOFFTILES    = {cc.TransitionTurnOffTiles, 2},
     ZOOMFLIPANGULAR = {cc.TransitionZoomFlipAngular, 2},
-    ZOOMFLIPX = {cc.TransitionZoomFlipX, 3, cc.TRANSITION_ORIENTATION_LEFT_OVER},
-    ZOOMFLIPY = {cc.TransitionZoomFlipY, 3, cc.TRANSITION_ORIENTATION_UP_OVER}
+    ZOOMFLIPX       = {cc.TransitionZoomFlipX, 3, cc.TRANSITION_ORIENTATION_LEFT_OVER},
+    ZOOMFLIPY       = {cc.TransitionZoomFlipY, 3, cc.TRANSITION_ORIENTATION_UP_OVER},
 }
 
 display.TEXTURES_PIXEL_FORMAT = {}
 
-display.DEFAULT_TTF_FONT = "Arial"
-display.DEFAULT_TTF_FONT_SIZE = 24
+display.DEFAULT_TTF_FONT        = "Arial"
+display.DEFAULT_TTF_FONT_SIZE   = 24
+
 
 -- start --
 
@@ -373,7 +275,7 @@ display.DEFAULT_TTF_FONT_SIZE = 24
 function display.newScene(name)
     local scene = cc.Scene:create()
     scene.name = name or "<unknown-scene>"
-    scene:setNodeEventEnabled(true)
+	scene:setNodeEventEnabled(true)
     return scene
 end
 
@@ -454,6 +356,7 @@ display.replaceScene(transition)
 -   turnOffTiles 当前场景分成多个块，逐渐替换为新场景
 
 ]]
+
 -- end --
 
 function display.wrapSceneWithTransition(scene, transitionType, time, more)
@@ -565,8 +468,8 @@ end
 
 function display.newLayer()
     local node = cc.Node:create()
-    node:setContentSize(cc.size(display.width, display.height))
-    return node
+	node:setContentSize(cc.size(display.width, display.height))
+	return node
 end
 
 -- start --
@@ -575,7 +478,7 @@ end
 -- 创建一个颜色填充层
 -- @function [parent=#display] newColorLayer
 -- @param ccColor4B color
--- @return LayerColor#LayerColor ret (return value: cc.LayerColor)
+-- @return LayerColor#LayerColor ret (return value: cc.LayerColor) 
 -- @see LayerColor
 
 -- end --
@@ -591,6 +494,7 @@ end
 -- @function [parent=#display] newNode
 -- @return Node#Node ret (return value: cc.Node)  Node对象
 -- @see Node
+
 
 --[[--
 
@@ -627,6 +531,7 @@ end
 -- @param table rect 指定的区域
 -- @return ClippingRectangleNode#ClippingRectangleNode ret (return value: cc.ClippingRectangleNode)  ClippingRectangleNode
 
+
 --[[--
 
 创建并返回一个 ClippingRectangleNode 对象。
@@ -655,7 +560,7 @@ scene:addChild(clipnode)
 -- end --
 
 function display.newClippingRectangleNode(rect)
-    return cc.ClippingRegionNode:create(rect)
+	return cc.ClippingRegionNode:create(rect)
 end
 
 -- start --
@@ -667,8 +572,9 @@ end
 -- @param number x
 -- @param number y
 -- @param table params
--- @return Sprite#Sprite ret (return value: cc.Sprite)
+-- @return Sprite#Sprite ret (return value: cc.Sprite) 
 -- @see Sprite
+
 
 --[[--
 
@@ -709,14 +615,10 @@ function display.newSprite(filename, x, y, params)
         spriteClass = params.class
         size = params.size
     end
-    if not spriteClass then
-        spriteClass = cc.Sprite
-    end
+    if not spriteClass then spriteClass = cc.Sprite end
 
     local t = type(filename)
-    if t == "userdata" then
-        t = tolua.type(filename)
-    end
+    if t == "userdata" then t = tolua.type(filename) end
     local sprite
 
     if not filename then
@@ -754,12 +656,8 @@ function display.newSprite(filename, x, y, params)
     end
 
     if sprite then
-        if x and y then
-            sprite:setPosition(x, y)
-        end
-        if size then
-            sprite:setContentSize(size)
-        end
+        if x and y then sprite:setPosition(x, y) end
+        if size then sprite:setContentSize(size) end
     else
         printError("display.newSprite() - create sprite failure, filename %s", tostring(filename))
         sprite = spriteClass:create()
@@ -778,6 +676,7 @@ end
 -- @param integer y
 -- @param table size
 -- @return Scale9Sprite#Scale9Sprite ret (return value: ccui.Scale9Sprite) Sprite9Scale显示对象
+
 
 --[[--
 
@@ -842,7 +741,7 @@ end
 -- @param size size The tiled node size, use cc.size create it please.
 -- @param integer hPadding Horizontal padding, it will display 1 px gap on moving the node, set padding for fix it.
 -- @param integer vPadding Vertical padding.
--- @return SpriteBatchNode#SpriteBatchNode ret (return value: cc.SpriteBatchNode)
+-- @return SpriteBatchNode#SpriteBatchNode ret (return value: cc.SpriteBatchNode) 
 
 -- end --
 
@@ -854,20 +753,19 @@ function display.newTiledBatchNode(filename, plistFile, size, hPadding, vPadding
     local __sliceSize = __sprite:getContentSize()
     __sliceSize.width = __sliceSize.width - hPadding
     __sliceSize.height = __sliceSize.height - vPadding
-    local __xRepeat = math.ceil(size.width / __sliceSize.width)
-    local __yRepeat = math.ceil(size.height / __sliceSize.height)
+    local __xRepeat = math.ceil(size.width/__sliceSize.width)
+    local __yRepeat = math.ceil(size.height/__sliceSize.height)
     -- How maney sprites we need to fill in tiled node?
     local __capacity = __xRepeat * __yRepeat
     local __batch = display.newBatchNode(plistFile, __capacity)
-    local __newSize = cc.size(0, 0)
+    local __newSize = cc.size(0,0)
 
-    for y = 0, __yRepeat - 1 do
-        for x = 0, __xRepeat - 1 do
+    for y=0,__yRepeat-1 do
+        for x=0,__xRepeat-1 do
             __newSize.width = __newSize.width + __sliceSize.width
-            __sprite =
-                display.newSprite(filename):align(display.LEFT_BOTTOM, x * __sliceSize.width, y * __sliceSize.height):addTo(
-                __batch
-            )
+            __sprite = display.newSprite(filename)
+                :align(display.LEFT_BOTTOM,x*__sliceSize.width, y*__sliceSize.height)
+                :addTo(__batch)
         end
         __newSize.height = __newSize.height + __sliceSize.height
     end
@@ -881,7 +779,7 @@ end
 --------------------------------
 -- 创建并返回一个空的 DrawNode 对象
 -- @function [parent=#display] newDrawNode
--- @return DrawNode#DrawNode ret (return value: cc.DrawNode)
+-- @return DrawNode#DrawNode ret (return value: cc.DrawNode) 
 -- @see DrawNode
 
 -- end --
@@ -897,8 +795,9 @@ end
 -- @function [parent=#display] newSolidCircle
 -- @param number radius 实心圆的半径
 -- @param table params 创建圆的参数 x,y为圆点位置 color中圆的颜色
--- @return DrawNode#DrawNode ret (return value: cc.DrawNode)
+-- @return DrawNode#DrawNode ret (return value: cc.DrawNode) 
 -- @see DrawNode
+
 
 --[[--
 
@@ -916,8 +815,7 @@ circle:addTo(scene)
 
 function display.newSolidCircle(radius, params)
     local circle = display.newDrawNode()
-    circle:drawSolidCircle(
-        cc.p(params.x or 0, params.y or 0),
+    circle:drawSolidCircle(cc.p(params.x or 0, params.y or 0),
         radius or 0,
         params.angle or 0,
         params.segments or 50,
@@ -935,8 +833,9 @@ end
 -- @function [parent=#display] newCircle
 -- @param number radius
 -- @param table params 有参数，x,y 圆的位置 填充色 fillColor, 边线色 borderColor 及边线宽度 borderWidth
--- @return DrawNode#DrawNode ret (return value: cc.DrawNode)
+-- @return DrawNode#DrawNode ret (return value: cc.DrawNode) 
 -- @see DrawNode
+
 
 --[[--
 
@@ -975,9 +874,7 @@ function display.newCircle(radius, params)
         local points = {}
         for i = 1, segments do
             local radii = startRadian + i * radianPerSegm
-            if radii > endRadian then
-                break
-            end
+            if radii > endRadian then break end
             points[#points + 1] = {posX + radius * math.cos(radii), posY + radius * math.sin(radii)}
         end
         return points
@@ -1012,8 +909,9 @@ end
 -- @function [parent=#display] newRect
 -- @param table rect table
 -- @param table params 有参数，填充色 fillColor, 边线色 borderColor 及边线宽度 borderWidth
--- @return DrawNode#DrawNode ret (return value: cc.DrawNode)
+-- @return DrawNode#DrawNode ret (return value: cc.DrawNode) 
 -- @see ShapeNode
+
 
 --[[--
 
@@ -1046,14 +944,13 @@ function display.newRect(rect, params)
     width = rect.width
 
     local points = {
-        {x, y},
+        {x,y},
         {x + width, y},
         {x + width, y + height},
         {x, y + height}
     }
     return display.newPolygon(points, params)
 end
---
 
 --[[--
 
@@ -1073,10 +970,9 @@ node:addTo(self)
 node:center()
 ~~~
 
-]] function display.newRoundedRect(
-    size,
-    radius,
-    params)
+]]--
+
+function display.newRoundedRect(size, radius, params)
     local radius = radius or 1
     local segments = math.ceil(radius)
     local radianPerSegment = math.pi * 0.5 / segments
@@ -1084,8 +980,7 @@ node:center()
 
     for i = 0, segments do
         local radian = i * radianPerSegment
-        radianVertices[i] =
-            cc.p(math.round(math.cos(radian) * radius * 10) / 10, math.round(math.sin(radian) * radius * 10) / 10)
+        radianVertices[i] = cc.p(math.round(math.cos(radian) * radius * 10) / 10, math.round(math.sin(radian) * radius * 10) / 10)
     end
 
     local points = {}
@@ -1120,14 +1015,14 @@ node:center()
     end
     points[#points + 1] = cc.p(points[1].x, points[1].y)
 
-    params = checktable(params)
+	params = checktable(params)
     local borderWidth = params.borderWidth or 0.5
     local fillColor = params.fillColor or cc.c4f(1, 1, 1, 1)
     local borderColor = params.borderColor or cc.c4f(1, 1, 1, 1)
     local drawNode = cc.DrawNode:create()
     drawNode:drawPolygon(points, #points, fillColor, borderWidth, borderColor)
     drawNode:setContentSize(size)
-    drawNode:setAnchorPoint(cc.p(0.5, 0.5))
+	drawNode:setAnchorPoint(cc.p(0.5, 0.5))
 
     return drawNode
 end
@@ -1139,8 +1034,9 @@ end
 -- @function [parent=#display] newLine
 -- @param table point table
 -- @param table params 有参数，边线色 borderColor 及边线宽度 borderWidth
--- @return DrawNode#DrawNode ret (return value: cc.DrawNode)
+-- @return DrawNode#DrawNode ret (return value: cc.DrawNode) 
 -- @see ShapeNode
+
 
 --[[--
 
@@ -1168,12 +1064,12 @@ function display.newLine(points, params)
     local scale
 
     if not params then
-        borderColor = cc.c4f(0, 0, 0, 1)
+        borderColor = cc.c4f(0,0,0,1)
         radius = 0.5
         scale = 1.0
     else
-        borderColor = params.borderColor or cc.c4f(0, 0, 0, 1)
-        radius = (params.borderWidth and params.borderWidth / 2) or 0.5
+        borderColor = params.borderColor or cc.c4f(0,0,0,1)
+        radius = (params.borderWidth and params.borderWidth/2) or 0.5
         scale = checknumber(params.scale or 1.0)
     end
 
@@ -1197,6 +1093,7 @@ end
 -- @param number scale 缩放比例
 -- @return DrawNode#DrawNode ret (return value: cc.DrawNode)  DrawNode
 -- @see DrawNode
+
 
 --[[--
 
@@ -1270,21 +1167,20 @@ local label = display.newBMFontLabel({
 -- end --
 
 function display.newBMFontLabel(params)
-    assert(type(params) == "table", "[framework.display] newBMFontLabel() invalid params")
+    assert(type(params) == "table",
+           "[framework.display] newBMFontLabel() invalid params")
 
-    local text = tostring(params.text)
-    local font = params.font
+    local text      = tostring(params.text)
+    local font      = params.font
     local textAlign = params.align or cc.TEXT_ALIGNMENT_LEFT
-    local maxLineW = params.maxLineWidth or 0
-    local offsetX = params.offsetX or 0
-    local offsetY = params.offsetY or 0
-    local x, y = params.x, params.y
+    local maxLineW  = params.maxLineWidth or 0
+    local offsetX   = params.offsetX or 0
+    local offsetY   = params.offsetY or 0
+    local x, y      = params.x, params.y
     assert(font ~= nil, "framework.display.newBMFontLabel() - not set font")
 
-    local label = cc.Label:createWithBMFont(font, text, textAlign, maxLineW, cc.p(offsetX, offsetY))
-    if not label then
-        return
-    end
+    local label = cc.Label:createWithBMFont(font, text, textAlign, maxLineW, cc.p(offsetX, offsetY));
+    if not label then return end
 
     if type(x) == "number" and type(y) == "number" then
         label:setPosition(x, y)
@@ -1352,18 +1248,20 @@ local label = display.newTTFLabel({
 -- end --
 
 function display.newTTFLabel(params)
-    assert(type(params) == "table", "[framework.display] newTTFLabel() invalid params")
+    assert(type(params) == "table",
+           "[framework.display] newTTFLabel() invalid params")
 
-    local text = tostring(params.text)
-    local font = params.font or display.DEFAULT_TTF_FONT
-    local size = params.size or display.DEFAULT_TTF_FONT_SIZE
-    local color = params.color or display.COLOR_WHITE
-    local textAlign = params.align or cc.TEXT_ALIGNMENT_LEFT
+    local text       = tostring(params.text)
+    local font       = params.font or display.DEFAULT_TTF_FONT
+    local size       = params.size or display.DEFAULT_TTF_FONT_SIZE
+    local color      = params.color or display.COLOR_WHITE
+    local textAlign  = params.align or cc.TEXT_ALIGNMENT_LEFT
     local textValign = params.valign or cc.VERTICAL_TEXT_ALIGNMENT_TOP
-    local x, y = params.x, params.y
+    local x, y       = params.x, params.y
     local dimensions = params.dimensions or cc.size(0, 0)
 
-    assert(type(size) == "number", "[framework.display] newTTFLabel() invalid params.size")
+    assert(type(size) == "number",
+           "[framework.display] newTTFLabel() invalid params.size")
 
     local label
     if cc.FileUtils:getInstance():isFileExist(font) then
@@ -1379,9 +1277,7 @@ function display.newTTFLabel(params)
     end
 
     if label then
-        if x and y then
-            label:setPosition(x, y)
-        end
+        if x and y then label:setPosition(x, y) end
     end
 
     return label
@@ -1396,6 +1292,7 @@ end
 -- @param integer anchorPoint 锚点位置
 -- @param integer x
 -- @param integer y
+
 
 --[[--
 
@@ -1437,9 +1334,7 @@ display.align(sprite, display.LEFT_TOP, 0, 0)
 
 function display.align(target, anchorPoint, x, y)
     target:setAnchorPoint(display.ANCHOR_POINTS[anchorPoint])
-    if x and y then
-        target:setPosition(x, y)
-    end
+    if x and y then target:setPosition(x, y) end
 end
 
 function display.addImageAsync(imagePath, callback)
@@ -1454,6 +1349,7 @@ end
 -- @param string plistFilename 数据文件名
 -- @param string image 材质文件名
 -- @see Sprite Sheets
+
 
 --[[--
 
@@ -1536,6 +1432,7 @@ end
 -- @param integer format 材质格式
 -- @see Texture Pixel Format
 
+
 --[[--
 
 设置材质格式。
@@ -1581,7 +1478,7 @@ end
 -- @function [parent=#display] newBatchNode
 -- @param string image 图像文件名
 -- @param integer capacity
--- @return SpriteBatchNode#SpriteBatchNode ret (return value: cc.SpriteBatchNode)
+-- @return SpriteBatchNode#SpriteBatchNode ret (return value: cc.SpriteBatchNode) 
 -- @see Batch Node
 
 --[[--
@@ -1622,7 +1519,7 @@ end
 -- 创建并返回一个图像帧对象。
 -- @function [parent=#display] newSpriteFrame
 -- @param string 图像帧名称
--- @return SpriteFrameCache#SpriteFrameCache ret (return value: cc.SpriteFrameCache)
+-- @return SpriteFrameCache#SpriteFrameCache ret (return value: cc.SpriteFrameCache) 
 
 --[[--
 
@@ -1664,6 +1561,7 @@ end
 -- @param integer length 长度
 -- @param boolean isReversed 是否是递减索引
 -- @return table#table ret (return value: table)  图像帧数组
+
 
 --[[--
 
@@ -1774,7 +1672,7 @@ end
 -- 取得以指定名字缓存的动画对象，如果不存在则返回 nil。
 -- @function [parent=#display] getAnimationCache
 -- @param string name
--- @return Animation#Animation ret (return value: cc.Animation)
+-- @return Animation#Animation ret (return value: cc.Animation) 
 
 -- end --
 
@@ -1826,6 +1724,7 @@ end
 - display.PROGRESS_TIMER_RADIAL 环形
 
 ]]
+
 -- end --
 
 display.PROGRESS_TIMER_BAR = 1
@@ -1862,20 +1761,19 @@ display.captureScreen(
 ~~~
 
 ]]
+
 -- end --
 
 function display.captureScreen(callback, fileName)
-    sharedDirector:captureScreen(
-        function(image)
-            if image then
-                local path = cc.FileUtils:getInstance():getWritablePath() .. fileName
-                image:saveToFile(path)
-                callback(true, path)
-            else
-                callback(false)
-            end
-        end
-    )
+	sharedDirector:captureScreen(function(image)
+		if image then
+			local path = cc.FileUtils:getInstance():getWritablePath() .. fileName
+			image:saveToFile(path)
+			callback(true, path)
+		else
+			callback(false)
+		end
+	end)
 end
 
 return display

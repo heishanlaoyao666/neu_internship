@@ -217,10 +217,8 @@ function GameScene:onEnter()
     -- 背景移动
     local bg0 = tolua.cast(ccui.Helper:seekWidgetByName(gameScene, "background_0"), "cc.Sprite")
     local bg1 = tolua.cast(ccui.Helper:seekWidgetByName(gameScene, "background_1"), "cc.Sprite")
-    -- bg0:setAnchorPoint(0.5, 0.5)
-    -- bg0:setContentSize(WinSize.width, WinSize.height)
-    -- bg1:setAnchorPoint(0.5, 0.5)
-    -- bg1:setContentSize(WinSize.width, WinSize.height)
+    bg0:setContentSize(WinSize.width, WinSize.height)
+    bg1:setContentSize(WinSize.width, WinSize.height)
     local bg = {}
     bg[0] = bg0
     bg[1] = bg1

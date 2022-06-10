@@ -15,7 +15,6 @@ end
 function MenuScene:onEnter()
     local menuScene = CSLoader:createNodeWithFlatBuffersFile("MenuScene.csb"):addTo(self)
     local bg = ccui.Helper:seekWidgetByName(menuScene, "background")
-    bg:setContentSize(WinSize.width, WinSize.height)
     ccui.Helper:doLayout(bg)
 
     local rankButton = tolua.cast(ccui.Helper:seekWidgetByName(menuScene, "rank"), "ccui.Button")

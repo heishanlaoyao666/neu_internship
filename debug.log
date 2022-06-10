@@ -48,15 +48,15 @@ LOAD LUA FILE: D:/CocosProjects/empty/src/main.lua
 
 [LUA-print] [INFO] #
 
-[LUA-print] [INFO] # CONFIG_SCREEN_AUTOSCALE      = FIXED_WIDTH
+[LUA-print] [INFO] # CONFIG_SCREEN_AUTOSCALE      = EXACT_FIT
 
 [LUA-print] [INFO] # CONFIG_SCREEN_WIDTH          = 480.00
 
 [LUA-print] [INFO] # CONFIG_SCREEN_HEIGHT         = 720.00
 
-[LUA-print] [INFO] # display.widthInPixels        = 480.00
+[LUA-print] [INFO] # display.widthInPixels        = 720.00
 
-[LUA-print] [INFO] # display.heightInPixels       = 720.00
+[LUA-print] [INFO] # display.heightInPixels       = 1280.00
 
 [LUA-print] [INFO] # display.contentScaleFactor   = 1.00
 
@@ -94,11 +94,13 @@ D:/CocosProjects/empty/src/framework/audio.lua
 
 [LUA-print] [INFO]FileUtil.loadGame
 
-[LUA-print] [INFO]{  "planeData":{    "y":173.31610107422,    "score":3,    "hp":20,    "x":278.93692016602  },  "bulletData":[{      "y":722.33020019531,      "x":225.0251159668    },{      "y":722.33020019531,      "x":225.0251159668    },{      "y":722.33020019531,      "x":225.0251159668    },{      "y":624.81610107422,      "x":278.93692016602    },{      "y":429.81610107422,      "x":278.93692016602    },{      "y":249.81610107422,      "x":278.93692016602    }],  "enemyData":[{      "y":-4,      "x":283.24979602949    },{      "y":606,      "x":317.3314540777    }]}
+[LUA-print] [INFO]{  "enemyData":[{      "y":-4,      "x":401.47386639006    },{      "y":-4,      "x":23.812543450463    },{      "y":686,      "x":396.84010123512    }],  "planeData":{    "hp":20,    "x":177.1032409668,    "y":231.90841674805,    "score":30  },  "bulletData":[{      "y":726.30206298828,      "x":260.96542358398    },{      "y":726.30206298828,      "x":260.96542358398    },{      "y":726.30206298828,      "x":260.96542358398    },{      "y":533.40841674805,      "x":177.1032409668    },{      "y":353.40841674805,      "x":177.1032409668    }]}
 
 [LUA-print] [LuaPanda] Reconnect !
 
 [LUA-print] [LuaPanda] reconnect failed
+
+[LUA-print] [INFO]480 720
 
 [Edit text] content size = (182.000000, 36.000000)
 
@@ -116,15 +118,11 @@ D:/CocosProjects/empty/src/framework/audio.lua
 
 [LUA-print] [INFO]registerButton
 
-[LUA-print] [INFO]registerButton
-
 [LUA-print] [INFO]end
 
 [LUA-print] [INFO]请输入昵
 
 Inner height <= scrollview height, it will be force sized!
-
-[LUA-print] [INFO]2
 
 cocos2d: padding: 0,0,0,0
 
@@ -138,63 +136,21 @@ Inner width <= scrollview width, it will be force sized!
 
 [LUA-print] [LuaPanda] reconnect failed
 
-[LUA-print] [INFO]Score: 004
-
-Inner height <= scrollview height, it will be force sized!
-
-Inner width <= scrollview width, it will be force sized!
-
-[LUA-print] [INFO]restartButton
-
-[LUA-print] [INFO]restartButton
-
-Inner width <= scrollview width, it will be force sized!
-
-[LUA-print] [LuaPanda] Reconnect !
-
-[LUA-print] [LuaPanda] reconnect failed
-
-[LUA-print] [LuaPanda] Reconnect !
-
-[LUA-print] [LuaPanda] reconnect failed
-
-[LUA-print] [INFO]Score: 001
-
-Inner height <= scrollview height, it will be force sized!
-
-Inner width <= scrollview width, it will be force sized!
-
-[LUA-print] [INFO]restartButton
-
-[LUA-print] [INFO]restartButton
-
-Inner width <= scrollview width, it will be force sized!
-
 [LUA-print] [INFO]Score: 000
 
 Inner height <= scrollview height, it will be force sized!
 
 Inner width <= scrollview width, it will be force sized!
 
-[LUA-print] [INFO]restartButton
+[LUA-print] [INFO]backButton
 
-[LUA-print] [INFO]restartButton
+[LUA-print] [INFO]backButton
 
-Inner width <= scrollview width, it will be force sized!
+[LUA-print] [INFO]backButton
 
-[LUA-print] [LuaPanda] Reconnect !
+Inner height <= scrollview height, it will be force sized!
 
-[LUA-print] [LuaPanda] reconnect failed
+Inner height <= scrollview height, it will be force sized!
 
-[LUA-print] [LuaPanda] Reconnect !
-
-[LUA-print] [LuaPanda] reconnect failed
-
-[LUA-print] [LuaPanda] Reconnect !
-
-[LUA-print] [LuaPanda] reconnect failed
-
-[LUA-print] [LuaPanda] Reconnect !
-
-[LUA-print] [LuaPanda] reconnect failed
+Inner height <= scrollview height, it will be force sized!
 
