@@ -2,7 +2,6 @@
 .idea
 .vscode
 frameworks
-.history/src
 
 # myFile
 *.exe

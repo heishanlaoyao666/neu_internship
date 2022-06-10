@@ -1,1 +1,0 @@
-local RankModel = class("RankModel")
