@@ -1,7 +1,8 @@
 
 local cBlockArray = {
     {
-        --T字形
+        --T字形 黄色
+        fileName="res\\美术资源\\t_4.png",
         {
             {1,1,1,0},
             {0,1,0,0},
@@ -27,8 +28,9 @@ local cBlockArray = {
             {0,0,0,0}
         },
     },
-    --方块
+    --方块 红色
     {
+        fileName="res\\美术资源\\t_5.png",
         {
             {0,1,1,0},
             {0,1,1,0},
@@ -36,8 +38,9 @@ local cBlockArray = {
             {0,0,0,0}
         },
     },
-    --S字形
+    --S字形 紫色
     {
+        fileName="res\\美术资源\\t_2.png",
         {
             {0,1,1,0},
             {1,1,0,0},
@@ -51,8 +54,9 @@ local cBlockArray = {
             {0,0,0,0}
         },
     },
-    --Z字形
+    --Z字形 橙色
     {
+        fileName="res\\美术资源\\t_3.png",
         {
             {1,1,0,0},
             {0,1,1,0},
@@ -66,8 +70,9 @@ local cBlockArray = {
             {0,0,0,0}
         },
     },
-     --I字形
+     --I字形 青色
     {
+        fileName="res\\美术资源\\t_7.png",
         initOffset=1,
         {
             {0,0,0,0},
@@ -82,9 +87,10 @@ local cBlockArray = {
             {0,1,0,0}
         },
     },
-    --L形
+    --L形 绿色
     {
         initOffset=1,
+        fileName="res\\美术资源\\t_1.png",
         {
             {0,0,0,0},
             {1,1,1,0},
@@ -110,8 +116,9 @@ local cBlockArray = {
             {0,0,0,0}
         },
     },
-     --J形
+     --J形 蓝色
      {
+        fileName="res\\美术资源\\t_6.png",
         initOffset=1,
         {
             {0,0,0,0},
@@ -161,6 +168,7 @@ function Block:ctor(scene,index)
 
     self.scene=scene
     self.index=index
+    self.fileName=cBlockArray[index].fileName
     self.trans=1
 end
 
@@ -216,8 +224,8 @@ function Block:Move(deltaX,deltaY)
     local y = self.y+deltaY
 
     if RawPlace(self.index,self.trans,self.scene,x,y) then
-        self.x=x 
-        self.y=y 
+        self.x=x
+        self.y=y
         return true
     else
         self:Place()
@@ -225,22 +233,34 @@ function Block:Move(deltaX,deltaY)
     end
 end
 
-function Block:Rotate()
+function Block:Rotate(direction)
     -- body
     local offset = cBlockArray[self.index].initOffset
-    if offset and self.y==o then
+    if offset and self.y==0 then
         return
     end
 
     self:Clear()
 
     local transArray = cBlockArray[self.index]
-
-    local trans = self.trans+1
-
-    if trans>#transArray then
-        trans=1
+    local trans
+    if direction==1 then
+        trans = self.trans+1
+        if trans>#transArray then
+            trans=1
+        end
+    else
+        trans = self.trans-1
+        if trans==0 then
+            trans=#transArray
+        end
     end
+
+    -- local trans = self.trans+1
+
+    -- if trans>#transArray then
+    --     trans=1
+    -- end
 
     if RawPlace(self.index,trans,self.scene,self.x,self.y) then
         self.trans=trans

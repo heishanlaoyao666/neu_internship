@@ -1,7 +1,7 @@
 require("app.Common")
 local Scene = require("app.Scene")
 local Block = require("app.Block")
-
+local NextBoard=require("app.NextBoard")
 local MainScene = class("MainScene", function()
     return display.newScene("MainScene")
 end)
@@ -20,12 +20,11 @@ end
 
 function MainScene:onEnter()
 
-    self.scene=Scene.new(self)
-
-    self.b=Block.new(self.scene,3)
-    self.b:Place()
-
     self:ProcessInput()
+    self.scene=Scene.new(self)
+    self.board=NextBoard.new(self)
+    --self.b=Block.new(self.scene,3)
+    --self.b:Place()
 
     self:Gen()
 
@@ -41,19 +40,25 @@ function MainScene:onEnter()
             self.b:Clear()
             while self.scene:CheckAndSweep()>0 do
                 self.scene:Shift()
+                updataScore(10)
             end
             self.b:Place()
         end
     end
     cc.Director:getInstance():getScheduler():scheduleScriptFunc(Tick,0.3,false)
+
+    self:initUI()
 end
 
 function MainScene:Gen()
     -- body
-    self.b=Block.new(self.scene,RandomStyle())
+    local style=self.board:Next()
 
+    --生成方块
+    self.b=Block.new(self.scene,style)
+
+    --游戏结束
     if not self.b:Place() then
-
         self.scene:Clear()
     end
 end
@@ -74,8 +79,13 @@ function MainScene:ProcessInput()
         keyState[keyCode]= nil
 
         --W
+        --顺时针
         if keyCode==146 then
-            self.b:Rotate()
+            self.b:Rotate(1)
+        --Q
+        --逆时针
+        elseif keyCode==140 then
+            self.b:Rotate(0)
         --P
         elseif keyCode==139 then
             self.pauseGame=not self.pauseGame
@@ -109,6 +119,42 @@ function MainScene:ProcessInput()
     cc.Director:getInstance():getScheduler():scheduleScriptFunc(inputTick,0.1,false)
 end
 
+function MainScene:initUI()
+    -- body
+    print("UI")
+    -- local Layer = cc.Layout:creat(cc.c4b(255, 0, 0, 255))
+    -- Layer:setContentSize(cc.size(300, 300))
+    -- Layer:setAnchorPoint(cc.p(0.5, 0.5))
+    -- Layer:pos(display.cx, display.cy + 250)
+    -- self:addChild(Layer)
+    cc.UserDefault:getInstance():setStringForKey("score",0)
+    local score = display.newTTFLabel({
+        text = "得分：",
+        size = 30,
+        color = display.COLOR_WHITE,
+        x = display.cx-30,
+        y = display.top-50,
+        })
+    :setAnchorPoint(0,1)
+    :align(display.CENTER)
+    :addTo(self)
+
+    local score1 = display.newTTFLabel({
+        text = cc.UserDefault:getInstance():getStringForKey("score"),
+        size = 30,
+        color = display.COLOR_WHITE,
+        x = display.cx+30,
+        y = display.top-50,
+        })
+    :setAnchorPoint(0,1)
+    :align(display.CENTER)
+    :addTo(self)
+    local function updataScore(x)
+        -- body
+        print("分数更新")
+        score:setString("得分："+cc.UserDefault:getInstance():getStringForKey("score")+x)
+    end
+end
 
 function MainScene:onExit()
 end

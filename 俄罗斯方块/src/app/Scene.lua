@@ -11,8 +11,10 @@ function Scene:ctor(node)
     for x=0,cSceneWidth-1 do
         for y=0,cSceneHeight-1 do
             local posX,posY = Grid2Pos(x, y)
-            local sp = cc.Sprite:create("res\\美术资源\\t_1.png")
-            sp:setScale(0.32)
+
+            --print(self.fileName)
+            local sp = cc.Sprite:create("res\\美术资源\\t_3.png")
+            sp:setScale(0.2)
             sp:setPosition(posX,posY)
             node:addChild(sp)
 
@@ -22,10 +24,10 @@ function Scene:ctor(node)
 
             self.map[makeKey(x,y)]=sp
         end
-
     end
 end
 
+--清除一行
 function Scene:ClearLine(y)
     -- body
     for x=1,cSceneWidth-2 do
@@ -33,6 +35,7 @@ function Scene:ClearLine(y)
     end
 end
 
+--清除所有
 function Scene:Clear()
     -- body
     for y=1,cSceneHeight-1 do
@@ -95,7 +98,7 @@ end
 function Scene:Shift()
     -- body
     for y=1,cSceneHeight-2 do
-        if self:IsFullLine(y)and(not self:IsFullLine(y+1)) then
+        if self:IsEmptyLine(y)and(not self:IsEmptyLine(y+1)) then
             self:MoveDown(y)
         end
     end

@@ -1,8 +1,8 @@
-cGridSize=32
+cGridSize=20
 
-cSceneWidth=8+2
+cSceneWidth=12
 
-cSceneHeight=18
+cSceneHeight=21
 
 
 function Grid2Pos(x,y)
