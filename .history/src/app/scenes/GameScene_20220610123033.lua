@@ -163,7 +163,6 @@ function GameScene:onEnter()
                 if GameHandler.myRole:getMyHp() - ConstantsUtil.MINUS_ENEMY_COLLISION <= 0 then
                     -- 寄了
                     --
-                    -- 更新rank榜单
                     GameHandler.isPause = true
                     --
                     Director:pause()

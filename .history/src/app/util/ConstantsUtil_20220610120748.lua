@@ -90,15 +90,9 @@ ConstantsUtil.effectKey = UserDefault:getBoolForKey(ConstantsUtil.EFFECT_KEY, tr
 ConstantsUtil.username = ""
 
 -- function
-function ConstantsUtil.playButtonEffect()
+function ConstantsUtil.playButtonMusic()
     if ConstantsUtil.effectKey then
         Audio.playEffectSync(ConstantsUtil.PATH_BUTTON_EFFECT, false)
-    end
-end
-
-function ConstantsUtil.playExplosionEffect()
-    if ConstantsUtil.effectKey then
-        Audio.playEffectSync(ConstantsUtil.PATH_EXPLOSION_EFFECT, false)
     end
 end
 

@@ -88,32 +88,6 @@ function GameScene:onEnter()
         explosionSprite:runAction(animate)
     end
 
-    --- 生命与分数
-    local hp = tolua.cast(ccui.Helper:seekWidgetByName(gameScene, "life"), "ccui.Layout")
-
-    local hp_item =
-        ccui.TextBMFont:create(
-        TypeConvert.Integer2StringLeadingZero(GameHandler.myRole:getMyHp(), 3),
-        ConstantsUtil.PATH_BIG_NUM
-    )
-    hp:addChild(hp_item)
-    hp_item:setScale(0.4)
-    hp_item:setAnchorPoint(1, 1)
-    hp_item:pos(hp:getContentSize().width * 0, hp:getContentSize().height * 0.5)
-    hp_item:setContentSize(0, hp:getContentSize().height)
-
-    local score = tolua.cast(ccui.Helper:seekWidgetByName(gameScene, "score"), "ccui.Layout")
-    local score_item =
-        ccui.TextBMFont:create(
-        TypeConvert.Integer2StringLeadingZero(GameHandler.myRole:getMyScore(), 3),
-        ConstantsUtil.PATH_BIG_NUM
-    )
-    score:addChild(score_item)
-    score_item:setScale(0.4)
-    score_item:setAnchorPoint(1, 1)
-    score_item:pos(score:getContentSize().width * 0, score:getContentSize().height * 0.5)
-    score_item:setContentSize(0, score:getContentSize().height)
-
     -- 子弹与敌人碰撞
     local function collisionBetweenBUlletAndEnemy()
         local bulletArraySize = #(GameHandler.BulletArray)
@@ -163,7 +137,6 @@ function GameScene:onEnter()
                 if GameHandler.myRole:getMyHp() - ConstantsUtil.MINUS_ENEMY_COLLISION <= 0 then
                     -- 寄了
                     --
-                    -- 更新rank榜单
                     GameHandler.isPause = true
                     --
                     Director:pause()
@@ -213,6 +186,32 @@ function GameScene:onEnter()
             end
         end
     )
+
+    --- 生命与分数
+    local hp = tolua.cast(ccui.Helper:seekWidgetByName(gameScene, "life"), "ccui.Layout")
+
+    local hp_item =
+        ccui.TextBMFont:create(
+        TypeConvert.Integer2StringLeadingZero(GameHandler.myRole:getMyHp(), 3),
+        ConstantsUtil.PATH_BIG_NUM
+    )
+    hp:addChild(hp_item)
+    hp_item:setScale(0.4)
+    hp_item:setAnchorPoint(1, 1)
+    hp_item:pos(hp:getContentSize().width * 0, hp:getContentSize().height * 0.5)
+    hp_item:setContentSize(0, hp:getContentSize().height)
+
+    local score = tolua.cast(ccui.Helper:seekWidgetByName(gameScene, "score"), "ccui.Layout")
+    local score_item =
+        ccui.TextBMFont:create(
+        TypeConvert.Integer2StringLeadingZero(GameHandler.myRole:getMyScore(), 3),
+        ConstantsUtil.PATH_BIG_NUM
+    )
+    score:addChild(score_item)
+    score_item:setScale(0.4)
+    score_item:setAnchorPoint(1, 1)
+    score_item:pos(score:getContentSize().width * 0, score:getContentSize().height * 0.5)
+    score_item:setContentSize(0, score:getContentSize().height)
 
     -- 背景移动
     local bg0 = tolua.cast(ccui.Helper:seekWidgetByName(gameScene, "background_0"), "cc.Sprite")

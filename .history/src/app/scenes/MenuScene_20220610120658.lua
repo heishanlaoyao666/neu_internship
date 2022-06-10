@@ -20,7 +20,9 @@ function MenuScene:onEnter()
     local rankButton = tolua.cast(ccui.Helper:seekWidgetByName(menuScene, "rank"), "ccui.Button")
     rankButton:addTouchEventListener(
         function(ref, event)
-            ConstantsUtil.playButtonEffect()
+            if ConstantsUtil.effectKey then
+                Audio.playEffectSync(ConstantsUtil.PATH_BUTTON_EFFECT, false)
+            end
             if cc.EventCode.BEGAN == event then
                 --- 按下
             elseif cc.EventCode.ENDED == event then
@@ -34,7 +36,9 @@ function MenuScene:onEnter()
     local settingButton = tolua.cast(ccui.Helper:seekWidgetByName(menuScene, "setting"), "ccui.Button")
     settingButton:addTouchEventListener(
         function(ref, event)
-            ConstantsUtil.playButtonEffect()
+            if ConstantsUtil.effectKey then
+                Audio.playEffectSync(ConstantsUtil.PATH_BUTTON_EFFECT, false)
+            end
             if cc.EventCode.BEGAN == event then
                 --- 按下
             elseif cc.EventCode.ENDED == event then
@@ -48,7 +52,9 @@ function MenuScene:onEnter()
     local newGameButton = tolua.cast(ccui.Helper:seekWidgetByName(menuScene, "new_game"), "ccui.Button")
     newGameButton:addTouchEventListener(
         function(ref, event)
-            ConstantsUtil.playButtonEffect()
+            if ConstantsUtil.effectKey then
+                Audio.playEffectSync(ConstantsUtil.PATH_BUTTON_EFFECT, false)
+            end
             if cc.EventCode.BEGAN == event then
                 --- 按下
             elseif cc.EventCode.ENDED == event then
@@ -66,7 +72,9 @@ function MenuScene:onEnter()
     local continueButton = tolua.cast(ccui.Helper:seekWidgetByName(menuScene, "continue"), "ccui.Button")
     continueButton:addTouchEventListener(
         function(ref, event)
-            ConstantsUtil.playButtonEffect()
+            if ConstantsUtil.effectKey then
+                Audio.playEffectSync(ConstantsUtil.PATH_BUTTON_EFFECT, false)
+            end
             if cc.EventCode.BEGAN == event then
                 --- 按下
             elseif cc.EventCode.ENDED == event then

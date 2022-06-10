@@ -30,7 +30,6 @@ function OverNode:init(itsColor)
     local nickname = ccui.Text:create(ConstantsUtil.username, ConstantsUtil.PATH_NORMAL_FONT_TTF, 30)
     nickname:addTo(nameField)
     nickname:setAnchorPoint(0.5, 0.5)
-    nickname:setPosition(nickname:getPositionX(), nickname:getPositionY())
     --
     Log.i("Score: " .. TypeConvert.Integer2StringLeadingZero(GameHandler.myRole:getMyScore(), 3))
     local score =
@@ -38,10 +37,10 @@ function OverNode:init(itsColor)
         TypeConvert.Integer2StringLeadingZero(GameHandler.myRole:getMyScore(), 3),
         ConstantsUtil.PATH_BIG_NUM_FNT
     ):addTo(scoreField)
-    score:setScale(0.1)
-    score:setAnchorPoint(0.5, 0.5)
-    score:pos(scoreField:getPositionX(), scoreField:getPositionY())
-    score:setContentSize(scoreField:getContentSize().width, scoreField:getContentSize().height)
+    score:setScale(0.4)
+    score:setAnchorPoint(1, 1)
+    score:pos(0, scoreLayer:getContentSize().height * 0.5)
+    score:setContentSize(0, scoreLayer:getContentSize().height)
 
     -- local listView = ccui.ListView:create():addTo(layer)
     -- listView:setAnchorPoint(0.5, 0.5)
@@ -61,46 +60,49 @@ function OverNode:init(itsColor)
     -- local scoreLayer = ccui.Layout:create():addTo(infoLayer, ConstantsUtil.LEVEL_VISIABLE_HIGH)
     -- scoreLayer:setContentSize(infoWidth / 2, infoHeight)
 
-    local restartButton = tolua.cast(ccui.Helper:seekWidgetByName(list, "restartButton"), "ccui.Button")
-    restartButton:addTouchEventListener(
-        function(ref, event)
-            -- body
-            Log.i("restartButton")
-            if cc.EventCode.BEGAN == event then
-                --- 按下
-            elseif cc.EventCode.ENDED == event then
-                --- 松开
-                Director:resume()
-                layer:removeFromParent()
-                --
-                display:getRunningScene():destroy()
-                GameHandler.BulletArray = {}
-                GameHandler.EnemyArray = {}
-                GameHandler.myRole = nil
-                --
-                local nowScene = import("app.scenes.GameScene").new()
-                display.replaceScene(nowScene)
-            end
-        end
-    )
+    -- local restartButton = ccui.Button:create(ConstantsUtil.PATH_OVER_RESTART_PNG):addTo(listView)
+    -- restartButton:setAnchorPoint(0.5, 0.5)
+    -- restartButton:addTouchEventListener(
+    --     function(ref, event)
+    --         -- body
+    --         Log.i("restartButton")
+    --         if cc.EventCode.BEGAN == event then
+    --             --- 按下
+    --         elseif cc.EventCode.ENDED == event then
+    --             --- 松开
+    --             Director:resume()
+    --             layer:removeFromParent()
+    --             --
+    --             display:getRunningScene():destroy()
+    --             GameHandler.BulletArray = {}
+    --             GameHandler.EnemyArray = {}
+    --             GameHandler.myRole = nil
+    --             --
+    --             local nowScene = import("app.scenes.GameScene").new()
+    --             display.replaceScene(nowScene)
+    --         end
+    --     end
+    -- )
 
-    local backButton = tolua.cast(ccui.Helper:seekWidgetByName(list, "backButton"), "ccui.Button")
-    backButton:addTouchEventListener(
-        function(ref, event)
-            Log.i("backButton")
-            if cc.EventCode.BEGAN == event then
-                --- 按下
-            elseif cc.EventCode.ENDED == event then
-                --- 松开
-                --
-                GameHandler.myRole = nil
-                --
-                Director:resume()
-                local nowScene = import("app.scenes.MenuScene").new()
-                display.replaceScene(nowScene)
-            end
-        end
-    )
+    -- local backButton = ccui.Button:create(ConstantsUtil.PATH_OVER_BACK_PNG):addTo(listView)
+    -- backButton:setAnchorPoint(0.5, 0.5)
+    -- -- backButton:setContentSize()
+    -- backButton:addTouchEventListener(
+    --     function(ref, event)
+    --         Log.i("backButton")
+    --         if cc.EventCode.BEGAN == event then
+    --             --- 按下
+    --         elseif cc.EventCode.ENDED == event then
+    --             --- 松开
+    --             --
+    --             GameHandler.myRole = nil
+    --             --
+    --             Director:resume()
+    --             local nowScene = import("app.scenes.MenuScene").new()
+    --             display.replaceScene(nowScene)
+    --         end
+    --     end
+    -- )
     return layer
 end
 

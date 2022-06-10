@@ -21,47 +21,39 @@ function OverNode:init(itsColor)
     -- body
     local layer = ccui.Layout:create()
     local overLayer = cc.LayerColor:create(itsColor):addTo(layer)
-    local list = tolua.cast(CSLoader:createNodeWithFlatBuffersFile("overLayer.csb"), "ccui.Layout"):addTo(overLayer)
 
-    local listView = tolua.cast(ccui.Helper:seekWidgetByName(list, "infoList"), "ccui.ListView")
-    local nameField = tolua.cast(ccui.Helper:seekWidgetByName(list, "nameField"), "ccui.Layout")
-    local scoreField = tolua.cast(ccui.Helper:seekWidgetByName(list, "scoreField"), "ccui.Layout")
+    local listView = ccui.ListView:create():addTo(layer)
+    listView:setAnchorPoint(0.5, 0.5)
+    local viewWidth = WinSize.width * 0.8
+    local viewHeight = WinSize.height * 0.8
+    listView:setPosition(WinSize.width / 2, WinSize.height / 2)
+    listView:setContentSize(viewWidth, viewHeight)
+
+    local infoLayer = ccui.ListView:create():addTo(listView)
+    infoLayer:setAnchorPoint(0.5, 0.5)
+    infoLayer:setContentSize(viewWidth, viewHeight * 0.5)
+    infoLayer:setDirection(1)
     --
-    local nickname = ccui.Text:create(ConstantsUtil.username, ConstantsUtil.PATH_NORMAL_FONT_TTF, 30)
-    nickname:addTo(nameField)
+    local nicknameField = ccui.Layout:create():addTo(infoLayer)
+    nicknameField:setContentSize(viewWidth / 2, viewHeight * 0.5)
+    nicknameField:setAnchorPoint(0.5, 0.5)
+    local nickname =
+        ccui.Text:create(ConstantsUtil.username, ConstantsUtil.PATH_NORMAL_FONT_TTF, 30):addTo(nicknameField)
     nickname:setAnchorPoint(0.5, 0.5)
-    nickname:setPosition(nickname:getPositionX(), nickname:getPositionY())
     --
-    Log.i("Score: " .. TypeConvert.Integer2StringLeadingZero(GameHandler.myRole:getMyScore(), 3))
+    local scoreField = ccui.Layout:create():addTo(infoLayer)
+    scoreField:setContentSize(viewWidth / 2, viewHeight * 0.5)
     local score =
         ccui.TextBMFont:create(
         TypeConvert.Integer2StringLeadingZero(GameHandler.myRole:getMyScore(), 3),
         ConstantsUtil.PATH_BIG_NUM_FNT
     ):addTo(scoreField)
-    score:setScale(0.1)
-    score:setAnchorPoint(0.5, 0.5)
-    score:pos(scoreField:getPositionX(), scoreField:getPositionY())
-    score:setContentSize(scoreField:getContentSize().width, scoreField:getContentSize().height)
+    score:setScale(0.3)
+    score:setAnchorPoint(1, 1)
+    score:setContentSize(viewWidth / 2, 0)
 
-    -- local listView = ccui.ListView:create():addTo(layer)
-    -- listView:setAnchorPoint(0.5, 0.5)
-    -- local viewWidth = WinSize.width * 0.8
-    -- local viewHeight = WinSize.height * 0.8
-    -- listView:setPosition(WinSize.width / 2, WinSize.height / 2)
-    -- listView:setContentSize(viewWidth, viewHeight)
-
-    -- local infoLayer = ccui.ListView:create():addTo(listView)
-    -- infoLayer:setAnchorPoint(0.5, 0.5)
-    -- local infoWidth = viewWidth
-    -- local infoHeight = viewHeight * 0.5
-    -- infoLayer:setContentSize(infoWidth, infoHeight)
-    -- infoLayer:setDirection(0)
-    -- --
-    -- --
-    -- local scoreLayer = ccui.Layout:create():addTo(infoLayer, ConstantsUtil.LEVEL_VISIABLE_HIGH)
-    -- scoreLayer:setContentSize(infoWidth / 2, infoHeight)
-
-    local restartButton = tolua.cast(ccui.Helper:seekWidgetByName(list, "restartButton"), "ccui.Button")
+    local restartButton = ccui.Button:create(ConstantsUtil.PATH_OVER_RESTART_PNG):addTo(listView)
+    restartButton:setAnchorPoint(0.5, 0.5)
     restartButton:addTouchEventListener(
         function(ref, event)
             -- body
@@ -84,7 +76,9 @@ function OverNode:init(itsColor)
         end
     )
 
-    local backButton = tolua.cast(ccui.Helper:seekWidgetByName(list, "backButton"), "ccui.Button")
+    local backButton = ccui.Button:create(ConstantsUtil.PATH_OVER_BACK_PNG):addTo(listView)
+    backButton:setAnchorPoint(0.5, 0.5)
+    -- backButton:setContentSize()
     backButton:addTouchEventListener(
         function(ref, event)
             Log.i("backButton")

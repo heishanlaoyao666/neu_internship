@@ -87,7 +87,6 @@ function GameScene:onEnter()
         local animate = cc.Animate:create(animation)
         explosionSprite:runAction(animate)
     end
-
     --- 生命与分数
     local hp = tolua.cast(ccui.Helper:seekWidgetByName(gameScene, "life"), "ccui.Layout")
 
@@ -163,7 +162,6 @@ function GameScene:onEnter()
                 if GameHandler.myRole:getMyHp() - ConstantsUtil.MINUS_ENEMY_COLLISION <= 0 then
                     -- 寄了
                     --
-                    -- 更新rank榜单
                     GameHandler.isPause = true
                     --
                     Director:pause()

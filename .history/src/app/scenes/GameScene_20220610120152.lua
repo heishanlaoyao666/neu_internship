@@ -56,38 +56,6 @@ function GameScene:onEnter()
     --初始化
     self:init()
 
-    -- 子弹
-    local function addBullet()
-        if effectKey then
-            Audio.playEffectSync(ConstantsUtil.PATH_FIRE_EFFECT, false)
-        end
-
-        local x, y = GameHandler.myRole:getPosition()
-        local bullet = BulletNode:create(x, y):addTo(self)
-    end
-    addBulletEntry = Scheduler:scheduleScriptFunc(addBullet, ConstantsUtil.INTERVAL_BULLET, false)
-
-    -- 敌军
-    local function newEnemy()
-        -- body
-        local enemy = EnemyNode:create(math.random() * WinSize.width):addTo(self)
-    end
-    addEnemyEntry = Scheduler:scheduleScriptFunc(newEnemy, ConstantsUtil.INTERVAL_ENEMY, false)
-
-    --- 爆炸动画
-    local explosionSprite = display.newSprite("#explosion_01.png")
-    self:addChild(explosionSprite, 6)
-    local function getExplosion(x, y)
-        -- body
-        ConstantsUtil.playExplosionEffect()
-        --
-        explosionSprite:setPosition(x, y)
-        local frames = display.newFrames("explosion_%02d.png", 1, 35)
-        local animation = display.newAnimation(frames, ConstantsUtil.SPEED_EXPLOSION)
-        local animate = cc.Animate:create(animation)
-        explosionSprite:runAction(animate)
-    end
-
     --- 生命与分数
     local hp = tolua.cast(ccui.Helper:seekWidgetByName(gameScene, "life"), "ccui.Layout")
 
@@ -113,6 +81,68 @@ function GameScene:onEnter()
     score_item:setAnchorPoint(1, 1)
     score_item:pos(score:getContentSize().width * 0, score:getContentSize().height * 0.5)
     score_item:setContentSize(0, score:getContentSize().height)
+
+    -- 子弹
+    local function addBullet()
+        if effectKey then
+            Audio.playEffectSync(ConstantsUtil.PATH_FIRE_EFFECT, false)
+        end
+
+        local x, y = GameHandler.myRole:getPosition()
+        local bullet = BulletNode:create(x, y):addTo(self)
+    end
+    addBulletEntry = Scheduler:scheduleScriptFunc(addBullet, ConstantsUtil.INTERVAL_BULLET, false)
+
+    -- 敌军
+    local function newEnemy()
+        -- body
+        local enemy = EnemyNode:create(math.random() * WinSize.width):addTo(self)
+    end
+    addEnemyEntry = Scheduler:scheduleScriptFunc(newEnemy, ConstantsUtil.INTERVAL_ENEMY, false)
+
+    --- 爆炸动画
+    local explosionSprite = display.newSprite("#explosion_01.png")
+    self:addChild(explosionSprite, 6)
+    local function getExplosion(x, y)
+        -- body
+        explosionSprite:setPosition(x, y)
+        local frames = display.newFrames("explosion_%02d.png", 1, 35)
+        local animation = display.newAnimation(frames, ConstantsUtil.SPEED_EXPLOSION)
+        local animate = cc.Animate:create(animation)
+        explosionSprite:runAction(animate)
+    end
+
+    --- 暂停
+    local pauseButton = tolua.cast(ccui.Helper:seekWidgetByName(gameScene, "pause"), "ccui.Button")
+    pauseButton:addTouchEventListener(
+        function(ref, event)
+            if cc.EventCode.BEGAN == event then
+                --- 按下
+            elseif cc.EventCode.ENDED == event then
+                --- 松开
+                if GameHandler.isPause == false then
+                    --- 当前关闭 点击后开启
+                    --
+                    GameHandler.isPause = true
+                    GameHandler.PlaneData = clone(GameHandler.myRole.dataModel)
+                    for i = 1, #(GameHandler.BulletArray) do
+                        table.insert(GameHandler.BulletData, GameHandler.BulletArray[i].dataModel)
+                    end
+                    Log.i("BulletArraySize: " .. tostring(#(GameHandler.BulletArray)))
+                    Log.i("BulletDataSize: " .. tostring(#(GameHandler.BulletData)))
+                    for i = 1, #(GameHandler.EnemyArray) do
+                        table.insert(GameHandler.EnemyData, GameHandler.EnemyArray[i].dataModel)
+                    end
+                    Log.i("EnemyArraySize: " .. tostring(#(GameHandler.EnemyArray)))
+                    Log.i("EnemyDataSize: " .. tostring(#(GameHandler.EnemyData)))
+                    --
+                    local pause = PauseNode:create(ConstantsUtil.COLOR_GREW_TRANSLUCENT, GameHandler.myRole)
+                    pause:addTo(self)
+                    Director:pause()
+                end
+            end
+        end
+    )
 
     -- 子弹与敌人碰撞
     local function collisionBetweenBUlletAndEnemy()
@@ -158,12 +188,17 @@ function GameScene:onEnter()
                 break
             end
             if GameHandler.EnemyArray[i]:isCollision(GameHandler.myRole) then
-                GameHandler.myRole:setMyHp(GameHandler.myRole:getMyHp() - ConstantsUtil.MINUS_ENEMY_COLLISION)
-                hp_item:setString(TypeConvert.Integer2StringLeadingZero(GameHandler.myRole:getMyHp(), 3))
-                if GameHandler.myRole:getMyHp() - ConstantsUtil.MINUS_ENEMY_COLLISION <= 0 then
+                -- sound
+                if effectKey then
+                    Audio.playEffectSync(ConstantsUtil.PATH_DESTROY_EFFECT, false)
+                end
+                --- 爆炸动画
+                if GameHandler.myRole:getMyHp() - ConstantsUtil.MINUS_ENEMY_COLLISION > 0 then
+                    GameHandler.myRole:setMyHp(GameHandler.myRole:getMyHp() - ConstantsUtil.MINUS_ENEMY_COLLISION)
+                    hp_item:setString(TypeConvert.Integer2StringLeadingZero(GameHandler.myRole:getMyHp(), 3))
+                else
                     -- 寄了
                     --
-                    -- 更新rank榜单
                     GameHandler.isPause = true
                     --
                     Director:pause()
@@ -181,38 +216,6 @@ function GameScene:onEnter()
     end
     collisionBetweenMyRoleAndEnemyEntry =
         Scheduler:scheduleScriptFunc(collisionBetweenMyRoleAndEnemy, ConstantsUtil.INTERVAL_COLLISION, false)
-
-    --- 暂停
-    local pauseButton = tolua.cast(ccui.Helper:seekWidgetByName(gameScene, "pause"), "ccui.Button")
-    pauseButton:addTouchEventListener(
-        function(ref, event)
-            if cc.EventCode.BEGAN == event then
-                --- 按下
-            elseif cc.EventCode.ENDED == event then
-                --- 松开
-                if GameHandler.isPause == false then
-                    --- 当前关闭 点击后开启
-                    --
-                    GameHandler.isPause = true
-                    GameHandler.PlaneData = clone(GameHandler.myRole.dataModel)
-                    for i = 1, #(GameHandler.BulletArray) do
-                        table.insert(GameHandler.BulletData, GameHandler.BulletArray[i].dataModel)
-                    end
-                    Log.i("BulletArraySize: " .. tostring(#(GameHandler.BulletArray)))
-                    Log.i("BulletDataSize: " .. tostring(#(GameHandler.BulletData)))
-                    for i = 1, #(GameHandler.EnemyArray) do
-                        table.insert(GameHandler.EnemyData, GameHandler.EnemyArray[i].dataModel)
-                    end
-                    Log.i("EnemyArraySize: " .. tostring(#(GameHandler.EnemyArray)))
-                    Log.i("EnemyDataSize: " .. tostring(#(GameHandler.EnemyData)))
-                    --
-                    local pause = PauseNode:create(ConstantsUtil.COLOR_GREW_TRANSLUCENT, GameHandler.myRole)
-                    pause:addTo(self)
-                    Director:pause()
-                end
-            end
-        end
-    )
 
     -- 背景移动
     local bg0 = tolua.cast(ccui.Helper:seekWidgetByName(gameScene, "background_0"), "cc.Sprite")

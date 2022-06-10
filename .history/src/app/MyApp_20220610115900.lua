@@ -23,8 +23,8 @@ function MyApp:run()
     Audio.loadFile(
         ConstantsUtil.PATH_MAIN_MUSIC,
         function()
-            ConstantsUtil.musicKey = UserDefault:getBoolForKey(ConstantsUtil.MUSIC_KEY, true)
-            if ConstantsUtil.musicKey == true then
+            local musicKey = UserDefault:getBoolForKey(ConstantsUtil.MUSIC_KEY, true)
+            if musicKey == true then
                 Audio.playBGM(ConstantsUtil.PATH_MAIN_MUSIC, true)
             end
         end

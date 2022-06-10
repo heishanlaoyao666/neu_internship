@@ -30,7 +30,7 @@ function OverNode:init(itsColor)
     local nickname = ccui.Text:create(ConstantsUtil.username, ConstantsUtil.PATH_NORMAL_FONT_TTF, 30)
     nickname:addTo(nameField)
     nickname:setAnchorPoint(0.5, 0.5)
-    nickname:setPosition(nickname:getPositionX(), nickname:getPositionY())
+    nickname:setPosition(nickname:getPositionX() / 2, nickname:getPositionY() / 2)
     --
     Log.i("Score: " .. TypeConvert.Integer2StringLeadingZero(GameHandler.myRole:getMyScore(), 3))
     local score =
@@ -38,9 +38,9 @@ function OverNode:init(itsColor)
         TypeConvert.Integer2StringLeadingZero(GameHandler.myRole:getMyScore(), 3),
         ConstantsUtil.PATH_BIG_NUM_FNT
     ):addTo(scoreField)
-    score:setScale(0.1)
+    score:setScale(0.4)
     score:setAnchorPoint(0.5, 0.5)
-    score:pos(scoreField:getPositionX(), scoreField:getPositionY())
+    score:pos(scoreField:getPositionX() * 0.5, scoreField:getPositionY() * 0.5)
     score:setContentSize(scoreField:getContentSize().width, scoreField:getContentSize().height)
 
     -- local listView = ccui.ListView:create():addTo(layer)

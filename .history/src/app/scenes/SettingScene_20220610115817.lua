@@ -25,7 +25,9 @@ function SettingScene:onEnter()
     end
     musicControlButton:addTouchEventListener(
         function(ref, event)
-            ConstantsUtil.playButtonEffect()
+            if effectKey then
+                Audio.playEffectSync(ConstantsUtil.PATH_BUTTON_EFFECT, false)
+            end
             if cc.EventCode.BEGAN == event then
                 --- 按下
             elseif cc.EventCode.ENDED == event then
@@ -61,7 +63,9 @@ function SettingScene:onEnter()
     end
     effectControlButton:addTouchEventListener(
         function(ref, event)
-            ConstantsUtil.playButtonEffect()
+            if ConstantsUtil.effectKey then
+                Audio.playEffectSync(ConstantsUtil.PATH_BUTTON_EFFECT, false)
+            end
             if cc.EventCode.BEGAN == event then
                 --- 按下
             elseif cc.EventCode.ENDED == event then
@@ -90,7 +94,9 @@ function SettingScene:onEnter()
     local backButton = tolua.cast(ccui.Helper:seekWidgetByName(settingScene, "back"), "ccui.Button")
     backButton:addTouchEventListener(
         function(ref, event)
-            ConstantsUtil.playButtonEffect()
+            if ConstantsUtil.effectKey then
+                Audio.playEffectSync(ConstantsUtil.PATH_BUTTON_EFFECT, false)
+            end
             if cc.EventCode.BEGAN == event then
                 --- 按下
             elseif cc.EventCode.ENDED == event then

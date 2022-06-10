@@ -96,10 +96,4 @@ function ConstantsUtil.playButtonEffect()
     end
 end
 
-function ConstantsUtil.playExplosionEffect()
-    if ConstantsUtil.effectKey then
-        Audio.playEffectSync(ConstantsUtil.PATH_EXPLOSION_EFFECT, false)
-    end
-end
-
 return ConstantsUtil

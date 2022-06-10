@@ -88,6 +88,38 @@ function GameScene:onEnter()
         explosionSprite:runAction(animate)
     end
 
+    --- 暂停
+    local pauseButton = tolua.cast(ccui.Helper:seekWidgetByName(gameScene, "pause"), "ccui.Button")
+    pauseButton:addTouchEventListener(
+        function(ref, event)
+            if cc.EventCode.BEGAN == event then
+                --- 按下
+            elseif cc.EventCode.ENDED == event then
+                --- 松开
+                if GameHandler.isPause == false then
+                    --- 当前关闭 点击后开启
+                    --
+                    GameHandler.isPause = true
+                    GameHandler.PlaneData = clone(GameHandler.myRole.dataModel)
+                    for i = 1, #(GameHandler.BulletArray) do
+                        table.insert(GameHandler.BulletData, GameHandler.BulletArray[i].dataModel)
+                    end
+                    Log.i("BulletArraySize: " .. tostring(#(GameHandler.BulletArray)))
+                    Log.i("BulletDataSize: " .. tostring(#(GameHandler.BulletData)))
+                    for i = 1, #(GameHandler.EnemyArray) do
+                        table.insert(GameHandler.EnemyData, GameHandler.EnemyArray[i].dataModel)
+                    end
+                    Log.i("EnemyArraySize: " .. tostring(#(GameHandler.EnemyArray)))
+                    Log.i("EnemyDataSize: " .. tostring(#(GameHandler.EnemyData)))
+                    --
+                    local pause = PauseNode:create(ConstantsUtil.COLOR_GREW_TRANSLUCENT, GameHandler.myRole)
+                    pause:addTo(self)
+                    Director:pause()
+                end
+            end
+        end
+    )
+
     --- 生命与分数
     local hp = tolua.cast(ccui.Helper:seekWidgetByName(gameScene, "life"), "ccui.Layout")
 
@@ -163,7 +195,6 @@ function GameScene:onEnter()
                 if GameHandler.myRole:getMyHp() - ConstantsUtil.MINUS_ENEMY_COLLISION <= 0 then
                     -- 寄了
                     --
-                    -- 更新rank榜单
                     GameHandler.isPause = true
                     --
                     Director:pause()
@@ -181,38 +212,6 @@ function GameScene:onEnter()
     end
     collisionBetweenMyRoleAndEnemyEntry =
         Scheduler:scheduleScriptFunc(collisionBetweenMyRoleAndEnemy, ConstantsUtil.INTERVAL_COLLISION, false)
-
-    --- 暂停
-    local pauseButton = tolua.cast(ccui.Helper:seekWidgetByName(gameScene, "pause"), "ccui.Button")
-    pauseButton:addTouchEventListener(
-        function(ref, event)
-            if cc.EventCode.BEGAN == event then
-                --- 按下
-            elseif cc.EventCode.ENDED == event then
-                --- 松开
-                if GameHandler.isPause == false then
-                    --- 当前关闭 点击后开启
-                    --
-                    GameHandler.isPause = true
-                    GameHandler.PlaneData = clone(GameHandler.myRole.dataModel)
-                    for i = 1, #(GameHandler.BulletArray) do
-                        table.insert(GameHandler.BulletData, GameHandler.BulletArray[i].dataModel)
-                    end
-                    Log.i("BulletArraySize: " .. tostring(#(GameHandler.BulletArray)))
-                    Log.i("BulletDataSize: " .. tostring(#(GameHandler.BulletData)))
-                    for i = 1, #(GameHandler.EnemyArray) do
-                        table.insert(GameHandler.EnemyData, GameHandler.EnemyArray[i].dataModel)
-                    end
-                    Log.i("EnemyArraySize: " .. tostring(#(GameHandler.EnemyArray)))
-                    Log.i("EnemyDataSize: " .. tostring(#(GameHandler.EnemyData)))
-                    --
-                    local pause = PauseNode:create(ConstantsUtil.COLOR_GREW_TRANSLUCENT, GameHandler.myRole)
-                    pause:addTo(self)
-                    Director:pause()
-                end
-            end
-        end
-    )
 
     -- 背景移动
     local bg0 = tolua.cast(ccui.Helper:seekWidgetByName(gameScene, "background_0"), "cc.Sprite")
