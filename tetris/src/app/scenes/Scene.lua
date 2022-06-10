@@ -50,12 +50,68 @@ function Scene:Set(x, y, value)
     sp:setVisible(value)
 end
 
+--添加方块
 function Scene:Get(x, y)
     local sp = self.map[makeKey(x, y)]
     if sp == nil then
         return
     end
     return sp:isVisible()
+end
+
+function Scene:IsFullLine(y)
+    for x = 1, cSceneWidth - 2 do
+        if not self:Get(x, y) then
+            return false
+        end
+    end
+    return true
+end
+
+function Scene:CheckAndSweep()
+    local count = 0
+    for y = 1, cSceneHeight - 1 do
+        if self:IsFullLine(y) then
+            self:ClearLine(y)
+            count = count + 1
+            break
+        end
+    end
+    if count == 1 then
+        return 5
+    elseif count == 2 then
+        return 15
+    elseif count == 3 then
+        return 25
+    elseif count == 4 then
+        return 35
+    end
+    return 0
+end
+
+function Scene:MoveDown(sy)
+    for y = sy, cSceneHeight - 1 do
+        for x = 1, cSceneWidth - 2 do
+            self:Set(x,y, self:Get(x, y + 1))
+        end
+    end
+end
+
+function Scene:Shift()
+    for y = 1, cSceneHeight - 2 do
+        if self:IsEmptyLine(y) and (not self:IsEmptyLine(y + 1)) then
+            self:MoveDown(y)
+        end
+    end
+end
+
+function Scene:IsEmptyLine(y)
+    for x = 1, cSceneWidth - 2 do
+        if self:Get(x, y) then
+            return false
+        end
+    end
+    return true
 end
 
 function Scene:onEnter()

@@ -202,6 +202,11 @@ local Block = class("Block")
 --设置初始生成的x
 local InitXOffset = cSceneWidth/2 - 3
 
+function RandomStyle()
+    math.randomseed(os.time())
+    return math.random(1, #cBlockArray)
+end
+
 --[[--
     描述：初始化方块
 
@@ -285,8 +290,8 @@ function RawPlace(index, trans, scene, newX, newY)
         for k, v in pairs(result) do
             scene:Set(v.x, v.y, true)
         end
+        return true
     end
-    return true
 end
 
 
@@ -322,7 +327,7 @@ end
 
     @return none
 ]]
-function Block:Rotate()
+function Block:Rotate(value)
     local offset = cBlockArray[self.index].initOffset
     if offset and self.y == 0 then
         return
@@ -332,10 +337,17 @@ function Block:Rotate()
 
     local transArray = cBlockArray[self.index]
 
-    local trans = self.trans + 1
-
-    if trans > #transArray then
-        trans = 1
+    local trans = self.trans
+    if value == 0 then
+        trans = trans + 1
+        if trans > #transArray then
+            trans = 1
+        end
+    else
+        trans = trans - 1
+        if trans < 1 then
+            trans = 4
+        end
     end
 
     if RawPlace(self.index, trans, self.scene, self.x, self.y) then

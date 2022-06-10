@@ -1,13 +1,29 @@
 require"app.scenes.Common"
 local Scene = require "app.scenes.Scene"
 local Block = require "app.scenes.Block"
+local NextBoard = require"app.scenes.NextBoard"
+
+
+local score = 0
 
 local MainScene = class("MainScene", function()
     return display.newScene("MainScene")
 end)
 
 function MainScene:ctor()
+    self.font_score = nil
+    self:View()
+end
 
+function MainScene:View()
+    local img_score = ccui.Text:create("score", "Marker Felt.ttf",24)
+    img_score:pos(display.right * 1/6, display.top * 9/10)
+    img_score:setAnchorPoint(0, 0.5)
+    img_score:addTo(self)
+    self.font_score = ccui.Text:create(score, "Marker Felt.ttf",24)
+    self.font_score:pos(display.right * 2/6, display.top * 9/10)
+    self.font_score:setAnchorPoint(0, 0.5)
+    self.font_score:addTo(self)
 end
 
 function MainScene:ProcessInput()
@@ -23,9 +39,12 @@ function MainScene:ProcessInput()
     --创建键盘抬起的监听器
     listener:registerScriptHandler(function(keyCode, event)
         keyState[keyCode] = nil
-        --w：旋转
-        if keyCode == 146 then
-            self.b:Rotate()
+        --q：逆时针旋转
+        if keyCode == 140 then
+            self.b:Rotate(1)
+        --e:顺时针旋转
+        elseif keyCode == 128 then
+            self.b:Rotate(0)
         --p：暂停
         elseif keyCode == 139 then
             self.pauseGame = not self.pauseGame
@@ -55,12 +74,42 @@ function MainScene:ProcessInput()
 
 end
 
+function MainScene:Gen()
+    local style = self.board:Next()
+    self.b = Block.new(self.scene, style)
+    if not self.b:Place() then
+        --GameOver
+        self.scene:Clear()
+    end
+end
+
 function MainScene:onEnter()
     self.scene = Scene.new(self)
-    self.b = Block.new(self.scene, 1)
-    self.b:Place()
+    self.board = NextBoard.new(self)
 
     self:ProcessInput()
+    self:Gen()
+
+    local Tick = function()
+        if self.pauseGame then
+            return
+        end
+
+        if not self.b:Move(0, -1) then
+            self:Gen()
+        else
+            self.b:Clear()
+            local getscore = self.scene:CheckAndSweep()
+            while getscore > 0 do
+                self.scene:Shift()
+                score = score + getscore
+                self.font_score:setString(score)
+            end
+            self.b:Place()
+        end
+    end
+
+    cc.Director:getInstance():getScheduler():scheduleScriptFunc(Tick, 0.3, false)
 end
 
 function MainScene:onExit()
