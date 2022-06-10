@@ -124,47 +124,225 @@ D:/CocosProjects/empty/src/framework/audio.lua
 
 Inner height <= scrollview height, it will be force sized!
 
-[LUA-print] [INFO]newGameButton
-
-[LUA-print] [INFO]begin
-
-[LUA-print] [INFO]newGameButton
-
-[LUA-print] [INFO]end
-
 cocos2d: padding: 0,0,0,0
 
 Inner width <= scrollview width, it will be force sized!
 
-[LUA-print] [INFO]touch begin
+[LUA-print] [INFO]BulletArraySize: 4
 
-[LUA-print] [INFO]touch end
+[LUA-print] [INFO]BulletDataSize: 4
 
-[LUA-print] [INFO]touch begin
+[LUA-print] [INFO]EnemyArraySize: 2
 
-[LUA-print] [INFO]pauseButton
-
-[LUA-print] [INFO]pauseButton
-
-[LUA-print] [INFO]touch end
-
-[LUA-print] [INFO]pauseButton
+[LUA-print] [INFO]EnemyDataSize: 2
 
 Inner height <= scrollview height, it will be force sized!
 
-[LUA-print] ----------------------------------------
+[LUA-print] [INFO]backButton
 
-[LUA-print] LUA ERROR: [string "D:/CocosProjects/empty/src/app/scenes/GameScene.lua"]:365: error in function 'tolua_cocos2d_Scheduler_unscheduleScriptEntry'.
-     argument #2 is 'nil'; 'number' expected.
+[LUA-print] [INFO]backButton
 
+Inner height <= scrollview height, it will be force sized!
 
+[LUA-print] [INFO]2
 
-[LUA-print] 
-stack traceback:
-	[C]: in function 'unscheduleScriptEntry'
-	[string "D:/CocosProjects/empty/src/app/scenes/GameScene.lua"]:365: in function 'onExit'
-	[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:143: in function <[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:138>
-	[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:348: in function <[string "D:/CocosProjects/empty/src/framework/NodeEx.lua"]:346>
+Inner width <= scrollview width, it will be force sized!
 
-[LUA-print] ----------------------------------------
+[LUA-print] [INFO]BulletArraySize: 3
+
+[LUA-print] [INFO]BulletDataSize: 7
+
+[LUA-print] [INFO]EnemyArraySize: 1
+
+[LUA-print] [INFO]EnemyDataSize: 3
+
+Inner height <= scrollview height, it will be force sized!
+
+[LUA-print] [INFO]backButton
+
+[LUA-print] [INFO]backButton
+
+Inner height <= scrollview height, it will be force sized!
+
+[LUA-print] [INFO]3
+
+Inner width <= scrollview width, it will be force sized!
+
+[LUA-print] [INFO]BulletArraySize: 3
+
+[LUA-print] [INFO]BulletDataSize: 10
+
+[LUA-print] [INFO]EnemyArraySize: 2
+
+[LUA-print] [INFO]EnemyDataSize: 5
+
+Inner height <= scrollview height, it will be force sized!
+
+[LUA-print] [INFO]backButton
+
+[LUA-print] [INFO]backButton
+
+Inner height <= scrollview height, it will be force sized!
+
+[LUA-print] [INFO]5
+
+Inner width <= scrollview width, it will be force sized!
+
+[LUA-print] [INFO]BulletArraySize: 3
+
+[LUA-print] [INFO]BulletDataSize: 13
+
+[LUA-print] [INFO]EnemyArraySize: 1
+
+[LUA-print] [INFO]EnemyDataSize: 6
+
+Inner height <= scrollview height, it will be force sized!
+
+[LUA-print] [INFO]BulletArraySize: 3
+
+[LUA-print] [INFO]BulletDataSize: 16
+
+[LUA-print] [INFO]EnemyArraySize: 2
+
+[LUA-print] [INFO]EnemyDataSize: 8
+
+Inner height <= scrollview height, it will be force sized!
+
+[LUA-print] [INFO]BulletArraySize: 3
+
+[LUA-print] [INFO]BulletDataSize: 19
+
+[LUA-print] [INFO]EnemyArraySize: 2
+
+[LUA-print] [INFO]EnemyDataSize: 10
+
+Inner height <= scrollview height, it will be force sized!
+
+[LUA-print] [INFO]backButton
+
+[LUA-print] [INFO]backButton
+
+Inner height <= scrollview height, it will be force sized!
+
+Inner width <= scrollview width, it will be force sized!
+
+[LUA-print] [INFO]BulletArraySize: 4
+
+[LUA-print] [INFO]BulletDataSize: 4
+
+[LUA-print] [INFO]EnemyArraySize: 1
+
+[LUA-print] [INFO]EnemyDataSize: 1
+
+Inner height <= scrollview height, it will be force sized!
+
+[LUA-print] [INFO]backButton
+
+[LUA-print] [INFO]backButton
+
+[LUA-print] [INFO]backButton
+
+[LUA-print] [INFO]backButton
+
+[LUA-print] [INFO]backButton
+
+Inner height <= scrollview height, it will be force sized!
+
+Inner height <= scrollview height, it will be force sized!
+
+Inner height <= scrollview height, it will be force sized!
+
+Inner height <= scrollview height, it will be force sized!
+
+Inner width <= scrollview width, it will be force sized!
+
+Inner width <= scrollview width, it will be force sized!
+
+[LUA-print] [INFO]backButton
+
+[LUA-print] [INFO]begin
+
+[LUA-print] [INFO]backButton
+
+[LUA-print] [INFO]backButton
+
+[LUA-print] [INFO]end
+
+[LUA-print] [INFO]OnExit
+
+Inner height <= scrollview height, it will be force sized!
+
+Inner height <= scrollview height, it will be force sized!
+
+Inner width <= scrollview width, it will be force sized!
+
+Inner width <= scrollview width, it will be force sized!
+
+[LUA-print] [INFO]backButton
+
+[LUA-print] [INFO]begin
+
+[LUA-print] [INFO]backButton
+
+[LUA-print] [INFO]end
+
+[LUA-print] [INFO]OnExit
+
+Inner height <= scrollview height, it will be force sized!
+
+Inner height <= scrollview height, it will be force sized!
+
+Inner width <= scrollview width, it will be force sized!
+
+Inner width <= scrollview width, it will be force sized!
+
+[LUA-print] [INFO]backButton
+
+[LUA-print] [INFO]begin
+
+[LUA-print] [INFO]backButton
+
+[LUA-print] [INFO]end
+
+[LUA-print] [INFO]OnExit
+
+Inner height <= scrollview height, it will be force sized!
+
+Inner height <= scrollview height, it will be force sized!
+
+Inner width <= scrollview width, it will be force sized!
+
+Inner width <= scrollview width, it will be force sized!
+
+[LUA-print] [INFO]backButton
+
+[LUA-print] [INFO]begin
+
+[LUA-print] [INFO]backButton
+
+[LUA-print] [INFO]end
+
+[LUA-print] [INFO]OnExit
+
+Inner height <= scrollview height, it will be force sized!
+
+Inner height <= scrollview height, it will be force sized!
+
+Inner width <= scrollview width, it will be force sized!
+
+Inner width <= scrollview width, it will be force sized!
+
+[LUA-print] [INFO]backButton
+
+[LUA-print] [INFO]begin
+
+[LUA-print] [INFO]backButton
+
+[LUA-print] [INFO]end
+
+[LUA-print] [INFO]OnExit
+
+Inner height <= scrollview height, it will be force sized!
+
+Inner width <= scrollview width, it will be force sized!
 
