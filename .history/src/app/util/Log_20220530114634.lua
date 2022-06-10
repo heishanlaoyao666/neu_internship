@@ -10,27 +10,23 @@
 --         @type(可选参数，默认0): 0:VSCode output console  1:VSCode tip  2:VSCode debug console
 
 Log = {}
+--- local Config = require("Config")
+local IS_LOG = true
 
 function Log.i(...)
-    if ... == nil then
-        print("[LOG_ERRO]" .. " NULLPTR")
-    elseif Config.IS_LOG then
+    if IS_LOG then
         print("[INFO]" .. ...)
     end
 end
 
 function Log.e(...)
-    if ... == nil then
-        print("[LOG_ERRO]" .. " NULLPTR")
-    elseif Config.IS_LOG then
+    if IS_LOG then
         print("[ERROR]", ...)
     end
 end
 
 function Log.w(...)
-    if ... == nil then
-        print("[LOG_ERRO]" .. " NULLPTR")
-    elseif Config.IS_LOG then
+    if IS_LOG then
         print("[WARN]", ...)
     end
 end

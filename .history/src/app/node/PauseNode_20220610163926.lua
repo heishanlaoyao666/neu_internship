@@ -58,7 +58,7 @@ function PauseNode:init(itsColor)
             elseif cc.EventCode.ENDED == event then
                 --- 松开
                 --
-                GameHandler.updateContinue(true)
+                GameHandler.isContinue = true
                 FileUtil.saveGame()
                 --
                 Director:resume()

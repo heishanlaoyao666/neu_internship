@@ -3,7 +3,7 @@
 --- Created by Zoybzo.
 --- DateTime: 2022-05-24 15:39
 ---
-Config = {}
+local Config = {}
 
 Config.IS_LOG = true
 

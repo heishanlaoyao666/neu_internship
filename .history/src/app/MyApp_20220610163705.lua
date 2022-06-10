@@ -13,7 +13,6 @@ local ConstantsUtil = require("app.util.ConstantsUtil")
 local Log = require("app.util.Log")
 local TypeConvert = require("app.util.TypeConvert")
 local FileUtil = require("app.util.FileUtil")
-local Config = require("app.util.Config")
 
 local GameHandler = require("app.handler.GameHandler")
 --
@@ -40,15 +39,22 @@ function MyApp:run()
         function()
         end
     )
-
-    -- DataLoad
-    if GameHandler.isContinue == true then
-        FileUtil.loadGame()
-    end
-    FileUtil.loadRank()
+    -- Audio.loadFile(ConstantsUtil.PATH_EXPLOSION_EFFECT, nil)
+    -- Audio.loadFile(ConstantsUtil.PATH_DESTROY_EFFECT, nil)
+    -- Audio.loadFile(ConstantsUtil.PATH_FIRE_EFFECT, nil)
+    -- Audio.loadFile(ConstantsUtil.PATH_BUTTON_EFFECT, nil)
 
     Director:setAnimationInterval(ConstantsUtil.INTERVAL_ANIMATION)
     self:enterScene("MainScene")
+
+    -- local scene = require("app.scenes.MainScene")
+    -- local mainScene = scene.create()
+
+    -- if cc.Director:getInstance():getRunningScene() then
+    --     cc.Director:getInstance():replaceScene(mainScene)
+    -- else
+    --     cc.Director:getInstance():runWithScene(mainScene)
+    -- end
 end
 
 return MyApp

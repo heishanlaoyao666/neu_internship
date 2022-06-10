@@ -13,7 +13,6 @@ local ConstantsUtil = require("app.util.ConstantsUtil")
 local Log = require("app.util.Log")
 local TypeConvert = require("app.util.TypeConvert")
 local FileUtil = require("app.util.FileUtil")
-local Config = require("app.util.Config")
 
 local GameHandler = require("app.handler.GameHandler")
 --
@@ -45,7 +44,6 @@ function MyApp:run()
     if GameHandler.isContinue == true then
         FileUtil.loadGame()
     end
-    FileUtil.loadRank()
 
     Director:setAnimationInterval(ConstantsUtil.INTERVAL_ANIMATION)
     self:enterScene("MainScene")

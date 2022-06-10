@@ -91,7 +91,7 @@ function OverNode:init(itsColor)
             elseif cc.EventCode.ENDED == event then
                 --- 松开
                 --
-                GameHandler.cleanupData()
+                GameHandler.myRole = nil
                 --
                 Director:resume()
                 local nowScene = import("app.scenes.MenuScene").new()

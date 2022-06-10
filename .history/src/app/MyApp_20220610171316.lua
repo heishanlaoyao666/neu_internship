@@ -43,7 +43,7 @@ function MyApp:run()
 
     -- DataLoad
     if GameHandler.isContinue == true then
-        FileUtil.loadGame()
+    -- FileUtil.loadGame()
     end
     FileUtil.loadRank()
 

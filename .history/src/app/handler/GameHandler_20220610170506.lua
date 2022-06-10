@@ -52,8 +52,8 @@ function GameHandler.toSave()
 
     local obj = {
         planeData = GameHandler.PlaneData:data2Json(),
-        bulletData = tmpBulletData,
-        enemyData = tmpEnemyData
+        bulletData = GameHandler.BulletData,
+        enemyData = GameHandler.EnemyData
     }
     return obj
 end

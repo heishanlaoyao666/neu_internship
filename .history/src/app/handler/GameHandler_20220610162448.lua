@@ -11,12 +11,7 @@ GameHandler.BulletArray = {}
 GameHandler.EnemyArray = {}
 
 GameHandler.isPause = false -- 暂停 指的是在局内暂停
-GameHandler.isContinue = UserDefault:getBoolForKey(ConstantsUtil.CONTINUE_KEY, false) -- 是否继续 指的是退出了游戏界面
-
-function GameHandler.updateContinue(val)
-    GameHandler.isContinue = val
-    UserDefault:setBoolForKey(ConstantsUtil.CONTINUE_KEY, GameHandler.isContinue)
-end
+GameHandler.isContinue = false -- 是否继续 指的是退出了游戏界面
 
 function GameHandler.cleanupData()
     GameHandler.PlaneData = nil
@@ -41,19 +36,10 @@ function GameHandler.cleanupView()
 end
 
 function GameHandler.toSave()
-    local tmpBulletData = {}
-    for i = 1, #(GameHandler.BulletData) do
-        table.insert(tmpBulletData, GameHandler.BulletData[i]:data2Json())
-    end
-    local tmpEnemyData = {}
-    for i = 1, #(GameHandler.EnemyData) do
-        table.insert(tmpEnemyData, GameHandler.EnemyData[i]:data2Json())
-    end
-
     local obj = {
-        planeData = GameHandler.PlaneData:data2Json(),
-        bulletData = tmpBulletData,
-        enemyData = tmpEnemyData
+        planeData = GameHandler.PlaneData,
+        bulletData = GameHandler.BulletData,
+        enemyData = GameHandler.EnemyData
     }
     return obj
 end

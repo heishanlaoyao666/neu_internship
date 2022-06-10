@@ -6,6 +6,7 @@ WinSize = Director:getWinSize()
 UserDefault = cc.UserDefault:getInstance()
 CSLoader = cc.CSLoader:getInstance()
 Audio = require("framework.Audio")
+FileUtil = cc.FileUtils:getInstance()
 
 --- string
 ConstantsUtil.BACKGROUND = "background"
@@ -17,7 +18,6 @@ ConstantsUtil.ROLE_RED_PLANE = "RED_PLANE"
 
 ConstantsUtil.MUSIC_KEY = "music_key"
 ConstantsUtil.EFFECT_KEY = "effect_key"
-ConstantsUtil.CONTINUE_KEY = "continue_key"
 
 --- constants
 -- ConstantsUtil.DEFAULT_HP = 100
@@ -54,9 +54,6 @@ ConstantsUtil.INIT_PLANE_Y = -0.3
 ConstantsUtil.COLOR_GREW_TRANSLUCENT = cc.c4b(0, 0, 0, 110)
 
 --- path
-ConstantsUtil.PATH_SAVE_JSON = "save.json"
-ConstantsUtil.PATH_RANK_JSON = "rank.json"
-
 ConstantsUtil.PATH_BG_JPG = "ui/main/bg_menu.jpg"
 
 ConstantsUtil.PATH_BULLET_PNG = "player/blue_bullet.png"

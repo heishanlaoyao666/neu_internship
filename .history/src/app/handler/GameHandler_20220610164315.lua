@@ -41,19 +41,10 @@ function GameHandler.cleanupView()
 end
 
 function GameHandler.toSave()
-    local tmpBulletData = {}
-    for i = 1, #(GameHandler.BulletData) do
-        table.insert(tmpBulletData, GameHandler.BulletData[i]:data2Json())
-    end
-    local tmpEnemyData = {}
-    for i = 1, #(GameHandler.EnemyData) do
-        table.insert(tmpEnemyData, GameHandler.EnemyData[i]:data2Json())
-    end
-
     local obj = {
-        planeData = GameHandler.PlaneData:data2Json(),
-        bulletData = tmpBulletData,
-        enemyData = tmpEnemyData
+        planeData = GameHandler.PlaneData,
+        bulletData = GameHandler.BulletData,
+        enemyData = GameHandler.EnemyData
     }
     return obj
 end

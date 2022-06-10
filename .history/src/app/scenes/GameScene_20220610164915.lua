@@ -241,7 +241,7 @@ function GameScene:destroy()
     Scheduler:unscheduleScriptEntry(collisionBetweenMyRoleAndEnemyEntry)
 end
 
--- @Deprecate 好像不可以这么用
+-- 好像不可以这么用
 function GameScene:myRemove()
     for i = 1, #(GameHandler.BulletArray) do
         if GameHandler.BulletArray[i] == nil then

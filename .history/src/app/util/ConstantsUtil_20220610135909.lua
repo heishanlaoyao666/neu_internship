@@ -6,6 +6,7 @@ WinSize = Director:getWinSize()
 UserDefault = cc.UserDefault:getInstance()
 CSLoader = cc.CSLoader:getInstance()
 Audio = require("framework.Audio")
+FileUtil = cc.FileUtils:getInstance()
 
 --- string
 ConstantsUtil.BACKGROUND = "background"
@@ -17,7 +18,6 @@ ConstantsUtil.ROLE_RED_PLANE = "RED_PLANE"
 
 ConstantsUtil.MUSIC_KEY = "music_key"
 ConstantsUtil.EFFECT_KEY = "effect_key"
-ConstantsUtil.CONTINUE_KEY = "continue_key"
 
 --- constants
 -- ConstantsUtil.DEFAULT_HP = 100

@@ -28,9 +28,7 @@ function Log.e(...)
 end
 
 function Log.w(...)
-    if ... == nil then
-        print("[LOG_ERRO]" .. " NULLPTR")
-    elseif Config.IS_LOG then
+    if Config.IS_LOG then
         print("[WARN]", ...)
     end
 end

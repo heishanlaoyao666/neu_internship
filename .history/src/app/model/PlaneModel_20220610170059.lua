@@ -15,14 +15,12 @@ function PlaneModel:data2Json()
         hp = self.hp,
         score = self.score
     }
-    return planeModel
+    return bulletModel
 end
 
-function PlaneModel:json2Data(planeModel)
-    self.x = planeModel.x
-    self.y = planeModel.y
-    self.hp = planeModel.hp
-    self.score = planeModel.score
+function PlaneModel:json2Data(bulletModel)
+    self.x = bulletModel.x
+    self.y = bulletModel.y
 end
 
 function PlaneModel:getX()

@@ -2,4 +2,5 @@
 <userDefaultRoot>
     <music_key>false</music_key>
     <effect_key>false</effect_key>
+    <continue_key>false</continue_key>
 </userDefaultRoot>

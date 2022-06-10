@@ -16,21 +16,11 @@ LOAD LUA FILE: D:/CocosProjects/empty/src/main.lua
 
 [LUA-print] [LuaPanda] reGetSock success
 
-[LUA-print] [LuaPanda] First connect success!
+[LUA-print] [LuaPanda] First connect failed!
 
-[LUA-print] [LuaPanda] changeRunState :1 | from:lua
+[LUA-print] [LuaPanda] change hook state :0
 
-[LUA-print] [LuaPanda] connectSuccess
-
-can not get file data of D:/CocosProjects/empty/src/libpdebug.lua
-
-can not get file data of D:/CocosProjects/empty/src/libpdebug.lua
-
-[LUA-print] [LuaPanda] changeRunState :2 | from:lua
-
-[LUA-print] [LuaPanda] change hook state :3
-
-[LUA-print] [LuaPanda] changeRunState :3 | from:lua
+[LUA-print] [LuaPanda] change [Coroutine] HookState: 0
 
 [LUA-print] ===========================================================
 
@@ -102,6 +92,14 @@ D:/CocosProjects/empty/src/framework/audio.lua
 
 
 
+[LUA-print] [INFO]FileUtil.loadGame
+
+[LUA-print] [INFO]{  "planeData":{    "y":173.31610107422,    "score":3,    "hp":20,    "x":278.93692016602  },  "bulletData":[{      "y":722.33020019531,      "x":225.0251159668    },{      "y":722.33020019531,      "x":225.0251159668    },{      "y":722.33020019531,      "x":225.0251159668    },{      "y":624.81610107422,      "x":278.93692016602    },{      "y":429.81610107422,      "x":278.93692016602    },{      "y":249.81610107422,      "x":278.93692016602    }],  "enemyData":[{      "y":-4,      "x":283.24979602949    },{      "y":606,      "x":317.3314540777    }]}
+
+[LUA-print] [LuaPanda] Reconnect !
+
+[LUA-print] [LuaPanda] reconnect failed
+
 [Edit text] content size = (182.000000, 36.000000)
 
 [Edit text] content size = (182.000000, 36.000000)
@@ -109,8 +107,6 @@ D:/CocosProjects/empty/src/framework/audio.lua
 [Edit text] content size = (182.000000, 36.000000)
 
 [LUA-print] cur text is 	请输入昵
-
-[LUA-print] cur text is 	请输入
 
 [LUA-print] [INFO]registerButton
 
@@ -124,17 +120,81 @@ D:/CocosProjects/empty/src/framework/audio.lua
 
 [LUA-print] [INFO]end
 
-[LUA-print] [INFO]请输入
+[LUA-print] [INFO]请输入昵
 
 Inner height <= scrollview height, it will be force sized!
+
+[LUA-print] [INFO]2
 
 cocos2d: padding: 0,0,0,0
 
 Inner width <= scrollview width, it will be force sized!
+
+[LUA-print] [LuaPanda] Reconnect !
+
+[LUA-print] [LuaPanda] reconnect failed
+
+[LUA-print] [LuaPanda] Reconnect !
+
+[LUA-print] [LuaPanda] reconnect failed
+
+[LUA-print] [INFO]Score: 004
+
+Inner height <= scrollview height, it will be force sized!
+
+Inner width <= scrollview width, it will be force sized!
+
+[LUA-print] [INFO]restartButton
+
+[LUA-print] [INFO]restartButton
+
+Inner width <= scrollview width, it will be force sized!
+
+[LUA-print] [LuaPanda] Reconnect !
+
+[LUA-print] [LuaPanda] reconnect failed
+
+[LUA-print] [LuaPanda] Reconnect !
+
+[LUA-print] [LuaPanda] reconnect failed
 
 [LUA-print] [INFO]Score: 001
 
 Inner height <= scrollview height, it will be force sized!
 
 Inner width <= scrollview width, it will be force sized!
+
+[LUA-print] [INFO]restartButton
+
+[LUA-print] [INFO]restartButton
+
+Inner width <= scrollview width, it will be force sized!
+
+[LUA-print] [INFO]Score: 000
+
+Inner height <= scrollview height, it will be force sized!
+
+Inner width <= scrollview width, it will be force sized!
+
+[LUA-print] [INFO]restartButton
+
+[LUA-print] [INFO]restartButton
+
+Inner width <= scrollview width, it will be force sized!
+
+[LUA-print] [LuaPanda] Reconnect !
+
+[LUA-print] [LuaPanda] reconnect failed
+
+[LUA-print] [LuaPanda] Reconnect !
+
+[LUA-print] [LuaPanda] reconnect failed
+
+[LUA-print] [LuaPanda] Reconnect !
+
+[LUA-print] [LuaPanda] reconnect failed
+
+[LUA-print] [LuaPanda] Reconnect !
+
+[LUA-print] [LuaPanda] reconnect failed
 

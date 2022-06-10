@@ -57,10 +57,8 @@ function PauseNode:init(itsColor)
                 --- 按下
             elseif cc.EventCode.ENDED == event then
                 --- 松开
-                --
-                GameHandler.updateContinue(true)
+                GameHandler.isContinue = true
                 FileUtil.saveGame()
-                --
                 Director:resume()
                 local menuScene = import("app.scenes.MenuScene").new()
                 display.replaceScene(menuScene)
