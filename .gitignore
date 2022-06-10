@@ -1,8 +1,9 @@
 # myDir
 .idea
 .vscode
-frameworks
+.history
 .history/src
+frameworks
 
 # myFile
 *.exe
