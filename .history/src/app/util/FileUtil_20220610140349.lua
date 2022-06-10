@@ -1,1 +1,0 @@
-FileUtil = FileUtil or {}
