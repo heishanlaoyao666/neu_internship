@@ -20,7 +20,7 @@ end)
     @return none
 ]]
 function MainScene:ctor()
-
+    print("ctor")
     self:uiController()
 end
 
@@ -34,6 +34,7 @@ end
 ]]
 
 function MainScene:uiController()
+    print("uiController")
     -- 判断是否已有用户信息
     local isMain = false
     local userName = cc.UserDefault:getInstance():getStringForKey("UserName")
@@ -100,6 +101,7 @@ end
     @return none
 ]]
 function MainScene:createMainUI()
+    print("createMainUI")
     local director = cc.Director:getInstance()
 
     local width, height = 480, 720          --面板位置
@@ -175,9 +177,10 @@ function MainScene:createMainUI()
     end)
 
     -- 音乐默认播放
+    print("主界面音乐播放")
     local audio = require("framework.audio")
-    audio.loadFile("sounds/bgMusic.ogg",function ()
-        audio.playBGM("sounds/bgMusic.ogg",true)
+    audio.loadFile("sounds/mainMainMusic.ogg",function ()
+        audio.playBGM("sounds/mainMainMusic.ogg",true)
     end)
 
     -- 显示用户信息
@@ -241,14 +244,24 @@ function MainScene:createRegisterPanel()
     -- 按钮点击事件
     confirmButton:addTouchEventListener(function(sender, eventType)
         if 2 == eventType then
-            print("you type string =", locationEditbox:getText())
+            print("you type string =", locationEditbox:getText(),".")
             -- 点击按钮使用UserDefault保存昵称和用户ID
-            self:userRegister(locationEditbox:getText())
-
-            --切换页面
-            self:createMainUI()
-            registerBackLayer:setVisible(false)
-            registerLayer:setVisible(false)
+            print("self:userRegister(locationEditbox:getText())",self:userRegister(locationEditbox:getText()))
+            if self:userRegister(locationEditbox:getText()) then
+                --切换页面
+                self:createMainUI()
+                registerBackLayer:setVisible(false)
+                registerLayer:setVisible(false)
+            else
+                local tipsTxt = display.newTTFLabel({
+                    text = "请输入昵称!",
+                    font = "FontNormal.ttf",
+                    size = 20
+                })
+                tipsTxt:align(display.CENTER, display.cx, display.height/4)
+                tipsTxt:setColor(cc.c3b(255,50,50))
+                tipsTxt:addTo(self)
+            end
         end
     end)
 
@@ -262,15 +275,20 @@ end
     @return  none
 ]]
 function MainScene:userRegister(name)
-    cc.UserDefault:getInstance():setStringForKey("UserName", name)    -- 字符串(键-值)
-    local userName = cc.UserDefault:getInstance():getStringForKey("UserName")
-    --打印获得的用户数据
-    print("UserName --> ", userName)
+    if name ~= "" then
+        cc.UserDefault:getInstance():setStringForKey("UserName", name)    -- 字符串(键-值)
+        local userName = cc.UserDefault:getInstance():getStringForKey("UserName")
+        --打印获得的用户数据
+        print("UserName --> ", userName)
 
-    cc.UserDefault:getInstance():setStringForKey("UserId", self:getUUID())    -- 字符串(键-值)
-    local userId = cc.UserDefault:getInstance():getStringForKey("UserId")
-    --打印获得的用户数据
-    print("UserId --> ", userId)
+        cc.UserDefault:getInstance():setStringForKey("UserId", self:getUUID())    -- 字符串(键-值)
+        local userId = cc.UserDefault:getInstance():getStringForKey("UserId")
+        --打印获得的用户数据
+        print("UserId --> ", userId)
+    else
+        return false
+    end
+    return true
 end
 
 --[[

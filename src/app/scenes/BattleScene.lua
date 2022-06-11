@@ -2,6 +2,28 @@ local BattleScene = class("BattleScene", function ()
     return display.newScene("BattleScene")
 end)
 
+--[[
+    以下部分用于控制整体音效
+]]
+local isPlayBgm = true
+local isPlayEffect = true
+
+function BattleScene:getIsPlayBgm()
+    return isPlayBgm
+end
+
+function BattleScene:getIsPlayEffect()
+    return isPlayEffect
+end
+
+function BattleScene:setIsPlayBgm(bool)
+    isPlayBgm = bool
+end
+
+function BattleScene:setIsPlayEffect(bool)
+    isPlayEffect = bool
+end
+
 --[[--
     构造函数
     @param none
@@ -84,10 +106,12 @@ function BattleScene:fireContinue()
     -- 飞机炮弹连射
     self.addBulletEntry_ = cc.Director:getInstance():getScheduler():scheduleScriptFunc(function (dt)
         self:createBullet()
-        local audio = require("framework.audio")
-        audio.loadFile("sounds/fireEffect.ogg",function ()
-            audio.playEffect("sounds/fireEffect.ogg",false)
-        end)
+        if isPlayEffect then
+            local audio = require("framework.audio")
+            audio.loadFile("sounds/fireEffect.ogg",function ()
+                audio.playEffect("sounds/fireEffect.ogg",false)
+            end)
+        end
     end, 0.2, false)
 end
 
@@ -174,9 +198,12 @@ function BattleScene:createLayer()
     self:loadBoomAnimation()
 
     -- 音乐默认播放
-    self.audio_.loadFile("sounds/bgMusic.ogg",function ()
-        self.audio_.playBGM("sounds/bgMusic.ogg",true)
-    end)
+    print("isPlayBgm", isPlayBgm)
+    if isPlayBgm then
+        self.audio_.loadFile("sounds/bgMusic.ogg",function ()
+            self.audio_.playBGM("sounds/bgMusic.ogg",true)
+        end)
+    end
 
     --面板设置
     local battleLayer = ccui.Layout:create()         --创建层
@@ -372,9 +399,11 @@ function BattleScene:Collision(isStart)
                     self.life_ = self.life_ - 20
 
                     --受损音效
-                    self.audio_.loadFile("sounds/shipDestroyEffect.ogg", function ()
-                        audio.playEffect("sounds/shipDestroyEffect.ogg", false)
-                    end)
+                    if isPlayEffect then
+                        self.audio_.loadFile("sounds/shipDestroyEffect.ogg", function ()
+                            audio.playEffect("sounds/shipDestroyEffect.ogg", false)
+                        end)
+                    end
                     self:enemyBoom(i)       --敌机销毁
                     self:playerDamageAni()  --玩家受损动画
 
@@ -402,9 +431,11 @@ function BattleScene:Collision(isStart)
                         self.score_ = self.score_ + 10
 
                         --爆炸音效
-                        self.audio_.loadFile("sounds/explodeEffect.ogg", function ()
-                            audio.playEffect("sounds/explodeEffect.ogg", false)
-                        end)
+                        if isPlayEffect then
+                            self.audio_.loadFile("sounds/explodeEffect.ogg", function ()
+                                audio.playEffect("sounds/explodeEffect.ogg", false)
+                            end)
+                        end
 
                         self:enemyBoom(i)
                         break

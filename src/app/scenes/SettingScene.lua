@@ -2,7 +2,7 @@ local SettingScene = class("SettingSceneScene", function()
     return display.newScene("SettingSceneScene")
 end)
 
---local defaults = cc.UserDefault:getInstance()
+local BattleScene = require"app.scenes.BattleScene"
 
 --[[--
     构造函数
@@ -44,8 +44,6 @@ function SettingScene:createLayer()
     -- 按钮点击事件(关闭 设置界面)
     buttonSet:addTouchEventListener(function(sender, eventType)
         if 2 == eventType then
-            --local mainScenece = require("app.scenes.MainScene"):new()    -- 设置创建对象
-            --display.replaceScene(mainScenece, "turnOffTiles", 0.1)
             director:popScene()
         end
     end)
@@ -64,12 +62,14 @@ function SettingScene:createLayer()
     -- 事件回调函数
     local function onChangedCheckBoxBgm(sender, eventType)
         if eventType == ccui.CheckBoxEventType.selected then
-            --audioBgm.stopBGM()
-            audioBgm.pauseAll()
+            audioBgm.stopBGM()
+            --audioBgm.pauseAll()
+            BattleScene:setIsPlayBgm(false)
 
         elseif eventType == ccui.CheckBoxEventType.unselected then
-            --audioBgm.playBGM("sounds/bgMusic.ogg")
-            audioBgm.resumeAll()
+            audioBgm.playBGM("sounds/mainMainMusic.ogg")
+            --audioBgm.resumeAll()
+            BattleScene:setIsPlayBgm(true)
         end
     end
 
@@ -88,8 +88,12 @@ function SettingScene:createLayer()
     -- 添加事件监听器
     ckbBgm:addEventListener(onChangedCheckBoxBgm)
     ckbBgm:addTo(self)
-
-    --musicToggleMenuItem:registerScriptTapHandler()
+    --初始状态（播放true对应非选中状态）
+    if BattleScene:getIsPlayBgm() then
+        ckbBgm:setSelected(false)
+    else
+        ckbBgm:setSelected(true)
+    end
 
 --[[--
     音效开关
@@ -100,17 +104,15 @@ function SettingScene:createLayer()
     spriteBgm:setAnchorPoint(1, 0.5)
     spriteBgm:addTo(self)
 
-    audioBgm.loadFile("sounds/buttonEffet.ogg",function ()
-        --audioBgm.playBGM("sounds/bgMusic.ogg",true)
-    end)
-
      -- 事件回调函数
      local function onChangedCheckBoxSE(sender, eventType)
         if eventType == ccui.CheckBoxEventType.selected then
             audioBgm.stopEffect()
+            BattleScene:setIsPlayEffect(false)
 
         elseif eventType == ccui.CheckBoxEventType.unselected then
             audioBgm.playEffect("sounds/buttonEffet.ogg")
+            BattleScene:setIsPlayEffect(true)
         end
     end
 
@@ -128,16 +130,12 @@ function SettingScene:createLayer()
     -- 添加事件监听器
     ckbSE:addEventListener(onChangedCheckBoxSE)
     ckbSE:addTo(self)
-
---[[--
-    初始化音乐开关状态
-
-    if defaults:getBoolForKey(MUSIC_KEY) then
-        musicToggleMenuItem:setSelectedIndex(0)     --off
+    --初始状态（播放true对应非选中状态）
+    if BattleScene:getIsPlayEffect() then
+        ckbSE:setSelected(false)
     else
-        musicToggleMenuItem:setSelectedIndex(1)     --o
+        ckbSE:setSelected(true)
     end
-]]
 
 --[[--
     说明文字1
