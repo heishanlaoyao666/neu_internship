@@ -3,14 +3,13 @@ local play1 = class("play1", function()
     return display.newScene("play1")
 end)
 
-local music = true
-local sound = true
+local music = false
+local sound = false
+
+
 
 local audio = require("framework.audio")
 
-audio.loadFile("texture/sounds/bgMusic.ogg", function ()
-    audio.playBGM("texture/sounds/bgMusic.ogg")
-end)
 
 audio.loadFile("texture/sounds/shipDestroyEffect.ogg", function ()
 end)
@@ -25,6 +24,24 @@ audio.loadFile("texture/sounds/buttonEffet.ogg", function ()
 end)
 
 function play1:ctor()
+
+    self:reset()  
+
+    local setting = io.open("setting.txt","a+")
+    if setting:read()  == "true" then
+        music = true
+    end 
+    if setting:read("*l")  == "true" then
+        sound = true
+    end 
+    io.close(setting)
+
+    audio.loadFile("texture/sounds/bgMusic.ogg", function ()
+        if music then
+            audio.playBGM("texture/sounds/bgMusic.ogg")
+        end
+    end)
+
     local scheduler = require("framework.scheduler")
     local updateHandle = scheduler.scheduleUpdateGlobal(handler(self, self.update))
     hp = 100
@@ -60,8 +77,8 @@ function play1:ctor()
     sprite:addTo(self) 
     sprite:setPosition(display.cx,display.cy)
     sprite : runAction(animate)
+    
     donghua = {{sprite = sprite , life = 0}}
-    print(donghua[1].sprite)
 
     palyerPlane:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
 		dump(event)
@@ -144,12 +161,68 @@ function play1:ctor()
     back:setVisible(false)
     back:addTouchEventListener(function(sender, eventType)
 		if 2 == eventType then
-            audio.playEffect("texture/sounds/buttonEffet.ogg")
-			local  menu = import("src.app.scenes.menu"):new()
-            display.replaceScene(menu)
+            if sound then
+                audio.playEffect("texture/sounds/buttonEffet.ogg")
+            end
+            palyerPlane:setTouchEnabled(true)
+                pause = false
+                self.handler = self.scheduler.scheduleGlobal(function()    -- 这里必须如此定义，否则self内的成员不可用，返回一个全局的定时器handler，用来取消定时
+                    local x = palyerPlane:getPositionX()
+                    local y = palyerPlane:getPositionY()
+                    bullet = display.newSprite("texture/player/blue_bullet.png")
+                    :pos(x,y)
+                    :addTo(self)
+                    if sound then
+                        audio.playEffect("texture/sounds/fireEffect.ogg")
+                    end
+                    danmu2 = {x = x ,y = y ,danmu1 = bullet} 
+                    table.insert(danmu,danmu2)
+            
+                    realTime = realTime + 1
+                    if realTime == 10 then
+                        realTime = 0
+                        x = math.random(display.right - 50) +25
+                        y = math.random(500)+display.top  
+                        enemy3 = display.newSprite("texture/player/small_enemy.png")
+                        :pos(x,y)
+                        :addTo(self)
+                        enemy2 = {life = 100,x = x,y = y,enemy1 = enemy3 }
+                        table.insert(enemy,enemy2)
+                    end
+            
+                end, 0.2)  -- 每秒回调一次self.OnTimer函数
+                transition.resumeTarget(b1)
+                transition.resumeTarget(b2)
+                pauseLayer:setVisible(false)
+                hp = 100
+                hp2:setTitleText(hp)
+                score = 0 
+                score2:setTitleText(score)
+                palyerPlane:setPosition(display.cx,display.cy-300)
+                for _,v in pairs(danmu) do
+                    self:removeChild(v.danmu1)
+                end
+                for _,v in pairs(enemy) do
+                    self:removeChild(v.enemy1)
+                end
+                danmu = {{x = display.cx ,y = display.cy-300,danmu1 = display.newSprite("texture/player/blue_bullet.png")
+                :pos(display.cx,display.cy-300)
+                :addTo(self)
+                }}
+                
+                enemy = {{life = 100,x = display.cx ,y = display.top-300,enemy1 = display.newSprite("texture/player/small_enemy.png")
+                :pos(display.cx,display.top-300)
+                :addTo(self)
+                }}
+
+                sprite = display.newSprite("#explosion_01.png")
+                sprite:addTo(self)        
+                donghua = {{sprite = sprite , life = 0}}
+
+                local  menu = import("src.app.sce22nes.menu"):new()
+                display.replaceScene(menu)
 		end
 	end)
-
  
     enemyTime = 4
     realTime = 0;
@@ -160,7 +233,9 @@ function play1:ctor()
         bullet = display.newSprite("texture/player/blue_bullet.png")
         :pos(x,y)
         :addTo(self)
-        audio.playEffect("texture/sounds/fireEffect.ogg")
+        if sound then
+            audio.playEffect("texture/sounds/fireEffect.ogg")
+        end
         danmu2 = {x = x ,y = y ,danmu1 = bullet} 
         table.insert(danmu,danmu2)
 
@@ -188,14 +263,18 @@ function play1:ctor()
     
     continue:addTouchEventListener(function(sender1, eventType)
 		if 2 == eventType then
-            audio.playEffect("texture/sounds/buttonEffet.ogg")
+            if sound then
+                audio.playEffect("texture/sounds/buttonEffet.ogg")
+            end
             self.handler = self.scheduler.scheduleGlobal(function()    -- 这里必须如此定义，否则self内的成员不可用，返回一个全局的定时器handler，用来取消定时
                 local x = palyerPlane:getPositionX()
                 local y = palyerPlane:getPositionY()
                 bullet = display.newSprite("texture/player/blue_bullet.png")
                 :pos(x,y)
                 :addTo(self)
-                audio.playEffect("texture/sounds/fireEffect.ogg")
+                if sound then
+                    audio.playEffect("texture/sounds/fireEffect.ogg")
+                end
                 danmu2 = {x = x ,y = y ,danmu1 = bullet} 
                 table.insert(danmu,danmu2)
         
@@ -230,8 +309,10 @@ function play1:ctor()
     confirmButton:addTo(self)
 
     confirmButton:addTouchEventListener(function(sender, eventType)
-		if 2 == eventType then  
-            audio.playEffect("texture/sounds/buttonEffet.ogg")
+		if 2 == eventType then
+            if sound then  
+                audio.playEffect("texture/sounds/buttonEffet.ogg")
+            end
             palyerPlane:setTouchEnabled(false)
             pause = true
             self.scheduler.unscheduleGlobal(self.handler)
@@ -265,23 +346,10 @@ function play1:update(dt)
         back1:addTo(self)
     
         back1:addTouchEventListener(function(sender4, eventType)
-            if 2 == eventType then  
-                audio.playEffect("texture/sounds/buttonEffet.ogg")
-                local  menu = import("src.app.scenes.menu"):new()
-                display.replaceScene(menu)
-            end
-        end)
-
-        local restart1 = ccui.Button:create("texture/ui/gameover/restart.png", "texture/ui/gameover/restart.png")
-        restart1:setAnchorPoint(0.5, 0.5)
-        restart1:setScale9Enabled(true)
-        restart1:setContentSize(307,75)
-        restart1:pos(display.cx,display.cy-25)
-        restart1:addTo(self)
-    
-        restart1:addTouchEventListener(function(sender5, eventType)
-            if 2 == eventType then  
-                audio.playEffect("texture/sounds/buttonEffet.ogg")
+            if 2 == eventType then
+                if sound then  
+                    audio.playEffect("texture/sounds/buttonEffet.ogg")
+                end
                 palyerPlane:setTouchEnabled(true)
                 pause = false
                 self.handler = self.scheduler.scheduleGlobal(function()    -- 这里必须如此定义，否则self内的成员不可用，返回一个全局的定时器handler，用来取消定时
@@ -290,7 +358,9 @@ function play1:update(dt)
                     bullet = display.newSprite("texture/player/blue_bullet.png")
                     :pos(x,y)
                     :addTo(self)
-                    audio.playEffect("texture/sounds/fireEffect.ogg")
+                    if sound then
+                        audio.playEffect("texture/sounds/fireEffect.ogg")
+                    end
                     danmu2 = {x = x ,y = y ,danmu1 = bullet} 
                     table.insert(danmu,danmu2)
             
@@ -332,6 +402,92 @@ function play1:update(dt)
                 :pos(display.cx,display.top-300)
                 :addTo(self)
                 }}
+
+                sprite = display.newSprite("#explosion_01.png")
+                sprite:addTo(self) 
+                sprite:setPosition(display.cx,display.cy)
+                sprite:runAction(animate)
+                
+                donghua = {{sprite = sprite , life = 0}}
+
+                local  menu = import("src.app.scenes.menu"):new()
+                display.replaceScene(menu)
+            end
+        end)
+
+        local restart1 = ccui.Button:create("texture/ui/gameover/restart.png", "texture/ui/gameover/restart.png")
+        restart1:setAnchorPoint(0.5, 0.5)
+        restart1:setScale9Enabled(true)
+        restart1:setContentSize(307,75)
+        restart1:pos(display.cx,display.cy-25)
+        restart1:addTo(self)
+    
+        restart1:addTouchEventListener(function(sender5, eventType)
+            if 2 == eventType then  
+                if sound then
+                    audio.playEffect("texture/sounds/buttonEffet.ogg")
+                end
+                palyerPlane:setTouchEnabled(true)
+                pause = false
+                self.handler = self.scheduler.scheduleGlobal(function()    -- 这里必须如此定义，否则self内的成员不可用，返回一个全局的定时器handler，用来取消定时
+                    local x = palyerPlane:getPositionX()
+                    local y = palyerPlane:getPositionY()
+                    bullet = display.newSprite("texture/player/blue_bullet.png")
+                    :pos(x,y)
+                    :addTo(self)
+                    if sound then
+                        audio.playEffect("texture/sounds/fireEffect.ogg")
+                    end
+                    danmu2 = {x = x ,y = y ,danmu1 = bullet} 
+                    table.insert(danmu,danmu2)
+            
+                    realTime = realTime + 1
+                    if realTime == 10 then
+                        realTime = 0
+                        x = math.random(display.right - 50) +25
+                        y = math.random(500)+display.top  
+                        enemy3 = display.newSprite("texture/player/small_enemy.png")
+                        :pos(x,y)
+                        :addTo(self)
+                        enemy2 = {life = 100,x = x,y = y,enemy1 = enemy3 }
+                        table.insert(enemy,enemy2)
+                    end
+            
+                end, 0.2)  -- 每秒回调一次self.OnTimer函数
+                transition.resumeTarget(b1)
+                transition.resumeTarget(b2)
+                pauseLayer:setVisible(false)
+                back1:setVisible(false)
+                restart1:setVisible(false)
+                hp = 100
+                hp2:setTitleText(hp)
+                score = 0 
+                score2:setTitleText(score)
+                palyerPlane:setPosition(display.cx,display.cy-300)
+                for _,v in pairs(danmu) do
+                    self:removeChild(v.danmu1)
+                end
+                for _,v in pairs(enemy) do
+                    self:removeChild(v.enemy1)
+                end
+                danmu = {{x = display.cx ,y = display.cy-300,danmu1 = display.newSprite("texture/player/blue_bullet.png")
+                :pos(display.cx,display.cy-300)
+                :addTo(self)
+                }}
+                
+                enemy = {{life = 100,x = display.cx ,y = display.top-300,enemy1 = display.newSprite("texture/player/small_enemy.png")
+                :pos(display.cx,display.top-300)
+                :addTo(self)
+
+                
+                }}
+
+                sprite = display.newSprite("#explosion_01.png")
+                sprite:addTo(self) 
+                sprite:setPosition(display.cx,display.cy)
+                sprite:runAction(animate)
+                
+                donghua = {{sprite = sprite , life = 0}}
             end
         end)
     end
@@ -360,6 +516,7 @@ function play1:update(dt)
     end
 
     z = 0
+    
     for _,v in pairs(bulletDeath) do
         danmu[v-z].x = nil
         danmu[v-z].y = nil
@@ -393,9 +550,12 @@ function play1:update(dt)
         end
     end
     z = 0
+
+
     for _,v in pairs(enemyDeath) do
-        
-        audio.playEffect("texture/sounds/explodeEffect.ogg")
+        if sound then
+            audio.playEffect("texture/sounds/explodeEffect.ogg")
+        end
         --[[display.addSpriteFrames("texture/animation/explosion.plist","texture/animation/explosion.png")
         local spirte = display.newSprite("#explosion_01.png")
         sprite:setPosition(display.cx, display.cy)
@@ -453,6 +613,7 @@ function play1:update(dt)
             table.insert(donghuaDeath,z)
         end
     end
+    --print(z)
 
     z = 0
     for _,v in pairs(donghuaDeath) do
@@ -463,12 +624,23 @@ function play1:update(dt)
         table.remove(donghua,v-z)
         z = z+1
     end
+    z = 0
 end
 
-function play1:onEnter()   
+function play1:onEnter()  
+    print("jinru1") 
+end
+
+function play1:jixu()
+    
+end
+
+function play1:reset()
+    
 end
 
 function play1:onExit()
+    print("tuichu")
 end
 
 return play1

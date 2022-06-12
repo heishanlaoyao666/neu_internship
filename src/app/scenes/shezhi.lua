@@ -4,7 +4,11 @@ end)
 
 local audio = require("framework.audio")
 
+local music = false
+local sound = false
+
 function shezhi:ctor()  
+
 end
 
 audio.loadFile("texture/sounds/buttonEffet.ogg", function ()
@@ -12,9 +16,6 @@ end)
 
 
 function shezhi:onEnter()
-
-    local sound = true
-    local music = true 
     local b2 = display.newSprite("texture/ui/main/bg_menu.jpg")
     :pos(display.cx,display.cy)
     :addTo(self)
@@ -50,7 +51,9 @@ function shezhi:onEnter()
 
     set1:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
 		dump(event)
-    audio.playEffect("texture/sounds/buttonEffet.ogg")
+    if sound then
+        audio.playEffect("texture/sounds/buttonEffet.ogg")
+    end
 		if event.name == "began" then
             set1:setVisible(false)
             set2:setVisible(true)
@@ -60,11 +63,12 @@ function shezhi:onEnter()
             audio.stopBGM()
 		end
 	end)
-    set2:setVisible(false)
 
     set2:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
 		dump(event)
-    audio.playEffect("texture/sounds/buttonEffet.ogg")
+    if sound then
+        audio.playEffect("texture/sounds/buttonEffet.ogg")
+    end
 		if event.name == "began" then
             set2:setVisible(false)
             set1:setVisible(true)
@@ -72,7 +76,6 @@ function shezhi:onEnter()
             set2:setTouchEnabled(false)
             music = true
             audio.playBGM("texture/sounds/mainMainMusic.ogg")
-
 		end
 	end)
     set2:setTouchMode(cc.TOUCH_MODE_ONE_BY_ONE) -- default mode
@@ -95,7 +98,9 @@ function shezhi:onEnter()
 
     set3:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
 		dump(event)
-    audio.playEffect("texture/sounds/buttonEffet.ogg")
+    if sound then
+         audio.playEffect("texture/sounds/buttonEffet.ogg")
+    end
 		if event.name == "began" then
             set3:setVisible(false)
             set4:setVisible(true)
@@ -104,11 +109,12 @@ function shezhi:onEnter()
             sound = false
 		end
 	end)
-    set4:setVisible(false)
 
     set4:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
 		dump(event)
-    audio.playEffect("texture/sounds/buttonEffet.ogg")
+    if sound then
+        audio.playEffect("texture/sounds/buttonEffet.ogg")
+    end
 		if event.name == "began" then
             set4:setVisible(false)
             set3:setVisible(true)
@@ -121,9 +127,57 @@ function shezhi:onEnter()
 
     set3:setTouchEnabled(true)
     
+    local setting = io.open("setting.txt","a+")
+  if setting:read()  == "true" then
+      music = true
+      set1:setVisible(true)
+      set2:setVisible(false)
+      set1:setTouchEnabled(true)
+      set2:setTouchEnabled(false)
+      if musci then
+          audio.playBGM("texture/sounds/mainMainMusic.ogg")
+      end
+  else
+    music = false
+    set1:setTouchEnabled(false)
+    set2:setTouchEnabled(true)
+    set1:setVisible(false)
+    set2:setVisible(true)
+  end 
+  if setting:read("*l")  == "true" then
+      sound = true
+      set3:setTouchEnabled(true)
+      set4:setTouchEnabled(false)
+      set3:setVisible(true)
+      set4:setVisible(false)
+  else
+    sound = false
+    set3:setVisible(false)
+    set4:setVisible(true)
+    set3:setTouchEnabled(false)
+    set4:setTouchEnabled(true)
+  end 
+
+  print(music)
+  print(sound)
+  io.close(setting)
 end
 
 function shezhi:onExit()
+  local setting = io.open("setting.txt","w")
+  if music then
+    setting:write("true")
+    setting:write("\n")
+  else
+    setting:write("false")
+    setting:write("\n")
+  end
+  if sound then
+    setting:write("true")
+  else
+    setting:write("false")
+  end
+  io.close(setting)
 end
 
 return shezhi

@@ -2,18 +2,40 @@ menu = class("menu", function()
     return display.newScene("menu")
 end)
 
-function menu:ctor()  
-end
+local music = false
+local sound = false
 
 local audio = require("framework.audio")
 
 audio.loadFile("texture/sounds/buttonEffet.ogg", function ()
 end)
 
+function menu:ctor()  
+  local setting = io.open("setting.txt","a+")
+    if setting:read()  == "true" then
+        music = true
+    end 
+    if setting:read("*l")  == "true" then
+        sound = true
+    end 
+    io.close(setting)
+end
 
 function menu:onEnter()
 
-    audio.playBGM("texture/sounds/mainMainMusic.ogg")
+    local setting = io.open("setting.txt","a+")
+    if setting:read()  == "true" then
+        music = true
+    end 
+    if setting:read("*l")  == "true" then
+        sound = true
+    end 
+    io.close(setting)
+
+    if music then
+        audio.playBGM("texture/sounds/mainMainMusic.ogg")
+    end
+
     local b2 = display.newSprite("texture/ui/main/bg_menu.jpg")
     :pos(display.cx,display.cy)
     :addTo(self)
@@ -27,8 +49,11 @@ function menu:onEnter()
 
     confirmButton:addTouchEventListener(function(sender, eventType)
 		if 2 == eventType then
-      audio.playEffect("texture/sounds/buttonEffet.ogg")
-			print("you type string =", locationEditbox:getText())
+      if sound then
+          audio.playEffect("texture/sounds/buttonEffet.ogg")
+      end
+			local  play1 = import("src.app.scenes.play1"):new()
+      display.replaceScene(play1)
 		end
 	  end)
 
@@ -43,7 +68,9 @@ function menu:onEnter()
     confirmButton1:addTouchEventListener(function(sender1, eventType)
 		if 2 == eventType then
 			  local  play1 = import("src.app.scenes.play1"):new()
-        audio.playEffect("texture/sounds/buttonEffet.ogg")
+        if sound then
+            audio.playEffect("texture/sounds/buttonEffet.ogg")
+        end
         display.replaceScene(play1)
 		end
 	  end)
@@ -58,8 +85,10 @@ function menu:onEnter()
     -- 点击输出输入框的内容
     confirmButton2:addTouchEventListener(function(sender2, eventType)
 		if 2 == eventType then
-      audio.playEffect("texture/sounds/buttonEffet.ogg")
-			print("you type string =", locationEditbox:getText())
+      if sound then
+          audio.playEffect("texture/sounds/buttonEffet.ogg")
+      end
+			
 		end
 	  end)
 
@@ -73,7 +102,9 @@ function menu:onEnter()
     -- 点击输出输入框的内容
     confirmButton3:addTouchEventListener(function(sender3, eventType)
 		if 2 == eventType then
-      audio.playEffect("texture/sounds/buttonEffet.ogg")
+      if sound then
+          audio.playEffect("texture/sounds/buttonEffet.ogg")
+      end
       local  shezhi1 = import("src.app.scenes.shezhi"):new()
       display.replaceScene(shezhi1)
 		end

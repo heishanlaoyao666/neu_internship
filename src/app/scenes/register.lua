@@ -7,10 +7,33 @@ end
 
 local audio = require("framework.audio")
 
+local music = false
+local sound = false
+
+
 audio.loadFile("texture/sounds/buttonEffet.ogg", function ()
 end)
 
 function register:onEnter()
+
+    local uid = io.open("uid.txt","a+")
+    if uid:read()  == nil then
+        music = true
+    else
+        local  menu = import("src.app.scenes.menu"):new()
+        display.replaceScene(menu)
+    end 
+    io.close(uid)
+
+    local setting = io.open("setting.txt","a+")
+    if setting:read()  == "true" then
+        music = true
+    end 
+    if setting:read("*l")  == "true" then
+        sound = true
+    end 
+    io.close(setting)
+
     local b2 = display.newSprite("texture/ui/main/bg_menu.jpg")
     :pos(display.cx,display.cy)
     :addTo(self)
@@ -72,8 +95,13 @@ function register:onEnter()
     -- 点击输出输入框的内容
     confirmButton:addTouchEventListener(function(sender, eventType)
 		if 2 == eventType then
-            audio.playEffect("texture/sounds/buttonEffet.ogg")
-			print("you type string =", editTxt:getText())
+            if sound then
+                audio.playEffect("texture/sounds/buttonEffet.ogg")
+            end
+            local uid = io.open("uid.txt","w")
+            print(editTxt:getText())
+			uid:write(editTxt:getText())  
+            io.close(uid)
             local  menu = import("src.app.scenes.menu"):new()
             display.replaceScene(menu)
 		end

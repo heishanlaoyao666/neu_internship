@@ -5,14 +5,34 @@ end)
 
 local audio = require("framework.audio")
 
+local music = false
+local sound = false
+
+
 audio.loadFile("texture/sounds/buttonEffet.ogg", function ()
 end)
 
 
 --函数，第一个是主屏幕。第二个是背景移动速度
 local function  blackgroungd1(mainScene1,speed)
+
+    local setting = io.open("setting.txt","a+")
+    if setting:read()  == "true" then
+        music = true
+    end 
+    if setting:read("*l")  == "true" then
+        sound = true
+    end
+    print(music)
+    print(sound)
+    
+
+    io.close(setting)
+    
     audio.loadFile("texture/sounds/mainMainMusic.ogg", function ()
-        audio.playBGM("texture/sounds/mainMainMusic.ogg")
+        if music then
+            audio.playBGM("texture/sounds/mainMainMusic.ogg")
+        end
     end)
 
     local b1= display.newSprite("texture/img_bg/img_bg_1.jpg")
@@ -54,8 +74,7 @@ local function  blackgroungd1(mainScene1,speed)
 		end
 	end)
     b2:setTouchMode(cc.TOUCH_MODE_ONE_BY_ONE) -- default mode
-	b2:setTouchEnabled(true)
-    
+	b2:setTouchEnabled(true)   
 end
 
 
