@@ -10,8 +10,10 @@ function Grid2Pos(x,y)
     local visibleSize = cc.Director:getInstance():getVisibleSize()--获取手机可视屏幕尺寸
 
     local origin = cc.Director:getInstance():getVisibleOrigin() -- 获取手机可视屏原点的坐标
-
+    -- print(origin.x)
+    -- print(visibleSize.width)
     local finalX = origin.x+visibleSize.width*0.5+x*cGridSize-cSceneWidth/2*cGridSize
+    --偏移后方块坐标-一半底长度
     local finalY = origin.y+visibleSize.height*0.5+y*cGridSize-cSceneHeight/2*cGridSize
 
     return finalX,finalY

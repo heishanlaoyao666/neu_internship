@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <userDefaultRoot>
     <score>0</score>
+    <speed>1</speed>
+    <scoreAdd>0</scoreAdd>
 </userDefaultRoot>

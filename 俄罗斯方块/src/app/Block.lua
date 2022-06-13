@@ -149,7 +149,7 @@ local cBlockArray = {
 
 local Block = class("Block")
 
-local InitXOffset = cSceneWidth/2-3
+local InitXOffset = cSceneWidth/2-3  --初始偏移方块数
 
 function RandomStyle()
     -- body
@@ -168,13 +168,14 @@ function Block:ctor(scene,index)
 
     self.scene=scene
     self.index=index
-    self.fileName=cBlockArray[index].fileName
+    Block.fileName=cBlockArray[self.index].fileName
+    --print(Block.fileName)
     self.trans=1
 end
 
 local function IterateBlock(index,trans,callback)
-    local transArray = cBlockArray[index]
-    local eachBlock = transArray[trans]
+    local transArray = cBlockArray[index]--哪一种方块
+    local eachBlock = transArray[trans]--方块的哪一种变形
 
     for y=1,#eachBlock do
         local xdata = eachBlock[y]
@@ -216,6 +217,7 @@ function RawPlace(index,trans,scene,newX,newY)
     end
 end
 
+--复制粘贴法
 function Block:Move(deltaX,deltaY)
     -- body
     self:Clear()
@@ -233,6 +235,7 @@ function Block:Move(deltaX,deltaY)
     end
 end
 
+--旋转
 function Block:Rotate(direction)
     -- body
     local offset = cBlockArray[self.index].initOffset
@@ -256,12 +259,6 @@ function Block:Rotate(direction)
         end
     end
 
-    -- local trans = self.trans+1
-
-    -- if trans>#transArray then
-    --     trans=1
-    -- end
-
     if RawPlace(self.index,trans,self.scene,self.x,self.y) then
         self.trans=trans
     else
@@ -269,11 +266,13 @@ function Block:Rotate(direction)
     end
 end
 
+--放置
 function Block:Place()
     -- body
     return RawPlace(self.index, self.trans, self.scene, self.x,self.y)
 end
 
+--清除
 function Block:Clear()
     IterateBlock(self.index, self.trans, function(x,y,b)
         -- body

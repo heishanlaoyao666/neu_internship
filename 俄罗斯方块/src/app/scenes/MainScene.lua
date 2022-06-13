@@ -2,6 +2,7 @@ require("app.Common")
 local Scene = require("app.Scene")
 local Block = require("app.Block")
 local NextBoard=require("app.NextBoard")
+
 local MainScene = class("MainScene", function()
     return display.newScene("MainScene")
 end)
@@ -19,7 +20,11 @@ function MainScene:ctor()
 end
 
 function MainScene:onEnter()
-
+    --local speed = 1
+    cc.UserDefault:getInstance():setStringForKey("speed",1)
+    cc.UserDefault:getInstance():setIntegerForKey("scoreAdd",0)
+    local scoreAdd = cc.UserDefault:getInstance():getIntegerForKey("scoreAdd")
+    local speed = cc.UserDefault:getInstance():getStringForKey("speed")
     self:ProcessInput()
     self.scene=Scene.new(self)
     self.board=NextBoard.new(self)
@@ -40,13 +45,21 @@ function MainScene:onEnter()
             self.b:Clear()
             while self.scene:CheckAndSweep()>0 do
                 self.scene:Shift()
-                updataScore(10)
             end
             self.b:Place()
         end
-    end
-    cc.Director:getInstance():getScheduler():scheduleScriptFunc(Tick,0.3,false)
+        score1:setString(cc.UserDefault:getInstance():getStringForKey("score"))
 
+        scoreAdd = cc.UserDefault:getInstance():getIntegerForKey("scoreAdd")
+        speed = cc.UserDefault:getInstance():getStringForKey("speed")
+        if speed>0.1 then
+            if scoreAdd>=10 then
+                cc.UserDefault:getInstance():setIntegerForKey("scoreAdd",scoreAdd-10)
+                cc.UserDefault:getInstance():setStringForKey("speed",speed-0.1)
+            end
+        end
+    end
+    cc.Director:getInstance():getScheduler():scheduleScriptFunc(Tick,speed,false)
     self:initUI()
 end
 
@@ -63,6 +76,7 @@ function MainScene:Gen()
     end
 end
 
+--键盘输入控制
 function MainScene:ProcessInput()
     -- body
     local listener = cc.EventListenerKeyboard:create()
@@ -139,7 +153,7 @@ function MainScene:initUI()
     :align(display.CENTER)
     :addTo(self)
 
-    local score1 = display.newTTFLabel({
+    score1 = display.newTTFLabel({
         text = cc.UserDefault:getInstance():getStringForKey("score"),
         size = 30,
         color = display.COLOR_WHITE,
@@ -149,10 +163,10 @@ function MainScene:initUI()
     :setAnchorPoint(0,1)
     :align(display.CENTER)
     :addTo(self)
-    local function updataScore(x)
+    function updataScore()
         -- body
         print("分数更新")
-        score:setString("得分："+cc.UserDefault:getInstance():getStringForKey("score")+x)
+        score1:setString(cc.UserDefault:getInstance():getStringForKey("score"))
     end
 end
 

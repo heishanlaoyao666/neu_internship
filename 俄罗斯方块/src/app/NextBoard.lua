@@ -20,6 +20,7 @@ function NextBoard:ctor(node)
         for y=0,BoardSize-1 do
             -- body
             local posX,posY = Grid2Pos(x+cSceneWidth+1, y+cSceneHeight-4)
+            --print(Block.fileName)
             local sp = cc.Sprite:create("res\\美术资源\\t_3.png")
             sp:setScale(0.2)
             sp:setPosition(posX,posY)
