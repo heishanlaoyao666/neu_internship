@@ -10,13 +10,13 @@ local EventManager = require("app.manager.EventManager")
 --[[--
     构造函数
 
-    @param none
+    @param type 类型：number，创建类型
 
     @return none
 ]]
-function Block:ctor()
+function Block:ctor(type)
     Block.super.ctor(self, 0, 0, ConstDef.BLOCK_SIZE.WIDTH, ConstDef.BLOCK_SIZE.HEIGHT)
-    EventManager:doEvent(EventDef.ID.CREATE_BLOCK,self)
+    EventManager:doEvent(EventDef.ID.CREATE_BLOCK,type,self)
 end
 
 --[[--
@@ -28,7 +28,7 @@ end
 ]]
 function Block:destory()
     self.isDeath_ = true 
-    --EventManager:doEvent(EventDef.ID.DESTORY_BLOCK, self)
+    EventManager:doEvent(EventDef.ID.DESTORY_BLOCK, self)
 end
 --[[--
     方块移动
@@ -39,7 +39,8 @@ end
     @return none
 ]]
 function Block:move(x,y)
-    self.y_ = self.y_ + ConstDef.BLOCK_SIZE.HEIGHT
+    self.x_ = self.x_ + ConstDef.BLOCK_SIZE.HEIGHT*x
+    self.y_ = self.y_ + ConstDef.BLOCK_SIZE.WIDTH*y
 end
 --[[--
     方块帧刷新

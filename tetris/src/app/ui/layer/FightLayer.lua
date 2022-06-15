@@ -41,8 +41,8 @@ end
     @return none
 ]]
 function FightLayer:onEnter()
-    EventManager:regListener(EventDef.ID.CREATE_BLOCK, self, function(block)
-        local blockNode = BlockSprite.new("t_2.png", block)
+    EventManager:regListener(EventDef.ID.CREATE_BLOCK, self, function(type,block)
+        local blockNode = BlockSprite.new("t_"..type..".png", block)
         self:addChild(blockNode)
         self.blockMap_[block] = blockNode
     end)

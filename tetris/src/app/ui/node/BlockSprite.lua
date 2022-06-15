@@ -31,6 +31,26 @@ end
 function BlockSprite:update(dt)
     self:setPosition(self.data_:getX(), self.data_:getY())
 end
+--[[--
+    获取x
 
+    @param none
+
+    @return number
+]]
+function BlockSprite:getX()
+    return self.data_:getX()
+end
+
+--[[--
+    获取y
+
+    @param none
+
+    @return number
+]]
+function BlockSprite:getY()
+    return self.data_:getY()
+end
 return BlockSprite
 

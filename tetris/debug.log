@@ -70,5 +70,5 @@ LOAD LUA FILE: D:/cocos2D/player/neu_internship/tetris/src/main.lua
 
 [LUA-print] [INFO] #
 
-[LUA-print] ？？？
+[LUA-print] true
 

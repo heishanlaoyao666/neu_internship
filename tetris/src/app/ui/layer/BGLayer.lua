@@ -42,6 +42,7 @@ function BGLayer:initView()
         sprite:setPosition(offsetX, offsetY)
         offsetY = offsetY + sprite:getContentSize().height * self.bgScaleFactor_ 
     end
+    offsetX = display.newSprite("t_1.png"):getContentSize().height*self.bgScaleFactor_
     offsetY = 0
     for i = 1, ConstDef.GAME_WIDTH_SIZE do
         local sprite = display.newSprite("t_1.png")
@@ -54,7 +55,6 @@ function BGLayer:initView()
     end
     --绘画右柱子
     offsetY = 0
-    offsetX = display.newSprite("t_1.png"):getContentSize().width * self.bgScaleFactor_ *(ConstDef.GAME_WIDTH_SIZE)
     for j = 1, ConstDef.GAME_HEIGHT_SIZE+1 do
         local sprite = display.newSprite("t_1.png")
         self:addChild(sprite)
