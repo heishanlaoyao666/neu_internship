@@ -1,0 +1,380 @@
+Quick-Cocos2dx-Community C++ support ready.
+
+------------------------------------------------
+
+LOAD LUA FILE: D:/workspace/project/src/main.lua
+
+------------------------------------------------
+
+[LUA-print] ===========================================================
+
+[LUA-print]               LOAD QUICK FRAMEWORK
+
+[LUA-print] ===========================================================
+
+[LUA-print] [INFO] 
+
+[LUA-print] [INFO] # DEBUG                        = 1
+
+[LUA-print] [INFO] #
+
+[LUA-print] [INFO] # device.platform              = windows
+
+[LUA-print] [INFO] # device.model                 = unknown
+
+[LUA-print] [INFO] # device.language              = cn
+
+[LUA-print] [INFO] # device.writablePath          = D:\workspace\project\
+
+[LUA-print] [INFO] # device.directorySeparator    = \
+
+[LUA-print] [INFO] # device.pathSeparator         = ;
+
+[LUA-print] [INFO] #
+
+[LUA-print] [INFO] # CONFIG_SCREEN_AUTOSCALE      = FIXED_HEIGHT
+
+[LUA-print] [INFO] # CONFIG_SCREEN_WIDTH          = 384.00
+
+[LUA-print] [INFO] # CONFIG_SCREEN_HEIGHT         = 640.00
+
+[LUA-print] [INFO] # display.widthInPixels        = 480.00
+
+[LUA-print] [INFO] # display.heightInPixels       = 800.00
+
+[LUA-print] [INFO] # display.contentScaleFactor   = 1.25
+
+[LUA-print] [INFO] # display.width                = 384.00
+
+[LUA-print] [INFO] # display.height               = 640.00
+
+[LUA-print] [INFO] # display.cx                   = 192.00
+
+[LUA-print] [INFO] # display.cy                   = 320.00
+
+[LUA-print] [INFO] # display.left                 = 0.00
+
+[LUA-print] [INFO] # display.right                = 384.00
+
+[LUA-print] [INFO] # display.top                  = 640.00
+
+[LUA-print] [INFO] # display.bottom               = 0.00
+
+[LUA-print] [INFO] # display.c_left               = -192.00
+
+[LUA-print] [INFO] # display.c_right              = 192.00
+
+[LUA-print] [INFO] # display.c_top                = 320.00
+
+[LUA-print] [INFO] # display.c_bottom             = -320.00
+
+[LUA-print] [INFO] #
+
+[Edit text] content size = (280.000000, 40.000000)
+
+[Edit text] content size = (280.000000, 40.000000)
+
+[Edit text] content size = (280.000000, 40.000000)
+
+[Edit text] content size = (280.000000, 40.000000)
+
+[LUA-print] nil
+
+[LUA-print] GamePlayScene Init.
+
+[LUA-print] 背景层初始化
+
+[LUA-print] nil
+
+[LUA-print] GameScene onEnter
+
+[LUA-print] userdata: 0x09df2f58
+
+cocos2d: removeChildByTag(tag = 6): child not found!
+
+cocos2d: removeChildByTag(tag = 5): child not found!
+
+[LUA-print] OnEnterTransitionFinish
+
+[LUA-print] MenuPauseCallback
+
+[LUA-print] MenuBackCallBack
+
+[LUA-print] GameScene onExit
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: invalid 'cobj' in function 'lua_cocos2dx_Node_isVisible'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'isVisible'
+	[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: in function <[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:147>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: invalid 'cobj' in function 'lua_cocos2dx_Node_isVisible'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'isVisible'
+	[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: in function <[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:147>
+
+[LUA-print] ----------------------------------------
+
+can not get file data of src/framework/protobuf/app/scenes/ResumeScene.lua
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/workspace/project/src/app/scenes/SecScene.lua"]:133: module 'app.scenes.ResumeScene' not found:
+	no field package.preload['app.scenes.ResumeScene']
+	no file '.\app\scenes\ResumeScene.dll'
+	no file 'D:\wk\Quick-Cocos2dx-Community\quick\player\win32\app\scenes\ResumeScene.dll'
+	no file 'D:\wk\Quick-Cocos2dx-Community\quick\player\win32\loadall.dll'
+	no file '.\app.dll'
+	no file 'D:\wk\Quick-Cocos2dx-Community\quick\player\win32\app.dll'
+	no file 'D:\wk\Quick-Cocos2dx-Community\quick\player\win32\loadall.dll'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'import'
+	[string "D:/workspace/project/src/app/scenes/SecScene.lua"]:133: in function <[string "D:/workspace/project/src/app/scenes/SecScene.lua"]:131>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: invalid 'cobj' in function 'lua_cocos2dx_Node_isVisible'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'isVisible'
+	[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: in function <[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:147>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: invalid 'cobj' in function 'lua_cocos2dx_Node_isVisible'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'isVisible'
+	[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: in function <[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:147>
+
+[LUA-print] ----------------------------------------
+
+can not get file data of src/framework/protobuf/app/scenes/ResumeScene.lua
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/workspace/project/src/app/scenes/SecScene.lua"]:133: module 'app.scenes.ResumeScene' not found:
+	no field package.preload['app.scenes.ResumeScene']
+	no file '.\app\scenes\ResumeScene.dll'
+	no file 'D:\wk\Quick-Cocos2dx-Community\quick\player\win32\app\scenes\ResumeScene.dll'
+	no file 'D:\wk\Quick-Cocos2dx-Community\quick\player\win32\loadall.dll'
+	no file '.\app.dll'
+	no file 'D:\wk\Quick-Cocos2dx-Community\quick\player\win32\app.dll'
+	no file 'D:\wk\Quick-Cocos2dx-Community\quick\player\win32\loadall.dll'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'import'
+	[string "D:/workspace/project/src/app/scenes/SecScene.lua"]:133: in function <[string "D:/workspace/project/src/app/scenes/SecScene.lua"]:131>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: invalid 'cobj' in function 'lua_cocos2dx_Node_isVisible'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'isVisible'
+	[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: in function <[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:147>
+
+[LUA-print] ----------------------------------------
+
+cocos2d: padding: 0,0,0,0
+
+[LUA-print] nil
+
+Inner height <= scrollview height, it will be force sized!
+
+Inner height <= scrollview height, it will be force sized!
+
+Inner height <= scrollview height, it will be force sized!
+
+Inner height <= scrollview height, it will be force sized!
+
+Inner height <= scrollview height, it will be force sized!
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: invalid 'cobj' in function 'lua_cocos2dx_Node_isVisible'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'isVisible'
+	[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: in function <[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:147>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: invalid 'cobj' in function 'lua_cocos2dx_Node_isVisible'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'isVisible'
+	[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: in function <[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:147>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] nil
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: invalid 'cobj' in function 'lua_cocos2dx_Node_isVisible'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'isVisible'
+	[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: in function <[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:147>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: invalid 'cobj' in function 'lua_cocos2dx_Node_isVisible'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'isVisible'
+	[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: in function <[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:147>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] nil
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: invalid 'cobj' in function 'lua_cocos2dx_Node_isVisible'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'isVisible'
+	[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: in function <[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:147>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: invalid 'cobj' in function 'lua_cocos2dx_Node_isVisible'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'isVisible'
+	[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: in function <[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:147>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: invalid 'cobj' in function 'lua_cocos2dx_Node_isVisible'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'isVisible'
+	[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: in function <[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:147>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: invalid 'cobj' in function 'lua_cocos2dx_Node_isVisible'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'isVisible'
+	[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: in function <[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:147>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: invalid 'cobj' in function 'lua_cocos2dx_Node_isVisible'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'isVisible'
+	[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: in function <[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:147>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: invalid 'cobj' in function 'lua_cocos2dx_Node_isVisible'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'isVisible'
+	[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: in function <[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:147>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: invalid 'cobj' in function 'lua_cocos2dx_Node_isVisible'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'isVisible'
+	[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: in function <[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:147>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: invalid 'cobj' in function 'lua_cocos2dx_Node_isVisible'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'isVisible'
+	[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: in function <[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:147>
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] ----------------------------------------
+
+[LUA-print] LUA ERROR: [string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: invalid 'cobj' in function 'lua_cocos2dx_Node_isVisible'
+
+
+[LUA-print] 
+stack traceback:
+	[C]: in function 'isVisible'
+	[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:148: in function <[string "D:/workspace/project/src/app/scenes/ThirdScene.lua"]:147>
+
+[LUA-print] ----------------------------------------
+
