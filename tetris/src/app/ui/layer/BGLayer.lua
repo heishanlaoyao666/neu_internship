@@ -29,7 +29,7 @@ end
 ]]
 function BGLayer:initView()
     -- 背景图720 * 1280 
-    self.bgScaleFactor_ = display.width / display.height
+    self.bgScaleFactor_ = ConstDef.BLOCK_SIZE.HEIGHT / display.newSprite("t_1.png"):getContentSize().height
     local offsetY = 0
     local offsetX = 0
     --绘画左柱子
@@ -37,32 +37,32 @@ function BGLayer:initView()
         local sprite = display.newSprite("t_1.png")
         self:addChild(sprite)
         self.bgSprites_[#self.bgSprites_ + 1] = sprite
-        sprite:setScale(0.4)
+        sprite:setScale(self.bgScaleFactor_ )
         sprite:setAnchorPoint(0, 0)
         sprite:setPosition(offsetX, offsetY)
-        offsetY = offsetY + sprite:getContentSize().height * 0.4
+        offsetY = offsetY + sprite:getContentSize().height * self.bgScaleFactor_ 
     end
     offsetY = 0
     for i = 1, ConstDef.GAME_WIDTH_SIZE do
         local sprite = display.newSprite("t_1.png")
         self:addChild(sprite)
         self.bgSprites_[#self.bgSprites_ + 1] = sprite
-        sprite:setScale(0.4)
+        sprite:setScale(self.bgScaleFactor_ )
         sprite:setAnchorPoint(0, 0)
         sprite:setPosition(offsetX, offsetY)
-        offsetX = offsetX + sprite:getContentSize().height * 0.4
+        offsetX = offsetX + sprite:getContentSize().height * self.bgScaleFactor_ 
     end
     --绘画右柱子
     offsetY = 0
-    offsetX = display.newSprite("t_1.png"):getContentSize().width * 0.4*(ConstDef.GAME_WIDTH_SIZE)
+    offsetX = display.newSprite("t_1.png"):getContentSize().width * self.bgScaleFactor_ *(ConstDef.GAME_WIDTH_SIZE)
     for j = 1, ConstDef.GAME_HEIGHT_SIZE+1 do
         local sprite = display.newSprite("t_1.png")
         self:addChild(sprite)
         self.bgSprites_[#self.bgSprites_ + 1] = sprite
-        sprite:setScale(0.4)
+        sprite:setScale(self.bgScaleFactor_ )
         sprite:setAnchorPoint(0, 0)
         sprite:setPosition(offsetX, offsetY)
-        offsetY = offsetY + sprite:getContentSize().height * 0.4
+        offsetY = offsetY + sprite:getContentSize().height * self.bgScaleFactor_ 
     end
     
     

@@ -16,7 +16,7 @@ local EventManager = require("app.manager.EventManager")
 ]]
 function Block:ctor()
     Block.super.ctor(self, 0, 0, ConstDef.BLOCK_SIZE.WIDTH, ConstDef.BLOCK_SIZE.HEIGHT)
-    EventManager:doEvent(EventDef.ID.CREATE_BULLET, self)
+    EventManager:doEvent(EventDef.ID.CREATE_BLOCK,self)
 end
 
 --[[--
@@ -28,7 +28,7 @@ end
 ]]
 function Block:destory()
     self.isDeath_ = true 
-    EventManager:doEvent(EventDef.ID.DESTORY_BULLET, self)
+    --EventManager:doEvent(EventDef.ID.DESTORY_BLOCK, self)
 end
 --[[--
     方块移动
@@ -49,10 +49,9 @@ end
     @return none
 ]]
 function Block:update(dt)
-    --self.y_ = self.y_ + ConstDef.BULLET_SPEED * dt
-
     if not self.isDeath_ then
-        if self.y_ > display.top + ConstDef.BULLET_SIZE.HEIGHT then
+        self.y_ = self.y_ - ConstDef.BLOCK_SIZE.HEIGHT
+        if self.y_ == ConstDef.BLOCK_SIZE.HEIGHT then
             self:destory()
         end
     end

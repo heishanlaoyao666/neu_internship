@@ -10,9 +10,11 @@ EventDef.ID = {
     MOVE_DOWN = 3, -- 向下移动
     ROTATION_LEFT = 4, -- 向左旋转
     ROTATION_RIGHT = 5, -- 向右旋转
-    DESTORY_SELF = 6, -- 销毁我方飞机
-    BULLET_BOMB = 7, -- 子弹命中
-    CRASH_PLANE = 8, -- 飞机撞毁
+
+    DESTORY_BLOCK = 6,--销毁方块
+    CREATE_BLOCK = 7,--创建方块
+
+
     GAMESTATE_CHANGE = 9, -- 游戏状态变化
 }
 

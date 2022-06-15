@@ -18,8 +18,8 @@ local ConstDef = {
 
 
     BLOCK_SIZE = { -- 方块尺寸
-        WIDTH = 20,
-        HEIGHT = 63,
+        WIDTH = 40,
+        HEIGHT = 40,
     },
 
     BLOCK_COLOUR = { -- 方块颜色

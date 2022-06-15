@@ -17,15 +17,15 @@ local GameData = require("app.data.GameData")
     @return none
 ]]
 function MainScene:ctor()
-    --GameData:init()
+    GameData:init()
 
     self.playView_ = PlayView.new() -- 类型：PlayView，主游戏界面
     self:addChild(self.playView_)
 
-    -- self:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, handler(self, self.update))
-    -- self:performWithDelay(function() 
-    --     self:scheduleUpdate()
-    -- end, 1)
+    self:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, handler(self, self.update))
+    self:performWithDelay(function() 
+        self:scheduleUpdate()
+    end, 1)
 end
 
 --[[--
@@ -36,10 +36,10 @@ end
     @return none
 ]]
 function MainScene:update(dt)
-    -- GameData:update(dt)
+    GameData:update(dt)
 
-    -- if GameData:isPlaying() then
-    --     self.playView_:update(dt)
-    -- end
+    if GameData:isPlaying() then
+        self.playView_:update(dt)
+    end
 end
 return MainScene

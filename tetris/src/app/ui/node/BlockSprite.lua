@@ -16,8 +16,8 @@ end)
 ]]
 function BlockSprite:ctor(res, data)
     self.data_ = data -- 类型：Bullet，子弹数据
-
-    self:setAnchorPoint(0.5, 0.5)
+    self:setScale(0.4)
+    self:setAnchorPoint(0, 0)
     self:setPosition(self.data_:getX(), self.data_:getY())
 end
 

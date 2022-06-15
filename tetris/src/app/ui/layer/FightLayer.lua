@@ -3,7 +3,7 @@
     FightLayer.lua
 ]]
 local FightLayer = class("FightLayer", require("app.ui.layer.BaseLayer"))
--- local BulletSprite = require("app.ui.node.BulletSprite")
+local BlockSprite = require("app.ui.node.BlockSprite")
 -- local PlaneSprite = require("app.ui.node.PlaneSprite")
 local GameData = require("app.data.GameData")
 local ConstDef = require("app.def.ConstDef")
@@ -41,31 +41,17 @@ end
     @return none
 ]]
 function FightLayer:onEnter()
-    -- EventManager:regListener(EventDef.ID.CREATE_BULLET, self, function(bullet)
-    --     local bulletNode = BulletSprite.new("player/blue_bullet.png", bullet)
-    --     self:addChild(bulletNode)
-    --     self.bulletMap_[bullet] = bulletNode
+    EventManager:regListener(EventDef.ID.CREATE_BLOCK, self, function(block)
+        local blockNode = BlockSprite.new("t_2.png", block)
+        self:addChild(blockNode)
+        self.blockMap_[block] = blockNode
+    end)
 
-    --     audio.playEffect("sounds/fireEffect.ogg", false)
-    -- end)
-
-    -- EventManager:regListener(EventDef.ID.DESTORY_BULLET, self, function(bullet)
-    --     local node = self.bulletMap_[bullet]
-    --     node:removeFromParent()
-    --     self.bulletMap_[bullet] = nil
-    -- end)
-
-    -- EventManager:regListener(EventDef.ID.CREATE_ENEMY, self, function(enemy)
-    --     local enemyNode = PlaneSprite.new("player/small_enemy.png", enemy)
-    --     self:addChild(enemyNode)
-    --     self.enemyMap_[enemy] = enemyNode
-    -- end)
-
-    -- EventManager:regListener(EventDef.ID.DESTORY_ENEMY, self, function(enemy)
-    --     local node = self.enemyMap_[enemy]
-    --     node:removeFromParent()
-    --     self.enemyMap_[enemy] = nil
-    -- end)
+    EventManager:regListener(EventDef.ID.DESTORY_BLOCK, self, function(block)
+        local node = self.blockMap_[block]
+        node:removeFromParent()
+        self.blockMap_[block] = nil
+    end)
 end
 
 --[[--
@@ -76,10 +62,8 @@ end
     @return none
 ]]
 function FightLayer:onExit()
-    -- EventManager:unRegListener(EventDef.ID.CREATE_BULLET, self)
-    -- EventManager:unRegListener(EventDef.ID.DESTORY_BULLET, self)
-    -- EventManager:unRegListener(EventDef.ID.CREATE_ENEMY, self)
-    -- EventManager:unRegListener(EventDef.ID.DESTORY_ENEMY, self)
+    EventManager:unRegListener(EventDef.ID.CREATE_BLOCK, self)
+    EventManager:unRegListener(EventDef.ID.DESTORY_BLOCK, self)
 end
 
 --[[--
@@ -90,6 +74,7 @@ end
     @return none
 ]]
 function FightLayer:initView()
+    GameData:setGameState(ConstDef.GAME_STATE.PLAY)
     -- local allies = GameData:getAllies()
     -- for i = 1, #allies do
     --     local plane = PlaneSprite.new("player/red_plane.png", allies[i])
@@ -150,9 +135,9 @@ end
     @return none
 ]]
 function FightLayer:update(dt)
-    -- for _, node in pairs(self.bulletMap_) do
-    --     node:update(dt)
-    -- end
+    for _, node in pairs(self.blockMap_) do
+        node:update(dt)
+    end
 
     -- for _, node in pairs(self.allyMap_) do
     --     node:update(dt)

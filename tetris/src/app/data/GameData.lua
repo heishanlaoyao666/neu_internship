@@ -4,13 +4,13 @@
 ]]
 local GameData = {}
 -- local Bullet = require("app.data.Bullet")
--- local EnemyPlane = require("app.data.EnemyPlane")
+local Block = require("app.data.Block")
 -- local Plane = require("app.data.Plane")
 local ConstDef = require("app.def.ConstDef")
 local EventDef = require("app.def.EventDef")
 local EventManager = require("app.manager.EventManager")
 
-local DOWN_INTERVAL = 0.2 -- 类型：number，下落间隔
+local DOWN_INTERVAL = 1 -- 类型：number，下落间隔
 
 local CONTROL_BLOCK =false--类型：bool，玩家是否控制方块移动
 
@@ -42,7 +42,7 @@ function GameData:init()
         array_blocks[i]={}               --定义行（数组）
  
         for j = 1, ConstDef.GAME_WIDTH_SIZE do
-            array_blocks[i][j]=nil         --二维数组中初始化数值都是“0”
+            array_blocks[i][j]=nil         --二维数组中初始化数值都是nil
         end
     end
 end
@@ -147,8 +147,29 @@ function GameData:update(dt)
     if self.gameState_ ~= ConstDef.GAME_STATE.PLAY then
         return
     end
+    if CONTROL_BLOCK==false then
+        print("？？？")
+        GameData:createBlocks(ConstDef.BLOCK_COLOUR.BLUE)
+        CONTROL_BLOCK=true
+    end
+    GameData:blockMove(dt)
+end
+--[[--
+    方块定时移动
 
-    
+    @param dt 类型：number，帧间隔，单位秒
+
+    @return none
+]]
+function GameData:blockMove(dt)
+    self.downTick_ = self.downTick_ + dt
+    if self.downTick_ > DOWN_INTERVAL then
+        self.downTick_ = self.downTick_ - DOWN_INTERVAL
+        for i = 1, #current_blocks_ do
+            local block = current_blocks_[i]
+            block:update(dt)
+        end
+    end
 end
 --[[--
     旋转方块
@@ -167,14 +188,34 @@ function GameData:rotationBlock(direction)
     
 end
 --[[--
-    产生方块
+    产生不同种类方块
 
-    @param none
+    @param type 类型：number，创建类型
 
     @return none
 ]]
-function GameData:createBlock()
-    
+function GameData:createBlocks()
+    current_blocks_={}
+    if type==0 then
+        GameData:createBlock(3,20)
+        GameData:createBlock(4,20)
+        GameData:createBlock(5,20)
+        GameData:createBlock(6,20)
+    end
+end
+--[[--
+    产生方块
+
+    @param x 类型：number，方块横坐标
+    @param t 类型：number，方块纵坐标
+
+    @return none
+]]
+function GameData:createBlock(x,y)
+    local block = Block.new()
+    block:setX(ConstDef.BLOCK_SIZE.WIDTH*x)
+    block:setY(ConstDef.BLOCK_SIZE.HEIGHT*y)
+    current_blocks_[#current_blocks_ + 1] = block
 end
 --[[--
     清理所有方块
@@ -184,7 +225,13 @@ end
     @return none
 ]]
 function GameData:clearALL()
-    
+    for i = 1,ConstDef.GAME_HEIGHT_SIZE do
+        for j = 1, ConstDef.GAME_WIDTH_SIZE do
+            if array_blocks[i][j]==1 then
+                
+            end
+        end
+    end
 end
 --[[--
     清理最低下一行方块
