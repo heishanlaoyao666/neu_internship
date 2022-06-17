@@ -22,7 +22,7 @@ local ConstDef = {
         HEIGHT = 40,
     },
 
-    BLOCK_COLOUR = { -- 方块颜色
+    BLOCK_COLOR = { -- 方块颜色
         GREEN = 1,   --绿色
         PINK = 2,    --粉红色
         ORANGE = 3,  --橘色
@@ -31,10 +31,17 @@ local ConstDef = {
         BLUE = 6,    --蓝色
         CYAN = 7,    --青色
     },
+    BLOCK_SHAPE = { -- 方块形状
+        ISHPAE = 1,  --I线
+        ZSHPAE = 2,  --Z形
+        SQUARE = 3,  --正方形
+        TSHAPE = 4,  --T形
+        LSHPAE = 5,  --L形
+    },
 
     ROTATION_DIRECTION = {
         LEFT = 1,  --向左旋转
-        RIGHT = 2  --向右旋转
+        RIGHT = -1  --向右旋转
     },
     
     GAME_STATE = {  
