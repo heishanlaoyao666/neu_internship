@@ -4,40 +4,35 @@ local MainScene = class("MainScene", function()
 end)
 
 function MainScene:ctor()
-    -- local label = display.newTTFLabel({
-    --     text = "Hello, World",
-    --     size = 64,
-    -- })
-    -- label:align(display.CENTER, display.cx, display.cy)
-    -- label:addTo(self)
+
     --开始游戏按钮
     local images = {
-        normal = "大厅（游戏外）\战斗界面\.png",
-        pressed = "register/register.png",
-        disabled = "register/register.png"
+        normal = "ui/hall/battle/Button-Battle_Mode.png",
+        pressed = "",
+        disabled = "ui/hall/battle/Button-Battle_Mode.png"
     }
 
-    local registerBtn = ccui.Button:create(images["normal"], images["pressed"], images["disabled"])
-    registerBtn:setAnchorPoint(cc.p(0.5 ,0.5))
+    local NewGameBtn = ccui.Button:create(images["normal"], images["pressed"], images["disabled"])
+    NewGameBtn:setAnchorPoint(cc.p(0.5 ,0.5))
     -- 居中
-    registerBtn:setPosition(cc.p(display.cx, display.cy))
+    NewGameBtn:setPosition(cc.p(display.cx, display.cy))
     -- 设置缩放程度
-    registerBtn:setScale(0.5, 0.5)
+    NewGameBtn:setScale(0.5, 0.5)
     -- 设置是否禁用(false为禁用)
-    registerBtn:setEnabled(true)
+    NewGameBtn:setEnabled(true)
     -- registerBtn:addClickEventListener(function()
     --     print("lalala")
     -- end)
 
-    registerBtn:addTouchEventListener(function(sender, eventType)
+    NewGameBtn:addTouchEventListener(function(sender, eventType)
 	 	if eventType == ccui.TouchEventType.ended then
-	 		local registerBtn = import("app.scenes.GameScene"):new()
-            display.replaceScene(registerBtn,"turnOffTiles",0.5)
+	 		local ABtn = import("app.scenes.GameScene"):new()
+            display.replaceScene(ABtn,"turnOffTiles",0.5)
             print(transform)
 	 	end
 	end)
 
-    self:addChild(registerBtn, 4)
+    self:addChild(NewGameBtn, 4)
 
 
 end

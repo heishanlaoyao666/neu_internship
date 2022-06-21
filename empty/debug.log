@@ -70,3 +70,5 @@ LOAD LUA FILE: D:/workspace/empty/src/main.lua
 
 [LUA-print] [INFO] #
 
+[LUA-print] nil
+
