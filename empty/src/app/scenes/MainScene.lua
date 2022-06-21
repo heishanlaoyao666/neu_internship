@@ -57,7 +57,7 @@ function MainScene:createMiddleBottomPanel()
     local menuLayer = ccui.Layout:create()
     menuLayer:setContentSize(width,height)
     menuLayer:setPosition(width*0.5,0)
-    menuLayer:setAnchorPoint(0.5,0.5)
+    menuLayer:setAnchorPoint(0.5,0)
     menuLayer:addTo(self)
 
     local shopBtn = ccui.Button:create(
@@ -65,9 +65,9 @@ function MainScene:createMiddleBottomPanel()
         "ui/hall/bottom-tab/tab-selected.png",
         "ui/hall/bottom-tab/tab-unselected-left.png"
     )
-    shopBtn:setAnchorPoint(1,0)
+    shopBtn:setAnchorPoint(0,0)
     shopBtn:setScale(2/3)
-    shopBtn:pos(width*0.5,height*0.5)
+    shopBtn:pos(0,0)
     shopBtn:addTo(menuLayer)
     
 end
