@@ -1,0 +1,62 @@
+
+open.png
+size: 1099,260
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+chest1
+  rotate: true
+  xy: 996, 12
+  size: 121, 101
+  orig: 121, 101
+  offset: 0, 0
+  index: -1
+chest2
+  rotate: true
+  xy: 888, 4
+  size: 124, 106
+  orig: 124, 106
+  offset: 0, 0
+  index: -1
+chest3
+  rotate: true
+  xy: 906, 135
+  size: 123, 103
+  orig: 123, 103
+  offset: 0, 0
+  index: -1
+chest4
+  rotate: true
+  xy: 776, 5
+  size: 123, 110
+  orig: 123, 110
+  offset: 0, 0
+  index: -1
+guangci
+  rotate: false
+  xy: 2, 2
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+guanghuan
+  rotate: false
+  xy: 260, 2
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+guangyun
+  rotate: false
+  xy: 518, 2
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+xiaolizi
+  rotate: false
+  xy: 776, 130
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1

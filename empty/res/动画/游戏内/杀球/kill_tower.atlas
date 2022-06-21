@@ -1,0 +1,153 @@
+
+kill_tower.png
+size: 998,778
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+LDBZ_1_01
+  rotate: false
+  xy: 652, 605
+  size: 171, 171
+  orig: 171, 171
+  offset: 0, 0
+  index: -1
+LDBZ_1_02
+  rotate: false
+  xy: 522, 347
+  size: 170, 171
+  orig: 170, 171
+  offset: 0, 0
+  index: -1
+LDBZ_1_03
+  rotate: false
+  xy: 825, 605
+  size: 171, 171
+  orig: 171, 171
+  offset: 0, 0
+  index: -1
+LDBZ_1_04
+  rotate: true
+  xy: 522, 174
+  size: 171, 170
+  orig: 171, 170
+  offset: 0, 0
+  index: -1
+LDBZ_1_05
+  rotate: false
+  xy: 522, 2
+  size: 170, 170
+  orig: 170, 170
+  offset: 0, 0
+  index: -1
+LDBZ_1_06
+  rotate: false
+  xy: 694, 260
+  size: 171, 170
+  orig: 171, 170
+  offset: 0, 0
+  index: -1
+LDBZ_1_07
+  rotate: false
+  xy: 694, 432
+  size: 171, 171
+  orig: 171, 171
+  offset: 0, 0
+  index: -1
+LDBZ_1_08
+  rotate: false
+  xy: 694, 87
+  size: 170, 171
+  orig: 170, 171
+  offset: 0, 0
+  index: -1
+LD_6_01
+  rotate: false
+  xy: 2, 520
+  size: 128, 256
+  orig: 128, 256
+  offset: 0, 0
+  index: -1
+LD_6_02
+  rotate: false
+  xy: 2, 262
+  size: 128, 256
+  orig: 128, 256
+  offset: 0, 0
+  index: -1
+LD_6_04
+  rotate: false
+  xy: 132, 520
+  size: 128, 256
+  orig: 128, 256
+  offset: 0, 0
+  index: -1
+LD_6_05
+  rotate: false
+  xy: 2, 4
+  size: 128, 256
+  orig: 128, 256
+  offset: 0, 0
+  index: -1
+LD_6_06
+  rotate: false
+  xy: 132, 262
+  size: 128, 256
+  orig: 128, 256
+  offset: 0, 0
+  index: -1
+LD_6_07
+  rotate: false
+  xy: 262, 520
+  size: 128, 256
+  orig: 128, 256
+  offset: 0, 0
+  index: -1
+LD_6_08
+  rotate: false
+  xy: 132, 4
+  size: 128, 256
+  orig: 128, 256
+  offset: 0, 0
+  index: -1
+LD_6_09
+  rotate: false
+  xy: 262, 262
+  size: 128, 256
+  orig: 128, 256
+  offset: 0, 0
+  index: -1
+LD_6_11
+  rotate: false
+  xy: 392, 520
+  size: 128, 256
+  orig: 128, 256
+  offset: 0, 0
+  index: -1
+LD_6_12
+  rotate: false
+  xy: 262, 4
+  size: 128, 256
+  orig: 128, 256
+  offset: 0, 0
+  index: -1
+LD_6_13
+  rotate: false
+  xy: 392, 262
+  size: 128, 256
+  orig: 128, 256
+  offset: 0, 0
+  index: -1
+LD_6_15
+  rotate: false
+  xy: 522, 520
+  size: 128, 256
+  orig: 128, 256
+  offset: 0, 0
+  index: -1
+LD_6_16
+  rotate: false
+  xy: 392, 4
+  size: 128, 256
+  orig: 128, 256
+  offset: 0, 0
+  index: -1

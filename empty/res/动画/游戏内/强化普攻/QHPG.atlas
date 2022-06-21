@@ -1,0 +1,104 @@
+
+QHPG.png
+size: 864,521
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+06_01
+  rotate: false
+  xy: 2, 348
+  size: 171, 171
+  orig: 171, 171
+  offset: 0, 0
+  index: -1
+06_02
+  rotate: false
+  xy: 175, 2
+  size: 170, 171
+  orig: 170, 171
+  offset: 0, 0
+  index: -1
+06_03
+  rotate: false
+  xy: 2, 175
+  size: 171, 171
+  orig: 171, 171
+  offset: 0, 0
+  index: -1
+06_04
+  rotate: true
+  xy: 347, 2
+  size: 171, 170
+  orig: 171, 170
+  offset: 0, 0
+  index: -1
+06_05
+  rotate: false
+  xy: 691, 4
+  size: 170, 170
+  orig: 170, 170
+  offset: 0, 0
+  index: -1
+06_06
+  rotate: true
+  xy: 348, 348
+  size: 171, 170
+  orig: 171, 170
+  offset: 0, 0
+  index: -1
+06_07
+  rotate: false
+  xy: 2, 2
+  size: 171, 171
+  orig: 171, 171
+  offset: 0, 0
+  index: -1
+06_08
+  rotate: false
+  xy: 348, 175
+  size: 170, 171
+  orig: 170, 171
+  offset: 0, 0
+  index: -1
+F_02
+  rotate: false
+  xy: 519, 2
+  size: 170, 171
+  orig: 170, 171
+  offset: 0, 0
+  index: -1
+F_03
+  rotate: false
+  xy: 175, 348
+  size: 171, 171
+  orig: 171, 171
+  offset: 0, 0
+  index: -1
+F_04
+  rotate: false
+  xy: 691, 349
+  size: 171, 170
+  orig: 171, 170
+  offset: 0, 0
+  index: -1
+F_05
+  rotate: false
+  xy: 692, 177
+  size: 170, 170
+  orig: 170, 170
+  offset: 0, 0
+  index: -1
+F_06
+  rotate: true
+  xy: 520, 176
+  size: 171, 170
+  orig: 171, 170
+  offset: 0, 0
+  index: -1
+F_07
+  rotate: false
+  xy: 175, 175
+  size: 171, 171
+  orig: 171, 171
+  offset: 0, 0
+  index: -1
