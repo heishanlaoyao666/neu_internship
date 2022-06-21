@@ -14,33 +14,7 @@ end)
     @return none
 ]]
 function BaseLayer:ctor()
-    self:registerScriptHandler(function(event)
-        if event == "enter" then
-            self:onEnter()
-        elseif event == "exit" then
-            self:onExit()
-        end
-    end)
-end
 
---[[--
-    节点进入
-
-    @param none
-
-    @return none
-]]
-function BaseLayer:onEnter()
-end
-
---[[--
-    节点退出
-
-    @param none
-
-    @return none
-]]
-function BaseLayer:onExit()
 end
 
 --[[--
