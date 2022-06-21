@@ -2,7 +2,7 @@ Quick-Cocos2dx-Community C++ support ready.
 
 ------------------------------------------------
 
-LOAD LUA FILE: D:/workspace/empty/src/main.lua
+LOAD LUA FILE: D:/cocos2D/player/neu_internship/empty/src/main.lua
 
 ------------------------------------------------
 
@@ -24,7 +24,7 @@ LOAD LUA FILE: D:/workspace/empty/src/main.lua
 
 [LUA-print] [INFO] # device.language              = cn
 
-[LUA-print] [INFO] # device.writablePath          = D:\workspace\empty\
+[LUA-print] [INFO] # device.writablePath          = D:\cocos2D\player\neu_internship\empty\
 
 [LUA-print] [INFO] # device.directorySeparator    = \
 
@@ -34,35 +34,35 @@ LOAD LUA FILE: D:/workspace/empty/src/main.lua
 
 [LUA-print] [INFO] # CONFIG_SCREEN_AUTOSCALE      = FIXED_HEIGHT
 
-[LUA-print] [INFO] # CONFIG_SCREEN_WIDTH          = 480.00
+[LUA-print] [INFO] # CONFIG_SCREEN_WIDTH          = 405.00
 
 [LUA-print] [INFO] # CONFIG_SCREEN_HEIGHT         = 720.00
 
-[LUA-print] [INFO] # display.widthInPixels        = 640.00
+[LUA-print] [INFO] # display.widthInPixels        = 540.00
 
 [LUA-print] [INFO] # display.heightInPixels       = 960.00
 
 [LUA-print] [INFO] # display.contentScaleFactor   = 1.33
 
-[LUA-print] [INFO] # display.width                = 480.00
+[LUA-print] [INFO] # display.width                = 405.00
 
 [LUA-print] [INFO] # display.height               = 720.00
 
-[LUA-print] [INFO] # display.cx                   = 240.00
+[LUA-print] [INFO] # display.cx                   = 202.50
 
 [LUA-print] [INFO] # display.cy                   = 360.00
 
 [LUA-print] [INFO] # display.left                 = 0.00
 
-[LUA-print] [INFO] # display.right                = 480.00
+[LUA-print] [INFO] # display.right                = 405.00
 
 [LUA-print] [INFO] # display.top                  = 720.00
 
 [LUA-print] [INFO] # display.bottom               = 0.00
 
-[LUA-print] [INFO] # display.c_left               = -240.00
+[LUA-print] [INFO] # display.c_left               = -202.50
 
-[LUA-print] [INFO] # display.c_right              = 240.00
+[LUA-print] [INFO] # display.c_right              = 202.50
 
 [LUA-print] [INFO] # display.c_top                = 360.00
 
