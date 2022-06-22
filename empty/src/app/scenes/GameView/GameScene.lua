@@ -6,7 +6,7 @@ end)
 function GameScene:ctor()
 
     local label = display.newTTFLabel({
-        text = "Hello, World",
+        text = "No，Hello, World",
         size = 64,
     })
     label:align(display.CENTER, display.cx, display.cy)
