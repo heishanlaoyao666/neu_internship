@@ -1,0 +1,7 @@
+{
+    "Lua.runtime.version": "LuaJIT",
+    "Lua.workspace.library": [
+        "${3rd}/Cocos4.0/library"
+    ],
+    "Lua.workspace.checkThirdParty": false
+}
