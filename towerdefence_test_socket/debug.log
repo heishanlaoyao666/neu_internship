@@ -2,7 +2,7 @@ Quick-Cocos2dx-Community C++ support ready.
 
 ------------------------------------------------
 
-LOAD LUA FILE: E:/home_cocos2dx/workspace/towerdefence/src/main.lua
+LOAD LUA FILE: D:/cocos2D/player/neu_internship/towerdefence_test_socket/src/main.lua
 
 ------------------------------------------------
 
@@ -24,7 +24,7 @@ LOAD LUA FILE: E:/home_cocos2dx/workspace/towerdefence/src/main.lua
 
 [LUA-print] [INFO] # device.language              = cn
 
-[LUA-print] [INFO] # device.writablePath          = E:\home_cocos2dx\workspace\towerdefence\
+[LUA-print] [INFO] # device.writablePath          = D:\cocos2D\player\neu_internship\towerdefence_test_socket\
 
 [LUA-print] [INFO] # device.directorySeparator    = \
 
@@ -38,11 +38,11 @@ LOAD LUA FILE: E:/home_cocos2dx/workspace/towerdefence/src/main.lua
 
 [LUA-print] [INFO] # CONFIG_SCREEN_HEIGHT         = 960.00
 
-[LUA-print] [INFO] # display.widthInPixels        = 620.00
+[LUA-print] [INFO] # display.widthInPixels        = 640.00
 
-[LUA-print] [INFO] # display.heightInPixels       = 930.00
+[LUA-print] [INFO] # display.heightInPixels       = 960.00
 
-[LUA-print] [INFO] # display.contentScaleFactor   = 0.97
+[LUA-print] [INFO] # display.contentScaleFactor   = 1.00
 
 [LUA-print] [INFO] # display.width                = 640.00
 
@@ -75,20 +75,4 @@ LOAD LUA FILE: E:/home_cocos2dx/workspace/towerdefence/src/main.lua
 [LUA-print] [INFO]	MsgController	正在连接...
 
 [LUA-print] [INFO]	MsgController	连接成功！
-
-[LUA-print] [INFO]	MsgController	disconnect()
-
-[LUA-print] [INFO]	MsgController	关闭连接！
-
-[LUA-print] [ERROR]	MsgController	sendMsg() send msg fail, socket is not connect.
-
-[LUA-print] [ERROR]	MsgController	sendMsg() send msg fail, socket is not connect.
-
-[LUA-print] [ERROR]	MsgController	sendMsg() send msg fail, socket is not connect.
-
-[LUA-print] [ERROR]	MsgController	sendMsg() send msg fail, socket is not connect.
-
-[LUA-print] [ERROR]	MsgController	sendMsg() send msg fail, socket is not connect.
-
-[LUA-print] [ERROR]	MsgController	sendMsg() send msg fail, socket is not connect.
 

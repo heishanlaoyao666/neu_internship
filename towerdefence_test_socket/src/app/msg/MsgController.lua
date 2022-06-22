@@ -13,7 +13,7 @@ local json = require("framework.json")
 
 local TAG = "MsgController"
 
-local SERVER_IP = "127.0.0.1" -- 服务器地址
+local SERVER_IP = "192.168.1.101" -- 服务器地址
 local SERVER_PORT = 33333 -- 服务器端口
 local HEART_BEAT_INTERVAL = 5 -- 心跳间隔，单位：秒
 

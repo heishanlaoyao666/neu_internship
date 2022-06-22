@@ -38,7 +38,7 @@ function MainScene:ctor()
     sendBtn:addTouchEventListener(function(sender, eventType)
 		if 2 == eventType then
             local msg = {
-                type = 0x3E7,
+                type = 1999,
                 userId = 0,
                 heartSerial = 1,
             }
