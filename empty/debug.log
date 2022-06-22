@@ -34,47 +34,75 @@ LOAD LUA FILE: D:/cocos2D/player/neu_internship/empty/src/main.lua
 
 [LUA-print] [INFO] # CONFIG_SCREEN_AUTOSCALE      = FIXED_HEIGHT
 
+<<<<<<< Updated upstream
 [LUA-print] [INFO] # CONFIG_SCREEN_WIDTH          = 720.00
+=======
+[LUA-print] [INFO] # CONFIG_SCREEN_WIDTH          = 405.00
+>>>>>>> Stashed changes
 
-[LUA-print] [INFO] # CONFIG_SCREEN_HEIGHT         = 1280.00
+[LUA-print] [INFO] # CONFIG_SCREEN_HEIGHT         = 720.00
 
 [LUA-print] [INFO] # display.widthInPixels        = 540.00
 
 [LUA-print] [INFO] # display.heightInPixels       = 960.00
 
+<<<<<<< Updated upstream
 [LUA-print] [INFO] # display.contentScaleFactor   = 0.75
 
 [LUA-print] [INFO] # display.width                = 720.00
+=======
+[LUA-print] [INFO] # display.contentScaleFactor   = 1.33
 
-[LUA-print] [INFO] # display.height               = 1280.00
+[LUA-print] [INFO] # display.width                = 405.00
+>>>>>>> Stashed changes
 
+[LUA-print] [INFO] # display.height               = 720.00
+
+<<<<<<< Updated upstream
 [LUA-print] [INFO] # display.cx                   = 360.00
+=======
+[LUA-print] [INFO] # display.cx                   = 202.50
+>>>>>>> Stashed changes
 
-[LUA-print] [INFO] # display.cy                   = 640.00
+[LUA-print] [INFO] # display.cy                   = 360.00
 
 [LUA-print] [INFO] # display.left                 = 0.00
 
+<<<<<<< Updated upstream
 [LUA-print] [INFO] # display.right                = 720.00
+=======
+[LUA-print] [INFO] # display.right                = 405.00
+>>>>>>> Stashed changes
 
-[LUA-print] [INFO] # display.top                  = 1280.00
+[LUA-print] [INFO] # display.top                  = 720.00
 
 [LUA-print] [INFO] # display.bottom               = 0.00
 
+<<<<<<< Updated upstream
 [LUA-print] [INFO] # display.c_left               = -360.00
 
 [LUA-print] [INFO] # display.c_right              = 360.00
+=======
+[LUA-print] [INFO] # display.c_left               = -202.50
 
-[LUA-print] [INFO] # display.c_top                = 640.00
+[LUA-print] [INFO] # display.c_right              = 202.50
+>>>>>>> Stashed changes
 
-[LUA-print] [INFO] # display.c_bottom             = -640.00
+[LUA-print] [INFO] # display.c_top                = 360.00
+
+[LUA-print] [INFO] # display.c_bottom             = -360.00
 
 [LUA-print] [INFO] #
 
+<<<<<<< Updated upstream
 WARNING: File case-sensitive.
 D:/cocos2D/player/neu_internship/empty/src/app/data/GameData.lua
 D:/cocos2D/player/neu_internship/empty/src/app/data/Gamedata.lua
 
 
+=======
+[LUA-print] nil
+>>>>>>> Stashed changes
 
 [LUA-print] nil
 
