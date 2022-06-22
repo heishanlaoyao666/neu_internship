@@ -12,7 +12,10 @@ end
 
 function MyApp:run()
     cc.FileUtils:getInstance():addSearchPath("res/")
-    self:enterScene("outgame.MainScene")
+    self:enterScene("outgame/LoadScene")
 end
+--[[--
+    LoadScene --加载界面
+]]
 
 return MyApp

@@ -101,6 +101,7 @@ end
 ]]
 function LoadInfoLayer:update(dt)
     pro = pro + dt * 100
+    pro = math.floor(pro)
     if pro >= 100 then
         pro = 100
     end
