@@ -1,9 +1,8 @@
-
-local MainScene = class("MainScene", function()
-    return display.newScene("MainScene")
+local HeadScene = class("HeadScene", function()
+    return display.newScene("HeadScene")
 end)
 
-function MainScene:ctor()
+function HeadScene:ctor()
 
     self:createMiddleMiddlePanel()
 
@@ -16,15 +15,9 @@ function MainScene:ctor()
 
     local NewGameBtn = ccui.Button:create(images["normal"], images["pressed"], images["disabled"])
     NewGameBtn:setAnchorPoint(cc.p(0.5 ,0.5))
-    -- 居中
     NewGameBtn:setPosition(cc.p(display.cx, display.cy))
-    -- 设置缩放程度
     NewGameBtn:setScale(0.5, 0.5)
-    -- 设置是否禁用(false为禁用)
     NewGameBtn:setEnabled(true)
-    -- registerBtn:addClickEventListener(function()
-    --     print("lalala")
-    -- end)
 
     NewGameBtn:addTouchEventListener(function(sender, eventType)
 	 	if eventType == ccui.TouchEventType.ended then
@@ -34,15 +27,26 @@ function MainScene:ctor()
 	 	end
 	end)
 
-    self:addChild(NewGameBtn, 4)
+    -- local battleBtn = ccui.Button:create(
+    --     "ui/hall/bottom-tab/tab-unselected-middle.png",
+    --     "ui/hall/bottom-tab/tab-selected.png",
+    --     "ui/hall/bottom-tab/tab-unselected-middle.png"
+    -- )
+    -- battleBtn:setAnchorPoint(0,0)
+    -- battleBtn:setScale(240/230)
+    -- battleBtn:pos(0+230*240/230,0)
+    -- battleBtn:addTo(menuLayer)
+
+    self:addChild(NewGameBtn)
 
     self:createMiddleBottomPanel()
     self:createMiddleTopPanel()
 
+    self:createlayerPanel()
 
 end
---bg-battle_interface.png
-function MainScene:createMiddleMiddlePanel()
+
+function HeadScene:createMiddleMiddlePanel()
     local width ,height  =display.width,display.top
     local settingLayer = ccui.Layout:create()
     settingLayer:setBackGroundImage("ui/hall/battle/bg-battle_interface.png")
@@ -54,7 +58,7 @@ function MainScene:createMiddleMiddlePanel()
 
 end
 
-function MainScene:createMiddleBottomPanel()
+function HeadScene:createMiddleBottomPanel()
     local width,height = display.width,display.top
     local menuLayer = ccui.Layout:create()
     menuLayer:setContentSize(width,height)
@@ -102,7 +106,7 @@ function MainScene:createMiddleBottomPanel()
     
 end
 --顶部
-function MainScene:createMiddleTopPanel()
+function HeadScene:createMiddleTopPanel()
     local width,height = display.width,display.top
     local infoLayer = ccui.Layout:create()
     --infoLayer:setBackGroundImage("ui/hall/Prompt text/bg-topPanel.png")
@@ -240,10 +244,60 @@ function MainScene:createMiddleTopPanel()
 
 end
 
-function MainScene:onEnter()
+function HeadScene:createlayerPanel()
+
+    local width ,height = display.width,display.height
+    local HeadLayer = ccui.Layout:create()
+    HeadLayer:setBackGroundColor(cc.c4b(0,0,0,128))
+    HeadLayer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
+    HeadLayer:setBackGroundColorOpacity(128)--设置透明度
+    HeadLayer:setContentSize(width, height)
+    HeadLayer:pos(width*0.5, height *0.5)
+    HeadLayer:setAnchorPoint(0.5, 0.5)
+    HeadLayer:addTo(self)
+
+    --ui/hall/Prompt text/secondary_interface - avatar_selection_pop-up/bg-popup.png
+    --选择头像
+    local headselection=ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - avatar_selection_pop-up/bg-popup.png")
+    headselection:setScale(1)
+    headselection:setAnchorPoint(0,1)
+    headselection:pos(0+50,height-110)
+    headselection:addTo(HeadLayer)
+
+    
+    --叉掉
+    local deleteBtn=ccui.Button:create(
+        "ui/hall/Prompt text/secondary_interface - avatar_selection_pop-up/button-close.png",
+        "",
+        "ui/hall/Prompt text/secondary_interface - avatar_selection_pop-up/button-close.png"
+    )
+    deleteBtn:setScale(1)
+    deleteBtn:setAnchorPoint(0,1)
+    deleteBtn:pos(0+600,height-125)
+    deleteBtn:addTo(HeadLayer)
+
+    deleteBtn:addTouchEventListener(function(sender, eventType)
+		if 2 == eventType then
+			local newScene=import("app/scenes/MainScene"):new()
+            display.replaceScene(newScene)
+		end
+	end)
+
+    -- 屏蔽点击
+    HeadLayer:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event) 
+        if event.name == "began" then
+            return true
+        end
+    end)
+    HeadLayer:setTouchEnabled(true)
+
+
 end
 
-function MainScene:onExit()
+function HeadScene:onEnter()
 end
 
-return MainScene
+function HeadScene:onExit()
+end
+
+return HeadScene
