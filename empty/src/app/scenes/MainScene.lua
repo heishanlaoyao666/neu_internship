@@ -33,7 +33,7 @@ function MainScene:ctor()
 	end)
 
     self:addChild(NewGameBtn, 4)
-    self:loading()
+    --self:loading()
 end
 
 function MainScene:createMiddleMiddlePanel()
