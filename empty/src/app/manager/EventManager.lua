@@ -16,6 +16,7 @@ local listenerMap_ = {} -- 类型：监听映射Map，key：EventId，Value：�
     @return none
 ]]
 function EventManger:regListener(eventId, target, func)
+    
     listenerMap_[eventId] = listenerMap_[eventId] or {}
 
     if not listenerMap_[eventId][target] then
@@ -50,6 +51,7 @@ end
     @return none
 ]]
 function EventManger:doEvent(eventId, ...)
+    
     local tab = listenerMap_[eventId]
     if not tab then
         return

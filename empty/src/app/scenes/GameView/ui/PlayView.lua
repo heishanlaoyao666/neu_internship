@@ -101,11 +101,20 @@ end
     @return none
 ]]
 function PlayView:onEnter()
+    EventManager:regListener(EventDef.ID.VIEW_OPEN, self, function(state)
+        if state == ConstDef.GAME_VIEW.OPPOSITEBOSS then
+            self.oppositeBossView_:showView()
+        elseif state == ConstDef.GAME_VIEW.OPPOSITETOWER then
+            self.oppositeTowerView_:showView()
+        elseif state == ConstDef.GAME_VIEW.SURRENDER then
+            self.surrenderView_:showView()
+        end
+    end)
     EventManager:regListener(EventDef.ID.GAMESTATE_CHANGE, self, function(state)
-        if state == ConstDef.GAME_STATE.PAUSE then
-            self.pauseView_:showView()
-        elseif state == ConstDef.GAME_STATE.RESULT then
+        if state == ConstDef.GAME_STATE.RESULT then
             self.resultView_:showView()
+        elseif state == ConstDef.GAME_STATE.INIT then
+            self.randomBossView_:showView()
         end
     end)
 end
@@ -119,6 +128,7 @@ end
 ]]
 function PlayView:onExit()
     EventManager:unRegListener(EventDef.ID.GAMESTATE_CHANGE, self)
+    EventManager:unRegListener(EventDef.ID.VIEW_OPEN, self)
 end
 
 --[[--
