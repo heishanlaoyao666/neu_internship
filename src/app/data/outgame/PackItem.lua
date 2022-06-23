@@ -7,14 +7,16 @@ local PackItem = class("PackItem")
 --[[--
     构造函数
 
-    @param towerId 类型：number
+    @param tower 类型：object
     @parm num 类型：number
+    @parm level 类型：number
 
     @return none
 ]]
-function PackItem:ctor(towerId, num)
-    self.towerId_ = towerId
+function PackItem:ctor(tower, num, level)
+    self.tower= tower
     self.num_ = num
+    self.level_ = level
 end
 
 -- --[[--
@@ -45,7 +47,6 @@ end
     @return none
 ]]
 function PackItem:sendInfo()
-    cc.UserDefault:getInstance():setNumberForKey(tostring(self.towerId_), self.num_)
 end
 
 --[[--
@@ -56,9 +57,61 @@ end
     @return number
 ]]
 function PackItem:getInfo()
-    return cc.cc.UserDefault:getInstance():getNumberForKey(tostring(self.towerId_))
 end
 
+--[[--
+    获取背包塔ID
 
+    @parm none
+
+    @return object
+]]
+function PackItem:getTower()
+    return self.tower
+end
+
+--[[--
+    背包塔升级
+
+    @parm none
+
+    @return none
+]]
+function PackItem:towerLevelUp()
+    self.level_ = self.level_ + 1
+end
+
+--[[--
+    获取背包塔等级
+
+    @parm none
+
+    @return number
+]]
+function PackItem:getLevel()
+    return self.level_
+end
+
+--[[--
+    更改背包塔的数量
+
+    @parm n 类型：number
+
+    @return none
+]]
+function PackItem:setTowerNumber(n)
+    self.num_ = self.num_ + n
+end
+
+--[[--
+    获取背包塔的数量
+
+    @parm none
+
+    @return number
+]]
+function PackItem:getTowerNumber()
+    return self.num_
+end
 
 return PackItem

@@ -5,7 +5,7 @@
 local EventDef = {}
 
 EventDef.ID = {
-
+    GAMESTATE_CHANGE = 1, -- 游戏状态变化
 }
 
 return EventDef

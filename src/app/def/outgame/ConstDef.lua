@@ -5,9 +5,11 @@
 local ConstDef = {
     GAME_STATE = {
         LOAD = 1,   -- 加载状态
+        REGISTER = 2, -- 注册状态
+        INIT = 3, --初始状态
     },
 
-    LEVEL_UP_NEED_CARDS = {
+    LEVEL_UP_NEED_CARD = {
         {1, 1, 1, 1},
         {2, 0, 0, 0},
         {4, 0, 0, 0},
