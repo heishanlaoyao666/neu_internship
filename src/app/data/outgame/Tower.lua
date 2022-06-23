@@ -168,7 +168,9 @@ end
     @return none
 ]]
 function Tower:FireCdUpgrade()
-    self.towerFireCd_ = self.towerFireCd_ - self.fireCdUpgrade_
+    if self.fireCdUpgrade_ ~= nil then
+        self.towerFireCd_ = self.towerFireCd_ - self.fireCdUpgrade_
+    end
 end
 
 --[[--
@@ -200,8 +202,23 @@ end
 
     @return none
 ]]
-function Tower:GetSkill1Value()
-    self.skill1Value_ = self.skill1Value_ + self.valueUpgrade_
+function Tower:ValueUpgrade()
+    if self.valueUpgrade_ ~= nil then
+        self.skill1Value_ = self.skill1Value_ + self.valueUpgrade_
+    end
+end
+
+--[[--
+    塔的技能1强化后的数值改变
+
+    @parm none
+
+    @return none
+]]
+function Tower:ValueEnhance()
+    if self.valueEnhance_ ~= nil then
+        self.skill1Value_ = self.skill1Value_ + self.valueEnhance_
+    end
 end
 
 --[[--

@@ -6,6 +6,7 @@ local LoadScene = class("LoadScene", function()
     return display.newScene("LoadScene")
 end)
 local LoadView = require("app.ui.outgame.view.LoadView")
+local OutGameData = require("app.data.outgame.OutGameData")
 
 --[[--
     构造函数
@@ -15,6 +16,8 @@ local LoadView = require("app.ui.outgame.view.LoadView")
     @return none
 ]]
 function LoadScene:ctor()
+    OutGameData:init()
+
     self.loadView_ = LoadView.new() -- 类型：PlayView，主游戏界面
     self:addChild(self.loadView_)
 
