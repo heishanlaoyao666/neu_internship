@@ -138,8 +138,9 @@ function MainScene:createMiddleTopPanel()
 
     headBtn:addTouchEventListener(function(sender, eventType)
 		if 2 == eventType then
-			local newScene=import("app/scenes/HeadScene"):new()
-            display.replaceScene(newScene)
+			-- local newScene=import("app/scenes/HeadScene"):new()
+            -- display.replaceScene(newScene)
+            cc.Director:getInstance():pushScene(require("app.scenes.HeadScene").new())
 		end
 	end)
 
