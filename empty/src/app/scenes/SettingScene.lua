@@ -1,11 +1,12 @@
-
-local MainScene = class("MainScene", function()
-    return display.newScene("MainScene")
+local SettingScene = class("SettingScene", function()
+    return display.newScene("SettingScene")
 end)
+local Headdata = require("app/data/Headdata")
 
-function MainScene:ctor()
+function SettingScene:ctor()
 
     self:createMiddleMiddlePanel()
+
     --开始游戏按钮
     local images = {
         normal = "ui/hall/battle/Button-Battle_Mode.png",
@@ -15,15 +16,9 @@ function MainScene:ctor()
 
     local NewGameBtn = ccui.Button:create(images["normal"], images["pressed"], images["disabled"])
     NewGameBtn:setAnchorPoint(cc.p(0.5 ,0.5))
-    -- 居中
     NewGameBtn:setPosition(cc.p(display.cx, display.cy))
-    -- 设置缩放程度
     NewGameBtn:setScale(0.5, 0.5)
-    -- 设置是否禁用(false为禁用)
     NewGameBtn:setEnabled(true)
-    -- registerBtn:addClickEventListener(function()
-    --     print("lalala")
-    -- end)
 
     NewGameBtn:addTouchEventListener(function(sender, eventType)
 	 	if eventType == ccui.TouchEventType.ended then
@@ -33,15 +28,26 @@ function MainScene:ctor()
 	 	end
 	end)
 
-    self:addChild(NewGameBtn, 4)
+    -- local battleBtn = ccui.Button:create(
+    --     "ui/hall/bottom-tab/tab-unselected-middle.png",
+    --     "ui/hall/bottom-tab/tab-selected.png",
+    --     "ui/hall/bottom-tab/tab-unselected-middle.png"
+    -- )
+    -- battleBtn:setAnchorPoint(0,0)
+    -- battleBtn:setScale(240/230)
+    -- battleBtn:pos(0+230*240/230,0)
+    -- battleBtn:addTo(menuLayer)
+
+    self:addChild(NewGameBtn)
 
     self:createMiddleBottomPanel()
     self:createMiddleTopPanel()
 
+    self:createlayerPanel()
 
 end
---bg-battle_interface.png
-function MainScene:createMiddleMiddlePanel()
+
+function SettingScene:createMiddleMiddlePanel()
     local width ,height  =display.width,display.top
     local settingLayer = ccui.Layout:create()
     settingLayer:setBackGroundImage("ui/hall/battle/bg-battle_interface.png")
@@ -53,7 +59,7 @@ function MainScene:createMiddleMiddlePanel()
 
 end
 
-function MainScene:createMiddleBottomPanel()
+function SettingScene:createMiddleBottomPanel()
     local width,height = display.width,display.top
     local menuLayer = ccui.Layout:create()
     menuLayer:setContentSize(width,height)
@@ -101,7 +107,7 @@ function MainScene:createMiddleBottomPanel()
     
 end
 --顶部
-function MainScene:createMiddleTopPanel()
+function SettingScene:createMiddleTopPanel()
     local width,height = display.width,display.top
     local infoLayer = ccui.Layout:create()
     --infoLayer:setBackGroundImage("ui/hall/Prompt text/bg-topPanel.png")
@@ -138,9 +144,8 @@ function MainScene:createMiddleTopPanel()
 
     headBtn:addTouchEventListener(function(sender, eventType)
 		if 2 == eventType then
-			-- local newScene=import("app/scenes/HeadScene"):new()
-            -- display.replaceScene(newScene)
-            cc.Director:getInstance():pushScene(require("app.scenes.HeadScene").new())
+			local newScene=import("app/scenes/SettingScene"):new()
+            display.replaceScene(newScene)
 		end
 	end)
 
@@ -219,7 +224,8 @@ function MainScene:createMiddleTopPanel()
 
     settingBtn:addTouchEventListener(function(sender, eventType)
 		if 2 == eventType then
-            cc.Director:getInstance():pushScene(require("app.scenes.SettingScene").new())
+			local newScene=import("app/scenes/??Scene"):new()
+            display.replaceScene(newScene)
 		end
 	end)
 
@@ -239,70 +245,144 @@ function MainScene:createMiddleTopPanel()
 
 end
 
---[[
-    函数用途：加载界面，加载完毕后切换至游戏大厅
-    --]]
-function MainScene:loadingPanel()
-    local loadPanel = ccui.Layout:create()--加载页面层级
-    loadPanel:setContentSize(720, 1280)
-    loadPanel:setAnchorPoint(0, 0)
-    loadPanel:setPosition(0,0)
-    loadPanel:addTo(self)
+function SettingScene:createlayerPanel()
 
-    display.newSprite("ui/loading/bottomchart.jpg")--加载页面_背景图
-           :pos(display.cx,display.cy)
-           :addTo(loadPanel)
+    local width ,height = display.width,display.height
+    local SettingLayer = ccui.Layout:create()
+    SettingLayer:setBackGroundColor(cc.c4b(0,0,0,128))
+    SettingLayer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
+    SettingLayer:setBackGroundColorOpacity(128)--设置透明度
+    SettingLayer:setContentSize(width, height)
+    SettingLayer:pos(width*0.5, height *0.5)
+    SettingLayer:setAnchorPoint(0.5, 0.5)
+    SettingLayer:addTo(self)
 
-    local tips = cc.Label:createWithTTF("大厅预加载，进行中...","ui/font/fzhz.ttf",20)--文本：大厅预加载
-    tips:setPosition(360,30)
-    tips:setColor(cc.c3b(255,255,255))
-    tips:addTo(loadPanel)
 
-    local progressNum = 0--文本：加载进度
-    local progress = cc.Label:createWithTTF(progressNum,"ui/font/fzhz.ttf",20)
-    progress:setPosition(650,30)
-    progress:setColor(cc.c3b(255,239,117))
-    progress:addTo(loadPanel)
-
-    --[[ cc.Director:getInstance():getScheduler():scheduleScriptFunc(
-             function()
-                 progressNum = progressNum+1
-                 progress:setString(progressNum)
-             end,0.1,false)--]]
+    
+    --设置弹窗
+    local bgmenuicon=ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - menu_bar/bg-menu.png")
+    bgmenuicon:setScale(1)
+    bgmenuicon:setAnchorPoint(0,1)
+    bgmenuicon:pos(0+350,height-40)
+    bgmenuicon:addTo(SettingLayer)
 
 
 
-    local barProBg = cc.Sprite:create("ui/loading/processbar_bottomchart.png")--进度条背景
-    barProBg:setAnchorPoint(0,0)
-    barProBg:setScale(48,1)
-    barProBg:setPosition(0, 0)
-    barProBg:addTo(loadPanel)
-
-    local barPro = cc.ProgressTimer:create(cc.Sprite:create("ui/loading/processbar_stretch_full.png"))--进度条组件
-    barPro:setAnchorPoint(0,0)
-    barPro:setPosition(cc.p(0, 0))
-    barPro:setType(cc.PROGRESS_TIMER_TYPE_BAR)
-    barPro:setMidpoint(cc.p(0, 0))--进度条起点位置
-    barPro:setBarChangeRate(cc.p(1, 0))--进度方向为水平方向
-    barPro:addTo(loadPanel)
-    barPro:setPercentage(0)--起始进度为0
-
-    local loadAction = cc.ProgressFromTo:create(5,0,100)--动作：5秒内从0到100
-    local callFuncAction = cc.CallFunc:create(function()--动作执行完毕回调函数
-        loadPanel:setVisible(false)
+    local firstBtn = ccui.Button:create(
+        "ui/hall/Prompt text/secondary_interface - menu_bar/bg-Buttom.png",
+        "",
+        "ui/hall/Prompt text/secondary_interface - menu_bar/bg-Buttom.png"
+    )
+    firstBtn:setPosition(cc.p(475, display.top-100))
+    firstBtn:addTouchEventListener(function(sender,eventType)--点击事件
+        if eventType == ccui.TouchEventType.ended then
+            print("buy")
+        end
     end)
-    local delayTimeAction = cc.DelayTime:create(0.5)--延时0.5s
-    local sequenceAction = cc.Sequence:create(loadAction,delayTimeAction,callFuncAction)
-    barPro:runAction(sequenceAction)
+    firstBtn:addTo(SettingLayer)
+
+    --公告
+    local announcementIcon =ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - menu_bar/icon - announcement.png")
+    announcementIcon:setPosition(cc.p(55, 35))
+    announcementIcon:addTo(firstBtn)
+    local announcementsIcon =ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - menu_bar/text - announcements.png")
+    announcementsIcon:setPosition(cc.p(155, 35))
+    announcementsIcon:addTo(firstBtn)
+
+
+
+    local secBtn = ccui.Button:create(
+        "ui/hall/Prompt text/secondary_interface - menu_bar/bg-Buttom.png",
+        "",
+        "ui/hall/Prompt text/secondary_interface - menu_bar/bg-Buttom.png"
+    )
+    secBtn:setPosition(cc.p(475, display.top-190))
+    secBtn:addTouchEventListener(function(sender,eventType)--点击事件
+        if eventType == ccui.TouchEventType.ended then
+            print("buy")
+        end
+    end)
+    secBtn:addTo(SettingLayer)
+
+    --邮箱
+    local emailIcon =ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - menu_bar/icon-email.png")
+    emailIcon:setPosition(cc.p(55, 35))
+    emailIcon:addTo(secBtn)
+    local emailsIcon =ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - menu_bar/text-email.png")
+    emailsIcon:setPosition(cc.p(155, 35))
+    emailsIcon:addTo(secBtn)
+
+
+
+    local trdBtn = ccui.Button:create(
+        "ui/hall/Prompt text/secondary_interface - menu_bar/bg-Buttom.png",
+        "",
+        "ui/hall/Prompt text/secondary_interface - menu_bar/bg-Buttom.png"
+    )
+    trdBtn:setPosition(cc.p(475, display.top-280))
+    trdBtn:addTouchEventListener(function(sender,eventType)--点击事件
+        if eventType == ccui.TouchEventType.ended then
+            print("buy")
+        end
+    end)
+    trdBtn:addTo(SettingLayer)
+
+    --对战记录
+    local battleIcon =ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - menu_bar/icon - battle_record.png")
+    battleIcon:setPosition(cc.p(55, 35))
+    battleIcon:addTo(trdBtn)
+    local battlesIcon =ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - menu_bar/text-battle_record.png")
+    battlesIcon:setPosition(cc.p(155, 35))
+    battlesIcon:addTo(trdBtn)
+
+
+    local fourthBtn = ccui.Button:create(
+        "ui/hall/Prompt text/secondary_interface - menu_bar/bg-Buttom.png",
+        "",
+        "ui/hall/Prompt text/secondary_interface - menu_bar/bg-Buttom.png"
+    )
+    fourthBtn:setPosition(cc.p(475, display.top-370))
+    fourthBtn:addTouchEventListener(function(sender,eventType)--点击事件
+        if eventType == ccui.TouchEventType.ended then
+            print("buy")
+            local newScene=import("app/scenes/SetScene"):new()
+            display.replaceScene(newScene)
+        end
+    end)
+    fourthBtn:addTo(SettingLayer)
+
+    --设置
+    local setIcon =ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - menu_bar/icon-setting.png")
+    setIcon:setPosition(cc.p(55, 35))
+    setIcon:addTo(fourthBtn)
+    local setsIcon =ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - menu_bar/text-setting.png")
+    setsIcon:setPosition(cc.p(155, 35))
+    setsIcon:addTo(fourthBtn)
+
+
+
+
+
+
+
+
+    -- 屏蔽点击
+    SettingLayer:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event) 
+        if event.name == "began" then
+            return true
+        end
+    end)
+    SettingLayer:setTouchEnabled(true)
+
 
 end
 
 
 
-function MainScene:onEnter()
+function SettingScene:onEnter()
 end
 
-function MainScene:onExit()
+function SettingScene:onExit()
 end
 
-return MainScene
+return SettingScene

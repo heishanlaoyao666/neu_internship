@@ -2,7 +2,7 @@ Quick-Cocos2dx-Community C++ support ready.
 
 ------------------------------------------------
 
-LOAD LUA FILE: D:/cocos2D/player/neu_internship/empty/src/main.lua
+LOAD LUA FILE: D:/neu_internship/empty/src/main.lua
 
 ------------------------------------------------
 
@@ -24,7 +24,7 @@ LOAD LUA FILE: D:/cocos2D/player/neu_internship/empty/src/main.lua
 
 [LUA-print] [INFO] # device.language              = cn
 
-[LUA-print] [INFO] # device.writablePath          = D:\cocos2D\player\neu_internship\empty\
+[LUA-print] [INFO] # device.writablePath          = D:\neu_internship\empty\
 
 [LUA-print] [INFO] # device.directorySeparator    = \
 
@@ -70,11 +70,5 @@ LOAD LUA FILE: D:/cocos2D/player/neu_internship/empty/src/main.lua
 
 [LUA-print] [INFO] #
 
-WARNING: File case-sensitive.
-D:/cocos2D/player/neu_internship/empty/src/app/data/GameData.lua
-D:/cocos2D/player/neu_internship/empty/src/app/data/Gamedata.lua
-
-
-
-[LUA-print] nil
+[LUA-print] buy
 
