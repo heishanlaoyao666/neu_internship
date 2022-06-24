@@ -1,11 +1,12 @@
-
-local MainScene = class("MainScene", function()
-    return display.newScene("MainScene")
+local SetScene = class("SetScene", function()
+    return display.newScene("SetScene")
 end)
+local Headdata = require("app/data/Headdata")
 
-function MainScene:ctor()
+function SetScene:ctor()
 
     self:createMiddleMiddlePanel()
+
     --开始游戏按钮
     local images = {
         normal = "ui/hall/battle/Button-Battle_Mode.png",
@@ -15,32 +16,38 @@ function MainScene:ctor()
 
     local NewGameBtn = ccui.Button:create(images["normal"], images["pressed"], images["disabled"])
     NewGameBtn:setAnchorPoint(cc.p(0.5 ,0.5))
-    -- 居中
     NewGameBtn:setPosition(cc.p(display.cx, display.cy))
-    -- 设置缩放程度
     NewGameBtn:setScale(0.5, 0.5)
-    -- 设置是否禁用(false为禁用)
     NewGameBtn:setEnabled(true)
-    -- registerBtn:addClickEventListener(function()
-    --     print("lalala")
-    -- end)
 
     NewGameBtn:addTouchEventListener(function(sender, eventType)
 	 	if eventType == ccui.TouchEventType.ended then
 	 		local ABtn = import("app.scenes.GameView.GameScene"):new()
             display.replaceScene(ABtn,"turnOffTiles",0.5)
+            print(transform)
 	 	end
 	end)
 
-    self:addChild(NewGameBtn, 4)
+    -- local battleBtn = ccui.Button:create(
+    --     "ui/hall/bottom-tab/tab-unselected-middle.png",
+    --     "ui/hall/bottom-tab/tab-selected.png",
+    --     "ui/hall/bottom-tab/tab-unselected-middle.png"
+    -- )
+    -- battleBtn:setAnchorPoint(0,0)
+    -- battleBtn:setScale(240/230)
+    -- battleBtn:pos(0+230*240/230,0)
+    -- battleBtn:addTo(menuLayer)
+
+    self:addChild(NewGameBtn)
 
     self:createMiddleBottomPanel()
     self:createMiddleTopPanel()
 
+    self:createlayerPanel()
 
 end
---bg-battle_interface.png
-function MainScene:createMiddleMiddlePanel()
+
+function SetScene:createMiddleMiddlePanel()
     local width ,height  =display.width,display.top
     local settingLayer = ccui.Layout:create()
     settingLayer:setBackGroundImage("ui/hall/battle/bg-battle_interface.png")
@@ -52,7 +59,7 @@ function MainScene:createMiddleMiddlePanel()
 
 end
 
-function MainScene:createMiddleBottomPanel()
+function SetScene:createMiddleBottomPanel()
     local width,height = display.width,display.top
     local menuLayer = ccui.Layout:create()
     menuLayer:setContentSize(width,height)
@@ -100,7 +107,7 @@ function MainScene:createMiddleBottomPanel()
     
 end
 --顶部
-function MainScene:createMiddleTopPanel()
+function SetScene:createMiddleTopPanel()
     local width,height = display.width,display.top
     local infoLayer = ccui.Layout:create()
     --infoLayer:setBackGroundImage("ui/hall/Prompt text/bg-topPanel.png")
@@ -137,9 +144,8 @@ function MainScene:createMiddleTopPanel()
 
     headBtn:addTouchEventListener(function(sender, eventType)
 		if 2 == eventType then
-			-- local newScene=import("app/scenes/HeadScene"):new()
-            -- display.replaceScene(newScene)
-            cc.Director:getInstance():pushScene(require("app.scenes.HeadScene").new())
+			local newScene=import("app/scenes/SetScene"):new()
+            display.replaceScene(newScene)
 		end
 	end)
 
@@ -218,7 +224,8 @@ function MainScene:createMiddleTopPanel()
 
     settingBtn:addTouchEventListener(function(sender, eventType)
 		if 2 == eventType then
-            cc.Director:getInstance():pushScene(require("app.scenes.SettingScene").new())
+			local newScene=import("app/scenes/??Scene"):new()
+            display.replaceScene(newScene)
 		end
 	end)
 
@@ -238,70 +245,170 @@ function MainScene:createMiddleTopPanel()
 
 end
 
---[[
-    函数用途：加载界面，加载完毕后切换至游戏大厅
-    --]]
-function MainScene:loadingPanel()
-    local loadPanel = ccui.Layout:create()--加载页面层级
-    loadPanel:setContentSize(720, 1280)
-    loadPanel:setAnchorPoint(0, 0)
-    loadPanel:setPosition(0,0)
-    loadPanel:addTo(self)
+function SetScene:createlayerPanel()
 
-    display.newSprite("ui/loading/bottomchart.jpg")--加载页面_背景图
-           :pos(display.cx,display.cy)
-           :addTo(loadPanel)
-
-    local tips = cc.Label:createWithTTF("大厅预加载，进行中...","ui/font/fzhz.ttf",20)--文本：大厅预加载
-    tips:setPosition(360,30)
-    tips:setColor(cc.c3b(255,255,255))
-    tips:addTo(loadPanel)
-
-    local progressNum = 0--文本：加载进度
-    local progress = cc.Label:createWithTTF(progressNum,"ui/font/fzhz.ttf",20)
-    progress:setPosition(650,30)
-    progress:setColor(cc.c3b(255,239,117))
-    progress:addTo(loadPanel)
-
-    --[[ cc.Director:getInstance():getScheduler():scheduleScriptFunc(
-             function()
-                 progressNum = progressNum+1
-                 progress:setString(progressNum)
-             end,0.1,false)--]]
+    local width ,height = display.width,display.height
+    local SetLayer = ccui.Layout:create()
+    SetLayer:setBackGroundColor(cc.c4b(0,0,0,128))
+    SetLayer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
+    SetLayer:setBackGroundColorOpacity(128)--设置透明度
+    SetLayer:setContentSize(width, height)
+    SetLayer:pos(width*0.5, height *0.5)
+    SetLayer:setAnchorPoint(0.5, 0.5)
+    SetLayer:addTo(self)
 
 
+    
+    --设置弹窗
+    local bgmenuicon1=ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - setting pop-up_window/bg-Popup.png")
+    bgmenuicon1:setScale(1)
+    bgmenuicon1:setAnchorPoint(0,1)
+    bgmenuicon1:pos(0+40,height-400)
+    bgmenuicon1:addTo(SetLayer)
 
-    local barProBg = cc.Sprite:create("ui/loading/processbar_bottomchart.png")--进度条背景
-    barProBg:setAnchorPoint(0,0)
-    barProBg:setScale(48,1)
-    barProBg:setPosition(0, 0)
-    barProBg:addTo(loadPanel)
+    --叉掉
+    local deleteBtn1=ccui.Button:create(
+        "ui/hall/Prompt text/secondary_interface - setting pop-up_window/button-close.png",
+        "",
+        "ui/hall/Prompt text/secondary_interface - setting pop-up_window/button-close.png"
+    )
+    deleteBtn1:setScale(1)
+    deleteBtn1:setAnchorPoint(0,1)
+    deleteBtn1:pos(0+610,height-415)
+    deleteBtn1:addTo(SetLayer)
 
-    local barPro = cc.ProgressTimer:create(cc.Sprite:create("ui/loading/processbar_stretch_full.png"))--进度条组件
-    barPro:setAnchorPoint(0,0)
-    barPro:setPosition(cc.p(0, 0))
-    barPro:setType(cc.PROGRESS_TIMER_TYPE_BAR)
-    barPro:setMidpoint(cc.p(0, 0))--进度条起点位置
-    barPro:setBarChangeRate(cc.p(1, 0))--进度方向为水平方向
-    barPro:addTo(loadPanel)
-    barPro:setPercentage(0)--起始进度为0
+    deleteBtn1:addTouchEventListener(function(sender, eventType)
+		if 2 == eventType then
+            --一系列操作（清空缓存）
 
-    local loadAction = cc.ProgressFromTo:create(5,0,100)--动作：5秒内从0到100
-    local callFuncAction = cc.CallFunc:create(function()--动作执行完毕回调函数
-        loadPanel:setVisible(false)
+			-- local newScene=import("app/scenes/MainScene"):new()
+            -- display.replaceScene(newScene)
+            cc.Director:getInstance():popScene()
+		end
+	end)
+
+
+
+
+
+    --退出游戏
+    local deleteBtn2=ccui.Button:create(
+        "ui/hall/Prompt text/secondary_interface - setting pop-up_window/button-exit.png",
+        "",
+        "ui/hall/Prompt text/secondary_interface - setting pop-up_window/button-exit.png"
+    )
+    deleteBtn2:setScale(1)
+    deleteBtn2:setAnchorPoint(0,1)
+    deleteBtn2:pos(0+250,height-705)
+    deleteBtn2:addTo(SetLayer)
+
+    deleteBtn2:addTouchEventListener(function(sender, eventType)
+		if 2 == eventType then
+            --一系列操作（清空缓存）
+
+			-- local newScene=import("app/scenes/MainScene"):new()
+            -- display.replaceScene(newScene)
+            cc.Director:getInstance():popScene()
+		end
+	end)
+
+    --版本号
+    local font = ccui.Text:create("版本号：V60000.4334.99999999.999999 ", "", 21)
+    font:setAnchorPoint(0,1)
+    font:setTextColor(cc.c4b(255,255,255,60))
+	font:pos(0+170,height-805)
+	font:addTo(SetLayer)
+
+
+  
+    --音乐音效等
+    local effecticon=ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - setting pop-up_window/Title-Effect.png")
+    effecticon:setScale(1)
+    effecticon:setAnchorPoint(0,1)
+    effecticon:pos(0+160,height-510)
+    effecticon:addTo(SetLayer)
+
+    local musicicon=ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - setting pop-up_window/Title-Music.png")
+    musicicon:setScale(1)
+    musicicon:setAnchorPoint(0,1)
+    musicicon:pos(0+160,height-570)
+    musicicon:addTo(SetLayer)
+
+    local skillicon=ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - setting pop-up_window/Title-skill introduction.png")
+    skillicon:setScale(1)
+    skillicon:setAnchorPoint(0,1)
+    skillicon:pos(0+160,height-510-60-60)
+    skillicon:addTo(SetLayer)
+
+    --音乐音效等按钮
+    
+    -- local sound_click_contrl = ccui.ImageView:create("ui/setting/sound_click_contrl_cover.png")
+    -- sound_click_contrl:setAnchorPoint(0.5, 0.5)
+    -- sound_click_contrl:pos(width*0.5, height*0.6)
+    -- sound_click_contrl:addTo(settingLayer)
+    -- local function onChangedCheckBox2(sender,eventType)
+    --     local state=false
+    --     if eventType==ccui.CheckBoxEventType.selected then
+    --         state=true
+    --         else if eventType==ccui.CheckBoxEventType.unselected then
+    --             state=false
+    --         end
+    --     end
+    --     --按照state执行命令
+    --     if state then
+    --         print("1")
+    --         local SettingMusic = require("src/app/scenes/SettingMusic")
+    --         local isMusic = SettingMusic:setMusic(true)
+    --         print(isMusic)
+
+    --         --音效是开启音效时候，全局变量设置为1，进入游戏界面如果全局变量1，则音效开启
+    --     else 
+    --         print("2")
+
+    --         local SettingMusic = require("src/app/scenes/SettingMusic")
+    --         local isMusic = SettingMusic:setMusic(false)
+    --         print(isMusic)
+    --         --音效是关闭音效时候，全局变量设置为2，进入游戏界面如果全局变量2，则音效关闭
+    --     end
+
+    -- end
+    -- local sound_click_contrlButton=ccui.CheckBox:create(
+    --     "ui/setting/soundon2_cover.png",
+    --     "ui/setting/soundon2_cover.png",
+    --     "ui/setting/soundon1_cover.png",
+    --     "ui/setting/soundon1_cover.png",
+    --     "ui/setting/soundon1_cover.png")
+    -- sound_click_contrlButton:setAnchorPoint(0.5,0.5)
+    -- sound_click_contrlButton:pos(width*0.5, height*0.5)
+    -- sound_click_contrlButton:addTo(settingLayer)
+    -- sound_click_contrlButton:addEventListener(onChangedCheckBox2)
+
+
+    
+
+
+
+
+
+
+
+    -- 屏蔽点击
+    SetLayer:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event) 
+        if event.name == "began" then
+            return true
+        end
     end)
-    local delayTimeAction = cc.DelayTime:create(0.5)--延时0.5s
-    local sequenceAction = cc.Sequence:create(loadAction,delayTimeAction,callFuncAction)
-    barPro:runAction(sequenceAction)
+    SetLayer:setTouchEnabled(true)
+
 
 end
 
 
 
-function MainScene:onEnter()
+function SetScene:onEnter()
 end
 
-function MainScene:onExit()
+function SetScene:onExit()
 end
 
-return MainScene
+return SetScene
