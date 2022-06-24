@@ -50,7 +50,28 @@ function ShopScene:ctor()
     cc.Director:getInstance():getEventDispatcher():addEventListenerWithSceneGraphPriority(listener, layer)
 
 end
+--[[
+local function buttonEvent(sender,eventType)--按钮点击后放大缩小特效
+    if eventType == ccui.TouchEventType.began then
+        local scale = cc.ScaleTo:create(1,0.9)
+        local ease_elastic = cc.EaseElasticOut:create(scale)
+         sender:runAction(ease_elastic)
 
+    elseif eventType == ccui.TouchEventType.ended then
+        local scale = cc.ScaleTo:create(1,1)
+        local ease_elastic = cc.EaseElasticOut:create(scale)
+        sender:runAction(ease_elastic)
+
+    elseif eventType == ccui.TouchEventType.canceled then
+        local scale = cc.ScaleTo:create(1,1)
+        local ease_elastic = cc.EaseElasticOut:create(scale)
+        sender:runAction(ease_elastic)
+    end
+end--]]
+
+--[[
+    函数用途：商店页面的滑动
+    --]]
 function ShopScene:slideShop(layer,distance)
     local moveAction = cc.MoveBy:create(0.5,cc.p(0,distance))
     layer:runAction(moveAction)
@@ -58,7 +79,7 @@ end
 
 
 --[[
-    函数用途：显示商店区域
+    函数用途：商店一级页面的展示
     --]]
 function ShopScene:ShopPanel()
     local width,height = display.width,display.top
@@ -105,9 +126,21 @@ function ShopScene:ShopPanel()
             "ui/hall/shop/Goldcoin-shop/bg-free_items.png"
     )
     freeItemButton:setPosition(cc.p(150, display.top-920))
-    freeItemButton:addTouchEventListener(function(sender,eventType)
-        if eventType == ccui.TouchEventType.ended then
-            print("buy")
+    freeItemButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
+        if eventType == ccui.TouchEventType.began then
+            local scale = cc.ScaleTo:create(1,0.9)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+
+        elseif eventType == ccui.TouchEventType.ended then
+            local scale = cc.ScaleTo:create(1,1)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+
+        elseif eventType == ccui.TouchEventType.canceled then
+            local scale = cc.ScaleTo:create(1,1)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
         end
     end)
     freeItemButton:addTo(ShopLayer)
@@ -166,12 +199,26 @@ end
     函数用途：金币商店商品的展示
     --]]
 function ShopScene:createGoldItem(layer,path,fragNum,price,offsetX,offsetY)--层级、图片路径、碎片数量、价格、偏移量
+
     --按钮：商品1
     local ItemButton = ccui.Button:create(path, path, path)
     ItemButton:setPosition(cc.p(370+offsetX, display.top-920+offsetY))
-    ItemButton:addTouchEventListener(function(sender,eventType)--点击事件
-        if eventType == ccui.TouchEventType.ended then
-            print("buy")
+    ItemButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
+        if eventType == ccui.TouchEventType.began then
+            local scale = cc.ScaleTo:create(1,0.9)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+
+        elseif eventType == ccui.TouchEventType.ended then
+            self:goldPurchasePanel(layer,path,fragNum,price)
+            local scale = cc.ScaleTo:create(1,1)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+
+        elseif eventType == ccui.TouchEventType.canceled then
+            local scale = cc.ScaleTo:create(1,1)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
         end
     end)
     ItemButton:addTo(layer)
@@ -208,9 +255,22 @@ function ShopScene:createDiamondItem(layer,bgPath,treasurePath,price,offsetX,off
     --按钮：商品
     local ItemButton = ccui.Button:create(bgPath, bgPath, bgPath)
     ItemButton:setPosition(cc.p(130+offsetX, display.top-1500+offsetY))
-    ItemButton:addTouchEventListener(function(sender,eventType)--点击事件
-        if eventType == ccui.TouchEventType.ended then
-            print("buy")
+    ItemButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
+        if eventType == ccui.TouchEventType.began then
+            local scale = cc.ScaleTo:create(1,0.9)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+
+        elseif eventType == ccui.TouchEventType.ended then
+            self:purchasePanel()
+            local scale = cc.ScaleTo:create(1,1)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+
+        elseif eventType == ccui.TouchEventType.canceled then
+            local scale = cc.ScaleTo:create(1,1)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
         end
     end)
     ItemButton:addTo(layer)
@@ -229,6 +289,99 @@ function ShopScene:createDiamondItem(layer,bgPath,treasurePath,price,offsetX,off
     priceNum:setColor(cc.c3b(255, 255, 255))
     --priceNum:enableShadow(cc.c3b(0,0,0), cc.size(2,-2), 100)--字体描边有待学习
     priceNum:addTo(ItemButton)
+end
+
+--[[
+    函数用途：二级弹窗-金币商店购买页面
+    --]]
+function ShopScene:goldPurchasePanel(layer,path,fragNum,price)--图片路径，碎片数量，金额
+    local width ,height = display.width,display.height
+    --层：灰色背景
+    local purchaseLayer = ccui.Layout:create()
+    purchaseLayer:setBackGroundColor(cc.c4b(0,0,0,128))
+    purchaseLayer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
+    purchaseLayer:setBackGroundColorOpacity(128)--设置透明度
+    purchaseLayer:setContentSize(width, height)
+    purchaseLayer:pos(width*0.5, height *0.5)
+    purchaseLayer:setAnchorPoint(0.5, 0.5)
+    purchaseLayer:addTo(self)
+    purchaseLayer:setTouchEnabled(true)--屏蔽一级界面
+
+    --图片：弹窗背景
+    local popLayer = ccui.ImageView:create("ui/hall/shop/SecondaryInterface-Goldcoin_store_purchase_confirmation_pop-up/bg-pop-up.png")
+    popLayer:pos(display.cx, display.cy)
+    popLayer:setAnchorPoint(0.5, 0.5)
+    popLayer:addTo(purchaseLayer)
+
+    --图片：商品图
+    local ItemBg =ccui.ImageView:create(path)
+    ItemBg:setScale(0.8,0.8)
+    ItemBg:setPosition(cc.p(display.cx-90, 185))
+    ItemBg:addTo(popLayer)
+    --文本：碎片数量
+    local fragmentNum = cc.Label:createWithTTF(fragNum,"ui/font/fzbiaozjw.ttf",25)
+    fragmentNum:setPosition(cc.p(80,30))
+    fragmentNum:setColor(cc.c3b(255, 206, 55))
+    --fragmentNum:enableShadow(cc.c3b(0,0,0), cc.size(2,-2), 100)--字体描边有待学习
+    fragmentNum:addTo(ItemBg)
+
+    --按钮：确认按钮
+    local confirmButton = ccui.Button:create(
+            "ui/hall/shop/SecondaryInterface-Goldcoin_store_purchase_confirmation_pop-up/Button-purchase.png",
+            "ui/hall/shop/SecondaryInterface-Goldcoin_store_purchase_confirmation_pop-up/Button-purchase.png",
+            "ui/hall/shop/SecondaryInterface-Goldcoin_store_purchase_confirmation_pop-up/Button-purchase.png")
+    confirmButton:setPosition(cc.p(display.cx-90, 50))
+    confirmButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
+        if eventType == ccui.TouchEventType.began then
+            local scale = cc.ScaleTo:create(1,0.9)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+        elseif eventType == ccui.TouchEventType.ended then
+            local scale = cc.ScaleTo:create(1,1)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+        elseif eventType == ccui.TouchEventType.canceled then
+            local scale = cc.ScaleTo:create(1,1)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+        end
+    end)
+    confirmButton:addTo(popLayer)
+    --图片：确认按钮的金币图标
+    local coin =ccui.ImageView:create("ui/hall/shop/SecondaryInterface-Goldcoin_store_purchase_confirmation_pop-up/Icon-gold_coin.png")
+    coin:setPosition(cc.p(60, 40))
+    coin:addTo(confirmButton)
+    --文本：确认按钮的金额文本
+    local priceNum = cc.Label:createWithTTF(price,"ui/font/fzbiaozjw.ttf",30)
+    priceNum:setPosition(cc.p(120,40))
+    priceNum:setColor(cc.c3b(255, 255, 255))
+    --priceNum:enableShadow(cc.c3b(0,0,0), cc.size(2,-2), 100)--字体描边有待学习
+    priceNum:addTo(confirmButton)
+
+    --按钮：关闭窗口
+    local closeButton = ccui.Button:create(
+            "ui/hall/shop/SecondaryInterface-Goldcoin_store_purchase_confirmation_pop-up/Button-off.png",
+            "ui/hall/shop/SecondaryInterface-Goldcoin_store_purchase_confirmation_pop-up/Button-off.png",
+            "ui/hall/shop/SecondaryInterface-Goldcoin_store_purchase_confirmation_pop-up/Button-off.png")
+    closeButton:setPosition(cc.p(490, 330))
+    closeButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
+        if eventType == ccui.TouchEventType.began then
+            local scale = cc.ScaleTo:create(1,0.9)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+        elseif eventType == ccui.TouchEventType.ended then
+            local scale = cc.ScaleTo:create(1,1)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+            purchaseLayer:setVisible(false)--隐藏二级弹窗
+            layer:setTouchEnabled(true)
+        elseif eventType == ccui.TouchEventType.canceled then
+            local scale = cc.ScaleTo:create(1,1)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+        end
+    end)
+    closeButton:addTo(popLayer)
 end
 
 

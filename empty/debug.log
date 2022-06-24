@@ -2,7 +2,7 @@ Quick-Cocos2dx-Community C++ support ready.
 
 ------------------------------------------------
 
-LOAD LUA FILE: D:/neu_internship/empty/src/main.lua
+LOAD LUA FILE: F:/GitHub/neu_internship/neu_internship/empty/src/main.lua
 
 ------------------------------------------------
 
@@ -24,7 +24,7 @@ LOAD LUA FILE: D:/neu_internship/empty/src/main.lua
 
 [LUA-print] [INFO] # device.language              = cn
 
-[LUA-print] [INFO] # device.writablePath          = D:\neu_internship\empty\
+[LUA-print] [INFO] # device.writablePath          = F:\GitHub\neu_internship\neu_internship\empty\
 
 [LUA-print] [INFO] # device.directorySeparator    = \
 
@@ -69,6 +69,16 @@ LOAD LUA FILE: D:/neu_internship/empty/src/main.lua
 [LUA-print] [INFO] # display.c_bottom             = -640.00
 
 [LUA-print] [INFO] #
+
+[LUA-print] buy
+
+[LUA-print] buy
+
+[LUA-print] buy
+
+[LUA-print] buy
+
+[LUA-print] buy
 
 [LUA-print] buy
 
