@@ -14,9 +14,9 @@ local ShopLayer = require("src\\app\\ui\\outgame\\layer\\ShopLayer.lua")
 -- local RegisterView = require("app.mainui.RegisterView")
 -- local RankView = require("app.mainui.RankView")
 -- local SettingView = require("app.mainui.SettingView")
--- local ConstDef = require("app.def.ConstDef")
--- local EventDef = require("app.def.EventDef")
--- local EventManager = require("app.manager.EventManager")
+local ConstDef = require("src\\app\\def\\outgame\\ConstDef.lua")
+local EventDef = require("src\\app\\def\\outgame\\EventDef.lua")
+local EventManager = require("app.manager.EventManager")
 
 --[[--
     构造函数
@@ -28,6 +28,7 @@ local ShopLayer = require("src\\app\\ui\\outgame\\layer\\ShopLayer.lua")
 function MainView:ctor()
     self.TopInfoLayer_ = nil -- 类型：TopInfoLayer，顶部信息层
     self.BottomInfoLayer_ = nil -- 类型：BottomInfoLayer，底部信息层
+
     self:initView()
 
     self:registerScriptHandler(function(event)
@@ -149,31 +150,89 @@ function MainView:initView()
         self.container_B1:addChild(spriteB4)
         spriteB4:setAnchorPoint(0.5, 1)
         spriteB4:setPosition(120,height-230)
-
+        spriteB4:addTouchEventListener(
+            function(sender, eventType)
+                if 2 == eventType then -- touch end
+                    if cc.UserDefault:getInstance():getBoolForKey("音效") then
+                        audio.playEffect("sounds/get_free_item.OGG",false)
+                    end
+                end
+            end
+        )
         local spriteB5 = ccui.Button:create("res\\artcontent\\lobby(ongame)\\store\\goldstore\\basemap_freeitems.png")
         self.container_B1:addChild(spriteB5)
         spriteB5:setAnchorPoint(0.5, 1)
         spriteB5:setPosition(width/3+120,height-230)
+        spriteB5:addTouchEventListener(
+            function(sender, eventType)
+                if 2 == eventType then -- touch end
+                    if cc.UserDefault:getInstance():getBoolForKey("音效") then
+                        audio.playEffect("sounds/get_paid_item.OGG",false)
+                    end
+                    require("src\\app\\ui\\outgame\\layer\\BuyLayer.lua"):new():addTo(self)
+                end
+            end
+        )
 
         local spriteB6 = ccui.Button:create("res\\artcontent\\lobby(ongame)\\store\\goldstore\\basemap_freeitems.png")
         self.container_B1:addChild(spriteB6)
         spriteB6:setAnchorPoint(0.5, 1)
         spriteB6:setPosition(width*2/3+120,height-230)
+        spriteB6:addTouchEventListener(
+            function(sender, eventType)
+                if 2 == eventType then -- touch end
+                    if cc.UserDefault:getInstance():getBoolForKey("音效") then
+                        audio.playEffect("sounds/get_paid_item.OGG",false)
+                    end
+                    require("src\\app\\ui\\outgame\\layer\\BuyLayer.lua"):new():addTo(self)
+                end
+            end
+        )
 
         local spriteB7 = ccui.Button:create("res\\artcontent\\lobby(ongame)\\store\\goldstore\\basemap_freeitems.png")
         self.container_B1:addChild(spriteB7)
         spriteB7:setAnchorPoint(0.5, 1)
         spriteB7:setPosition(120,height-450)
+        spriteB7:addTouchEventListener(
+            function(sender, eventType)
+                if 2 == eventType then -- touch end
+                    if cc.UserDefault:getInstance():getBoolForKey("音效") then
+                        audio.playEffect("sounds/get_paid_item.OGG",false)
+                    end
+                    require("src\\app\\ui\\outgame\\layer\\BuyLayer.lua"):new():addTo(self)
+                end
+            end
+        )
 
         local spriteB8 = ccui.Button:create("res\\artcontent\\lobby(ongame)\\store\\goldstore\\basemap_freeitems.png")
         self.container_B1:addChild(spriteB8)
         spriteB8:setAnchorPoint(0.5, 1)
         spriteB8:setPosition(width/3+120,height-450)
+        spriteB8:addTouchEventListener(
+            function(sender, eventType)
+                if 2 == eventType then -- touch end
+                    if cc.UserDefault:getInstance():getBoolForKey("音效") then
+                        audio.playEffect("sounds/get_paid_item.OGG",false)
+                    end
+                    require("src\\app\\ui\\outgame\\layer\\BuyLayer.lua"):new():addTo(self)
+                end
+            end
+        )
 
         local spriteB9 = ccui.Button:create("res\\artcontent\\lobby(ongame)\\store\\goldstore\\basemap_freeitems.png")
         self.container_B1:addChild(spriteB9)
         spriteB9:setAnchorPoint(0.5, 1)
         spriteB9:setPosition(width*2/3+120,height-450)
+        spriteB9:addTouchEventListener(
+            function(sender, eventType)
+                if 2 == eventType then -- touch end
+                    if cc.UserDefault:getInstance():getBoolForKey("音效") then
+                        audio.playEffect("sounds/get_paid_item.OGG",false)
+                    end
+                    require("src\\app\\ui\\outgame\\layer\\BuyLayer.lua"):new():addTo(self)
+                end
+            end
+        )
 
         --砖石商城
         local spriteB10 = display.
@@ -193,6 +252,16 @@ function MainView:initView()
         self.container_B2:addChild(spriteB12)
         spriteB12:setAnchorPoint(0.5, 0)
         spriteB12:setPosition(120,350)
+        spriteB12:addTouchEventListener(
+            function(sender, eventType)
+                if 2 == eventType then -- touch end
+                    if cc.UserDefault:getInstance():getBoolForKey("音效") then
+                        audio.playEffect("sounds/open_box.OGG",false)
+                    end
+                    require("src\\app\\ui\\outgame\\layer\\ObtainItemLayer.lua"):new():addTo(self)
+                end
+            end
+        )
 
         local spriteB13 = display.
         newSprite("res\\artcontent\\lobby(ongame)\\store\\diamondstore\\chest_normal.png")
@@ -200,16 +269,28 @@ function MainView:initView()
         spriteB13:setAnchorPoint(0.5, 0)
         spriteB13:setPosition(120,420)
 
-        local spriteB14 = ccui.Button:create("res\\artcontent\\lobby(ongame)\\store\\diamondstore\\titile_diamond.png")
+
+        local spriteB14 = display.
+        newSprite("res\\artcontent\\lobby(ongame)\\store\\diamondstore\\titile_diamond.png")
         self.container_B2:addChild(spriteB14)
         spriteB14:setAnchorPoint(0.5, 0)
         spriteB14:setPosition(120,380)
+
 
         --稀有宝箱
         local spriteB15 = ccui.Button:create("res\\artcontent\\lobby(ongame)\\store\\diamondstore\\basemap_rare.png")
         self.container_B2:addChild(spriteB15)
         spriteB15:setAnchorPoint(0.5, 0)
         spriteB15:setPosition(width/3+120,350)
+        spriteB15:addTouchEventListener(
+            function(sender, eventType)
+                if 2 == eventType then -- touch end
+                    if cc.UserDefault:getInstance():getBoolForKey("音效") then
+                        audio.playEffect("sounds/open_box.OGG",false)
+                    end
+                end
+            end
+        )
 
         local spriteB16 = display.
         newSprite("res\\artcontent\\lobby(ongame)\\store\\diamondstore\\chest_rare.png")
@@ -217,7 +298,8 @@ function MainView:initView()
         spriteB16:setAnchorPoint(0.5, 0)
         spriteB16:setPosition(width/3+120,420)
 
-        local spriteB17 = ccui.Button:create("res\\artcontent\\lobby(ongame)\\store\\diamondstore\\titile_diamond.png")
+        local spriteB17 = display.
+        newSprite("res\\artcontent\\lobby(ongame)\\store\\diamondstore\\titile_diamond.png")
         self.container_B2:addChild(spriteB17)
         spriteB17:setAnchorPoint(0.5, 0)
         spriteB17:setPosition(width/3+90,380)
@@ -227,6 +309,15 @@ function MainView:initView()
         self.container_B2:addChild(spriteB18)
         spriteB18:setAnchorPoint(0.5, 0)
         spriteB18:setPosition(width*2/3+120,350)
+        spriteB18:addTouchEventListener(
+            function(sender, eventType)
+                if 2 == eventType then -- touch end
+                    if cc.UserDefault:getInstance():getBoolForKey("音效") then
+                        audio.playEffect("sounds/open_box.OGG",false)
+                    end
+                end
+            end
+        )
 
         local spriteB19 = display.
         newSprite("res\\artcontent\\lobby(ongame)\\store\\diamondstore\\chest_epic.png")
@@ -234,7 +325,8 @@ function MainView:initView()
         spriteB19:setAnchorPoint(0.5, 0)
         spriteB19:setPosition(width*2/3+120,420)
 
-        local spriteB20 = ccui.Button:create("res\\artcontent\\lobby(ongame)\\store\\diamondstore\\titile_diamond.png")
+        local spriteB20 = display.
+        newSprite("res\\artcontent\\lobby(ongame)\\store\\diamondstore\\titile_diamond.png")
         self.container_B2:addChild(spriteB20)
         spriteB20:setAnchorPoint(0.5, 0)
         spriteB20:setPosition(width*2/3+90,380)
@@ -244,6 +336,15 @@ function MainView:initView()
         self.container_B2:addChild(spriteB21)
         spriteB21:setAnchorPoint(0.5, 0)
         spriteB21:setPosition(width/3+120,30)
+        spriteB21:addTouchEventListener(
+            function(sender, eventType)
+                if 2 == eventType then -- touch end
+                    if cc.UserDefault:getInstance():getBoolForKey("音效") then
+                        audio.playEffect("sounds/open_box.OGG",false)
+                    end
+                end
+            end
+        )
 
         local spriteB22 = display.
         newSprite("res\\artcontent\\lobby(ongame)\\store\\diamondstore\\chest_legend.png")
@@ -251,7 +352,8 @@ function MainView:initView()
         spriteB22:setAnchorPoint(0.5, 0)
         spriteB22:setPosition(width/3+120,100)
 
-        local spriteB23 = ccui.Button:create("res\\artcontent\\lobby(ongame)\\store\\diamondstore\\titile_diamond.png")
+        local spriteB23 = display.
+        newSprite("res\\artcontent\\lobby(ongame)\\store\\diamondstore\\titile_diamond.png")
         self.container_B2:addChild(spriteB23)
         spriteB23:setAnchorPoint(0.5, 0)
         spriteB23:setPosition(width/3+90,60)
@@ -343,18 +445,95 @@ function MainView:initView()
         -- spriteC8:setAnchorPoint(0.5, 0.5)
         -- spriteC8:setPosition(landscapeCheckBox3:getContentSize().width/2,landscapeCheckBox3:getContentSize().height/2)
 
-        --已收集
-        self.container_C1 = ccui.Layout:create()
-        self.container_C1:setContentSize(spriteC7:getContentSize().width, spriteC7:getContentSize().height)
-        self.container_C1:setAnchorPoint(0.5,0.5)
-        self.container_C1:setPosition(spriteC7:getContentSize().width/2, spriteC7:getContentSize().height/2)
-        self.container_C1:addTo(self.container_2)
+        --建立listview
+        local listViewC = ccui.ListView:create()
+        listViewC:setContentSize(display.width, height)
+        listViewC:setAnchorPoint(0.5, 1)
+        listViewC:setPosition(display.cx,height-353)
+        listViewC:setDirection(1)
+        listViewC:addTo(self.container_2)
 
+        --创建三个容器，分别装提示信息，已收集和未收集
+        local num1=5
+        local num2=1
+        self.container_C1 = ccui.Layout:create()
+        -- self.container_C1:setBackGroundColor(cc.c3b(200, 0, 0))
+        -- self.container_C1:setBackGroundColorType(1)
+        self.container_C1:setContentSize(width, 150)
+        self.container_C1:setAnchorPoint(0.5,0.5)
+        self.container_C1:setPosition(display.cx, display.cy)
+        self.container_C1:addTo(listViewC)
+
+        self.container_C2 = ccui.Layout:create()
+        self.container_C2:setContentSize(width, 200+math.ceil(num1/4)*250)
+        self.container_C2:setAnchorPoint(0.5,0.5)
+        self.container_C2:setPosition(display.cx, display.cy)
+        self.container_C2:addTo(listViewC)
+
+        self.container_C3 = ccui.Layout:create()
+        -- self.container_C3:setBackGroundColor(cc.c3b(200, 0, 0))
+        -- self.container_C3:setBackGroundColorType(1)
+        self.container_C3:setContentSize(width, 200+math.ceil(num1/4)*250)
+        self.container_C3:setAnchorPoint(0.5,0.5)
+        self.container_C3:setPosition(display.cx, display.cy)
+        self.container_C3:addTo(listViewC)
+
+        --提示信息
         local spriteC8 = display.
-        newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\current_lineup\\number_3.png")
+        newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\prompt_information\\basemap_tips.png")
         self.container_C1:addChild(spriteC8)
-        spriteC8:setAnchorPoint(0.5, 0.5)
-        spriteC8:setPosition(landscapeCheckBox3:getContentSize().width/2,landscapeCheckBox3:getContentSize().height/2)
+        spriteC8:setAnchorPoint(0.5, 0)
+        spriteC8:setPosition(display.cx,30)
+
+        local spriteC10 = display.
+        newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\prompt_information\\text_2.png")
+        spriteC8:addChild(spriteC10)
+        spriteC10:setAnchorPoint(0.5, 0.5)
+        spriteC10:setPosition(spriteC8:getContentSize().width/2-50,spriteC8:getContentSize().height/2+20)
+
+        local spriteC11 = display.
+        newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\prompt_information\\text_1.png")
+        spriteC8:addChild(spriteC11)
+        spriteC11:setAnchorPoint(0.5, 0.5)
+        spriteC11:setPosition(spriteC8:getContentSize().width/2,spriteC8:getContentSize().height/2-20)
+
+        --已收集,一行占250
+        --print(math.ceil(4/4))
+        local spriteC9 = display.
+        newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\tower_list\\split_collected.png")
+        self.container_C2:addChild(spriteC9)
+        spriteC9:setAnchorPoint(0.5, 0)
+        spriteC9:setPosition(display.cx,100+math.ceil(num1/4)*250)--math.ceil()向正无穷取整
+        local spriteC13 = display.
+        newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\tower_list\\basemap_towernomal.png")
+        self.container_C2:addChild(spriteC13)
+        spriteC13:setAnchorPoint(0.5, 0)
+        spriteC13:setPosition(100,350)
+
+        local spriteC14 = display.
+        newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\tower_list\\basemap_towernomal.png")
+        self.container_C2:addChild(spriteC14)
+        spriteC14:setAnchorPoint(0.5, 0)
+        spriteC14:setPosition(width/4+100,350)
+
+        local spriteC15 = display.
+        newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\tower_list\\basemap_towernomal.png")
+        self.container_C2:addChild(spriteC15)
+        spriteC15:setAnchorPoint(0.5, 0)
+        spriteC15:setPosition(100,100)
+
+        --未收集
+        local spriteC12 = display.
+        newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\tower_list\\split_notcollected.png")
+        self.container_C3:addChild(spriteC12)
+        spriteC12:setAnchorPoint(0.5, 0)
+        spriteC12:setPosition(display.cx,450+math.ceil(num2/4)*250)
+
+        local spriteC16 = display.
+        newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\tower_list\\basemap_towernomal.png")
+        self.container_C3:addChild(spriteC16)
+        spriteC16:setAnchorPoint(0.5, 0)
+        spriteC16:setPosition(100,450)
 
     end
 
@@ -384,7 +563,7 @@ function MainView:initView()
     page:addEventListener(function(sender,event)
         if event==ccui.PageViewEventType.turning then
             self:setName(page:getCurPageIndex())
-            print("当前页码是"..page:getCurPageIndex())
+            --print("当前页码是"..page:getCurPageIndex())
             if page:getCurPageIndex()==0 then
                 self.BottomInfoLayer_1:setVisible(true)
                 self.BottomInfoLayer_2:setVisible(false)
@@ -404,8 +583,22 @@ function MainView:initView()
 
     self.TopInfoLayer_ = TopInfoLayer.new()
     self:addChild(self.TopInfoLayer_)
-
+    --self.TopInfoLayer_:setSprite1("res\\artcontent\\lobby(ongame)\\currency\\icon_tower\\03.png")
+    --print(...)
 end
+
+--[[--
+    修改头像
+
+    @param none
+
+    @return none
+]]
+-- function MainView:setSprite(filename)
+--     self.TopInfoLayer_ = TopInfoLayer.new()
+--     self.TopInfoLayer_:setSprite1(filename)
+--     self:addChild(self.TopInfoLayer_)
+-- end
 
 --[[--
     节点进入
@@ -415,13 +608,9 @@ end
     @return none
 ]]
 function MainView:onEnter()
-    -- EventManager:regListener(EventDef.ID.GAMESTATE_CHANGE, self, function(state)
-    --     if state == ConstDef.GAME_STATE.PAUSE then
-    --         self.pauseView_:showView()
-    --     elseif state == ConstDef.GAME_STATE.RESULT then
-    --         self.resultView_:showView()
-    --     end
-    -- end)
+    EventManager:regListener(EventDef.ID.PORTRAIT_CHANGE, self, function(filename)
+        self.TopInfoLayer_:setSprite1(filename)
+    end)
 end
 
 --[[--
@@ -432,7 +621,7 @@ end
     @return none
 ]]
 function MainView:onExit()
-    -- EventManager:unRegListener(EventDef.ID.GAMESTATE_CHANGE, self)
+    EventManager:unRegListener(EventDef.ID.GAMESTATE_CHANGE, self)
 end
 
 --[[--

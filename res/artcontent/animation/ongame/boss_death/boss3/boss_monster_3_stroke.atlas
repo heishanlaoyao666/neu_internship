@@ -1,0 +1,41 @@
+
+boss_monster_3_stroke.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: false
+  xy: 218, 55
+  size: 123, 124
+  orig: 123, 124
+  offset: 0, 0
+  index: -1
+face
+  rotate: true
+  xy: 343, 57
+  size: 122, 100
+  orig: 122, 100
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 2, 27
+  size: 214, 196
+  orig: 214, 196
+  offset: 0, 0
+  index: -1
+quan
+  rotate: false
+  xy: 218, 181
+  size: 220, 42
+  orig: 220, 42
+  offset: 0, 0
+  index: -1
+quan2
+  rotate: false
+  xy: 2, 2
+  size: 220, 23
+  orig: 220, 23
+  offset: 0, 0
+  index: -1
