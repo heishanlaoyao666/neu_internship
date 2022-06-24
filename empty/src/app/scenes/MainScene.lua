@@ -29,7 +29,6 @@ function MainScene:ctor()
 	 	if eventType == ccui.TouchEventType.ended then
 	 		local ABtn = import("app.scenes.GameView.GameScene"):new()
             display.replaceScene(ABtn,"turnOffTiles",0.5)
-            print(transform)
 	 	end
 	end)
 

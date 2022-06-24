@@ -6,7 +6,7 @@ local OppositeBossView = class("OppositeBossView", function()
     return display.newColorLayer(cc.c4b(100, 100, 100, 100))
 end)
 local ConstDef = require("app/def/ConstDef")
-local GameData = require("app/data/GameData")
+local GameData = require("app/data/GameData.lua")
 
 --[[--
     构造函数
@@ -17,6 +17,8 @@ local GameData = require("app/data/GameData")
 ]]
 function OppositeBossView:ctor()
     self.bossSprite = nil --类型：sprite，boss图片
+    self.bossName =nil --类型：ttf,boss名字
+    self.bossSkill=nil --类型：ttf，boss技能
     self:initView()
 end
 
@@ -31,7 +33,8 @@ function OppositeBossView:initView()
     local width, height = 720, 1280
     self.container_ = ccui.Layout:create()
     self.container_:setBackGroundColor(cc.c3b(0, 0, 0))
-    self.container_:setOpacity(0.5)
+    self.container_:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
+    self.container_:setBackGroundColorOpacity(128)--设置透明度
     self.container_:setBackGroundColorType(1)
     self.container_:setContentSize(width, height)
     self.container_:addTo(self)
@@ -39,24 +42,44 @@ function OppositeBossView:initView()
     self.container_:setPosition(display.cx, display.cy)
 
     
-    -- 点击背景返回
-    self.container_:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event) 
-        if event.name == "began" then
-            self:hideView()
-        end
-    end)
-    self.container_:setTouchEnabled(true)
-
-    local bg = ccui.ImageView:create("ui/battle/Secondary interface-Boss information Popup/bg-pop-up.png")
-    bg:setAnchorPoint(0.5, 0.5)
-    bg:setPosition(width*0.5, height*0.5)
-    self.container_:addChild(bg)
-    bg:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event) 
-        if event.name == "began" then
+    
+    local bgLayer = ccui.ImageView:create("ui/battle/Secondary interface-Boss information Popup/bg-pop-up.png")
+    bgLayer:setAnchorPoint(0.5, 0.5)
+    bgLayer:setPosition(display.cx, 960)
+    bgLayer:addTo(self.container_)
+    bgLayer:addTouchEventListener(function(sender, eventType)
+		if 2 == eventType then
             return
-        end
-    end)
-    bg:setTouchEnabled(true)
+		end
+	end)
+    bgLayer:setTouchEnabled(true)
+
+    --boss图片
+    self.bossSprite=display.newSprite("ui/battle/Secondary interface-Boss information Popup/boss-1.png")
+    self.bossSprite:setAnchorPoint(0.5, 0.5)
+    self.bossSprite:setPosition(120, 160)
+    self.bossSprite:addTo(bgLayer)
+    --boss名字
+    self.bossName=cc.Label:createWithTTF(ConstDef.BOSS[GameData:getGameOpposite()].NAME,"ui/font/fzbiaozjw.ttf",34)
+    self.bossName:setAnchorPoint(0,1)
+    self.bossName:setPosition(240,240)
+    self.bossName:enableOutline(cc.c4b(14,14,25,255), 2)
+    self.bossName:addTo(bgLayer)
+    --boss技能
+    self.bossSkill=cc.Label:createWithTTF(ConstDef.BOSS[GameData:getGameOpposite()].SKILL,"ui/font/fzbiaozjw.ttf",22)
+    self.bossSkill:setLineBreakWithoutSpace(true)
+    self.bossSkill:setMaxLineWidth(300)
+    self.bossSkill:setAnchorPoint(0,1)
+    self.bossSkill:setPosition(240,160)
+    self.bossSkill:enableOutline(cc.c4b(12,6,24,255), 1)
+    self.bossSkill:addTo(bgLayer)
+    -- 点击背景返回
+    self.container_:addTouchEventListener(function(sender, eventType)
+		if 2 == eventType then
+            self:hideView()
+		end
+	end)
+    self.container_:setTouchEnabled(true)
 end
 
 --[[--
@@ -67,6 +90,9 @@ end
     @return none
 ]]
 function OppositeBossView:showView()
+    self.bossSprite:setTexture("ui/battle/Secondary interface-Boss information Popup/boss-"..tonumber(GameData:getGameOpposite())..".png")
+    self.bossName:setString(ConstDef.BOSS[GameData:getGameOpposite()].NAME)
+    self.bossSkill:setString(ConstDef.BOSS[GameData:getGameOpposite()].SKILL)
     self:setVisible(true)
     self.container_:setScale(0)
     self.container_:runAction(cc.ScaleTo:create(0.15, 1))

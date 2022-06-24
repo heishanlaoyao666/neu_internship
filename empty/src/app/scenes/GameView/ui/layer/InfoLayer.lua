@@ -3,10 +3,10 @@
     InfoLayer.lua
 ]]
 local InfoLayer = class("InfoLayer", require("app/scenes/GameView/ui/layer/BaseLayer.lua"))
-local ConstDef = require("app/def/ConstDef")
-local GameData = require("app/data/GameData")
-local EventManager = require("app/manager/EventManager")
-local EventDef     = require("app/def/EventDef")
+local ConstDef = require("app/def/ConstDef.lua")
+local GameData = require("app/data/GameData.lua")
+local EventManager = require("app/manager/EventManager.lua")
+local EventDef     = require("app/def/EventDef.lua")
 --本地函数定义
 local timeChange
 --[[--
@@ -78,7 +78,7 @@ function InfoLayer:initView()
     surrenderBtn:setPosition(display.width-40, 720)
     surrenderBtn:addTouchEventListener(function(sender, eventType) 
         if eventType == 2 then
-            print("投降喵")
+            EventManager:doEvent(EventDef.ID.VIEW_OPEN,ConstDef.GAME_VIEW.SURRENDER)
         end
     end)
     --我方昵称
@@ -104,7 +104,7 @@ function InfoLayer:initView()
     self.container_:addChild(self.oppositenameLabel_)
     
 
-    self:Initdate("111","222",ConstDef.GAME_TYPE.BOSS2,10,3,120)
+    self:Initdate("111","222",10,3,120)
     --剩余时间
     
 end
@@ -113,19 +113,19 @@ end
 
     @param myname 类型：string，我方名字
     @param oppositename 类型：string，敌方名字
-    @param game_type 类型：number，对战类型
     @param mylife 类型：number，我方生命
     @param oppositelife 类型：number，敌方生命
     @param time 类型：number，游戏时间
 
     @return none
 ]]
-function InfoLayer:Initdate(myname,oppositename,game_type,mylife,oppositelife,time)
+function InfoLayer:Initdate(myname,oppositename,mylife,oppositelife,time)
     self.mynameLabel_:setString(tostring(myname))
     self.oppositenameLabel_:setString(tostring(oppositename))
     --boss按钮创建
-    if game_type~=ConstDef.GAME_TYPE.NET then
-        local bossBtn = ccui.Button:create("ui/battle/Battle interface/Button-Boss/boss-"..tonumber(game_type)..".png")
+    local opposite_type =GameData:getGameOpposite()
+    if opposite_type~=ConstDef.GAME_TYPE.NET then
+        local bossBtn = ccui.Button:create("ui/battle/Battle interface/Button-Boss/boss-"..tonumber(opposite_type)..".png")
         bossBtn:setAnchorPoint(0.5, 0.5)
         bossBtn:setPosition(220, 720)
         self.container_:addChild(bossBtn)
@@ -180,5 +180,24 @@ function InfoLayer:update(dt)
     -- self.scoreLabelBmf_:setString(tostring(GameData:getScore()))
 end
 
+--[[--
+    节点进入
+
+    @param none
+
+    @return none
+]]
+function InfoLayer:onEnter()
+end
+
+--[[--
+    节点退出
+
+    @param none
+
+    @return none
+]]
+function InfoLayer:onExit()
+end
 return InfoLayer
 

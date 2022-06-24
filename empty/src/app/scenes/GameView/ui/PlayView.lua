@@ -15,9 +15,9 @@ local OppositeTowerView = require("app/scenes/GameView/ui/OppositeTowerView.lua"
 local SurrenderView = require("app/scenes/GameView/ui/SurrenderView.lua")
 local ResultView = require("app/scenes/GameView/ui/ResultView")
 
-local ConstDef = require("app/def/ConstDef")
-local EventDef = require("app/def/EventDef")
-local EventManager = require("app/manager/EventManager")
+local ConstDef = require("app/def/ConstDef.lua")
+local EventDef = require("app/def/EventDef.lua")
+local EventManager = require("app/manager/EventManager.lua")
 
 --[[--
     构造函数
@@ -103,7 +103,8 @@ end
 function PlayView:onEnter()
     EventManager:regListener(EventDef.ID.VIEW_OPEN, self, function(state)
         if state == ConstDef.GAME_VIEW.OPPOSITEBOSS then
-            self.oppositeBossView_:showView()
+            self.oppositeTowerView_:showView()
+            --self.oppositeBossView_:showView()
         elseif state == ConstDef.GAME_VIEW.OPPOSITETOWER then
             self.oppositeTowerView_:showView()
         elseif state == ConstDef.GAME_VIEW.SURRENDER then

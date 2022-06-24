@@ -5,8 +5,8 @@
 local ResultView = class("ResultView", function()
     return display.newColorLayer(cc.c4b(100, 100, 100, 100))
 end)
-local ConstDef = require("app/def/ConstDef")
-local GameData = require("app/data/GameData")
+local ConstDef = require("app/def/ConstDef.lua")
+local GameData = require("app/data/GameData.lua")
 
 --[[--
     构造函数

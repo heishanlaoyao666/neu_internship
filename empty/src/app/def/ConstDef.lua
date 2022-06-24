@@ -5,11 +5,12 @@
 local ConstDef = {
     
     GAME_TYPE = {
-        BOSS1 = 1, --boss1
-        BOSS2 = 2, --boss2
-        BOSS3 = 3, --boss3
-        BOSS4 = 4, --boss4
+        BOSS_1 = 1, --boss1
+        BOSS_2 = 2, --boss2
+        BOSS_3 = 3, --boss3
+        BOSS_4 = 4, --boss4
 
+        NULL = 288, --空对手
         NET = 999, --联网
     },
     Tower_ATK_MODE ={
@@ -29,7 +30,25 @@ local ConstDef = {
         RANDOMBOSS = 3, --随机BOSS信息界面
         RESULT = 4, --结算界面
         SURRENDER = 5, --投降界面
-    }
+    },
+    SURRENDER ="是否认输,放弃该场战斗?",
 }
-
+ConstDef.BOSS ={
+    [ConstDef.GAME_TYPE.BOSS_1] ={
+        NAME = "嬉戏者", --名字
+        SKILL = "将所有我方防御塔种类随机变化", --描述
+    },
+    [ConstDef.GAME_TYPE.BOSS_2] ={
+        NAME = "静谧者", --名字
+        SKILL = "每隔7秒沉默两个防御塔，使其不能攻击", --描述
+    },
+    [ConstDef.GAME_TYPE.BOSS_3] ={
+        NAME = "癫狂者", --名字
+        SKILL = "出场时使所有防御塔降低一星（一星防御塔直接被摧毁），行进过程中每隔一段时间会向前方高速移动一次", --描述
+    },
+    [ConstDef.GAME_TYPE.BOSS_4] ={
+        NAME = "狂战者", --名字
+        SKILL = "不受控制效果影响，在血量为75%、50%、25%时会召唤普通怪物三个，召唤期间无敌", --描述
+    },
+}
 return ConstDef

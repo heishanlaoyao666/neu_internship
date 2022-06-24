@@ -4,9 +4,9 @@
 ]]
 local GameData = {}
 
-local ConstDef = require("app/def/ConstDef")
-local EventDef = require("app/def/EventDef")
-local EventManager = require("app/manager/EventManager")
+local ConstDef = require("app/def/ConstDef.lua")
+local EventDef = require("app/def/EventDef.lua")
+local EventManager = require("app/manager/EventManager.lua")
 
 -- local SHOOT_INTERVAL = 0.2 -- 类型：number，射击间隔
 -- local ENEMY_INTERVAL = 1 -- 类型：number，敌机生成间隔
@@ -24,17 +24,13 @@ local EventManager = require("app/manager/EventManager")
 ]]
 function GameData:init()
     self.sp_ = 0 -- 类型：number，sp点数
-    self.score_ = 0 -- 类型：number，得分
-    -- self.shootTick_ = 0 -- 类型：number，开炮时间tick
-    -- self.enemyTick_ = 0 -- 类型：number，敌机时间tick
 
-    -- -- 类型：number，历史最高
-    -- self.history_ = cc.UserDefault:getInstance():getIntegerForKey("history", 0)
+    self.opposite_ = ConstDef.GAME_TYPE.NULL --类型：number,游戏对手
 
     -- 类型：number，游戏状态
     self.gameState_ = ConstDef.GAME_STATE.INIT
 
-    -- allies_[1] = Plane.new()
+    self:setGameOpposite(ConstDef.GAME_TYPE.BOSS_2)
 end
 
 --[[--
@@ -70,7 +66,26 @@ end
 function GameData:getGameState()
     return self.gameState_
 end
+--[[--
+    获取游戏对手
 
+    @param none
+
+    @return number
+]]
+function GameData:getGameOpposite()
+    return self.opposite_
+end
+--[[--
+    设置游戏对手
+
+    @param opposite 类型：number，游戏对手
+
+    @return number
+]]
+function GameData:setGameOpposite(opposite)
+    self.opposite_ =opposite
+end
 --[[--
     帧刷新
 
@@ -162,76 +177,5 @@ function GameData:checkCollider(enemyPlane, bullets, allies)
     -- end
 end
 
--- --[[--
---     命中飞机
-
---     @param plane 类型：EnemyPlane，敌机
---     @param bullet 类型：Bullet，子弹
-
---     @return none
--- ]]
--- function GameData:hitPlane(plane, bullet)
---     self.score_ = self.score_ + plane:getScore()
---     if self.score_ > self.history_ then
---         self.history_ = self.score_
---     end
---     bullet:bomb()
---     bullet:destory()
---     plane:destory()
--- end
-
--- --[[--
---     敌机撞到我方飞机
-
---     @param selfPlane 类型：Plane，我方飞机
---     @param enemyPlane 类型：EnemyPlane，敌方飞机
-
---     @return none
--- ]]
--- function GameData:crashPlane(selfPlane, enemyPlane)
---     self.life_ = self.life_ - enemyPlane:getDamage()
---     EventManager:doEvent(EventDef.ID.CRASH_PLANE, enemyPlane)
---     enemyPlane:destory()
--- end
-
--- --[[--
---     开炮
-
---     @param dt 类型：number，时间间隔，单位秒
-
---     @return none
--- ]]
--- function GameData:shoot(dt)
---     self.shootTick_ = self.shootTick_ + dt
---     if self.shootTick_ > SHOOT_INTERVAL then
---         self.shootTick_ = self.shootTick_ - SHOOT_INTERVAL
-
---         -- 产生子弹
---         for i = 1, #allies_ do
---             local bullet = Bullet.new()
---             bullets_[#bullets_ + 1] = bullet
---             bullet:setX(allies_[i]:getX())
---             bullet:setY(allies_[i]:getY() + 30)
---         end
---     end
--- end
-
--- --[[--
---     产生敌机
-
---     @param dt 类型：number，时间间隔，单位秒
-
---     @return none
--- ]]
--- function GameData:createEnemyPlane(dt)
---     self.enemyTick_ = self.enemyTick_ + dt
---     if self.enemyTick_ > ENEMY_INTERVAL then
---         self.enemyTick_ = self.enemyTick_ - ENEMY_INTERVAL
---         local enemy = EnemyPlane.new()
---         enemy:setX(math.random(display.left + 20, display.right-20))
---         enemy:setY(display.top)
---         enemies_[#enemies_ + 1] = enemy
---     end
--- end
 
 return GameData

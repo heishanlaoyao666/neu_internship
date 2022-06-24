@@ -6,8 +6,7 @@ local GameScene = class("GameScene", function()
     return display.newScene("GameScene")
 end)
 local PlayView = require("app/scenes/GameView/ui/PlayView")
-local GameData = require("app/data/Gamedata.lua")
---local GameData = require("app.data.GameData")
+local GameData = require("app/data/GameData.lua")
 --[[--
     构造函数
 
@@ -18,7 +17,6 @@ local GameData = require("app/data/Gamedata.lua")
 function GameScene:ctor()
 
     GameData:init()
-
     self.playView_ = PlayView.new() -- 类型：PlayView，主游戏界面
     self:addChild(self.playView_)
 

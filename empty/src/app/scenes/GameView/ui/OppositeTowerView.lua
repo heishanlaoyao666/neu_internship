@@ -6,7 +6,7 @@ local OppositeTowerView = class("OppositeTowerView", function()
     return display.newColorLayer(cc.c4b(100, 100, 100, 100))
 end)
 local ConstDef = require("app/def/ConstDef")
-local GameData = require("app/data/GameData")
+local GameData = require("app/data/GameData.lua")
 
 --[[--
     构造函数
@@ -16,7 +16,11 @@ local GameData = require("app/data/GameData")
     @return none
 ]]
 function OppositeTowerView:ctor()
-    
+    self.towerSprite=nil --类型：sprite 塔图片
+    self.towerName =nil --类型：ttf 塔名字
+    self.towerRarity =nil --类型：ttf 塔稀有度
+    self.towerSkill =nil --类型：ttf 塔技能
+    self.towerType = nil --类型:sprite 塔类型
     self:initView()
 end
 
@@ -28,55 +32,82 @@ end
     @return none
 ]]
 function OppositeTowerView:initView()
-    -- local width, height = 300, 300
-    -- self.container_ = ccui.Layout:create()
-    -- self.container_:setBackGroundColor(cc.c3b(200, 200, 200))
-    -- self.container_:setBackGroundColorType(1)
-    -- self.container_:setContentSize(width, height)
-    -- self.container_:addTo(self)
-    -- self.container_:setAnchorPoint(0.5, 0.5)
-    -- self.container_:setPosition(display.cx, display.cy)
+    local width, height = 720, 1280
+    self.container_ = ccui.Layout:create()
+    self.container_:setBackGroundColor(cc.c3b(0, 0, 0))
+    self.container_:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
+    self.container_:setBackGroundColorOpacity(128)--设置透明度
+    self.container_:setBackGroundColorType(1)
+    self.container_:setContentSize(width, height)
+    self.container_:addTo(self)
+    self.container_:setAnchorPoint(0.5, 0.5)
+    self.container_:setPosition(display.cx, display.cy)
 
-    -- local label = ccui.Text:create("Game Over", "ui/font/FontNormal.ttf", 40)
-    -- label:setAnchorPoint(0.5, 0.5)
-    -- label:setPosition(width * 0.5, height - 40)
-    -- self.container_:addChild(label)
+    local bgLayer = ccui.ImageView:create("ui/battle/Secondary interface-Square tower information pop-up window/bg-pop-up.png")
+    bgLayer:setAnchorPoint(0.5, 0.5)
+    bgLayer:setPosition(display.cx, 960)
+    bgLayer:addTo(self.container_)
+    bgLayer:addTouchEventListener(function(sender, eventType)
+		if 2 == eventType then
+            return
+		end
+	end)
+    bgLayer:setTouchEnabled(true)
 
-    -- self.scoreLabel_ = ccui.Text:create("分数 : ".. GameData:getScore(), "ui/font/FontNormal.ttf", 30)
-    -- self.scoreLabel_:setAnchorPoint(0.5, 0.5)
-    -- self.scoreLabel_:setPosition(width * 0.5, height - 120)
-    -- self.container_:addChild(self.scoreLabel_)
-
-    -- self.historyLabel_ = ccui.Text:create("历史最佳 : ".. GameData:getHistory(), "ui/font/FontNormal.ttf", 30)
-    -- self.historyLabel_:setAnchorPoint(0.5, 0.5)
-    -- self.historyLabel_:setPosition(width * 0.5, height - 190)
-    -- self.container_:addChild(self.historyLabel_)
-
-    -- 屏蔽点击
-    self:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event) 
-        if event.name == "began" then
-            return true
-        end
-    end)
-    self:setTouchEnabled(true)
+   --塔图片
+   self.towerSprite=display.newSprite("ui/battle/Battle interface/Tower/tower_1.png")
+   self.towerSprite:setAnchorPoint(0.5, 0.5)
+   self.towerSprite:setPosition(80, 140)
+   self.towerSprite:addTo(bgLayer)
+   --塔图片
+   self.towerType=display.newSprite("ui/battle/Battle interface/Angle sign-Tower_type/TowerType-attack.png")
+   self.towerType:setAnchorPoint(0.5, 0.5)
+   self.towerType:setPosition(120, 180)
+   self.towerType:addTo(bgLayer)
+   --塔名字
+   self.towerName=cc.Label:createWithTTF("名字","ui/font/fzbiaozjw.ttf",30)
+   self.towerName:setAnchorPoint(0,1)
+   self.towerName:setPosition(170,200)
+   self.towerName:enableOutline(cc.c4b(14,14,42,255), 2)
+   self.towerName:addTo(bgLayer)
+   --塔稀有度
+   self.towerRarity=cc.Label:createWithTTF("未知","ui/font/fzbiaozjw.ttf",24)
+   self.towerRarity:setAnchorPoint(0,1)
+   self.towerRarity:setPosition(380,200)
+   self.towerRarity:enableOutline(cc.c4b(14,14,25,255), 2)
+   self.towerRarity:addTo(bgLayer)
+   --塔技能
+   self.towerSkill=cc.Label:createWithTTF("初始化占位符","ui/font/fzbiaozjw.ttf",22)
+   self.towerSkill:setLineBreakWithoutSpace(true)
+   self.towerSkill:setMaxLineWidth(300)
+   self.towerSkill:setAnchorPoint(0,1)
+   self.towerSkill:setPosition(180,120)
+   self.towerSkill:enableOutline(cc.c4b(12,6,24,255), 1)
+   self.towerSkill:addTo(bgLayer)
+    -- 点击背景返回
+    self.container_:addTouchEventListener(function(sender, eventType)
+		if 2 == eventType then
+            self:hideView()
+		end
+	end)
+    self.container_:setTouchEnabled(true)
 end
 
 --[[--
     显示界面
 
-    @param none
+    @param tower 类型：Tower.lua 类型:塔数据
 
     @return none
 ]]
-function OppositeTowerView:showView()
-    -- self:setVisible(true)
-    -- self.container_:setScale(0)
-    -- self.container_:runAction(cc.ScaleTo:create(0.15, 1))
-    -- self.scoreLabel_:setString("分数 : ".. GameData:getScore())
-
-    -- self.historyLabel_:setString("历史最佳 : ".. GameData:getHistory())
-
-    -- cc.UserDefault:getInstance():setIntegerForKey("history", GameData:getHistory())
+function OppositeTowerView:showView(tower)
+    -- self.towerSprite
+    -- self.towerType
+    -- self.towerRarity
+    -- self.towerSkill
+    self:setVisible(true)
+    self.container_:setScale(0)
+    self.container_:runAction(cc.ScaleTo:create(0.15, 1))
 end
 
 --[[--
@@ -87,14 +118,14 @@ end
     @return none
 ]]
 function OppositeTowerView:hideView(callback)
-    -- self.container_:runAction(cc.Sequence:create(
-    --     cc.ScaleTo:create(0.15, 0), cc.CallFunc:create(function() 
-    --         self:setVisible(false)
-    --         if callback then
-    --             callback()
-    --         end
-    --     end)
-    -- ))
+    self.container_:runAction(cc.Sequence:create(
+        cc.ScaleTo:create(0.15, 0), cc.CallFunc:create(function() 
+            self:setVisible(false)
+            if callback then
+                callback()
+            end
+        end)
+    ))
 end
 
 return OppositeTowerView

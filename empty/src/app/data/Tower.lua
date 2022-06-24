@@ -86,5 +86,8 @@ end
 function Tower:update(dt)
     Tower:shoot(dt)
 end
-
+--getset合集
+function Tower:getGameState()
+    return self.gameState_
+end
 return Tower

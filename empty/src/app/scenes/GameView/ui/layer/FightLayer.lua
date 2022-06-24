@@ -5,10 +5,10 @@
 local FightLayer = class("FightLayer", require("app/scenes/GameView/ui/layer/BaseLayer.lua"))
 -- local BulletSprite = require("app.ui.node.BulletSprite")
 -- local PlaneSprite = require("app.ui.node.PlaneSprite")
--- local GameData = require("app.data.GameData")
--- local ConstDef = require("app.def.ConstDef")
--- local EventDef = require("app.def.EventDef")
--- local EventManager = require("app.manager.EventManager")
+local GameData = require("app/data/GameData.lua")
+local ConstDef = require("app.def.ConstDef.lua")
+local EventDef = require("app.def.EventDef.lua")
+local EventManager = require("app.manager.EventManager.lua")
 
 --[[--
     构造函数
