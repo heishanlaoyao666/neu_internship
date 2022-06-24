@@ -12,10 +12,16 @@ local Tower = require("app.data.outgame.Tower")
 local PackItem = require("app.data.outgame.PackItem")
 
 --塔数据列表
-local towers_ = {}
+local towersOrdinary_ = {} -- 普通
+local towersRarity_ = {} -- 稀有
+local towersEpic_ = {} -- 史诗
+local towersLegend_ = {} -- 传说
 
 --背包列表
-local packs = {}
+local packsOrdinary_ = {} --普通
+local packsRarity_ = {} --稀有
+local packsEpic_ = {} -- 史诗
+local packsLegend_ = {} -- 传奇
 
 --[[--
     初始化数据
@@ -30,6 +36,7 @@ function OutGameData:init()
     self.diamond = nil -- 砖石数
 
     self:initTower()
+    self:initFinance()
 end
 
 --[[--
@@ -81,10 +88,10 @@ function OutGameData:initTower()
     local tower_20 = Tower.new(20, 1, 4, "使被攻击目标进入“混乱”状态。混乱：无法移动。",
     "随机敌人", 20, 5, 20, 1, 0.02, "技能持续时间", 2, 0.5, 0.5, "技能发动时间", 10)
 
-    towers_ = {
-        tower_1, tower_2, tower_3, tower_4, tower_5, tower_6, tower_7, tower_8, tower_9, tower_10,
-        tower_11, tower_12, tower_13, tower_14, tower_15, tower_16, tower_17, tower_18, tower_19, tower_20
-    }
+    towersOrdinary_ = {tower_1, tower_4, tower_7, tower_9, tower_18, tower_20, }
+    towersRarity_ = {tower_3, tower_14, tower_15, }
+    towersEpic_ = {tower_2, tower_8, tower_11, tower_12, tower_16, tower_17, }
+    towersLegend_ = {tower_5, tower_6, tower_10, tower_13, tower_19, }
 end
 
 --[[--
@@ -106,7 +113,7 @@ end
 
     @return number
 ]]
-function OutgameData:getGold()
+function OutGameData:getGold()
     return self.glod
 end
 
@@ -128,7 +135,7 @@ end
 
     @return number
 ]]
-function OutgameData:getDiamond()
+function OutGameData:getDiamond()
     return self.diamond
 end
 
@@ -144,27 +151,245 @@ function OutGameData:setDiamond(n)
 end
 
 --[[--
-    获取塔
+    金币商店
 
-    @parme none
+    @parm none
 
-    @return none
+    @return pack 类型：table
+]]
+function OutGameData:goldShop()
+    math.randomseed(os.time())
+    local a = math.random(1, #towersOrdinary_) --数量：1 价格：360 gold
+    local b = math.random(1, #towersOrdinary_) --数量：1 价格：360 gold
+    local c = math.random(1, #towersOrdinary_) --数量：1 价格：360 gold
+    local d = math.random(1, #towersRarity_) --数量：1 价格：600 gold
+    local e = math.random(1, #towersEpic_) --数量：1 价格：1000 gold
+    local packs = {towersOrdinary_[a], towersOrdinary_[b], towersOrdinary_[c], towersRarity_[d], towerEpic_[e]}
+    return packs
+end
+
+
+--[[--
+    普通宝箱， 价格150 diamond, 增加285 gold
+    普通塔数量：一共38
+    稀有塔数量：7
+    史诗塔数量：1
+
+    稀有宝箱,  价格250 diamond, 增加456 gold
+    普通塔数量：一共74
+    稀有塔数量：14
+    史诗塔数量：2
+
+    @parm none
+
+    @return packs 类型：table
+    @return packsNum 类型：table
 ]]
 
-function OutGameData:getTower()
-    local tower = towers_[3]
-    self:addTowerTOPacks(tower, 20)
+function OutGameData:ordinaryChests()
+    math.randomseed(os.time())
+
+    local a1 = math.random(1, #towersOrdinary_)
+    local numA1 = math.random(16, 22)
+
+    local a2 = math.random(1, #towersOrdinary_)
+    while a2 == a1 do
+        a2 = math.random(1, #towersOrdinary_)
+    end
+    local numA2 = 38 - numA1
+
+    local b = math.random(1, #towersRarity_)
+
+    local c = math.random(1, #towersEpic_)
+
+    local packs = {towersOrdinary_[a1] , towersOrdinary_[a2], towersRarity_[b], towersEpic_[c], }
+    local packsNum = {numA1, numA2, 7, 1}
+
+    return packs, packsNum
 end
 
 --[[--
-    把塔添加至背包
+    稀有宝箱,  价格250 diamond, 增加456 gold
+    普通塔数量：一共74
+    稀有塔数量：14
+    史诗塔数量：2
+
+    @parm none
+
+    @return packs 类型：table
+    @return packsNum 类型：table
+]]
+
+function OutGameData:rarityChests()
+    math.randomseed(os.time())
+
+    local a1 = math.random(1, #towersOrdinary_)
+    local numA1 = math.random(34, 40)
+
+    local a2 = math.random(1, #towersOrdinary_)
+    while a2 == a1 do
+        a2 = math.random(1, #towersOrdinary_)
+    end
+    local numA2 = 74 - numA1
+
+    local b = math.random(1, #towersRarity_)
+
+    local c = math.random(1, #towersEpic_)
+
+    local packs = {towersOrdinary_[a1] , towersOrdinary_[a2], towersRarity_[b], towersEpic_[c], }
+    local packsNum = {numA1, numA2, 14, 2}
+
+    return packs, packsNum
+end
+
+--[[--
+    史诗宝箱, 价格750 diamond, 增加1280 gold
+    普通塔数量：一共139
+    稀有塔数量：一共36
+    史诗塔数量：7
+    传奇塔数量：0-1
+
+    @parm none
+
+    @return packs 类型：table
+    @return packsNum 类型：table
+]]
+function OutGameData:epicChests()
+    math.randomseed(os.time())
+
+    local a1 = math.random(1, #towersOrdinary_)
+    local numA1 = math.random(37, 43)
+
+    local a2 = math.random(1, #towersOrdinary_)
+    while a2 == a1 do
+        a2 = math.random(1, #towersOrdinary_)
+    end
+    local numA2 = math.random(37, 43)
+
+    local a3 = math.random(1, #towersOrdinary_)
+    while a3 == a1 or a3 == a2 do
+        a3 = math.random(1, #towersOrdinary_)
+    end
+    local numA3 = math.random(37, 43)
+
+    local a4 = math.random(1, #towersOrdinary_)
+    while a4 == a1 or a4 == a2 or a4 == a3 do
+        a4 = math.random(1, #towersOrdinary_)
+    end
+    local numA4 = 139 - numA1 - numA2 -numA3
+
+    local b1 = math.random(1, #towersRarity_)
+    local numB1 = math.random(15, 21)
+
+    local b2 = math.random(1, #towersRarity_)
+    while b2 == b1 do
+        b2 = math.random(1, #towersRarity_)
+    end
+    local numB2 = 36 - numB1
+
+    local c1 = math.random(1, #towersEpic_)
+
+    local d1 = math.random(1, #towersLegend_)
+    local numD1 = math.random(1, 20)
+    if numD1 > 19 then
+        numD1 = 1
+    else
+        numD1 = 0
+    end
+
+    local packs = {towersOrdinary_[a1], towersOrdinary_[a2], towersOrdinary_[a3],
+    towersOrdinary_[a4], towersRarity_[b1], towersRarity_[b2], towersEpic_[c1], towersLegend_[d1]}
+    local packsNum = {numA1, numA2, numA3, numA4, numB1, numB2, 7, numD1}
+
+    return packs, packsNum
+end
+
+--[[--
+    传奇宝箱, 价格2500 diamond, 增加3040 gold
+    普通塔数量：一共187
+    稀有塔数量：一共51
+    史诗塔数量：21
+    传奇塔数量：1
+
+    @parm none
+
+    @return packs 类型：table
+    @return packsNum 类型：table
+]]
+function OutGameData:legendChests()
+    math.randomseed(os.time())
+
+    local a1 = math.random(1, #towersOrdinary_)
+    local numA1 = math.random(42, 48)
+
+    local a2 = math.random(1, #towersOrdinary_)
+    while a2 == a1 do
+        a2 = math.random(1, #towersOrdinary_)
+    end
+    local numA2 = math.random(42, 48)
+
+    local a3 = math.random(1, #towersOrdinary_)
+    while a3 == a1 or a3 == a2 do
+        a3 = math.random(1, #towersOrdinary_)
+    end
+    local numA3 = math.random(42, 48)
+
+    local a4 = math.random(1, #towersOrdinary_)
+    while a4 == a1 or a4 == a2 or a4 == a3 do
+        a4 = math.random(1, #towersOrdinary_)
+    end
+    local numA4 = 187 - numA1 - numA2 -numA3
+
+    local b1 = math.random(1, #towersRarity_)
+    local numB1 = math.random(22, 28)
+
+    local b2 = math.random(1, #towersRarity_)
+    while b2 == b1 do
+        b2 = math.random(1, #towersRarity_)
+    end
+    local numB2 = 51 - numB1
+
+    local c1 = math.random(1, #towersEpic_)
+
+    local d1 = math.random(1, #towersLegend_)
+
+    local packs = {towersOrdinary_[a1], towersOrdinary_[a2], towersOrdinary_[a3],
+    towersOrdinary_[a4], towersRarity_[b1], towersRarity_[b2], towersEpic_[c1], towersLegend_[d1]}
+    local packsNum = {numA1, numA2, numA3, numA4, numB1, numB2, 21, 1}
+
+    return packs, packsNum
+end
+
+--[[--
+    为塔选择相应的背包
 
     @parm tower 类型：object
-    @parm tower 类型：number
+    @parm num 类型：number
+
+    @return none
+]]
+function OutGameData:choosePacks(tower, num)
+    local rarity = tower.getTowerRarity()
+    if rarity == 1 then
+        self:addTowerTOPacks(tower, num, packsOrdinary_)
+    elseif rarity == 2 then
+        self:addTowerTOPacks(tower, num, packsRarity_)
+    elseif rarity == 3 then
+        self:addTowerTOPacks(tower, num, packsEpic_)
+    elseif rarity == 4 then
+        self:addTowerTOPacks(tower, num, packsLegend_)
+    end
+end
+
+--[[--
+    把塔添加至相应的背包
+
+    @parm tower 类型：object
+    @parm num 类型：number
+    @parm packs 类型：table
 
     return none
 ]]
-function OutGameData:addTowerTOPacks(tower, num)
     for k, v in pairs(packs) do
         if tower.getTowerId() == v.getTowerId() then
             packs[k].setTowerNumber(num)
@@ -178,16 +403,17 @@ end
 --[[
     塔升级
 
+    @parm packs 类型：table
     @parm index 类型：number
 
     @return none
 ]]
-function OutgameData:towerLevelUp(index)
+function OutGameData:towerLevelUp(packs, index)
     local level = packs[index].getLevel() + 1 -- 当前塔的等级
     local rarity = packs[index].getTower().getTowerRarity() -- 当前塔的稀有度
     local needGold = ConstDef.LEVEL_UP_NEED_GOLD[level][rarity]
     local needCard = ConstDef.LEVEL_UP_NEED_CARD[level][rarity]
-    if needGold > self.gold then
+    if needGold > self:getGold() then
         print("金币不足")
         return
     end
