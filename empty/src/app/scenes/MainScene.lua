@@ -239,6 +239,44 @@ function MainScene:createMiddleTopPanel()
 end
 
 --[[
+    函数用途：实现左右翻页
+    --]]
+function MainScene:sliderView(layer)
+    -- PageView
+    local pageView = ccui.PageView:create()
+    -- 设置PageView容器尺寸
+    pageView:setBackGroundColor(cc.c3b(200,200,255))
+    pageView:setBackGroundColorType(1)
+    pageView:setContentSize(720, 1280)
+    pageView:setTouchEnabled(true)    -- 设置可触摸 若设置为false 则不能响应触摸事件
+    pageView:setAnchorPoint(0.5, 0.5)
+    pageView:setPosition(display.cx, display.cy)
+    pageView:addPage(layer)
+    for i = 1,3 do
+        local layer = ccui.Layout:create()
+        layer:setAnchorPoint(0, 0)
+        layer:setPosition(0, 0)
+        layer:setContentSize(720, 1280)
+        local image = ccui.ImageView:create("TreasureChest - Epic.png")
+        image:setPosition(display.cx, display.cy)
+        image:addTo(layer)
+        pageView:addPage(layer)
+    end
+
+    -- 触摸回调
+    local function PageViewCallBack(sender,event)
+        -- 翻页时
+        if event==ccui.PageViewEventType.turning then
+            -- getCurrentPageIndex() 获取当前翻到的页码 打印
+            print("当前页码是"..pageView:getCurPageIndex() + 1)
+        end
+    end
+    pageView:addEventListener(PageViewCallBack)
+    self:addChild(pageView, 0)
+
+end
+
+--[[
     函数用途：加载界面，加载完毕后切换至游戏大厅
     --]]
 function MainScene:loadingPanel()
