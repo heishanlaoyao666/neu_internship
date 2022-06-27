@@ -23,6 +23,12 @@ local packsRarity_ = {} --稀有
 local packsEpic_ = {} -- 史诗
 local packsLegend_ = {} -- 传奇
 
+--未收集
+local unPacksOrdinary_ = {} --普通
+local unPacksRarity_ = {} --稀有
+local unPacksEpic_ = {} -- 史诗
+local unPacksLegend_ = {} -- 传奇
+
 --[[--
     初始化数据
 
@@ -88,10 +94,14 @@ function OutGameData:initTower()
     local tower_20 = Tower.new(20, 1, 4, "使被攻击目标进入“混乱”状态。混乱：无法移动。",
     "随机敌人", 20, 5, 20, 1, 0.02, "技能持续时间", 2, 0.5, 0.5, "技能发动时间", 10)
 
-    towersOrdinary_ = {tower_1, tower_4, tower_7, tower_9, tower_18, tower_20, }
+    towersOrdinary_ = {tower_1, tower_4, tower_7, tower_9, tower_10,tower_18, tower_20, }
+    unPacksOrdinary_ = {tower_1, tower_4, tower_7, tower_9, tower_10,tower_18, tower_20, }
     towersRarity_ = {tower_3, tower_14, tower_15, }
+    unPacksRarity_ = {tower_3, tower_14, tower_15, }
     towersEpic_ = {tower_2, tower_8, tower_11, tower_12, tower_16, tower_17, }
-    towersLegend_ = {tower_5, tower_6, tower_10, tower_13, tower_19, }
+    unPacksEpic_ = {tower_2, tower_8, tower_11, tower_12, tower_16, tower_17, }
+    towersLegend_ = {tower_5, tower_6, tower_13, tower_19, }
+    unPacksLegend_ = {tower_5, tower_6, tower_13, tower_19, }
 end
 
 --[[--
@@ -114,7 +124,7 @@ end
     @return number
 ]]
 function OutGameData:getGold()
-    return self.glod
+    return self.gold
 end
 
 --[[--
@@ -164,7 +174,10 @@ function OutGameData:goldShop()
     local c = math.random(1, #towersOrdinary_) --数量：1 价格：360 gold
     local d = math.random(1, #towersRarity_) --数量：1 价格：600 gold
     local e = math.random(1, #towersEpic_) --数量：1 价格：1000 gold
-    local packs = {towersOrdinary_[a], towersOrdinary_[b], towersOrdinary_[c], towersRarity_[d], towerEpic_[e]}
+    --print(a)
+    --print(towersOrdinary_[a])
+    local packs = {towersOrdinary_[a], towersOrdinary_[b], towersOrdinary_[c], towersRarity_[d], towersEpic_[e]}
+    --print(packs[1])
     return packs
 end
 
@@ -174,11 +187,6 @@ end
     普通塔数量：一共38
     稀有塔数量：7
     史诗塔数量：1
-
-    稀有宝箱,  价格250 diamond, 增加456 gold
-    普通塔数量：一共74
-    稀有塔数量：14
-    史诗塔数量：2
 
     @parm none
 
@@ -361,7 +369,7 @@ function OutGameData:legendChests()
 end
 
 --[[--
-    为塔选择相应的背包
+    为塔选择相应的背包,并从未收集图鉴移除
 
     @parm tower 类型：object
     @parm num 类型：number
@@ -371,13 +379,13 @@ end
 function OutGameData:choosePacks(tower, num)
     local rarity = tower.getTowerRarity()
     if rarity == 1 then
-        self:addTowerTOPacks(tower, num, packsOrdinary_)
+        self:addTowerTOPacks(tower, num, packsOrdinary_, unPacksOrdinary_)
     elseif rarity == 2 then
-        self:addTowerTOPacks(tower, num, packsRarity_)
+        self:addTowerTOPacks(tower, num, packsRarity_, unPacksRarity_)
     elseif rarity == 3 then
-        self:addTowerTOPacks(tower, num, packsEpic_)
+        self:addTowerTOPacks(tower, num, packsEpic_, unPacksEpic_)
     elseif rarity == 4 then
-        self:addTowerTOPacks(tower, num, packsLegend_)
+        self:addTowerTOPacks(tower, num, packsLegend_, unPacksLegend_)
     end
 end
 
@@ -388,18 +396,56 @@ end
     @parm num 类型：number
     @parm packs 类型：table
 
-    return none
+    @return none
 ]]
+function OutGameData:addTowerTOPacks(tower, num, packs, unpacks)
     for k, v in pairs(packs) do
         if tower.getTowerId() == v.getTowerId() then
             packs[k].setTowerNumber(num)
             return
         end
     end
-    local packItem = PackItem.new(tower, num, 1)
+    local packItem = PackItem.new(tower, num)
+    self:removeTowerTOPacks(tower, unpacks)
     packs[#packs + 1] = packItem
 end
 
+--[[--
+    把塔从未收集图鉴移除
+
+    @parm tower 类型：object
+    @parm packs 类型：table
+
+    @return none
+]]
+function OutGameData:removeTowerTOPacks(tower, packs)
+    for k, v in pairs(packs) do
+        if tower.getTowerId() == v.getTowerId() then
+            table.remove(packs, k)
+            return
+        end
+    end
+end
+--[[--
+    获取已收集塔
+
+    @parm none
+
+    @return packsOrdinary_,packsRarity_,packsEpic_,packsLegend_ 类型：table,已收集背包
+]]
+function OutGameData:getCollected()
+    return packsOrdinary_,packsRarity_,packsEpic_,packsLegend_
+end
+--[[--
+    获取未收集塔
+
+    @parm none
+
+    @return unPacksOrdinary_,unPacksRarity_,unPacksEpic_,unPacksLegend_ 类型：table,未收集背包
+]]
+function OutGameData:getUnCollected()
+    return unPacksOrdinary_,unPacksRarity_,unPacksEpic_,unPacksLegend_
+end
 --[[
     塔升级
 
@@ -424,6 +470,26 @@ function OutGameData:towerLevelUp(packs, index)
     packs[index].towerLevelUp()
     packs[index].setTowerNumber(-needCard)
     self:setGold(-needGold)
+    packs[index].getTower().AtkUpgrade()
+    packs[index].getTower().FireCdUpgrade()
+    packs[index].getTower().ValueUpgrade()
+end
+
+--[[--
+    塔强化
+
+    @parm packs 类型：table
+    @parm index 类型：number
+
+    @return none
+]]
+function OutGameData:towerEnhance(packs, index)
+    if packs[index].getLevel() <= packs[index].getEnhanceLevel() then
+        print("已经强化到当前最高等级")
+    else
+        packs[index].getTower().AtkEnhance()
+        packs[index].getTower().ValueEnhance()
+    end
 end
 
 --[[--

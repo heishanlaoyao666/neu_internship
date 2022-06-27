@@ -3,8 +3,7 @@
     TopInfoLayer.lua
 ]]
 local TopInfoLayer = class("TopInfoLayer", require("src\\app\\ui\\outgame\\layer\\BaseLayer.lua"))
--- local ConstDef = require("app.def.ConstDef")
--- local GameData = require("app.data.GameData")
+local OutGameData = require("src\\app\\data\\outgame\\OutGameData.lua")
 
 --[[--
     构造函数
@@ -41,7 +40,7 @@ function TopInfoLayer:ctor()
     -- else
     --     audio.stopBGM("sounds/lobby_bgm_120bpm.OGG")
     -- end
-
+    OutGameData:init()
     self:initView()
 end
 
@@ -110,12 +109,12 @@ function TopInfoLayer:initView()
     sprite6:setPosition(width / 2 + 190, 50)
 
     --金币
-    local sprite3 = display.newSprite("res\\artcontent\\lobby(ongame)\\topbar_playerinformation\\goldcoin.png")
-    self.container_:addChild(sprite3)
+    self.sprite3 = display.newSprite("res\\artcontent\\lobby(ongame)\\topbar_playerinformation\\goldcoin.png")
+    self.container_:addChild(self.sprite3)
     --sprite3:setContentSize(width, height)
-    sprite3:setAnchorPoint(0.5, 1)
-    sprite3:setPosition(width / 2 + 120, 50)
-    local goldcoinnum=display.newTTFLabel({
+    self.sprite3:setAnchorPoint(0.5, 1)
+    self.sprite3:setPosition(width / 2 + 120, 50)
+    self.goldcoinnum=display.newTTFLabel({
 		text = "0",
         size = 25,
         color = display.COLOR_WHITE
@@ -132,12 +131,12 @@ function TopInfoLayer:initView()
     sprite7:setPosition(width / 2 + 190, 0)
 
     --砖石
-    local sprite4 = display.newSprite("res\\artcontent\\lobby(ongame)\\topbar_playerinformation\\diamonds.png")
-    self.container_:addChild(sprite4)
+    self.sprite4 = display.newSprite("res\\artcontent\\lobby(ongame)\\topbar_playerinformation\\diamonds.png")
+    self.container_:addChild(self.sprite4)
     --sprite4:setContentSize(width, height)
-    sprite4:setAnchorPoint(0.5, 1)
-    sprite4:setPosition(width / 2 + 120, 0)
-    local diamondsnnum=display.newTTFLabel({
+    self.sprite4:setAnchorPoint(0.5, 1)
+    self.sprite4:setPosition(width / 2 + 120, 0)
+    self.diamondsnnum=display.newTTFLabel({
 		text = "0",
         size = 25,
         color = display.COLOR_WHITE
@@ -164,7 +163,7 @@ function TopInfoLayer:initView()
     )
 
 
-    local name=display.newTTFLabel({
+    self.name=display.newTTFLabel({
 		text = "九妹",
         size = 30,
         color = display.COLOR_WHITE
@@ -173,22 +172,22 @@ function TopInfoLayer:initView()
 	:addTo(sprite2)
 
     --奖杯
-    local sprite8 = display.newSprite("res\\artcontent\\lobby(ongame)\\topbar_playerinformation\\trophy.png")
-    sprite2:addChild(sprite8)
+    self.sprite8 = display.newSprite("res\\artcontent\\lobby(ongame)\\topbar_playerinformation\\trophy.png")
+    sprite2:addChild(self.sprite8)
     --sprite8:setContentSize(width / 2, height / 2)
-    sprite8:setAnchorPoint(0.5, 0)
-    sprite8:setPosition(40,sprite2:getContentSize().height/2-10)
-    local trophynum=display.newTTFLabel({
+    self.sprite8:setAnchorPoint(0.5, 0)
+    self.sprite8:setPosition(40,sprite2:getContentSize().height/2-10)
+    self.trophynum=display.newTTFLabel({
 		text = "0",
         size = 25,
         color = display.COLOR_WHITE
 	})
 	:align(display.LEFT_CENTER, 70,sprite2:getContentSize().height/2+5)
 	:addTo(sprite2)
-    name:setString(cc.UserDefault:getInstance():getStringForKey("昵称"))
-    trophynum:setString(tostring(cc.UserDefault:getInstance():getIntegerForKey("奖杯数")))
-    goldcoinnum:setString(tostring(cc.UserDefault:getInstance():getIntegerForKey("金币数")))
-    diamondsnnum:setString(tostring(cc.UserDefault:getInstance():getIntegerForKey("钻石数")))
+    self.name:setString(cc.UserDefault:getInstance():getStringForKey("昵称"))
+    self.trophynum:setString(tostring(cc.UserDefault:getInstance():getIntegerForKey("奖杯数")))
+    self.goldcoinnum:setString(tostring(OutGameData:getGold()))
+    self.diamondsnnum:setString(tostring(OutGameData:getDiamond()))
 end
 
 --[[--
@@ -204,9 +203,15 @@ function TopInfoLayer:setSprite1(filename)
     self.sprite1:loadTextureNormal(filename)
 end
 
+function TopInfoLayer:setData()
+    -- body
+    self.name:setString(cc.UserDefault:getInstance():getStringForKey("昵称"))
+    self.trophynum:setString(tostring(cc.UserDefault:getInstance():getIntegerForKey("奖杯数")))
+    self.goldcoinnum:setString(tostring(OutGameData:getGold()))
+    self.diamondsnnum:setString(tostring(OutGameData:getDiamond()))
+end
+
 function TopInfoLayer:update(dt)
-    -- self.lifeLabelBmf_:setString(tostring(GameData:getLife()))
-    -- self.scoreLabelBmf_:setString(tostring(GameData:getScore()))
 end
 
 return TopInfoLayer

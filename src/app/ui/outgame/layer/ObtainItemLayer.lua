@@ -5,9 +5,10 @@
 local ObtainItemLayer = class("ObtainItemLayer", function()
     return display.newScene("ObtainItemLayer")
 end)
--- local ConstDef = require("app.def.ConstDef")
--- local GameData = require("app.data.GameData")
---local BattleView = require("src\\app\\ui\\outgame\\view\\BattleView.lua")
+local OutGameData = require("src\\app\\data\\outgame\\OutGameData.lua")
+local EventDef = require("src\\app\\def\\outgame\\EventDef.lua")
+local EventManager = require("app.manager.EventManager")
+local ConfirmationLayer = require("src\\app\\ui\\outgame\\layer\\ConfirmationLayer.lua")
 --[[--
     构造函数
 
@@ -19,6 +20,7 @@ function ObtainItemLayer:ctor()
 
     -- self.lifeLabelBmf_ = nil -- 类型：TextBMFont，生命值
     -- self.scoreLabelBmf_ = nil -- 类型：TextBMFont，分值
+    OutGameData:initTower()
     self:initView()
 end
 
@@ -80,6 +82,8 @@ function ObtainItemLayer:initView()
     )
 
     --开启按钮
+    goldprice=self.gold
+    diamondprice=self.price
     local sprite3= ccui.Button:
     create("res\\artcontent\\lobby(ongame)\\currency\\chestopen_ obtainitemspopup\\button_on.png")
     self.container_:addChild(sprite3)
@@ -89,10 +93,13 @@ function ObtainItemLayer:initView()
         function(sender, eventType)
             -- ccui.TouchEventType
             if 2 == eventType then -- touch end
-                require("src\\app\\ui\\outgame\\layer\\ConfirmationLayer.lua"):new():addTo(self)
+                ConfirmationLayer:new():addTo(self)
                 if cc.UserDefault:getInstance():getBoolForKey("音效") then
                     audio.playEffect("sounds/ui_btn_close.OGG",false)
                 end
+                OutGameData:setGold(goldprice)
+                OutGameData:setDiamond(-diamondprice)
+                EventManager:doEvent(EventDef.ID.GAMEDATA_CHANGE)
             end
         end
     )
@@ -103,6 +110,13 @@ function ObtainItemLayer:initView()
     self.container_:addChild(sprite4)
     sprite4:setAnchorPoint(0.5, 0.5)
     sprite4:setPosition(sprite1:getContentSize().width/2-150, sprite1:getContentSize().height/2-10)
+    display.newTTFLabel({
+        text = "+"..self.gold,
+        size = 25,
+        color = display.COLOR_WHITE
+    })
+    :align(display.CENTER, sprite4:getContentSize().width/2,sprite4:getContentSize().height/2-45)
+    :addTo(sprite4)
 
     --金币图标
     local sprite5= display.
@@ -112,6 +126,7 @@ function ObtainItemLayer:initView()
     sprite5:setPosition(sprite4:getContentSize().width/2, sprite4:getContentSize().height/2+10)
 
     --图标和文本
+    --碎片类型和文本
     local sprite6= display.
     newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_ obtainitemspopup\\icon_normal.png")
     self.container_:addChild(sprite6)
@@ -123,18 +138,33 @@ function ObtainItemLayer:initView()
     sprite6:addChild(sprite7)
     sprite7:setAnchorPoint(0.5, 0.5)
     sprite7:setPosition(sprite6:getContentSize().width+40, sprite6:getContentSize().height/2+20)
+    display.newTTFLabel({
+        text = "普通",
+        size = 20,
+        color = display.COLOR_WHITE
+    })
+    :align(display.CENTER, sprite7:getContentSize().width/2,sprite7:getContentSize().height/2)
+    :addTo(sprite7)
 
     local sprite8= display.
     newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_ obtainitemspopup\\basemap_text.png")
     sprite6:addChild(sprite8)
     sprite8:setAnchorPoint(0.5, 0.5)
     sprite8:setPosition(sprite6:getContentSize().width+40, sprite6:getContentSize().height/2-10)
+    display.newTTFLabel({
+        text = "X"..self.num1,
+        size = 20,
+        color = display.COLOR_WHITE
+    })
+    :align(display.CENTER, sprite7:getContentSize().width/2,sprite7:getContentSize().height/2)
+    :addTo(sprite8)
 
     local spriteA6= display.
     newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_ obtainitemspopup\\icon_rare.png")
     self.container_:addChild(spriteA6)
     spriteA6:setAnchorPoint(0.5, 0.5)
     spriteA6:setPosition(sprite1:getContentSize().width/2+150, sprite1:getContentSize().height/2+30)
+    
 
     local spriteA7= display.
     newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_ obtainitemspopup\\basemap_text.png")
@@ -147,7 +177,21 @@ function ObtainItemLayer:initView()
     spriteA6:addChild(spriteA8)
     spriteA8:setAnchorPoint(0.5, 0.5)
     spriteA8:setPosition(sprite6:getContentSize().width+40, sprite6:getContentSize().height/2-10)
-    
+    display.newTTFLabel({
+        text = "稀有",
+        size = 20,
+        color = cc.c3b(0,255, 255)
+    })
+    :align(display.CENTER, sprite7:getContentSize().width/2,sprite7:getContentSize().height/2)
+    :addTo(spriteA7)
+    display.newTTFLabel({
+        text = "X"..self.num2,
+        size = 20,
+        color = cc.c3b(0,255, 255)
+    })
+    :align(display.CENTER, sprite7:getContentSize().width/2,sprite7:getContentSize().height/2)
+    :addTo(spriteA8)
+
     local spriteB6= display.
     newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_ obtainitemspopup\\icon_epic.png")
     self.container_:addChild(spriteB6)
@@ -165,37 +209,125 @@ function ObtainItemLayer:initView()
     spriteB6:addChild(spriteB8)
     spriteB8:setAnchorPoint(0.5, 0.5)
     spriteB8:setPosition(sprite6:getContentSize().width+40, sprite6:getContentSize().height/2-10)
+    display.newTTFLabel({
+        text = "史诗",
+        size = 20,
+        color = cc.c3b(128,0, 128)
+    })
+    :align(display.CENTER, sprite7:getContentSize().width/2,sprite7:getContentSize().height/2)
+    :addTo(spriteB7)
+    display.newTTFLabel({
+        text = "X"..self.num3,
+        size = 20,
+        color = cc.c3b(128,0, 128)
+    })
+    :align(display.CENTER, sprite7:getContentSize().width/2,sprite7:getContentSize().height/2)
+    :addTo(spriteB8)
 
-    local spriteC6= display.
-    newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_ obtainitemspopup\\icon_legend.png")
-    self.container_:addChild(spriteC6)
-    spriteC6:setAnchorPoint(0.5, 0.5)
-    spriteC6:setPosition(sprite1:getContentSize().width/2+150, sprite1:getContentSize().height/2-60)
+    if self.num4~=nil then
+        local spriteC6= display.
+        newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_ obtainitemspopup\\icon_legend.png")
+        self.container_:addChild(spriteC6)
+        spriteC6:setAnchorPoint(0.5, 0.5)
+        spriteC6:setPosition(sprite1:getContentSize().width/2+150, sprite1:getContentSize().height/2-60)
 
-    local spriteC7= display.
-    newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_ obtainitemspopup\\basemap_text.png")
-    spriteC6:addChild(spriteC7)
-    spriteC7:setAnchorPoint(0.5, 0.5)
-    spriteC7:setPosition(sprite6:getContentSize().width+40, sprite6:getContentSize().height/2+20)
+        local spriteC7= display.
+        newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_ obtainitemspopup\\basemap_text.png")
+        spriteC6:addChild(spriteC7)
+        spriteC7:setAnchorPoint(0.5, 0.5)
+        spriteC7:setPosition(sprite6:getContentSize().width+40, sprite6:getContentSize().height/2+20)
 
-    local spriteC8= display.
-    newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_ obtainitemspopup\\basemap_text.png")
-    spriteC6:addChild(spriteC8)
-    spriteC8:setAnchorPoint(0.5, 0.5)
-    spriteC8:setPosition(sprite6:getContentSize().width+40, sprite6:getContentSize().height/2-10)
+        local spriteC8= display.
+        newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_ obtainitemspopup\\basemap_text.png")
+        spriteC6:addChild(spriteC8)
+        spriteC8:setAnchorPoint(0.5, 0.5)
+        spriteC8:setPosition(sprite6:getContentSize().width+40, sprite6:getContentSize().height/2-10)
+        display.newTTFLabel({
+            text = "传说",
+            size = 20,
+            color = cc.c3b(255, 215, 0)
+        })
+        :align(display.CENTER, sprite7:getContentSize().width/2,sprite7:getContentSize().height/2)
+        :addTo(spriteC7)
+        display.newTTFLabel({
+            text = "X"..self.num4,
+            size = 20,
+            color = cc.c3b(255, 215, 0)
+        })
+        :align(display.CENTER, sprite7:getContentSize().width/2,sprite7:getContentSize().height/2)
+        :addTo(spriteC8)
+    end
 
+    --宝箱图片
     local sprite9= display.
-    newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_ obtainitemspopup\\icon_normalchest.png")
+    newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_ obtainitemspopup\\"..self.filename)
     self.container_:addChild(sprite9)
     sprite9:setAnchorPoint(0.5, 0.5)
     sprite9:setPosition(sprite1:getContentSize().width/2, sprite1:getContentSize().height+80)
 
+    --宝箱类型
     local sprite10= display.
-    newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_ obtainitemspopup\\chesttitle_1.png")
+    newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_ obtainitemspopup\\"..self.chesttitle)
     self.container_:addChild(sprite10)
     sprite10:setAnchorPoint(0.5, 0.5)
     sprite10:setPosition(sprite1:getContentSize().width/2, sprite1:getContentSize().height-40)
 
+end
+
+--[[--
+    传入数据
+
+    @param data 类型：number,宝箱类型
+
+    @return self.filename，类型：string,宝箱图片文件名
+    @return self.chesttitle，类型：string,宝箱标题文件名
+    @return self.price，类型：number,宝箱价格
+    @return self.num1，类型：number,普通数
+    @return self.num2，类型：number,稀有数
+    @return self.num3，类型：number,史诗数
+    @return self.num4，类型：number/string,传说数
+    @return self.gold，类型：number,获得金币数
+]]
+function ObtainItemLayer:SetData(data,gold)
+    ConfirmationLayer:SetData(data,gold)
+    self.gold=gold
+    if data==1 then
+        self.packs, self.packsNum=OutGameData:ordinaryChests()
+        self.filename="icon_normalchest.png"
+        self.chesttitle="chesttitle_1.png"
+        self.price=150
+        self.num1=38
+        self.num2=7
+        self.num3=1
+        self.num4=nil
+    elseif data==2 then
+        self.packs, self.packsNum=OutGameData:rarityChests()
+        self.filename="icon_rarechest.png"
+        self.chesttitle="chesttitle_2.png"
+        self.price=250
+        self.num1=74
+        self.num2=14
+        self.num3=2
+        self.num4=nil
+    elseif data==3 then
+        self.packs, self.packsNum=OutGameData:epicChests()
+        self.filename="icon_epicchest.png"
+        self.chesttitle="chesttitle_3.png"
+        self.price=750
+        self.num1=139
+        self.num2=36
+        self.num3=7
+        self.num4="0-1"
+    elseif data==4 then
+        self.packs, self.packsNum=OutGameData:legendChests()
+        self.filename="icon_legendchest.png"
+        self.chesttitle="chesttitle_4.png"
+        self.price=2500
+        self.num1=187
+        self.num2=51
+        self.num3=21
+        self.num4=1
+    end
 end
 
 --[[--

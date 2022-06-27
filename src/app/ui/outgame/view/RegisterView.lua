@@ -40,7 +40,7 @@ function RegisterView:initView()
     self.container_:setPosition(display.cx, display.cy)
 
     --账号Text
-    local accountText = ccui.Text:create("账号","font.fzhz.ttf",36)
+    local accountText = ccui.Text:create("账号","artcontent/font.fzhz.ttf",36)
     accountText:pos(display.cx * 1/6, display.cy * 2/5)
     self.container_:addChild(accountText)
 
@@ -52,19 +52,20 @@ function RegisterView:initView()
     self.container_:addChild(accountEditbox)
 
     --密码Text
-    local passwordText = ccui.Text:create("密码","font.fzhz.ttf",36)
+    local passwordText = ccui.Text:create("密码","artcontent/font.fzhz.ttf",36)
     passwordText:pos(display.cx * 1/6, display.cy * 1/5)
     self.container_:addChild(passwordText)
 
     --密码文本框
     local passwordEditbox = ccui.EditBox:create(cc.size(240, 40),
-    "lobby(ongame)/battle_interface/basemap_selectedteams.png", 0)
+    "artcontent/lobby(ongame)/battle_interface/basemap_selectedteams.png", 0)
     passwordEditbox:setAnchorPoint(0.5,0.5)
     passwordEditbox:pos(display.cx * 3/5, display.cy * 1/5)
     self.container_:addChild(passwordEditbox)
 
     --注册确定按钮
-    local btn = ccui.Button:create("register/register.png","register/register2.png")
+    local btn = ccui.Button:create("res\\artcontent\\register\\register.png",
+    "res\\artcontent\\register\\register2.png")
     btn:addTouchEventListener(function(sender, eventType)
         if 2 == eventType then
             account = tostring(accountEditbox:getText())

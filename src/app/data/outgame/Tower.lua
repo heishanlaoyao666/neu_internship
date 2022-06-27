@@ -25,6 +25,8 @@ local Tower = class("Tower")
     @param valueEnhance 类型：number 塔技能1强化后的数值变化
     @param towerSkill2 类型：string 塔技能2的描述
     @param skill2Value 类型：number 塔技能2的数值
+    @parm res1 类型：string 塔碎片图片资源
+    @parm res2 类型：string 塔图鉴图片资源
 
     @return none
 ]]
@@ -135,7 +137,9 @@ end
     @return none
 ]]
 function Tower:AtkUpgrade()
-    self.towerAtk_ = self.towerAtk_ + self.atkUpgrade_
+    if self.atkUpgrade_ ~= nil then
+        self.towerAtk_ = self.towerAtk_ + self.atkUpgrade_
+    end
 end
 
 --[[--
@@ -146,7 +150,9 @@ end
     @return none
 ]]
 function Tower:AtkEnhance()
-    self.towerAtk_ = self.towerAtk_ + self.atkEnhance_
+    if self.atkEnhance_ ~= nil then
+        self.towerAtk_ = self.towerAtk_ + self.atkEnhance_
+    end
 end
 
 --[[--

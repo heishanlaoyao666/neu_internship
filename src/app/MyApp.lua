@@ -12,8 +12,10 @@ end
 
 function MyApp:run()
     cc.FileUtils:getInstance():addSearchPath("res/")
-    --cc.UserDefault:getInstance():setBoolForKey("游戏外音乐",true)
-    self:enterScene("outgame.MainScene")
+    self:enterScene("outgame/LoadScene")
 end
+--[[--
+    LoadScene --加载界面
+]]
 
 return MyApp

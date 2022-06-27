@@ -9,63 +9,16 @@ local PackItem = class("PackItem")
 
     @param tower 类型：object
     @parm num 类型：number
-    @parm level 类型：number
 
     @return none
 ]]
-function PackItem:ctor(tower, num, level)
+function PackItem:ctor(tower, num)
     self.tower= tower
     self.num_ = num
-    self.level_ = level
+    self.level_ = 1             -- 当前等级
+    self.enhanceLevel_ = 1      -- 强化等级
 end
 
--- --[[--
---     传送背包数据(预留)
-
---     @parm none
-
---     @return bool
--- ]]
--- function PackItem:sendInfo()
--- end
-
--- --[[--
---     获取背包数据(预留)
-
---     @parm none
-
---     @return object
--- ]]
--- function PackItem:getInfo()
--- end
-
---[[--
-    传送背包数据(模拟)
-
-    @parm none
-
-    @return none
-]]
-function PackItem:sendInfo()
-end
-
---[[--
-    获取背包数据(模拟)
-
-    @parm none
-
-    @return number
-]]
-function PackItem:getInfo()
-end
-
---[[--
-    获取背包塔ID
-
-    @parm none
-
-    @return object
-]]
 function PackItem:getTower()
     return self.tower
 end
@@ -82,6 +35,17 @@ function PackItem:towerLevelUp()
 end
 
 --[[--
+    背包塔强化
+
+    @parm none
+
+    @return none
+]]
+function PackItem:towerEnganceUp()
+    self.enhanceLevel_ = self.enhanceLevel_ + 1
+end
+
+--[[--
     获取背包塔等级
 
     @parm none
@@ -90,6 +54,17 @@ end
 ]]
 function PackItem:getLevel()
     return self.level_
+end
+
+--[[--
+    获取背包塔强化等级
+
+    @parm none
+
+    @return number
+]]
+function PackItem:getEnhanceLevel()
+    return self.enhanceLevel_
 end
 
 --[[--
