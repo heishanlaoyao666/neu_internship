@@ -1,8 +1,9 @@
 --[[--
-    事件管理器，类似CMDManager
+    BufffManager.lua
+    buff管理类，负责buff的分发
     EventManger.lua
 ]]
-local EventManger = {}
+local BuffManager = {}
 
 local listenerMap_ = {} -- 类型：监听映射Map，key：EventId，Value：所有监听对象 回调数组
 
@@ -15,7 +16,7 @@ local listenerMap_ = {} -- 类型：监听映射Map，key：EventId，Value：�
 
     @return none
 ]]
-function EventManger:regListener(eventId, target, func)
+function BuffManager:regListener(eventId, target, func)
     listenerMap_[eventId] = listenerMap_[eventId] or {}
 
     if not listenerMap_[eventId][target] then
@@ -33,7 +34,7 @@ end
 
     @return none
 ]]
-function EventManger:unRegListener(eventId, target)
+function BuffManager:unRegListener(eventId, target)
     if not listenerMap_[eventId] then
         return
     end
@@ -49,7 +50,7 @@ end
     
     @return none
 ]]
-function EventManger:doEvent(eventId, ...)
+function BuffManager:doEvent(eventId, ...)
     print(eventId)
     local tab = listenerMap_[eventId]
     print(tab)
@@ -63,4 +64,21 @@ function EventManger:doEvent(eventId, ...)
     end
 end
 
-return EventManger
+--[[--
+    添加buff
+
+    @param model buff的模板
+    @param caster 释放者
+    @param carrier 携带者
+    @param time time类
+    @param durationSetTo 确实添加一个时间还是更新时间
+    @param addStack 添加层数
+    @param param 动态设置的字典
+
+    
+    @return none
+]]
+function BuffManager:AddBuffInfo(model,caster,carrier,time,addStack,param)
+    
+end
+return BuffManager

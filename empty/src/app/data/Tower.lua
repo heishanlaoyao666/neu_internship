@@ -29,6 +29,7 @@ local bullets_ = {} -- 类型：子弹数组
 function Tower:ctor(tower_id,tower_rarity,tower_type,tower_name,tower_atk,tower_fireCd,tower_information,tower_skill1,tower_mode)
     Tower.super.ctor(self, 0, 0, 50, 50)
 
+    
     self.tower_id_ = tower_id --类型：number，塔编号
     self.tower_rarity_ = tower_rarity --类型：number，塔稀有度
     self.tower_type_ = tower_type--类型：number，塔类型
@@ -66,14 +67,6 @@ function Tower:shoot(dt)
     self.tower_fireTick_ = self.tower_fireTick_ + dt
     if self.shootTick_ > self.tower_fireCd_ then
         self.tower_fireTick_ = self.shootTick_ - self.tower_fireCd_
-
-        -- 产生子弹,设置攻击目标
-        -- for i = 1, #allies_ do
-        --     local bullet = Bullet.new()
-        --     bullets_[#bullets_ + 1] = bullet
-        --     bullet:setX(allies_[i]:getX())
-        --     bullet:setY(allies_[i]:getY() + 30)
-        -- end
     end
 end
 --[[--

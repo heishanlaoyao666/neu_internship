@@ -23,6 +23,7 @@ function Object:ctor(x, y, width, height)
     self.y_ = y -- 类型：number
     self.width_ = width -- 类型：number
     self.height_ = height -- 类型：number
+    self.buffObj={} --类型:buffObj，塔buff表
     self.isDeath_ = false -- 类型：boolean，是否死亡（销毁）
 
     id_ = id_ + 1

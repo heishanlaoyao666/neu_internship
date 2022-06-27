@@ -3,6 +3,7 @@
     InfoLayer.lua
 ]]
 local InfoLayer = class("InfoLayer", require("app/scenes/GameView/ui/layer/BaseLayer.lua"))
+local RandomBossView = require("app/scenes/GameView/ui/RandomBossView.lua")
 local ConstDef = require("app/def/ConstDef.lua")
 local GameData = require("app/data/GameData.lua")
 local EventManager = require("app/manager/EventManager.lua")
@@ -25,6 +26,9 @@ function InfoLayer:ctor()
     self.oppositenameLabel_ = nil -- 类型：TTF，敌方名字
     self.oppositelife_ = {} -- 类型：table，敌方生命
     self.timeremainingLaber_ = nil -- 类型：TTF，剩余时间
+
+    self.randomBossView = nil --类型:RandomBossView.lua,随机boss场景
+
     self:initView()
 end
 
@@ -103,10 +107,40 @@ function InfoLayer:initView()
     self.oppositenameLabel_:enableOutline(cc.c4b(0,0,0,255), 2)
     self.container_:addChild(self.oppositenameLabel_)
     
-
-    self:Initdate("111","222",10,3,120)
-    --剩余时间
     
+    --剩余时间
+    --BOSS初始化
+    if GameData:getGameState() == ConstDef.GAME_STATE.INIT then
+        EventManager:doEvent(EventDef.ID.VIEW_OPEN,ConstDef.GAME_VIEW.RANDOMBOSS)
+        self.randomBossView=RandomBossView.new()
+        self:addChild(self.randomBossView)
+    end
+    --开始初始化
+    self:Initdate("111","222",10,3,120)
+end
+--[[--
+    BOSS按钮创建
+    @param  none
+
+    @return none
+]]
+function InfoLayer:BossBtnCreate()
+    --boss按钮创建
+    
+    local opposite_type =GameData:getGameOpposite()
+    if opposite_type~=ConstDef.GAME_TYPE.NET then
+        local bossBtn = ccui.Button:create("ui/battle/Battle interface/Button-Boss/boss-"..tonumber(opposite_type)..".png")
+        bossBtn:setAnchorPoint(0.5, 0.5)
+        bossBtn:setPosition(220, 720)
+        bossBtn:addTo(self)
+        bossBtn:addTouchEventListener(function(sender, eventType) 
+            if eventType == 2 then
+                EventManager:doEvent(EventDef.ID.VIEW_OPEN,ConstDef.GAME_VIEW.OPPOSITEBOSS)
+            end
+        end)
+    end
+    self:removeChild(self.randomBossView)
+    self.randomBossView=nil
 end
 --[[--
     界面数据初始化
@@ -122,19 +156,6 @@ end
 function InfoLayer:Initdate(myname,oppositename,mylife,oppositelife,time)
     self.mynameLabel_:setString(tostring(myname))
     self.oppositenameLabel_:setString(tostring(oppositename))
-    --boss按钮创建
-    local opposite_type =GameData:getGameOpposite()
-    if opposite_type~=ConstDef.GAME_TYPE.NET then
-        local bossBtn = ccui.Button:create("ui/battle/Battle interface/Button-Boss/boss-"..tonumber(opposite_type)..".png")
-        bossBtn:setAnchorPoint(0.5, 0.5)
-        bossBtn:setPosition(220, 720)
-        self.container_:addChild(bossBtn)
-        bossBtn:addTouchEventListener(function(sender, eventType) 
-            if eventType == 2 then
-                EventManager:doEvent(EventDef.ID.VIEW_OPEN,ConstDef.GAME_VIEW.OPPOSITEBOSS)
-            end
-        end)
-    end
     --我方生命值
     for i = 1, mylife do
         local img=display.newSprite("ui/battle/Battle interface/life-true.png")
@@ -176,8 +197,12 @@ end
     @return none
 ]]
 function InfoLayer:update(dt)
+    if self.randomBossView then
+        self.randomBossView:update(dt)
+    end
     -- self.lifeLabelBmf_:setString(tostring(GameData:getLife()))
     -- self.scoreLabelBmf_:setString(tostring(GameData:getScore()))
+
 end
 
 --[[--
@@ -188,6 +213,7 @@ end
     @return none
 ]]
 function InfoLayer:onEnter()
+    
 end
 
 --[[--

@@ -30,7 +30,7 @@ function GameData:init()
     -- 类型：number，游戏状态
     self.gameState_ = ConstDef.GAME_STATE.INIT
 
-    self:setGameOpposite(ConstDef.GAME_TYPE.BOSS_2)
+    
 end
 
 --[[--
