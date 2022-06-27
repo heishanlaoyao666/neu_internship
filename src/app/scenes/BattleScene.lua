@@ -194,6 +194,15 @@ end
     创建层
 ]]
 function BattleScene:createLayer()
+    --是否继续游戏
+    local MainScene = require"app.scenes.MainScene"
+    local isContinue = MainScene:getIsContinue()
+    print("isContinue", isContinue)
+    if isContinue then
+        self:loadGame()
+    end
+    --self:loadGame()
+
     -- 动画加载
     self:loadBoomAnimation()
 
@@ -294,6 +303,7 @@ function BattleScene:createLayer()
             self:stopEnemyRefresh()
             self.audio_:stopAll()       --音乐停止
             self:Collision(false)
+            MainScene:setIsContinue(false)
         end
     end)
 
@@ -301,27 +311,27 @@ function BattleScene:createLayer()
     -- 分数显示区
     -- 生命标志图片
     local spriteLife = cc.Sprite:create("ui/battle/ui_life.png")
-    spriteLife:setPosition(display.width/3, display.height - 30)
-    spriteLife:setAnchorPoint(0, 1)
+    spriteLife:setPosition(display.width/2-10, display.height - 30)
+    spriteLife:setAnchorPoint(1, 1)
     spriteLife:addTo(self)
 
     local lifeTxt = ccui.TextBMFont:create(self.life_, "islandcvbignum.fnt")
     lifeTxt:setScale(0.25)
     lifeTxt:addTo(battleLayer)
     lifeTxt:setAnchorPoint(0, 1)
-    lifeTxt:pos(display.width/3 + 50, display.height - 30)
+    lifeTxt:pos(display.width/2, display.height - 30)
 
     -- 分数标志图片
     local spriteScore = cc.Sprite:create("ui/battle/ui_score.png")
-    spriteScore:setPosition(display.width/2 + 80, display.height - 30)
-    spriteScore:setAnchorPoint(0, 1)
+    spriteScore:setPosition(display.width/4*3, display.height - 30)
+    spriteScore:setAnchorPoint(1, 1)
     spriteScore:addTo(self)
 
     local scoreTxt = ccui.TextBMFont:create(self.score_, "islandcvbignum.fnt")
     scoreTxt:setScale(0.25)
     scoreTxt:addTo(battleLayer)
-    scoreTxt:setAnchorPoint(0, 1)
-    scoreTxt:pos(display.width/2 + 130, display.height - 30)
+    scoreTxt:setAnchorPoint(1, 1)
+    scoreTxt:pos(display.width -10, display.height - 30)
 
     --文字刷新
     self.tickTxt = cc.Director:getInstance():getScheduler():scheduleScriptFunc(function (dt)
@@ -335,17 +345,24 @@ function BattleScene:createLayer()
     -- 飞机显示区
     self.spritePlayer_ = cc.Sprite:create("player/red_plane.png")
     --self.spritePlayer:setAnchorPoint(0.5, 0.5)
-    self.spritePlayer_:pos(display.width/2, 0)
     --self.spritePlayer:addTo(battleLayer)
 
     --飞机拖尾粒子
     local particlePlane = cc.ParticleSystemQuad:create("particle/fire.plist")
-    particlePlane:setPosition(display.width/2, -10)
     particlePlane:setAngle(270)        --设置朝向（旋转）
     particlePlane:addTo(battleLayer)
 
-    self.spritePlayer_:runAction(cc.MoveTo:create(0.3, cc.p(display.cx, display.cy - 250)))
-    particlePlane:runAction(cc.MoveTo:create(0.5, cc.p(display.width/2, display.cy - 260)))
+    --继续游戏时直接到位
+    if isContinue then
+        self.spritePlayer_:pos(self.xCurPlayer_, self.yCurPlayer_)
+        particlePlane:setPosition(self.xCurPlayer_, self.yCurPlayer_ - 10)
+    else
+        self.spritePlayer_:pos(display.width/2, 0)
+        particlePlane:setPosition(display.width/2, -10)
+        self.spritePlayer_:runAction(cc.MoveTo:create(0.3, cc.p(display.cx, display.cy - 250)))
+        particlePlane:runAction(cc.MoveTo:create(0.5, cc.p(display.width/2, display.cy - 260)))
+    end
+
     --触摸事件
     self.spritePlayer_:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
         dump(event)
@@ -555,16 +572,90 @@ function BattleScene:createStopLayer()
     -- 按钮点击事件
     buttonBack:addTouchEventListener(function(sender, eventType)
         if 2 == eventType then
-            director:popScene()
+            local MainScene = require"app.scenes.MainScene"
+            local mainScene = MainScene:create()
+            director:replaceScene(mainScene)
+            self:saveGame()
         end
     end)
 
+end
+
+--[[
+    json文件存储玩家位置、当前分数、敌机位置
+]]
+function BattleScene:saveGame()
+    local enemyTotal = {}
+    for i,e in ipairs(self.enemy_) do
+        local enemyX = e:getPositionX()
+        local enemyY = e:getPositionY()
+        local e = {
+            X = enemyX,
+            Y = enemyY
+        }
+        table.insert(enemyTotal, i, e)
+    end
+
+    local jsonTable = {
+        LIFE = self.life_,
+        SCORE = self.score_,
+        PLAYER_POSX = self.xCurPlayer_,
+        PLAYER_POSY = self.yCurPlayer_,
+        ENEMY = enemyTotal
+    }
+    for i,v in pairs(jsonTable) do
+        print("i, v:", i, v)
+    end
+
+    local jsonData  = json.encode(jsonTable)
+    print("json data:", jsonData)
+    local file = io.open("save.json", "w")
+    if jsonData ~= nil then
+        file:write(jsonData)
+    else
+        print("json data WRONG")
+    end
+    io.close(file)
+end
+
+--[[
+    json文件读取，恢复游戏数据
+]]
+function BattleScene:loadGame()
+    local file = io.open("save.json", "r")
+    io.input(file)
+    local stringGame = io.read()
+    print("file string: ", stringGame)
+
+    local gameData = json.decode(stringGame)
+    print("game data：", gameData)
+
+    self.life_ = gameData.LIFE
+    self.score_ = gameData.SCORE
+    self.xCurPlayer_ = gameData.PLAYER_POSX
+    self.yCurPlayer_ = gameData.PLAYER_POSY
+    print("self.life_ = ", self.life_ )
+    print("self.score_", self.score_)
+    print("self.xCurPlayer_", self.xCurPlayer_)
+    print("self.yCurPlayer_", self.yCurPlayer_)
+    for i,e in pairs(gameData.ENEMY) do
+        self:createEnemy()
+        local enemy = self.enemy_[i]
+        enemy:setPositionX(e.X)
+        enemy:setPositionY(e.Y)
+        print("enemy x,y:", self.enemy_[i]:getPositionX(), self.enemy_[i]:getPositionY())
+    end
+
+    io.close(file)
 end
 
 --[[--
     创建战斗结束界面（半透明蒙层，在战斗层之上）
 ]]
 function BattleScene:createGameOverLayer()
+    local MainScene = require"app.scenes.MainScene"
+    MainScene:setIsContinue(false)
+
     local director = cc.Director:getInstance()
     --面板设置（半透明灰色蒙版）
     local gameOverLayer = ccui.Layout:create()
@@ -606,7 +697,10 @@ function BattleScene:createGameOverLayer()
     -- 按钮点击事件
     buttonBack:addTouchEventListener(function(sender, eventType)
         if 2 == eventType then
-            director:popScene()
+            local MainScene = require"app.scenes.MainScene"
+            local mainScene = MainScene:create()
+            director:replaceScene(mainScene)
+            self.audio_:resumeAll()
         end
     end)
 
@@ -617,7 +711,7 @@ function BattleScene:createGameOverLayer()
         font = "FontNormal.ttf",
         size = 20
     })
-    highestScoreTxt:pos(display.width/2, display.height/1.5)
+    highestScoreTxt:pos(display.width/2, display.height/4*3)
     highestScoreTxt:setAnchorPoint(0.5, 0.5)
     highestScoreTxt:setColor(cc.c4b(255,50,50,100))
     highestScoreTxt:addTo(gameOverLayer)
@@ -636,11 +730,35 @@ function BattleScene:createGameOverLayer()
             font = "FontNormal.ttf",
             size = 20
         })
-        highestScoreTxt:pos(display.width/2, display.height/1.5 + 50)
+        highestScoreTxt:pos(display.width/2, display.height/1.5 + 30)
         highestScoreTxt:setAnchorPoint(0.5, 0.5)
         highestScoreTxt:setColor(cc.c4b(255,50,50,100))
         highestScoreTxt:addTo(gameOverLayer)
     end
+
+    --昵称显示
+    local name = cc.UserDefault:getInstance():getStringForKey("UserName")
+    local nameTxt = display.newTTFLabel({
+        text = "昵称："..name,
+        font = "FontNormal.ttf",
+        size = 20
+    })
+    nameTxt:pos(display.width/2 - 10, display.height/1.5)
+    nameTxt:setAnchorPoint(1, 0.5)
+    nameTxt:setColor(cc.c4b(150,250,255,100))
+    nameTxt:addTo(gameOverLayer)
+
+    --昵称显示
+    local score = self.score_
+    local scoreTxt = display.newTTFLabel({
+        text = "得分："..score,
+        font = "FontNormal.ttf",
+        size = 20
+    })
+    scoreTxt:pos(display.width/2 + 10, display.height/1.5)
+    scoreTxt:setAnchorPoint(0, 0.5)
+    scoreTxt:setColor(cc.c4b(150,250,255,100))
+    scoreTxt:addTo(gameOverLayer)
 end
 
 return BattleScene

@@ -83,21 +83,26 @@ function RankingScene:createLayer()
         font:setAnchorPoint(0, 0.5)
         font:pos(25, itemHeight/2)
 
-        local fontName = ccui.Text:create("昵称 " .. i .. " ", "FontNormal.ttf", 23)
+        local fontName = ccui.Text:create("昵称 " .. i .. " ", "FontNormal.ttf", 20)
         fontName:addTo(itemLayer)
-        fontName:setAnchorPoint(0.5, 0.5)
-        fontName:pos(itemWidth+20, itemHeight * 0.5)
+        fontName:setAnchorPoint(0, 0.5)
+        fontName:pos(itemWidth-30, itemHeight * 0.5)
+
+        local scoreTitle = ccui.Text:create("得分 ", "FontNormal.ttf", 20)
+        scoreTitle:addTo(itemLayer)
+        scoreTitle:setAnchorPoint(0, 0.5)
+        scoreTitle:pos(itemWidth*2-55, itemHeight * 0.5)
 
         local fontScore
         if i <= 3 then
-            fontScore = ccui.TextBMFont:create("得分 " ..(10000 - (i-1) * 1000), "islandcvbignum.fnt")
-            fontScore:setScale(0.25)
+            fontScore = ccui.TextBMFont:create((10000 - (i-1) * 1000), "islandcvbignum.fnt")
+            fontScore:setScale(0.23)
         else
-            fontScore = ccui.Text:create("得分 " ..(10000 - (i-1) * 1000), "FontNormal.ttf", 20)
+            fontScore = ccui.Text:create((10000 - (i-1) * 1000), "FontNormal.ttf", 20)
         end
         fontScore:addTo(itemLayer)
-        fontScore:setAnchorPoint(0.5, 0.5)
-        fontScore:pos(itemWidth*2+30, itemHeight * 0.5)
+        fontScore:setAnchorPoint(0, 0.5)
+        fontScore:pos(itemWidth*2 - 10, itemHeight * 0.5)
 
     end
 

@@ -11,6 +11,16 @@ end)
 --MUSIC_KEY = "music_key"
 --local defaults = cc.UserDefault:getInstance()   --定义一个作用域范围
 
+--[[
+    控制是否继续游戏
+]]
+local isContinue = false
+function MainScene:setIsContinue(bool)
+    isContinue = bool
+end
+function MainScene:getIsContinue()
+    return isContinue
+end
 
 --[[--
     构造函数
@@ -22,6 +32,11 @@ end)
 function MainScene:ctor()
     print("ctor")
     self:uiController()
+end
+
+function MainScene:create()
+    local scene = MainScene.new()
+    return scene
 end
 
 --[[-- 
@@ -123,11 +138,12 @@ function MainScene:createMainUI()
     buttonNewGame:pos(width * 0.5, height*0.5 + 150)
     buttonNewGame:setTitleFontSize(20)
     buttonNewGame:addTo(mainLayer)
-    -- 按钮点击事件(打开排行榜界面)
+    -- 按钮点击事件(打开战斗界面)
     buttonNewGame:addTouchEventListener(function(sender, eventType)
         if 2 == eventType then
+            isContinue = false
             local battleScene = BattleScene:create()
-            director:pushScene(battleScene)
+            director:replaceScene(battleScene)
         end
     end)
 
@@ -140,6 +156,15 @@ function MainScene:createMainUI()
     buttonContinue:pos(width * 0.5, height*0.5 + 50)
     buttonContinue:setTitleFontSize(20)
     buttonContinue:addTo(mainLayer)
+    -- 按钮点击事件(打开战斗界面)
+    buttonContinue:addTouchEventListener(function(sender, eventType)
+        if 2 == eventType then
+            isContinue = true
+            local battleScene = BattleScene:create()
+            director:replaceScene(battleScene)
+        end
+    end)
+
 
     -- 排行榜按钮
     local buttonContinue = ccui.Button:create("ui/main/rank_menu.png", "ui/main/rank_menu2.png")

@@ -145,7 +145,9 @@ function SettingScene:createLayer()
         font = "FontNormal.ttf",
         size = 20
     })
-    labelNum1:align(display.CENTER, display.cx, display.cy-70)
+    --labelNum1:align(display.CENTER, display.cx, display.cy-70)
+    labelNum1:setAnchorPoint(0, 0.5)
+    labelNum1:setPosition(display.width/3, spriteBgm:getPositionY() - 100)
     labelNum1:setColor(cc.c4b(255,50,50,100))
     labelNum1:addTo(self)
 
@@ -164,7 +166,9 @@ function SettingScene:createLayer()
         font = "FontNormal.ttf",
         size = 20
     })
-    labelLine:align(display.CENTER, display.cx, display.cy-100)
+    --labelLine:align(display.CENTER, display.cx, display.cy-100)
+    labelNum2:setAnchorPoint(0, 0.5)
+    labelNum2:setPosition(display.width/3, spriteBgm:getPositionY() - 130)
     labelLine:addTo(self)
 
 
