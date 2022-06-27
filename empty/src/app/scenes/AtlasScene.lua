@@ -1,46 +1,48 @@
 
-local MainScene = class("MainScene", function()
-    return display.newScene("MainScene")
+local AtlasScene = class("AtlasScene", function()
+    return display.newScene("AtlasScene")
 end)
 
-function MainScene:ctor()
+function AtlasScene:ctor()
 
     self:createMiddleMiddlePanel()
     --开始游戏按钮
-    local images = {
-        normal = "ui/hall/battle/Button-Battle_Mode.png",
-        pressed = "",
-        disabled = "ui/hall/battle/Button-Battle_Mode.png"
-    }
+    -- local images = {
+    --     normal = "ui/hall/battle/Button-Battle_Mode.png",
+    --     pressed = "",
+    --     disabled = "ui/hall/battle/Button-Battle_Mode.png"
+    -- }
 
-    local NewGameBtn = ccui.Button:create(images["normal"], images["pressed"], images["disabled"])
-    NewGameBtn:setAnchorPoint(cc.p(0.5 ,0.5))
-    -- 居中
-    NewGameBtn:setPosition(cc.p(display.cx, display.cy))
-    -- 设置缩放程度
-    NewGameBtn:setScale(0.5, 0.5)
-    -- 设置是否禁用(false为禁用)
-    NewGameBtn:setEnabled(true)
-    -- registerBtn:addClickEventListener(function()
-    --     print("lalala")
-    -- end)
+    -- local NewGameBtn = ccui.Button:create(images["normal"], images["pressed"], images["disabled"])
+    -- NewGameBtn:setAnchorPoint(cc.p(0.5 ,0.5))
+    -- -- 居中
+    -- NewGameBtn:setPosition(cc.p(display.cx, display.cy))
+    -- -- 设置缩放程度
+    -- NewGameBtn:setScale(0.5, 0.5)
+    -- -- 设置是否禁用(false为禁用)
+    -- NewGameBtn:setEnabled(true)
+    -- -- registerBtn:addClickEventListener(function()
+    -- --     print("lalala")
+    -- -- end)
 
-    NewGameBtn:addTouchEventListener(function(sender, eventType)
-	 	if eventType == ccui.TouchEventType.ended then
-	 		local ABtn = import("app.scenes.GameView.GameScene"):new()
-            display.replaceScene(ABtn,"turnOffTiles",0.5)
-	 	end
-	end)
+    -- NewGameBtn:addTouchEventListener(function(sender, eventType)
+	--  	if eventType == ccui.TouchEventType.ended then
+	--  		local ABtn = import("app.scenes.GameView.GameScene"):new()
+    --         display.replaceScene(ABtn,"turnOffTiles",0.5)
+	--  	end
+	-- end)
 
-    self:addChild(NewGameBtn, 4)
+    -- self:addChild(NewGameBtn, 4)
 
     self:createMiddleBottomPanel()
     self:createMiddleTopPanel()
+    self:createTroopPanel()
+    self:createCollectionPanel()
 
 
 end
 --bg-battle_interface.png
-function MainScene:createMiddleMiddlePanel()
+function AtlasScene:createMiddleMiddlePanel()
     local width ,height  =display.width,display.top
     local settingLayer = ccui.Layout:create()
     settingLayer:setBackGroundImage("ui/hall/battle/bg-battle_interface.png")
@@ -52,7 +54,7 @@ function MainScene:createMiddleMiddlePanel()
 
 end
 
-function MainScene:createMiddleBottomPanel()
+function AtlasScene:createMiddleBottomPanel()
     local width,height = display.width,display.top
     local menuLayer = ccui.Layout:create()
     menuLayer:setContentSize(width,height)
@@ -97,17 +99,10 @@ function MainScene:createMiddleBottomPanel()
     AtlasBtn:setScale(240/230)
     AtlasBtn:pos(0+230*240/230+230*240/230,0)
     AtlasBtn:addTo(menuLayer)
-
-    AtlasBtn:addTouchEventListener(function(sender, eventType)
-		if 2 == eventType then
-			local atlasScene=import("app/scenes/AtlasScene"):new()
-            display.replaceScene(atlasScene)
-		end
-	end)
     
 end
 --顶部
-function MainScene:createMiddleTopPanel()
+function AtlasScene:createMiddleTopPanel()
     local width,height = display.width,display.top
     local infoLayer = ccui.Layout:create()
     --infoLayer:setBackGroundImage("ui/hall/Prompt text/bg-topPanel.png")
@@ -246,47 +241,9 @@ function MainScene:createMiddleTopPanel()
 end
 
 --[[
-    函数用途：实现左右翻页
-    --]]
-function MainScene:sliderView(layer)
-    -- PageView
-    local pageView = ccui.PageView:create()
-    -- 设置PageView容器尺寸
-    pageView:setBackGroundColor(cc.c3b(200,200,255))
-    pageView:setBackGroundColorType(1)
-    pageView:setContentSize(720, 1280)
-    pageView:setTouchEnabled(true)    -- 设置可触摸 若设置为false 则不能响应触摸事件
-    pageView:setAnchorPoint(0.5, 0.5)
-    pageView:setPosition(display.cx, display.cy)
-    pageView:addPage(layer)
-    for i = 1,3 do
-        local layer = ccui.Layout:create()
-        layer:setAnchorPoint(0, 0)
-        layer:setPosition(0, 0)
-        layer:setContentSize(720, 1280)
-        local image = ccui.ImageView:create("TreasureChest - Epic.png")
-        image:setPosition(display.cx, display.cy)
-        image:addTo(layer)
-        pageView:addPage(layer)
-    end
-
-    -- 触摸回调
-    local function PageViewCallBack(sender,event)
-        -- 翻页时
-        if event==ccui.PageViewEventType.turning then
-            -- getCurrentPageIndex() 获取当前翻到的页码 打印
-            print("当前页码是"..pageView:getCurPageIndex() + 1)
-        end
-    end
-    pageView:addEventListener(PageViewCallBack)
-    self:addChild(pageView, 0)
-
-end
-
---[[
     函数用途：加载界面，加载完毕后切换至游戏大厅
     --]]
-function MainScene:loadingPanel()
+function AtlasScene:loadingPanel()
     local loadPanel = ccui.Layout:create()--加载页面层级
     loadPanel:setContentSize(720, 1280)
     loadPanel:setAnchorPoint(0, 0)
@@ -341,12 +298,113 @@ function MainScene:loadingPanel()
 
 end
 
+function AtlasScene:createCollectionPanel()
 
-
-function MainScene:onEnter()
 end
 
-function MainScene:onExit()
+function AtlasScene:createTroopPanel()
+    local width,height = display.width,display.top
+    local TroopLayer = ccui.Layout:create()
+    TroopLayer:setContentSize(width,height)
+    TroopLayer:setAnchorPoint(0,0)
+    TroopLayer:setPosition(0,0)
+    
+    TroopLayer:addTo(self)
+    --当前阵容底图
+    local currenttroop=ccui.ImageView:create("ui/hall/Atlas/Subinterface_currentsquad/bottomchart_title.png")
+    currenttroop:setScale(1)
+    currenttroop:setAnchorPoint(0,1)
+    currenttroop:pos(0+35,height-170)
+    currenttroop:addTo(TroopLayer)
+
+    local currenttroopblack=ccui.ImageView:create("ui/hall/Atlas/Subinterface_currentsquad/bottomchart_area.png")
+    currenttroopblack:setScale(1)
+    currenttroopblack:setAnchorPoint(0,1)
+    currenttroopblack:pos(0+35,height-255)
+    currenttroopblack:addTo(TroopLayer)
+    --当前阵容文字
+    local trooplabel=cc.Label:createWithTTF("当前阵容","ui/font/fzbiaozjw.ttf",40)
+    trooplabel:setAnchorPoint(0,1)
+    trooplabel:pos(0+200,height-190)
+    trooplabel:addTo(TroopLayer)
+
+    self:createTroopItem(TroopLayer,"ui/hall/common/Tower-Icon/01.png"
+    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_disturb.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",0,0)
+    self:createTroopItem(TroopLayer,"ui/hall/common/Tower-Icon/01.png"
+    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",130,0)
+    self:createTroopItem(TroopLayer,"ui/hall/common/Tower-Icon/01.png"
+    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",130+130,0)
+    self:createTroopItem(TroopLayer,"ui/hall/common/Tower-Icon/01.png"
+    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",130*3,0)
+    self:createTroopItem(TroopLayer,"ui/hall/common/Tower-Icon/01.png"
+    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.9.png",130*4,0)
 end
 
-return MainScene
+function AtlasScene:createTroopItem(layer,path,fragNum,rank,offsetX,offsetY)--层级、图片路径、碎片数量、价格、偏移量
+
+    --按钮：商品1
+    local ItemButton = ccui.Button:create(path, path, path)
+    ItemButton:setPosition(cc.p(100+offsetX, display.top-340+offsetY))
+    ItemButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
+        if eventType == ccui.TouchEventType.began then
+            local scale = cc.ScaleTo:create(1,0.9)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+
+        elseif eventType == ccui.TouchEventType.ended then
+            self:goldPurchasePanel(layer,path,fragNum,price)
+            local scale = cc.ScaleTo:create(1,1)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+
+        elseif eventType == ccui.TouchEventType.canceled then
+            local scale = cc.ScaleTo:create(1,1)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+        end
+    end)
+    ItemButton:addTo(layer)
+
+    --攻击 辅助 控制 干扰 召唤
+    local fragmentBg =ccui.ImageView:create(fragNum)
+    fragmentBg:setPosition(cc.p(90, 100))
+    fragmentBg:addTo(ItemButton)
+
+    --等级底图
+    local goldCoinIcon =ccui.ImageView:create("ui/hall/Atlas/Subinterface_currentsquad/bottomchart_rank.png")
+    goldCoinIcon:setPosition(cc.p(60, -20))
+    goldCoinIcon:addTo(ItemButton)
+
+    --等级
+    local Rank =ccui.ImageView:create(rank)
+    Rank:setPosition(cc.p(60, -20))
+    Rank:addTo(ItemButton)
+
+
+
+    -- HEAD01 = "ui/hall/common/Tower-Icon/01.png",
+    -- HEAD02 = "ui/hall/common/Tower-Icon/02.png",
+    -- HEAD03 = "ui/hall/common/Tower-Icon/03.png",
+    -- HEAD04 = "ui/hall/common/Tower-Icon/04.png",
+    -- HEAD05 = "ui/hall/common/Tower-Icon/05.png",
+
+
+    --ui\hall\Atlas\Secondaryinterface_towerinfo
+
+    --攻击 辅助 控制 干扰 召唤
+    -- towertype_attack.png
+    -- towertype_auxiliary.png
+    -- towertype_control.png
+    -- towertype_disturb.png
+    -- towertype_summon.png
+
+end
+
+
+function AtlasScene:onEnter()
+end
+
+function AtlasScene:onExit()
+end
+
+return AtlasScene

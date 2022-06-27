@@ -342,46 +342,122 @@ function SetScene:createlayerPanel()
 
     --音乐音效等按钮
     
-    -- local sound_click_contrl = ccui.ImageView:create("ui/setting/sound_click_contrl_cover.png")
-    -- sound_click_contrl:setAnchorPoint(0.5, 0.5)
-    -- sound_click_contrl:pos(width*0.5, height*0.6)
-    -- sound_click_contrl:addTo(settingLayer)
-    -- local function onChangedCheckBox2(sender,eventType)
-    --     local state=false
-    --     if eventType==ccui.CheckBoxEventType.selected then
-    --         state=true
-    --         else if eventType==ccui.CheckBoxEventType.unselected then
-    --             state=false
-    --         end
-    --     end
-    --     --按照state执行命令
-    --     if state then
-    --         print("1")
-    --         local SettingMusic = require("src/app/scenes/SettingMusic")
-    --         local isMusic = SettingMusic:setMusic(true)
-    --         print(isMusic)
 
-    --         --音效是开启音效时候，全局变量设置为1，进入游戏界面如果全局变量1，则音效开启
-    --     else 
-    --         print("2")
+    local function onChangedCheckBox1(sender,eventType)
+        local state=false
+        if eventType==ccui.CheckBoxEventType.selected then
+            state=true
+            else if eventType==ccui.CheckBoxEventType.unselected then
+                state=false
+            end
+        end
+        --按照state执行命令
+        if state then
+            print("1")
+            local SettingMusic = require("src/app/scenes/SettingMusic")
+            local isMusic = SettingMusic:setMusic1(true)
+            print(isMusic)
 
-    --         local SettingMusic = require("src/app/scenes/SettingMusic")
-    --         local isMusic = SettingMusic:setMusic(false)
-    --         print(isMusic)
-    --         --音效是关闭音效时候，全局变量设置为2，进入游戏界面如果全局变量2，则音效关闭
-    --     end
+            --音效是开启音效时候，全局变量设置为1，进入游戏界面如果全局变量1，则音效开启
+        else 
+            print("2")
 
-    -- end
-    -- local sound_click_contrlButton=ccui.CheckBox:create(
-    --     "ui/setting/soundon2_cover.png",
-    --     "ui/setting/soundon2_cover.png",
-    --     "ui/setting/soundon1_cover.png",
-    --     "ui/setting/soundon1_cover.png",
-    --     "ui/setting/soundon1_cover.png")
-    -- sound_click_contrlButton:setAnchorPoint(0.5,0.5)
-    -- sound_click_contrlButton:pos(width*0.5, height*0.5)
-    -- sound_click_contrlButton:addTo(settingLayer)
-    -- sound_click_contrlButton:addEventListener(onChangedCheckBox2)
+            local SettingMusic = require("src/app/scenes/SettingMusic")
+            local isMusic = SettingMusic:setMusic1(false)
+            print(isMusic)
+            --音效是关闭音效时候，全局变量设置为2，进入游戏界面如果全局变量2，则音效关闭
+        end
+
+    end
+    local sound_click_contrlButton1=ccui.CheckBox:create(
+        "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-off.png",
+        "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-off.png",
+        "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-on.png",
+        "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-on.png",
+        "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-on.png")
+    sound_click_contrlButton1:setAnchorPoint(0,0)
+    sound_click_contrlButton1:pos(width*0.5, height*0.5+90)
+    sound_click_contrlButton1:addTo(SetLayer)
+    sound_click_contrlButton1:addEventListener(onChangedCheckBox1)
+
+
+    local function onChangedCheckBox2(sender,eventType)
+        local state=false
+        if eventType==ccui.CheckBoxEventType.selected then
+            state=true
+            else if eventType==ccui.CheckBoxEventType.unselected then
+                state=false
+            end
+        end
+        --按照state执行命令
+        if state then
+            print("1")
+            local SettingMusic = require("src/app/scenes/SettingMusic")
+            local isMusic = SettingMusic:setMusic2(true)
+            print(isMusic)
+
+            --音效是开启音效时候，全局变量设置为1，进入游戏界面如果全局变量1，则音效开启
+        else 
+            print("2")
+
+            local SettingMusic = require("src/app/scenes/SettingMusic")
+            local isMusic = SettingMusic:setMusic2(false)
+            print(isMusic)
+            --音效是关闭音效时候，全局变量设置为2，进入游戏界面如果全局变量2，则音效关闭
+        end
+
+    end
+
+    local sound_click_contrlButton2=ccui.CheckBox:create(
+        "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-off.png",
+        "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-off.png",
+        "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-on.png",
+        "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-on.png",
+        "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-on.png")
+    sound_click_contrlButton2:setAnchorPoint(0,0)
+    sound_click_contrlButton2:pos(width*0.5, height*0.5+90-65)
+    sound_click_contrlButton2:addTo(SetLayer)
+    sound_click_contrlButton2:addEventListener(onChangedCheckBox2)
+
+
+    
+    local function onChangedCheckBox3(sender,eventType)
+        local state=false
+        if eventType==ccui.CheckBoxEventType.selected then
+            state=true
+            else if eventType==ccui.CheckBoxEventType.unselected then
+                state=false
+            end
+        end
+        --按照state执行命令
+        if state then
+            print("1")
+            local SettingMusic = require("src/app/scenes/SettingMusic")
+            local isMusic = SettingMusic:setMusic3(true)
+            print(isMusic)
+
+            --音效是开启音效时候，全局变量设置为1，进入游戏界面如果全局变量1，则音效开启
+        else 
+            print("2")
+
+            local SettingMusic = require("src/app/scenes/SettingMusic")
+            local isMusic = SettingMusic:setMusic3(false)
+            print(isMusic)
+            --音效是关闭音效时候，全局变量设置为2，进入游戏界面如果全局变量2，则音效关闭
+        end
+
+    end
+
+    local sound_click_contrlButton3=ccui.CheckBox:create(
+        "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-off.png",
+        "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-off.png",
+        "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-on.png",
+        "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-on.png",
+        "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-on.png")
+    sound_click_contrlButton3:setAnchorPoint(0,0)
+    sound_click_contrlButton3:pos(width*0.5, height*0.5+90-65-65)
+    sound_click_contrlButton3:addTo(SetLayer)
+    sound_click_contrlButton3:addEventListener(onChangedCheckBox3)
 
 
     
