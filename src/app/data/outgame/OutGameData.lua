@@ -71,7 +71,7 @@ function OutGameData:initTower()
     "前方", 10, 10, 10, 1, nil, "攻击力加成", 20, 1, nil, nil)
     local tower_9 = Tower.new(9, 1, 1, "攻击时有概率直接杀死怪物,对BOSS无效。",
     "随机敌人", 20, 4, nil, 1.2, nil, "攻击致死概率", 0.02, 0.002, 0.005, nil, nil)
-    local tower_10 = Tower.new(10, 4, 1, "使被攻击目标得到“中毒”状态。中毒：每秒造成额外伤害。",
+    local tower_10 = Tower.new(10, 1, 1, "使被攻击目标得到“中毒”状态。中毒：每秒造成额外伤害。",
     "随即敌人", 30, 2, 10, 1.3, nil, "额外伤害", 50, 5, 20, nil, nil)
     local tower_11 = Tower.new(11, 3, 2, "合成时在对方玩家区域召唤一个特殊怪，使该区域的所有怪物加速。",
     "前方", 10, 5, 10, 0.8, 0.02, "加速效果", 0.05, nil, nil, nil, nil)
@@ -377,7 +377,7 @@ end
     @return none
 ]]
 function OutGameData:choosePacks(tower, num)
-    local rarity = tower.getTowerRarity()
+    local rarity = tower:getTowerRarity()
     if rarity == 1 then
         self:addTowerTOPacks(tower, num, packsOrdinary_, unPacksOrdinary_)
     elseif rarity == 2 then
@@ -399,15 +399,20 @@ end
     @return none
 ]]
 function OutGameData:addTowerTOPacks(tower, num, packs, unpacks)
-    for k, v in pairs(packs) do
-        if tower.getTowerId() == v.getTowerId() then
-            packs[k].setTowerNumber(num)
-            return
+    if packs~=nil then
+        for k, v in pairs(packs) do
+            if tower:getTowerId() == v:getTower():getTowerId() then
+                packs[k]:setTowerNumber(num)
+                return
+            end
         end
+        packs[#packs+1]=PackItem.new(tower, num)
+        packs[#packs]:setTowerNumber(num)
+    else
+        packs[1]=PackItem.new(tower, num)
+        packs[1]:setTowerNumber(num)
     end
-    local packItem = PackItem.new(tower, num)
     self:removeTowerTOPacks(tower, unpacks)
-    packs[#packs + 1] = packItem
 end
 
 --[[--
@@ -419,10 +424,14 @@ end
     @return none
 ]]
 function OutGameData:removeTowerTOPacks(tower, packs)
-    for k, v in pairs(packs) do
-        if tower.getTowerId() == v.getTowerId() then
-            table.remove(packs, k)
-            return
+    if packs==nil then
+        return
+    else
+        for k, v in pairs(packs) do
+            if tower:getTowerId() == v:getTowerId() then
+                table.remove(packs, k)
+                return
+            end
         end
     end
 end

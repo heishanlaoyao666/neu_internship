@@ -93,13 +93,13 @@ function ConfirmationLayer:initView()
     --获得的塔和数目
     local sprite4= display.
     newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_confirmationpopup\\icon_tower\\"
-    ..self.packs[1]:getTowerId()..".png")
+    ..packs[1]:getTowerId()..".png")
     self.container_:addChild(sprite4)
     sprite4:setScale(0.8)
     sprite4:setAnchorPoint(0.5, 0.5)
     sprite4:setPosition(sprite1:getContentSize().width/2-180, sprite1:getContentSize().height/2)
     display.newTTFLabel({
-        text ="x"..self.packsNum[1],
+        text ="x"..packsnum[1],
         size = 25,
         color = display.COLOR_WHITE
     })
@@ -115,13 +115,13 @@ function ConfirmationLayer:initView()
 
     local sprite5= display.
     newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_confirmationpopup\\icon_tower\\"
-    ..self.packs[2]:getTowerId()..".png")
+    ..packs[2]:getTowerId()..".png")
     self.container_:addChild(sprite5)
     sprite5:setScale(0.8)
     sprite5:setAnchorPoint(0.5, 0.5)
     sprite5:setPosition(sprite1:getContentSize().width/2-60, sprite1:getContentSize().height/2)
     display.newTTFLabel({
-        text ="x"..self.packsNum[2],
+        text ="x"..packsnum[2],
         size = 25,
         color = display.COLOR_WHITE
     })
@@ -137,13 +137,13 @@ function ConfirmationLayer:initView()
 
     local sprite6= display.
     newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_confirmationpopup\\icon_tower\\"
-    ..self.packs[3]:getTowerId()..".png")
+    ..packs[3]:getTowerId()..".png")
     self.container_:addChild(sprite6)
     sprite6:setScale(0.8)
     sprite6:setAnchorPoint(0.5, 0.5)
     sprite6:setPosition(sprite1:getContentSize().width/2+60, sprite1:getContentSize().height/2)
     display.newTTFLabel({
-        text ="x"..self.packsNum[3],
+        text ="x"..packsnum[3],
         size = 25,
         color = display.COLOR_WHITE
     })
@@ -159,13 +159,13 @@ function ConfirmationLayer:initView()
 
     local sprite7= display.
     newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_confirmationpopup\\icon_tower\\"
-    ..self.packs[4]:getTowerId()..".png")
+    ..packs[4]:getTowerId()..".png")
     self.container_:addChild(sprite7)
     sprite7:setScale(0.8)
     sprite7:setAnchorPoint(0.5, 0.5)
     sprite7:setPosition(sprite1:getContentSize().width/2+180, sprite1:getContentSize().height/2)
     display.newTTFLabel({
-        text ="x"..self.packsNum[4],
+        text ="x"..packsnum[4],
         size = 25,
         color = display.COLOR_WHITE
     })
@@ -179,7 +179,7 @@ function ConfirmationLayer:initView()
     :align(display.CENTER, sprite4:getContentSize().width/2, -30)
     :addTo(sprite7)
 
-    if #self.packsNum==8 then
+    if #packsnum==8 then
         sprite4:setPositionY(sprite1:getContentSize().height/2+50)
         sprite5:setPositionY(sprite1:getContentSize().height/2+50)
         sprite6:setPositionY(sprite1:getContentSize().height/2+50)
@@ -188,13 +188,13 @@ function ConfirmationLayer:initView()
         a4:setString("普通")
         local sprite8= display.
         newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_confirmationpopup\\icon_tower\\"
-        ..self.packs[5]:getTowerId()..".png")
+        ..packs[5]:getTowerId()..".png")
         self.container_:addChild(sprite8)
         sprite8:setScale(0.8)
         sprite8:setAnchorPoint(0.5, 0.5)
         sprite8:setPosition(sprite1:getContentSize().width/2-120, sprite1:getContentSize().height/2-90)
         display.newTTFLabel({
-            text ="x"..self.packsNum[5],
+            text ="x"..packsnum[5],
             size = 25,
             color = display.COLOR_WHITE
         })
@@ -210,13 +210,13 @@ function ConfirmationLayer:initView()
 
         local sprite9= display.
         newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_confirmationpopup\\icon_tower\\"
-        ..self.packs[6]:getTowerId()..".png")
+        ..packs[6]:getTowerId()..".png")
         self.container_:addChild(sprite9)
         sprite9:setScale(0.8)
         sprite9:setAnchorPoint(0.5, 0.5)
         sprite9:setPosition(sprite1:getContentSize().width/2, sprite1:getContentSize().height/2-90)
         display.newTTFLabel({
-            text ="x"..self.packsNum[6],
+            text ="x"..packsnum[6],
             size = 25,
             color = display.COLOR_WHITE
         })
@@ -232,13 +232,13 @@ function ConfirmationLayer:initView()
 
         local sprite10= display.
         newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_confirmationpopup\\icon_tower\\"
-        ..self.packs[7]:getTowerId()..".png")
+        ..packs[7]:getTowerId()..".png")
         self.container_:addChild(sprite10)
         sprite10:setScale(0.8)
         sprite10:setAnchorPoint(0.5, 0.5)
         sprite10:setPosition(sprite1:getContentSize().width/2+120, sprite1:getContentSize().height/2-90)
         display.newTTFLabel({
-            text ="x"..self.packsNum[7],
+            text ="x"..packsnum[7],
             size = 25,
             color = display.COLOR_WHITE
         })
@@ -251,16 +251,16 @@ function ConfirmationLayer:initView()
         })
         :align(display.CENTER, sprite4:getContentSize().width/2, -30)
         :addTo(sprite10)
-        if self.packsNum[8]==1 then
+        if packsnum[8]==1 then
             local sprite11= display.
             newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_confirmationpopup\\icon_tower\\"
-            ..self.packs[8]:getTowerId()..".png")
+            ..packs[8]:getTowerId()..".png")
             self.container_:addChild(sprite11)
             sprite11:setScale(0.8)
             sprite11:setAnchorPoint(0.5, 0.5)
             sprite11:setPosition(sprite1:getContentSize().width/2+180, sprite1:getContentSize().height/2-90)
             display.newTTFLabel({
-                text ="x"..self.packsNum[8],
+                text ="x"..packsnum[8],
                 size = 25,
                 color = display.COLOR_WHITE
             })
@@ -279,6 +279,21 @@ function ConfirmationLayer:initView()
             sprite10:setPositionX(sprite1:getContentSize().width/2+60)
         end
     end
+    pack={}
+    packnum={}
+    for i=1,#packs do
+        pack[i]=packs[i]
+        packnum[i]=packsnum[i]
+        if i==8 then
+            if packnum[i]==0 then
+            else
+                OutGameData:choosePacks(pack[i],packnum[i])
+            end
+        else
+            OutGameData:choosePacks(pack[i],packnum[i])
+        end
+    end
+    EventManager:doEvent(EventDef.ID.KNAPSACK_CHANGE)
 
 end
 --[[--
@@ -291,16 +306,18 @@ end
 
 ]]
 function ConfirmationLayer:SetData(data,gold)
+    --OutGameData:initTower()
     self.gold=gold
     if data==1 then
-        self.packs, self.packsNum=OutGameData:ordinaryChests()
+        packs, packsnum=OutGameData:ordinaryChests()
     elseif data==2 then
-        self.packs, self.packsNum=OutGameData:rarityChests()
+        packs,packsnum=OutGameData:rarityChests()
     elseif data==3 then
-        self.packs, self.packsNum=OutGameData:epicChests()
+        packs, packsnum=OutGameData:epicChests()
     elseif data==4 then
-        self.packs, self.packsNum=OutGameData:legendChests()
+        packs, packsnum=OutGameData:legendChests()
     end
+
 end
 --[[--
     界面刷新

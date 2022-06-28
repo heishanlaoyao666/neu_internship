@@ -16,6 +16,8 @@ local EventDef = require("src\\app\\def\\outgame\\EventDef.lua")
 local EventManager = require("app.manager.EventManager")
 local BuyLayer = require("src\\app\\ui\\outgame\\layer\\BuyLayer.lua")
 local ObtainItemLayer = require("src\\app\\ui\\outgame\\layer\\ObtainItemLayer.lua")
+local KnapsackLayer = require("src\\app\\ui\\outgame\\layer\\KnapsackLayer.lua")
+local IntensifiesLayer = require("src\\app\\ui\\outgame\\layer\\IntensifiesLayer.lua")
 
 --[[--
     构造函数
@@ -27,6 +29,8 @@ local ObtainItemLayer = require("src\\app\\ui\\outgame\\layer\\ObtainItemLayer.l
 function MainView:ctor()
     self.TopInfoLayer_ = nil -- 类型：TopInfoLayer，顶部信息层
     self.BottomInfoLayer_ = nil -- 类型：BottomInfoLayer，底部信息层
+    self.KnapsackLayer_ = nil -- 类型：KnapsackLayer，背包层
+    --self.ShopLayer_=nil -- 类型：ShopLayer_，商店层
     OutGameData:initTower()
     self.packs=OutGameData:goldShop()
 
@@ -222,7 +226,7 @@ function MainView:initView()
                     if cc.UserDefault:getInstance():getBoolForKey("音效") then
                         audio.playEffect("sounds/get_paid_item.OGG",false)
                     end
-                    BuyLayer:SetBuy(36,360,self.packs[1]:getTowerId())
+                    BuyLayer:SetBuy(36,360,self.packs[1])
                     BuyLayer:new():addTo(self)
                 end
             end
@@ -263,7 +267,7 @@ function MainView:initView()
                     if cc.UserDefault:getInstance():getBoolForKey("音效") then
                         audio.playEffect("sounds/get_paid_item.OGG",false)
                     end
-                    BuyLayer:SetBuy(36,360,self.packs[3]:getTowerId())
+                    BuyLayer:SetBuy(36,360,self.packs[2])
                     BuyLayer:new():addTo(self)
                 end
             end
@@ -304,7 +308,7 @@ function MainView:initView()
                     if cc.UserDefault:getInstance():getBoolForKey("音效") then
                         audio.playEffect("sounds/get_paid_item.OGG",false)
                     end
-                    BuyLayer:SetBuy(36,360,self.packs[3]:getTowerId())
+                    BuyLayer:SetBuy(36,360,self.packs[3])
                     BuyLayer:new():addTo(self)
                 end
             end
@@ -345,7 +349,7 @@ function MainView:initView()
                     if cc.UserDefault:getInstance():getBoolForKey("音效") then
                         audio.playEffect("sounds/get_paid_item.OGG",false)
                     end
-                    BuyLayer:SetBuy(6,600,self.packs[4]:getTowerId())
+                    BuyLayer:SetBuy(6,600,self.packs[4])
                     BuyLayer:new():addTo(self)
                 end
             end
@@ -386,7 +390,7 @@ function MainView:initView()
                     if cc.UserDefault:getInstance():getBoolForKey("音效") then
                         audio.playEffect("sounds/get_paid_item.OGG",false)
                     end
-                    BuyLayer:SetBuy(1,1000,self.packs[5]:getTowerId())
+                    BuyLayer:SetBuy(1,1000,self.packs[5])
                     BuyLayer:new():addTo(self)
                 end
             end
@@ -553,295 +557,14 @@ function MainView:initView()
     end
 
     do
-        self.collected1,self.collected2,self.collected3,self.collected4=OutGameData:getCollected()
-        self.uncollected1,self.uncollected2,self.uncollected3,self.uncollected4=OutGameData:getUnCollected()
-        local num1 = #self.collected1+#self.collected2+#self.collected3+#self.collected4
-        local num2 = #self.uncollected1+#self.uncollected2+#self.uncollected3+#self.uncollected4
-        local num3={}
-        local num4={}
-        for i=1,#self.collected1 do
-            num3[#num3+1]=self.collected1[i]
-        end
-        for i=1,#self.collected2 do
-            num3[#num3+1]=self.collected2[i]
-        end
-        for i=1,#self.collected3 do
-            num3[#num3+1]=self.collected3[i]
-        end
-        for i=1,#self.collected4 do
-            num3[#num3+1]=self.collected4[i]
-        end
-        for i=1,#self.uncollected1 do
-            num4[#num4+1]=self.uncollected1[i]
-        end
-        for i=1,#self.uncollected2 do
-            num4[#num4+1]=self.uncollected2[i]
-        end
-        for i=1,#self.uncollected3 do
-            num4[#num4+1]=self.uncollected3[i]
-        end
-        for i=1,#self.uncollected4 do
-            num4[#num4+1]=self.uncollected4[i]
-        end
-        num1=9
-        --num2=10
         --图鉴界面
         self.container_2 = ccui.Layout:create()
         self.container_2:setContentSize(display.width, height)
         --page:addPage(self.container_2)
         self.container_2:setPosition(0, 0)
 
-        --底图
-        local spriteC = display.newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\basemap_guide.png")
-        self.container_2:addChild(spriteC)
-        spriteC:setAnchorPoint(0.5, 0.5)
-        spriteC:setPosition(display.cx,display.cy)
-
-        --当前阵容
-        local spriteC7 = display.
-        newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\current_lineup\\basemap_area.png")
-        self.container_2:addChild(spriteC7)
-        spriteC7:setAnchorPoint(0.5, 1)
-        spriteC7:setPosition(display.cx,height-150)
-
-        local spriteC1 = display.
-        newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\current_lineup\\basemap_title.png")
-        self.container_2:addChild(spriteC1)
-        spriteC1:setAnchorPoint(0.5, 1)
-        spriteC1:setPosition(display.cx,height-80)
-
-        local spriteC2 = display.
-        newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\current_lineup\\text_currentlineup.png")
-        self.container_2:addChild(spriteC2)
-        spriteC2:setAnchorPoint(0.5, 1)
-        spriteC2:setPosition(display.cx-110,height-100)
-
-        local spriteC3 = display.
-        newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\current_lineup\\basemap_lineupconnection.png")
-        self.container_2:addChild(spriteC3)
-        spriteC3:setAnchorPoint(0.5, 1)
-        spriteC3:setPosition(display.cx+80,height-110)
-
-        local landscapeCheckBox1 = ccui.CheckBox:
-        create("res\\artcontent\\lobby(ongame)\\atlas_interface\\current_lineup\\icon_unchecked.png",
-        nil, "res\\artcontent\\lobby(ongame)\\atlas_interface\\current_lineup\\icon_checked.png", nil, nil)
-	    :align(display.LEFT_CENTER, -20, spriteC3:getContentSize().height/2)
-	    :addTo(spriteC3)
-
-        local landscapeCheckBox2 = ccui.CheckBox:
-        create("res\\artcontent\\lobby(ongame)\\atlas_interface\\current_lineup\\icon_unchecked.png",
-        nil, "res\\artcontent\\lobby(ongame)\\atlas_interface\\current_lineup\\icon_checked.png", nil, nil)
-	    :align(display.LEFT_CENTER, spriteC3:getContentSize().width/2-20, spriteC3:getContentSize().height/2)
-	    :addTo(spriteC3)
-
-        local landscapeCheckBox3 = ccui.CheckBox:
-        create("res\\artcontent\\lobby(ongame)\\atlas_interface\\current_lineup\\icon_unchecked.png",
-        nil, "res\\artcontent\\lobby(ongame)\\atlas_interface\\current_lineup\\icon_checked.png", nil, nil)
-	    :align(display.LEFT_CENTER, spriteC3:getContentSize().width-20, spriteC3:getContentSize().height/2)
-	    :addTo(spriteC3)
-
-        local spriteC4 = display.
-        newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\current_lineup\\number_1.png")
-        landscapeCheckBox1:addChild(spriteC4)
-        spriteC4:setAnchorPoint(0.5, 0.5)
-        spriteC4:setPosition(landscapeCheckBox1:getContentSize().width/2,landscapeCheckBox1:getContentSize().height/2)
-
-        local spriteC5 = display.
-        newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\current_lineup\\number_2.png")
-        landscapeCheckBox2:addChild(spriteC5)
-        spriteC5:setAnchorPoint(0.5, 0.5)
-        spriteC5:setPosition(landscapeCheckBox2:getContentSize().width/2,landscapeCheckBox2:getContentSize().height/2)
-
-        local spriteC6 = display.
-        newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\current_lineup\\number_3.png")
-        landscapeCheckBox3:addChild(spriteC6)
-        spriteC6:setAnchorPoint(0.5, 0.5)
-        spriteC6:setPosition(landscapeCheckBox3:getContentSize().width/2,landscapeCheckBox3:getContentSize().height/2)
-
-        -- self.container_C1 = ccui.Layout:create()
-        -- self.container_C1:setContentSize(spriteC7:getContentSize().width, spriteC7:getContentSize().height)
-        -- self.container_C1:setAnchorPoint(0.5,0.5)
-        -- self.container_C1:setPosition(spriteC7:getContentSize().width/2, spriteC7:getContentSize().height/2)
-        -- self.container_C1:addTo(self.container_2)
-
-        -- local spriteC8 = display.
-        -- newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\current_lineup\\number_3.png")
-        -- self.container_C1:addChild(spriteC8)
-        -- spriteC8:setAnchorPoint(0.5, 0.5)
-        -- spriteC8:setPosition(landscapeCheckBox3:getContentSize().width/2,landscapeCheckBox3:getContentSize().height/2)
-
-        --建立listview
-        local listViewC = ccui.ListView:create()
-        listViewC:setContentSize(display.width, height)
-        listViewC:setAnchorPoint(0.5, 1)
-        listViewC:setPosition(display.cx,height-353)
-        listViewC:setDirection(1)
-        listViewC:addTo(self.container_2)
-
-        --创建三个容器，分别装提示信息，已收集和未收集
-        self.container_C1 = ccui.Layout:create()
-        -- self.container_C1:setBackGroundColor(cc.c3b(200, 0, 0))
-        -- self.container_C1:setBackGroundColorType(1)
-        self.container_C1:setContentSize(width, 150)
-        self.container_C1:setAnchorPoint(0.5,0.5)
-        self.container_C1:setPosition(display.cx, display.cy)
-        self.container_C1:addTo(listViewC)
-
-        self.container_C2 = ccui.Layout:create()
-        -- self.container_C2:setBackGroundColor(cc.c3b(200, 0, 0))
-        -- self.container_C2:setBackGroundColorType(1)
-        self.container_C2:setContentSize(width, 200+math.ceil(num1/4)*250)
-        self.container_C2:setAnchorPoint(0.5,0.5)
-        self.container_C2:setPosition(display.cx, display.cy)
-        self.container_C2:addTo(listViewC)
-        -- if #num3==0 then
-        --     self.container_C2:setContentSize(width, 200+250)
-        -- end
-
-        self.container_C3 = ccui.Layout:create()
-        -- self.container_C3:setBackGroundColor(cc.c3b(200, 0, 0))
-        -- self.container_C3:setBackGroundColorType(1)
-        self.container_C3:setContentSize(width, 450+math.ceil(#num4/4)*250)
-        self.container_C3:setAnchorPoint(0.5,0.5)
-        self.container_C3:setPosition(display.cx, display.cy)
-        self.container_C3:addTo(listViewC)
-        if #num4==0 then
-            self.container_C3:setContentSize(width, 200+250)
-        end
-
-        --提示信息
-        local spriteC8 = display.
-        newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\prompt_information\\basemap_tips.png")
-        self.container_C1:addChild(spriteC8)
-        spriteC8:setAnchorPoint(0.5, 0)
-        spriteC8:setPosition(display.cx,30)
-
-        local spriteC10 = display.
-        newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\prompt_information\\text_2.png")
-        spriteC8:addChild(spriteC10)
-        spriteC10:setAnchorPoint(0.5, 0.5)
-        spriteC10:setPosition(spriteC8:getContentSize().width/2-50,spriteC8:getContentSize().height/2+20)
-
-        local spriteC11 = display.
-        newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\prompt_information\\text_1.png")
-        spriteC8:addChild(spriteC11)
-        spriteC11:setAnchorPoint(0.5, 0.5)
-        spriteC11:setPosition(spriteC8:getContentSize().width/2,spriteC8:getContentSize().height/2-20)
-
-        --已收集,一行占250
-        -- if #num3==0 then
-        -- else
-        --     for i=1,#num3 do
-        --         local spriteC17 = display.
-        --         newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\tower_list\\basemap_towernomal.png")
-        --         self.container_C3:addChild(spriteC17)
-        --         spriteC17:setAnchorPoint(0.5, 0)
-        --         if i%4==0 then
-        --             spriteC17:setPosition(100+width*3/4,math.ceil(i/4)*250+200)
-        --         else
-        --             spriteC17:setPosition(100+width*(i%4-1)/4,math.ceil(i/4)*250+200)
-        --         end
-        --         local spriteD6 = display.
-        --         newSprite(string.format("res\\artcontent\\lobby(ongame)\\currency\\icon_tower\\%02d.png",
-        --         num4[i]:getTowerId()))
-        --         spriteC17:addChild(spriteD6)
-        --         spriteD6:setAnchorPoint(0.5, 0.5)
-        --         spriteD6:setPosition(spriteC17:getContentSize().width/2,spriteC17:getContentSize().height/2+30)
-        --         local spriteD7 = display.
-        --         newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\tower_list\\grade\\Lv.1.png")
-        --         spriteC17:addChild(spriteD7)
-        --         spriteD7:setAnchorPoint(0.5, 0.5)
-        --         spriteD7:setPosition(spriteC17:getContentSize().width/2,spriteC17:getContentSize().height/2-40)
-        --         local spriteD8 = display.
-        --         newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\tower_list\\progressbar_basemap_fragmentsnumber.png")
-        --         spriteC17:addChild(spriteD8)
-        --         spriteD8:setAnchorPoint(0.5, 0.5)
-        --         spriteD8:setPosition(spriteC17:getContentSize().width/2,spriteC17:getContentSize().height/2-80)
-        --         local spriteD9= display.
-        --         newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\tower_list\\progress_progress_fragmentsnumber.png")
-        --         spriteD8:addChild(spriteD9)
-        --         spriteD9:setAnchorPoint(0.5, 0.5)
-        --         spriteD9:setPosition(spriteD3:getContentSize().width/2,spriteD3:getContentSize().height/2)
-        --         local spriteD10 = display.
-        --         newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\tower_list\\towertype_control.png")
-        --         spriteC17:addChild(spriteD10)
-        --         spriteD10:setAnchorPoint(1, 1)
-        --         spriteD10:setPosition(spriteC17:getContentSize().width-10,spriteC17:getContentSize().height)
-        --     end
-        -- end
-        local spriteC9 = display.
-        newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\tower_list\\split_collected.png")
-        self.container_C2:addChild(spriteC9)
-        spriteC9:setAnchorPoint(0.5, 0)
-        spriteC9:setPosition(display.cx,100+math.ceil(num1/4)*250)--math.ceil()向正无穷取整
-        local spriteC13 = display.
-        newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\tower_list\\basemap_towernomal.png")
-        self.container_C2:addChild(spriteC13)
-        spriteC13:setAnchorPoint(0.5, 0)
-        spriteC13:setPosition(100,350)
-
-        local spriteC14 = display.
-        newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\tower_list\\basemap_towernomal.png")
-        self.container_C2:addChild(spriteC14)
-        spriteC14:setAnchorPoint(0.5, 0)
-        spriteC14:setPosition(width/4+100,350)
-
-        local spriteC15 = display.
-        newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\tower_list\\basemap_towernomal.png")
-        self.container_C2:addChild(spriteC15)
-        spriteC15:setAnchorPoint(0.5, 0)
-        spriteC15:setPosition(100,100)
-
-        --未收集
-        for i=1,#num4 do
-            local spriteC16 = display.
-            newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\tower_list\\basemap_towernomal.png")
-            self.container_C3:addChild(spriteC16)
-            spriteC16:setAnchorPoint(0.5, 0)
-            if i%4==0 then
-                spriteC16:setPosition(100+width*3/4,math.ceil(i/4)*250+200)
-            else
-                spriteC16:setPosition(100+width*(i%4-1)/4,math.ceil(i/4)*250+200)
-            end
-            local spriteD1 = display.
-            newSprite(string.format("res\\artcontent\\lobby(ongame)\\currency\\icon_tower\\%02d.png",
-            num4[i]:getTowerId()))
-            spriteC16:addChild(spriteD1)
-            spriteD1:setAnchorPoint(0.5, 0.5)
-            spriteD1:setPosition(spriteC16:getContentSize().width/2,spriteC16:getContentSize().height/2+30)
-            local spriteD2 = display.
-            newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\tower_list\\grade\\Lv.1.png")
-            spriteC16:addChild(spriteD2)
-            spriteD2:setAnchorPoint(0.5, 0.5)
-            spriteD2:setPosition(spriteC16:getContentSize().width/2,spriteC16:getContentSize().height/2-40)
-            local spriteD3 = display.
-            newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\tower_list\\progressbar_basemap_fragmentsnumber.png")
-            spriteC16:addChild(spriteD3)
-            spriteD3:setAnchorPoint(0.5, 0.5)
-            spriteD3:setPosition(spriteC16:getContentSize().width/2,spriteC16:getContentSize().height/2-80)
-            local spriteD4 = display.
-            newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\tower_list\\progress_progress_fragmentsnumber.png")
-            spriteD3:addChild(spriteD4)
-            spriteD4:setAnchorPoint(0.5, 0.5)
-            spriteD4:setPosition(spriteD3:getContentSize().width/2,spriteD3:getContentSize().height/2)
-            local spriteD5 = display.
-            newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\tower_list\\towertype_control.png")
-            spriteC16:addChild(spriteD5)
-            spriteD5:setAnchorPoint(1, 1)
-            spriteD5:setPosition(spriteC16:getContentSize().width-10,spriteC16:getContentSize().height)
-        end
-        local spriteC12 = display.
-        newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\tower_list\\split_notcollected.png")
-        self.container_C3:addChild(spriteC12)
-        spriteC12:setAnchorPoint(0.5, 0)
-        spriteC12:setPosition(display.cx,450+math.ceil(num2/4)*250)
-
-        -- local spriteC16 = display.
-        -- newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\tower_list\\basemap_towernomal.png")
-        -- self.container_C3:addChild(spriteC16)
-        -- spriteC16:setAnchorPoint(0.5, 0)
-        -- spriteC16:setPosition(100,450)
-
+        self.KnapsackLayer_=KnapsackLayer.new()
+        self.container_2:addChild(self.KnapsackLayer_)
     end
 
     page:addPage(self.container_1)
@@ -889,8 +612,6 @@ function MainView:initView()
 
     self.TopInfoLayer_ = TopInfoLayer.new()
     self:addChild(self.TopInfoLayer_)
-    --self.TopInfoLayer_:setSprite1("res\\artcontent\\lobby(ongame)\\currency\\icon_tower\\03.png")
-    --print(...)
 end
 
 --[[--
@@ -920,6 +641,17 @@ function MainView:onEnter()
     EventManager:regListener(EventDef.ID.GAMEDATA_CHANGE, self, function()
         self.TopInfoLayer_:setData()
     end)
+    EventManager:regListener(EventDef.ID.KNAPSACK_CHANGE, self, function()
+        self.KnapsackLayer_=KnapsackLayer.new()
+        self.container_2:addChild(self.KnapsackLayer_)
+    end)
+    EventManager:regListener(EventDef.ID.INTENSIFIES, self, function(pack)
+        -- print(pack)
+        -- print(pack:getTower():getTowerRarity())
+        IntensifiesLayer:setTower(pack)
+        IntensifiesLayer:new():addTo(self)
+        --IntensifiesLayer:setTower(pack)
+    end)
 end
 
 --[[--
@@ -932,6 +664,7 @@ end
 function MainView:onExit()
     EventManager:unRegListener(EventDef.ID.GAMESTATE_CHANGE, self)
     EventManager:unRegListener(EventDef.ID.GAMEDATA_CHANGE, self)
+    EventManager:unRegListener(EventDef.ID.KNAPSACK_CHANGE, self)
 end
 
 --[[--
@@ -941,10 +674,7 @@ end
 
     @return none
 ]]
-function MainView:update(dt)
-    -- self.bgLayer_:update(dt)
-    -- self.fightLayer_:update(dt)
-    -- self.TopInfoLayer_:update(dt)
+function MainView:update()
 end
 
 return MainView

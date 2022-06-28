@@ -3,7 +3,7 @@
     BottomInfoLayer.lua
 ]]
 local BuyLayer = class("BuyLayer", function()
-    return display.newScene("SettiBuyLayerngLayer")
+    return display.newScene("BuyLayer")
 end)
 local OutGameData = require("src\\app\\data\\outgame\\OutGameData.lua")
 local EventDef = require("src\\app\\def\\outgame\\EventDef.lua")
@@ -62,6 +62,7 @@ function BuyLayer:initView()
     self.container_:addChild(sprite1)
     sprite1:setPosition(sprite1:getContentSize().width/2, sprite1:getContentSize().height/2)
 
+    --x按钮
     local sprite2= ccui.Button:
     create("res\\artcontent\\lobby(ongame)\\store\\goldstore_confirmationpopup\\button_off.png")
     self.container_:addChild(sprite2)
@@ -79,13 +80,15 @@ function BuyLayer:initView()
         end
     )
 
-        --金币购买确认按钮
+    --金币购买确认按钮
     local sprite3= ccui.Button:
     create("res\\artcontent\\lobby(ongame)\\store\\goldstore_confirmationpopup\\button_purchase.png")
     self.container_:addChild(sprite3)
     sprite3:setAnchorPoint(0.5, 0.5)
     sprite3:setPosition(sprite1:getContentSize().width/2, sprite1:getContentSize().height/2-130)
     buyprice = self.price
+    buytower = self.tower
+    buynum=self.num
     sprite3:addTouchEventListener(
         function(sender, eventType)
             -- ccui.TouchEventType
@@ -96,6 +99,8 @@ function BuyLayer:initView()
                 end
                 OutGameData:setGold(-buyprice)
                 EventManager:doEvent(EventDef.ID.GAMEDATA_CHANGE)
+                OutGameData:choosePacks(buytower,buynum)
+                EventManager:doEvent(EventDef.ID.KNAPSACK_CHANGE)
             end
         end
     )
@@ -134,14 +139,15 @@ end
 
     @param num 类型：number，商品数目
     @param price 类型：number，商品价格
-    @param id 类型：number，商品id
+    @param tower 类型：table，商品
 
     @return none
 ]]
-function BuyLayer:SetBuy(num,price,id)
+function BuyLayer:SetBuy(num,price,tower)
     self.num=num
     self.price=price
-    self.id=id
+    self.id=tower:getTowerId()
+    self.tower=tower
 end
 
 --[[--

@@ -20,7 +20,7 @@ function ObtainItemLayer:ctor()
 
     -- self.lifeLabelBmf_ = nil -- 类型：TextBMFont，生命值
     -- self.scoreLabelBmf_ = nil -- 类型：TextBMFont，分值
-    OutGameData:initTower()
+    --OutGameData:initTower()
     self:initView()
 end
 
