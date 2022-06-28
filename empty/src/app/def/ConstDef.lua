@@ -3,7 +3,15 @@
     常量定义
 ]]
 local ConstDef = {
-    
+
+    MONSTER_SIZE = {
+        WIDTH = 43,
+        HEIGHT = 44,
+    },
+    MONSTERPLUS_SIZE = {
+        WIDTH = 72,
+        HEIGHT = 74,
+    },
     GAME_TYPE = {
         BOSS_1 = 1, --boss1
         BOSS_2 = 2, --boss2
@@ -53,6 +61,56 @@ ConstDef.BOSS ={
         ID = 4, --ID
         NAME = "狂战者", --名字
         SKILL = "不受控制效果影响，在血量为75%、50%、25%时会召唤普通怪物三个，召唤期间无敌", --描述
+    },
+}
+ConstDef.TARGET ={
+    UP = {
+        MAXID = 3,
+        [1] ={
+            MOVEX = 0,
+            MOVEY = -1,
+            X = 100,
+            Y = 400,
+        },
+        [2] ={
+            MOVEX = -1,
+            MOVEY = 0,
+            X = 600,
+            Y = 400,
+        },
+        [3] ={
+            MOVEX = 0,
+            MOVEY = 1,
+            X = 100,
+            Y = 100,
+        },
+    },
+    DOWN ={
+        MAXID = 3,
+        [0] ={
+            MOVEX = 1,
+            MOVEY = 1,
+            X = 70,
+            Y = 140,
+        },
+        [1] ={
+            MOVEX = 0,
+            MOVEY = 1,
+            X = 60,
+            Y = 600,
+        },
+        [2] ={
+            MOVEX = 1,
+            MOVEY = 0,
+            X = 650,
+            Y = 600,
+        },
+        [3] ={
+            MOVEX = 0,
+            MOVEY = -1,
+            X = 650,
+            Y = 140,
+        },
     },
 }
 return ConstDef

@@ -8,6 +8,7 @@ local ConstDef = require("app/def/ConstDef.lua")
 local GameData = require("app/data/GameData.lua")
 local EventManager = require("app/manager/EventManager.lua")
 local EventDef     = require("app/def/EventDef.lua")
+local TowerDef     = require("app.def.TowerDef")
 --本地函数定义
 local timeChange
 --[[--
@@ -56,7 +57,7 @@ function InfoLayer:initView()
     createBtn:setPosition(display.width*0.5, 180)
     createBtn:addTouchEventListener(function(sender, eventType) 
         if eventType == 2 then
-            print("塔生成")
+            GameData:createTower(1,1)
         end
     end)
     local createTTF = cc.Label:createWithTTF(20,"ui/font/fzbiaozjw.ttf",24)
@@ -139,6 +140,7 @@ function InfoLayer:BossBtnCreate()
             end
         end)
     end
+    GameData:setGameState(ConstDef.GAME_STATE.PLAY)
     self:removeChild(self.randomBossView)
     self.randomBossView=nil
 end

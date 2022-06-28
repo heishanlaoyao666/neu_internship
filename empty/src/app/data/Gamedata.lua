@@ -8,12 +8,19 @@ local ConstDef = require("app/def/ConstDef.lua")
 local EventDef = require("app/def/EventDef.lua")
 local EventManager = require("app/manager/EventManager.lua")
 
+local Enemy = require("app/data/Enemy.lua")
+local Tower = require("app/data/Tower.lua")
 -- local SHOOT_INTERVAL = 0.2 -- 类型：number，射击间隔
 -- local ENEMY_INTERVAL = 1 -- 类型：number，敌机生成间隔
 
--- local bullets_ = {} -- 类型：子弹数组
--- local enemies_ = {} -- 类型：敌机数组
--- local allies_ = {} -- 类型：我方飞机数组
+local up_bullets_ = {} -- 类型：上方子弹数组
+local down_bullets_ = {} -- 类型：下方子弹数组
+
+local up_enemies_ = {} -- 类型：上方敌人数组
+local down_enemies_ = {} -- 类型：下方敌人数组
+
+local up_towers_ = {} -- 类型：上方塔数组
+local down_towers_ = {} -- 类型：下方塔数组
 
 --[[--
     初始化数据
@@ -52,6 +59,10 @@ end
     @return none
 ]]
 function GameData:setGameState(state)
+    local enemy = Enemy.new()
+        enemy:setTarget(ConstDef.TARGET.DOWN)
+    down_enemies_[#down_enemies_+1] = enemy
+    
     self.gameState_ = state
     EventManager:doEvent(EventDef.ID.GAMESTATE_CHANGE, state)
 end
@@ -94,10 +105,10 @@ end
     @return none
 ]]
 function GameData:update(dt)
-    -- if self.gameState_ ~= ConstDef.GAME_STATE.PLAY then
-    --     return
-    -- end
-
+    if self.gameState_ ~= ConstDef.GAME_STATE.PLAY then
+        return
+    end
+    
     -- self:shoot(dt)
     -- self:createEnemyPlane(dt)
 
@@ -111,14 +122,10 @@ function GameData:update(dt)
     --     end
     -- end
 
-    -- for i = 1, #enemies_ do
-    --     enemies_[i]:update(dt)
-    --     if not enemies_[i]:isDeath() then
-    --         self:checkCollider(enemies_[i], bullets_, allies_)
-    --     else
-    --         destoryPlanes[#destoryPlanes + 1] = enemies_[i]
-    --     end
-    -- end
+    for i = 1, #down_enemies_ do
+        down_enemies_[i]:update(dt)
+        
+    end
 
     -- for i = 1, #allies_ do
     --     allies_[i]:update(dt)
@@ -147,7 +154,20 @@ function GameData:update(dt)
     --     self:setGameState(ConstDef.GAME_STATE.RESULT)
     -- end
 end
+--[[--
+    塔创建
 
+    @param tower_id 类型:number 塔id
+    @param level 类型:number 塔等级
+
+    @return number
+]]
+function GameData:createTower(tower_id,level)
+    local tower = Tower.new(tower_id,level)
+    tower:setX(100)
+    tower:setY(500)
+    down_towers_[1] = tower
+end
 --[[--
     碰撞检查
 

@@ -3,12 +3,13 @@
     FightLayer.lua
 ]]
 local FightLayer = class("FightLayer", require("app/scenes/GameView/ui/layer/BaseLayer.lua"))
--- local BulletSprite = require("app.ui.node.BulletSprite")
--- local PlaneSprite = require("app.ui.node.PlaneSprite")
+-- local BulletSprite = require("app/ui/node/BulletSprite.lua")
+local EnemySprite = require("app/scenes/GameView/ui/node/EnemySprite.lua")
+local TowerSprite = require("app/scenes/GameView/ui/node/TowerSprite.lua")
 local GameData = require("app/data/GameData.lua")
 local ConstDef = require("app.def.ConstDef.lua")
 local EventDef = require("app.def.EventDef.lua")
-local EventManager = require("app.manager.EventManager.lua")
+local EventManager = require("app/manager/EventManager.lua")
 
 --[[--
     构造函数
@@ -20,9 +21,9 @@ local EventManager = require("app.manager.EventManager.lua")
 function FightLayer:ctor()
     FightLayer.super.ctor(self)
 
-    -- self.bulletMap_ = {} -- 类型：table，Key：bullet， Value：bulletSprite 子弹
-    -- self.allyMap_ = {} -- 类型：table，Key：plane，Value：planeSprite 我方飞机
-    -- self.enemyMap_ = {} -- 类型：table，Key：plane，Value：planeSprite 敌方飞机
+    self.bulletMap_ = {} -- 类型：table，Key：bullet， Value：bulletSprite 子弹
+    self.towerMap_ = {} -- 类型：table，Key：plane，Value：planeSprite 我方飞机
+    self.enemyMap_ = {} -- 类型：table，Key：plane，Value：planeSprite 敌方飞机
 
     -- -- 加载音效资源
     -- audio.loadFile("sounds/fireEffect.ogg", function() end)
@@ -57,17 +58,28 @@ function FightLayer:onEnter()
     --     self.bulletMap_[bullet] = nil
     -- end)
 
-    -- EventManager:regListener(EventDef.ID.CREATE_ENEMY, self, function(enemy)
-    --     local enemyNode = PlaneSprite.new("player/small_enemy.png", enemy)
-    --     self:addChild(enemyNode)
-    --     self.enemyMap_[enemy] = enemyNode
-    -- end)
+    EventManager:regListener(EventDef.ID.CREATE_ENEMY, self, function(enemy)
+        local enemyNode = EnemySprite.new("ui/battle/Battle interface/monster.png", enemy)
+        self:addChild(enemyNode)
+        self.enemyMap_[enemy] = enemyNode
+    end)
 
-    -- EventManager:regListener(EventDef.ID.DESTORY_ENEMY, self, function(enemy)
-    --     local node = self.enemyMap_[enemy]
-    --     node:removeFromParent()
-    --     self.enemyMap_[enemy] = nil
-    -- end)
+    EventManager:regListener(EventDef.ID.DESTORY_ENEMY, self, function(enemy)
+        local node = self.enemyMap_[enemy]
+        node:removeFromParent()
+        self.enemyMap_[enemy] = nil
+    end)
+    EventManager:regListener(EventDef.ID.CREATE_TOWER, self, function(tower)
+        local towerNode = TowerSprite.new(string.format("ui/battle/Battle interface/Tower/tower_%u.png",tower:getID()), tower)
+        self:addChild(towerNode)
+        self.towerMap_[tower] = towerNode
+    end)
+
+    EventManager:regListener(EventDef.ID.DESTORY_TOWER, self, function(tower)
+        local node = self.towerMap_[tower]
+        node:removeFromParent()
+        self.towerMap_[tower] = nil
+    end)
 end
 
 --[[--
@@ -80,8 +92,10 @@ end
 function FightLayer:onExit()
     -- EventManager:unRegListener(EventDef.ID.CREATE_BULLET, self)
     -- EventManager:unRegListener(EventDef.ID.DESTORY_BULLET, self)
-    -- EventManager:unRegListener(EventDef.ID.CREATE_ENEMY, self)
-    -- EventManager:unRegListener(EventDef.ID.DESTORY_ENEMY, self)
+    EventManager:unRegListener(EventDef.ID.CREATE_ENEMY, self)
+    EventManager:unRegListener(EventDef.ID.DESTORY_ENEMY, self)
+    EventManager:unRegListener(EventDef.ID.CREATE_TOWER, self)
+    EventManager:unRegListener(EventDef.ID.DESTORY_TOWER, self)
 end
 
 --[[--
@@ -157,13 +171,13 @@ function FightLayer:update(dt)
     --     node:update(dt)
     -- end
 
-    -- for _, node in pairs(self.allyMap_) do
-    --     node:update(dt)
-    -- end
+    for _, node in pairs(self.towerMap_) do
+        node:update(dt)
+    end
 
-    -- for _, node in pairs(self.enemyMap_) do
-    --     node:update(dt)
-    -- end
+    for _, node in pairs(self.enemyMap_) do
+        node:update(dt)
+    end
 end
 
 return FightLayer

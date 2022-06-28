@@ -50,9 +50,7 @@ end
     @return none
 ]]
 function EventManger:doEvent(eventId, ...)
-    print(eventId)
     local tab = listenerMap_[eventId]
-    print(tab)
     if not tab then
         return
     end

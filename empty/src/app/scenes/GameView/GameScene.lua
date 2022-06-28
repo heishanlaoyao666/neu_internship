@@ -34,6 +34,7 @@ end
     @return none
 ]]
 function GameScene:update(dt)
+    GameData:update(dt)
     self.playView_:update(dt)
 end
 function GameScene:onEnter()

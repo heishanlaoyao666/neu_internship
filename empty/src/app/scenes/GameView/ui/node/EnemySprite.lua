@@ -1,4 +1,4 @@
-local TowerSprite = class("Tower", function(res)
+local EnemySprite = class("Enemy", function(res)
     return display.newSprite(res)
 end)
 --[[--
@@ -9,16 +9,16 @@ end)
     
     @return none
 ]]
-function TowerSprite:ctor(res, data)
+function EnemySprite:ctor(res, data)
     self.data_ = data -- 类型：Enemy，怪物数据
 
     self:setAnchorPoint(0.5, 0.5)
     self:setPosition(self.data_:getX(), self.data_:getY())
 
-    self.grade_= display.newSprite(string.format("ui/battle/Battle interface/Angle sign-Grade/%u.png",data:getGrade()))
-    self.grade_:setAnchorPoint(0.5,0.5)
-    self.grade_:setPosition(80,90)
-    self:addChild(self.grade_)
+    self.life_ = cc.Label:createWithTTF(self.data_:getLife(),"ui/font/fzbiaozjw.ttf",15)
+    self:addChild(self.life_)
+    self.life_:setAnchorPoint(0.5,0.5)
+    self.life_:setPosition(20,10)
 end
 
 --[[--
@@ -28,8 +28,8 @@ end
 
     @return none
 ]]
-function TowerSprite:update(dt)
+function EnemySprite:update(dt)
     self:setPosition(self.data_:getX(), self.data_:getY())
 end
 
-return TowerSprite
+return EnemySprite
