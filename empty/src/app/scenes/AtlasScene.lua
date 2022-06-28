@@ -37,10 +37,63 @@ function AtlasScene:ctor()
     self:createMiddleBottomPanel()
     self:createMiddleTopPanel()
     self:createTroopPanel()
-    self:createCollectionPanel()
+    -- local layer = self:ShopPanel()
+    -- self:slide(layer)
+    -- self:createCollectionPanel()
 
-
+    local layer1 = self:createCollectionPanel()
+    self:slide(layer1)
 end
+
+
+function AtlasScene:slide(layer)
+    str = "null"
+    local listener = cc.EventListenerTouchOneByOne:create()--单点触摸
+    local function onTouchBegan(touch, event)
+        local target = event:getCurrentTarget()
+        local size = target:getContentSize()
+        local rect = cc.rect(0, 0, size.width, size.height)
+        local p = touch:getLocation()
+        p = target:convertTouchToNodeSpace(touch)
+        if cc.rectContainsPoint(rect, p) then
+            return true
+        end
+        return false
+    end
+
+    local function onTouchMoved(touch, event)
+        local location = touch:getStartLocationInView()
+        local y1 = location["y"] or 0
+        local location2 = touch:getLocationInView()
+        local y2 = location2["y"] or 0
+        if y1<y2 then
+            str = "up"
+        elseif y1>y2 then
+            str = "down"
+        end
+    end
+    local function onTouchEnded(touch, event)
+        if str == "up" then
+            self:slider(layer,-350)
+            print(str)
+        elseif str == "down" then
+            self:slider(layer,350)
+            print(str)
+        end
+    end
+
+    listener:registerScriptHandler(onTouchBegan,cc.Handler.EVENT_TOUCH_BEGAN )
+    listener:registerScriptHandler(onTouchMoved,cc.Handler.EVENT_TOUCH_MOVED )
+    listener:registerScriptHandler(onTouchEnded,cc.Handler.EVENT_TOUCH_ENDED )
+    cc.Director:getInstance():getEventDispatcher():addEventListenerWithSceneGraphPriority(listener, layer)
+end
+
+function AtlasScene:slider(layer,distance)
+    local moveAction = cc.MoveBy:create(0.5,cc.p(0,distance))
+    layer:runAction(moveAction)
+end
+
+
 --bg-battle_interface.png
 function AtlasScene:createMiddleMiddlePanel()
     local width ,height  =display.width,display.top
@@ -297,11 +350,230 @@ function AtlasScene:loadingPanel()
     barPro:runAction(sequenceAction)
 
 end
-
+--收集层
 function AtlasScene:createCollectionPanel()
+    local width,height = display.width,display.top
+    local CollectionLayer = ccui.Layout:create()
+    CollectionLayer:setContentSize(width,height)
+    CollectionLayer:setAnchorPoint(0,0)
+    CollectionLayer:setPosition(0,0)
+    
+    CollectionLayer:addTo(self)
+    --已收集
+    local collectedimage=ccui.ImageView:create("ui/hall/Atlas/Subinterface_towerlist/splitline_collected.png")
+    collectedimage:setScale(1)
+    collectedimage:setAnchorPoint(0,1)
+    collectedimage:pos(0,height-600)
+    collectedimage:addTo(CollectionLayer)
 
+    self:createCollectedItem(CollectionLayer,"ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-rare.png",
+    "ui/hall/common/Tower-Icon/01.png","ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_disturb.png",
+    "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",0,-450)
+    self:createCollectedItem(CollectionLayer,"ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-rare.png",
+    "ui/hall/common/Tower-Icon/01.png","ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png",
+    "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",170,-450)
+    self:createCollectedItem(CollectionLayer,"ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-rare.png"
+    ,"ui/hall/common/Tower-Icon/01.png","ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png",
+    "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",170*2,-450)
+    self:createCollectedItem(CollectionLayer,"ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-rare.png"
+    ,"ui/hall/common/Tower-Icon/01.png","ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png",
+    "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",170*3,-450)
+    self:createCollectedItem(CollectionLayer,"ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-rare.png"
+    ,"ui/hall/common/Tower-Icon/01.png","ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png",
+    "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.9.png",0,-700)
+
+
+    --未收集
+    local notcollectedimage=ccui.ImageView:create("ui/hall/Atlas/Subinterface_towerlist/splitline_notcollected.png")
+    notcollectedimage:setScale(1)
+    notcollectedimage:setAnchorPoint(0,1)
+    notcollectedimage:pos(0,height-1200)
+    notcollectedimage:addTo(CollectionLayer)
+
+
+    return CollectionLayer
 end
 
+--二级页面（卡牌升级替换等）
+function AtlasScene:towerinfoPanel(layer,path,towertype,rank)--图片路径，塔类型，卡等级
+    local width ,height = display.width,display.height
+    --层：灰色背景
+    local purchaseLayer = ccui.Layout:create()
+    purchaseLayer:setBackGroundColor(cc.c4b(0,0,0,128))
+    purchaseLayer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
+    purchaseLayer:setBackGroundColorOpacity(128)--设置透明度
+    purchaseLayer:setContentSize(width, height)
+    purchaseLayer:pos(width*0.5, height *0.5)
+    purchaseLayer:setAnchorPoint(0.5, 0.5)
+    purchaseLayer:addTo(self)
+    purchaseLayer:setTouchEnabled(true)--屏蔽一级界面
+
+    --图片：弹窗背景
+    local popLayer = ccui.ImageView:create("ui/hall/Atlas/Secondaryinterface_towerinfo/buttomchart_pop_up_windows.png")
+    popLayer:pos(display.cx, display.cy-220)
+    popLayer:setAnchorPoint(0.5, 0.5)
+    popLayer:addTo(purchaseLayer)
+
+    --图片：塔
+    local ItemBg =ccui.ImageView:create(path)
+    ItemBg:setScale(1)
+    ItemBg:setPosition(cc.p(120, 685))
+    ItemBg:addTo(popLayer)
+
+    --技能介绍底图  bottomchart_skillintroduction.png
+    local skillinfobg = ccui.ImageView:create("ui/hall/Atlas/Secondaryinterface_towerinfo/bottomchart_skillintroduction.png")
+    skillinfobg:setScale(1)
+    skillinfobg:setPosition(cc.p(420, 635))
+    skillinfobg:addTo(popLayer)
+
+    --塔类型  bottomchart_skillintroduction.png
+    local towertype1 = ccui.ImageView:create(towertype)
+    towertype1:setScale(1.2)
+    towertype1:setPosition(cc.p(165, 770))
+    towertype1:addTo(popLayer)
+
+    -- --文本：碎片数量
+    -- local fragmentNum = cc.Label:createWithTTF(towertype,"ui/font/fzbiaozjw.ttf",25)
+    -- fragmentNum:setPosition(cc.p(80,30))
+    -- fragmentNum:setColor(cc.c3b(255, 206, 55))
+    -- --fragmentNum:enableShadow(cc.c3b(0,0,0), cc.size(2,-2), 100)--字体描边有待学习
+    -- fragmentNum:addTo(ItemBg)
+
+    --按钮：确认按钮
+    local confirmButton = ccui.Button:create(
+            "ui/hall/Atlas/Secondaryinterface_towerinfo/button_upgrade.png",
+            "ui/hall/Atlas/Secondaryinterface_towerinfo/button_upgrade.png",
+            "ui/hall/Atlas/Secondaryinterface_towerinfo/button_upgrade.png")
+    confirmButton:setPosition(cc.p(display.cx-90, 50))
+    confirmButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
+        if eventType == ccui.TouchEventType.began then
+            local scale = cc.ScaleTo:create(1,0.9)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+        elseif eventType == ccui.TouchEventType.ended then
+            local scale = cc.ScaleTo:create(1,1)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+        elseif eventType == ccui.TouchEventType.canceled then
+            local scale = cc.ScaleTo:create(1,1)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+        end
+    end)
+    confirmButton:addTo(popLayer)
+    --图片：确认按钮的金币图标
+    local coin =ccui.ImageView:create("ui/hall/shop/SecondaryInterface-Goldcoin_store_purchase_confirmation_pop-up/Icon-gold_coin.png")
+    coin:setPosition(cc.p(60, 40))
+    coin:addTo(confirmButton)
+    --文本：确认按钮的金额文本
+    local rankNum = cc.Label:createWithTTF(rank,"ui/font/fzbiaozjw.ttf",30)
+    rankNum:setPosition(cc.p(120,40))
+    rankNum:setColor(cc.c3b(255, 255, 255))
+    --rankNum:enableShadow(cc.c3b(0,0,0), cc.size(2,-2), 100)--字体描边有待学习
+    rankNum:addTo(confirmButton)
+
+    --按钮：关闭窗口
+    local closeButton = ccui.Button:create(
+            "ui/hall/shop/SecondaryInterface-Goldcoin_store_purchase_confirmation_pop-up/Button-off.png",
+            "ui/hall/shop/SecondaryInterface-Goldcoin_store_purchase_confirmation_pop-up/Button-off.png",
+            "ui/hall/shop/SecondaryInterface-Goldcoin_store_purchase_confirmation_pop-up/Button-off.png")
+    closeButton:setPosition(cc.p(620, 770))
+    closeButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
+        if eventType == ccui.TouchEventType.began then
+            local scale = cc.ScaleTo:create(1,0.9)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+        elseif eventType == ccui.TouchEventType.ended then
+            local scale = cc.ScaleTo:create(1,1)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+            purchaseLayer:setVisible(false)--隐藏二级弹窗
+            layer:setTouchEnabled(true)
+        elseif eventType == ccui.TouchEventType.canceled then
+            local scale = cc.ScaleTo:create(1,1)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+        end
+    end)
+    closeButton:addTo(popLayer)
+end
+
+--塔按钮
+function AtlasScene:createCollectedItem(layer,path,bg,towertype,rank,offsetX,offsetY)--层级、稀有度背景、图片路径、塔种类、等级、偏移量
+
+    --按钮：商品1
+    local ItemButton = ccui.Button:create(path, path, path)
+    ItemButton:setPosition(cc.p(100+offsetX, display.top-340+offsetY))
+    ItemButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
+        if eventType == ccui.TouchEventType.began then
+            local scale = cc.ScaleTo:create(1,0.9)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+
+        elseif eventType == ccui.TouchEventType.ended then
+            self:towerinfoPanel(layer,path,towertype,rank)
+            local scale = cc.ScaleTo:create(1,1)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+
+        elseif eventType == ccui.TouchEventType.canceled then
+            local scale = cc.ScaleTo:create(1,1)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+        end
+    end)
+    ItemButton:addTo(layer)
+    --塔
+    local towerbg = ccui.ImageView:create(bg)
+    towerbg:setPosition(cc.p(80,145))
+    towerbg:addTo(ItemButton)
+
+    --攻击 辅助 控制 干扰 召唤
+    local fragmentBg =ccui.ImageView:create(towertype)
+    fragmentBg:setPosition(cc.p(125, 205))
+    fragmentBg:addTo(ItemButton)
+
+    -- --等级底图
+    -- local goldCoinIcon =ccui.ImageView:create("ui/hall/Atlas/Subinterface_currentsquad/bottomchart_rank.png")
+    -- goldCoinIcon:setPosition(cc.p(60, -20))
+    -- goldCoinIcon:addTo(ItemButton)
+
+    --等级
+    local Rank =ccui.ImageView:create(rank)
+    Rank:setPosition(cc.p(80, 70))
+    Rank:addTo(ItemButton)
+
+    local processbar_black = ccui.ImageView:create("ui/hall/Atlas/Subinterface_towerlist/processbar_bottomchart_numberoffragments.png")
+    processbar_black:setPosition(cc.p(80,30))
+    processbar_black:addTo(ItemButton)
+
+    local processnum = cc.Label:createWithTTF("20/2","ui/font/fzbiaozjw.ttf",24)
+    processnum:setPosition(cc.p(80,30))
+    --165, 237, 255
+    processnum:setColor(cc.c3b(165, 237, 255))
+    processnum:addTo(ItemButton)
+
+
+
+
+    -- HEAD01 = "ui/hall/common/Tower-Icon/01.png",
+    -- HEAD02 = "ui/hall/common/Tower-Icon/02.png",
+    -- HEAD03 = "ui/hall/common/Tower-Icon/03.png",
+    -- HEAD04 = "ui/hall/common/Tower-Icon/04.png",
+    -- HEAD05 = "ui/hall/common/Tower-Icon/05.png",
+
+
+    --ui\hall\Atlas\Secondaryinterface_towerinfo
+
+    --攻击 辅助 控制 干扰 召唤
+    -- towertype_attack.png
+    -- towertype_auxiliary.png
+    -- towertype_control.png
+    -- towertype_disturb.png
+    -- towertype_summon.png
+
+end
+--阵容层
 function AtlasScene:createTroopPanel()
     local width,height = display.width,display.top
     local TroopLayer = ccui.Layout:create()
@@ -338,9 +610,39 @@ function AtlasScene:createTroopPanel()
     ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",130*3,0)
     self:createTroopItem(TroopLayer,"ui/hall/common/Tower-Icon/01.png"
     ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.9.png",130*4,0)
+    --暴击伤害提示信息
+    local criticaldamageback=ccui.ImageView:create("ui/hall/Atlas/Subinterface_info/bottomchart_info.png")
+    criticaldamageback:setScale(1)
+    criticaldamageback:setAnchorPoint(0,1)
+    criticaldamageback:pos(0+55,height-480)
+    criticaldamageback:addTo(TroopLayer)
+
+    local criticaldamagebacktext2=ccui.ImageView:create("ui/hall/Atlas/Subinterface_info/Text-Totalcriticaldamage.png")
+    criticaldamagebacktext2:setScale(1)
+    criticaldamagebacktext2:setAnchorPoint(0,1)
+    criticaldamagebacktext2:pos(0+250,height-500)
+    criticaldamagebacktext2:addTo(TroopLayer)
+
+    local criticaldamagebacktext1=ccui.ImageView:create("ui/hall/Atlas/Subinterface_info/Text-anydefensetowerupgradedwillpermanentlyincreasecriticalhitdamage.png")
+    criticaldamagebacktext1:setScale(1)
+    criticaldamagebacktext1:setAnchorPoint(0,1)
+    criticaldamagebacktext1:pos(0+190,height-550)
+    criticaldamagebacktext1:addTo(TroopLayer)
+    
+    --暴击值
+    local criticaldamagelabel=cc.Label:createWithTTF("220%","ui/font/fzbiaozjw.ttf",30)
+    criticaldamagelabel:setScale(1)
+    criticaldamagelabel:setColor(cc.c3b(255,128,0))
+    criticaldamagelabel:setAnchorPoint(0,1)
+    criticaldamagelabel:pos(0+410,height-500)
+    criticaldamagelabel:addTo(TroopLayer)
+
+
 end
 
-function AtlasScene:createTroopItem(layer,path,fragNum,rank,offsetX,offsetY)--层级、图片路径、碎片数量、价格、偏移量
+
+--阵容按钮
+function AtlasScene:createTroopItem(layer,path,towertype,rank,offsetX,offsetY)--层级、图片路径、碎片数量、价格、偏移量
 
     --按钮：商品1
     local ItemButton = ccui.Button:create(path, path, path)
@@ -352,7 +654,7 @@ function AtlasScene:createTroopItem(layer,path,fragNum,rank,offsetX,offsetY)--�
             sender:runAction(ease_elastic)
 
         elseif eventType == ccui.TouchEventType.ended then
-            self:goldPurchasePanel(layer,path,fragNum,price)
+            --self:goldPurchasePanel(layer,path,towertype,rank)
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
@@ -366,7 +668,7 @@ function AtlasScene:createTroopItem(layer,path,fragNum,rank,offsetX,offsetY)--�
     ItemButton:addTo(layer)
 
     --攻击 辅助 控制 干扰 召唤
-    local fragmentBg =ccui.ImageView:create(fragNum)
+    local fragmentBg =ccui.ImageView:create(towertype)
     fragmentBg:setPosition(cc.p(90, 100))
     fragmentBg:addTo(ItemButton)
 
