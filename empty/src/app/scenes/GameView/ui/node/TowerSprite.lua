@@ -17,7 +17,7 @@ function TowerSprite:ctor(res, data)
 
     self.grade_= display.newSprite(string.format("ui/battle/Battle interface/Angle sign-Grade/%u.png",data:getGrade()))
     self.grade_:setAnchorPoint(0.5,0.5)
-    self.grade_:setPosition(80,90)
+    self.grade_:setPosition(80,85)
     self:addChild(self.grade_)
 end
 

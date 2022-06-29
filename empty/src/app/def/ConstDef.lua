@@ -4,6 +4,14 @@
 ]]
 local ConstDef = {
 
+    TOWER_POS = {
+        UP_X = 155,
+        DOWN_X = 160,
+        UP_Y = 1095,
+        DOWN_Y = 510,
+        MOVE_X = 100,
+        MOVE_Y = -110,
+    },
     MONSTER_SIZE = {
         WIDTH = 43,
         HEIGHT = 44,
@@ -40,6 +48,11 @@ local ConstDef = {
         SURRENDER = 5, --投降界面
     },
     SURRENDER ="是否认输,放弃该场战斗?",
+    
+    BULLET_SIZE = { -- 子弹尺寸
+        WIDTH = 10,
+        HEIGHT = 10,
+    },
 }
 ConstDef.BOSS ={
     [ConstDef.GAME_TYPE.BOSS_1] ={

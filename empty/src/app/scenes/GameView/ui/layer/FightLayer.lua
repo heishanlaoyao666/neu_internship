@@ -6,6 +6,7 @@ local FightLayer = class("FightLayer", require("app/scenes/GameView/ui/layer/Bas
 -- local BulletSprite = require("app/ui/node/BulletSprite.lua")
 local EnemySprite = require("app/scenes/GameView/ui/node/EnemySprite.lua")
 local TowerSprite = require("app/scenes/GameView/ui/node/TowerSprite.lua")
+local BulletSprite = require("app/scenes/GameView/ui/node/BulletSprite.lua")
 local GameData = require("app/data/GameData.lua")
 local ConstDef = require("app.def.ConstDef.lua")
 local EventDef = require("app.def.EventDef.lua")
@@ -44,19 +45,19 @@ end
     @return none
 ]]
 function FightLayer:onEnter()
-    -- EventManager:regListener(EventDef.ID.CREATE_BULLET, self, function(bullet)
-    --     local bulletNode = BulletSprite.new("player/blue_bullet.png", bullet)
-    --     self:addChild(bulletNode)
-    --     self.bulletMap_[bullet] = bulletNode
+    EventManager:regListener(EventDef.ID.CREATE_BULLET, self, function(bullet)
+        local bulletNode = BulletSprite.new(string.format("ui/battle/Battle interface/Bullet/%u.png",bullet:getID()), bullet)
+        self:addChild(bulletNode,30,1)
+        self.bulletMap_[bullet] = bulletNode
 
-    --     audio.playEffect("sounds/fireEffect.ogg", false)
-    -- end)
+        --audio.playEffect("sounds/fireEffect.ogg", false)
+    end)
 
-    -- EventManager:regListener(EventDef.ID.DESTORY_BULLET, self, function(bullet)
-    --     local node = self.bulletMap_[bullet]
-    --     node:removeFromParent()
-    --     self.bulletMap_[bullet] = nil
-    -- end)
+    EventManager:regListener(EventDef.ID.DESTORY_BULLET, self, function(bullet)
+        local node = self.bulletMap_[bullet]
+        node:removeFromParent()
+        self.bulletMap_[bullet] = nil
+    end)
 
     EventManager:regListener(EventDef.ID.CREATE_ENEMY, self, function(enemy)
         local enemyNode = EnemySprite.new("ui/battle/Battle interface/monster.png", enemy)
@@ -90,8 +91,8 @@ end
     @return none
 ]]
 function FightLayer:onExit()
-    -- EventManager:unRegListener(EventDef.ID.CREATE_BULLET, self)
-    -- EventManager:unRegListener(EventDef.ID.DESTORY_BULLET, self)
+    EventManager:unRegListener(EventDef.ID.CREATE_BULLET, self)
+    EventManager:unRegListener(EventDef.ID.DESTORY_BULLET, self)
     EventManager:unRegListener(EventDef.ID.CREATE_ENEMY, self)
     EventManager:unRegListener(EventDef.ID.DESTORY_ENEMY, self)
     EventManager:unRegListener(EventDef.ID.CREATE_TOWER, self)
@@ -167,9 +168,9 @@ end
     @return none
 ]]
 function FightLayer:update(dt)
-    -- for _, node in pairs(self.bulletMap_) do
-    --     node:update(dt)
-    -- end
+    for _, node in pairs(self.bulletMap_) do
+        node:update(dt)
+    end
 
     for _, node in pairs(self.towerMap_) do
         node:update(dt)

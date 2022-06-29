@@ -28,7 +28,6 @@ function Tower:ctor(tower_id,level)
     self.tower_rarity_ = TowerDef.TABLE[tower_id].RARITY --类型：number，塔稀有度
     self.tower_type_ = TowerDef.TABLE[tower_id].TYPE--类型：number，塔类型
     self.tower_name_ = TowerDef.TABLE[tower_id].NAME --类型：string，塔名称
-    self.tower_atk_ = TowerDef.TABLE[tower_id].ATK --类型：number，塔攻击力
     self.tower_fireCd_ = TowerDef.TABLE[tower_id].FIRECD --类型：number，塔攻击间隔
     self.tower_information_ = TowerDef.TABLE[tower_id].INFORMATION --类型：string，塔技能介绍
     -- self.tower_skill1_ = tower_skill1 --类型：Skill，塔技能
@@ -61,6 +60,36 @@ function Tower:getID()
     return self.tower_id_
 end
 --[[--
+    获取塔发射CD
+
+    @param none
+
+    @return fireTick
+]]
+function Tower:getFireCD()
+    return self.tower_fireCd_
+end
+--[[--
+    获取塔发射间隔
+
+    @param none
+
+    @return fireTick
+]]
+function Tower:getFireTick()
+    return self.tower_fireTick_
+end
+--[[--
+    设置塔发射间隔
+
+    @param tick 类型 number 
+
+    @return fireTick
+]]
+function Tower:setFireTick(tick)
+    self.tower_fireTick_=self.tower_fireTick_+tick
+end
+--[[--
     塔销毁
 
     @param none
@@ -72,19 +101,6 @@ function Tower:destory()
     EventManager:doEvent(EventDef.ID.DESTORY_TOWER, self)
 end
 --[[--
-    开炮
-
-    @param dt 类型：number，时间间隔，单位秒
-
-    @return none
-]]
-function Tower:shoot(dt)
-    self.tower_fireTick_ = self.tower_fireTick_ + dt
-    if self.shootTick_ > self.tower_fireCd_ then
-        self.tower_fireTick_ = self.shootTick_ - self.tower_fireCd_
-    end
-end
---[[--
     塔帧刷新
 
     @param dt 类型：number，时间，秒
@@ -92,7 +108,7 @@ end
     @return none
 ]]
 function Tower:update(dt)
-    Tower:shoot(dt)
+    self.tower_fireTick_ = self.tower_fireTick_ + dt
 end
 --getset合集
 -- function Tower:getGameState()

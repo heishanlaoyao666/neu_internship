@@ -10,6 +10,7 @@ local EventManager = require("app/manager/EventManager.lua")
 
 local Enemy = require("app/data/Enemy.lua")
 local Tower = require("app/data/Tower.lua")
+local Bullet = require("app/data/Bullet.lua")
 -- local SHOOT_INTERVAL = 0.2 -- 类型：number，射击间隔
 -- local ENEMY_INTERVAL = 1 -- 类型：number，敌机生成间隔
 
@@ -112,15 +113,29 @@ function GameData:update(dt)
     -- self:shoot(dt)
     -- self:createEnemyPlane(dt)
 
-    -- local destoryBullets = {}
-    -- local destoryPlanes = {}
-    -- for i = 1, #bullets_ do
-    --     local bullet = bullets_[i]
-    --     bullet:update(dt)
-    --     if bullet:isDeath() then
-    --         destoryBullets[#destoryBullets + 1] = bullet
-    --     end
-    -- end
+    local destoryBullets = {}
+    local destoryPlanes = {}
+    for i = 1, #down_bullets_ do
+        local bullet = down_bullets_[i]
+        bullet:update(dt)
+        if bullet:isDeath() then
+            destoryBullets[#destoryBullets + 1] = bullet
+        end
+    end
+    for i = 1, #down_towers_ do
+        local tower = down_towers_[i]
+        tower:update(dt)
+        if tower:getFireTick() > tower:getFireCD() then
+            tower:setFireTick(-tower:getFireCD())
+            local bullet = Bullet.new(down_towers_[i]:getID())
+            down_bullets_[#down_bullets_ + 1] = bullet
+            bullet:setX(down_towers_[i]:getX())
+            bullet:setY(down_towers_[i]:getY())
+        end
+        -- if bullet:isDeath() then
+        --     destoryBullets[#destoryBullets + 1] = bullet
+        -- end
+    end
 
     for i = 1, #down_enemies_ do
         down_enemies_[i]:update(dt)
@@ -164,8 +179,8 @@ end
 ]]
 function GameData:createTower(tower_id,level)
     local tower = Tower.new(tower_id,level)
-    tower:setX(100)
-    tower:setY(500)
+    tower:setX(ConstDef.TOWER_POS.DOWN_X)
+    tower:setY(ConstDef.TOWER_POS.DOWN_Y)
     down_towers_[1] = tower
 end
 --[[--
