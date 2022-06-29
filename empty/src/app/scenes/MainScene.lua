@@ -41,7 +41,31 @@ function MainScene:ctor()
 
 end
 
+local function touchEvent(sender,eventType,bg)--按钮点击事件
+    if eventType == ccui.TouchEventType.began then
+        if bg == "ui/hall/battle/rank/lockedBorder.png" then--未达成未领取
 
+        elseif bg == "ui/hall/battle/rank/availableButNotReceive.png" then--已达成未领取
+
+        elseif bg == "ui/hall/battle/rank/Available.png" then--已达成已领取
+
+        end
+
+        local scale = cc.ScaleTo:create(0.8,0.7)
+        local ease_elastic = cc.EaseElasticOut:create(scale)
+        sender:runAction(ease_elastic)
+
+    elseif eventType == ccui.TouchEventType.ended then
+        local scale = cc.ScaleTo:create(0.8,0.8)
+        local ease_elastic = cc.EaseElasticOut:create(scale)
+        sender:runAction(ease_elastic)
+
+    elseif eventType == ccui.TouchEventType.canceled then
+        local scale = cc.ScaleTo:create(0.8,0.8)
+        local ease_elastic = cc.EaseElasticOut:create(scale)
+        sender:runAction(ease_elastic)
+    end
+end
 --[[
     函数用途：展示天梯
     --]]
@@ -155,7 +179,7 @@ function MainScene:awardPanel(layer,reachStatus,receiveStatus,score)
         end
         --背景状态框
         local statusBg = ccui.ImageView:create(bg)
-        statusBg:setScale(0.9,0.9)
+        --statusBg:setScale(1.1,1.1)
         statusBg:pos(bgOriginX, 180)
         statusBg:setAnchorPoint(0.5, 0.5)
         statusBg:addTo(layer)
@@ -163,7 +187,7 @@ function MainScene:awardPanel(layer,reachStatus,receiveStatus,score)
         --下方小图标
         if icon~="null" then
             local iconStatus = ccui.ImageView:create(icon)
-            iconStatus:setScale(0.9,0.9)
+            --iconStatus:setScale(0.9,0.9)
             iconStatus:pos(75, 0)
             iconStatus:setAnchorPoint(0.5, 0.5)
             iconStatus:addTo(statusBg)
@@ -174,7 +198,7 @@ function MainScene:awardPanel(layer,reachStatus,receiveStatus,score)
         local icon = "ui/hall/battle/rank/locked.png"
         --背景状态框
         local statusBg = ccui.ImageView:create(bg)
-        statusBg:setScale(0.9,0.9)
+        --statusBg:setScale(0.9,0.9)
         statusBg:pos(bgOriginX, 180)
         statusBg:setAnchorPoint(0.5, 0.5)
         statusBg:addTo(layer)
@@ -182,7 +206,7 @@ function MainScene:awardPanel(layer,reachStatus,receiveStatus,score)
         --下方小图标
         if icon~="null" then
             local iconStatus = ccui.ImageView:create(icon)
-            iconStatus:setScale(0.9,0.9)
+            --iconStatus:setScale(0.9,0.9)
             iconStatus:pos(75, 0)
             iconStatus:setAnchorPoint(0.5, 0.5)
             iconStatus:addTo(statusBg)
@@ -190,69 +214,82 @@ function MainScene:awardPanel(layer,reachStatus,receiveStatus,score)
     end
 
     local awardOriginX = 165
+
+
     --奖励图标
-    local firstAward = ccui.ImageView:create("ui/hall/shop/Diamond-shop/TreasureChest - RARE.png")
-    firstAward:setScale(0.7,0.7)
+    local firstAward = ccui.Button:create("ui/hall/shop/Diamond-shop/TreasureChest - RARE.png")
+    firstAward:setScale(0.8,0.8)
     firstAward:pos(awardOriginX, 180)
     firstAward:setAnchorPoint(0.5, 0.5)
     firstAward:addTo(layer)
+    firstAward:addTouchEventListener(touchEvent)
     awardOriginX = awardOriginX+177
-    local secondAward =  ccui.ImageView:create("ui/hall/battle/rank/coin.png")
+    local secondAward =  ccui.Button:create("ui/hall/battle/rank/coin.png")
+    secondAward:setScale(0.8,0.8)
     secondAward:pos(awardOriginX, 180)
     secondAward:setAnchorPoint(0.5, 0.5)
     secondAward:addTo(layer)
+    secondAward:addTouchEventListener(touchEvent)
     awardOriginX = awardOriginX+177
-    local thirdAward = ccui.ImageView:create("ui/hall/shop/Diamond-shop/TreasureChest - normal.png")
-    thirdAward:setScale(0.7,0.7)
+    local thirdAward = ccui.Button:create("ui/hall/shop/Diamond-shop/TreasureChest - normal.png")
+    thirdAward:setScale(0.8,0.8)
     thirdAward:pos(awardOriginX, 180)
     thirdAward:setAnchorPoint(0.5, 0.5)
     thirdAward:addTo(layer)
+    thirdAward:addTouchEventListener(touchEvent)
     awardOriginX = awardOriginX+177
     for i = 1,9 do--200~1000分之间，每100分奖励一个稀有宝箱
-        local rareAward = ccui.ImageView:create("ui/hall/shop/Diamond-shop/TreasureChest - Epic.png")
-        rareAward:setScale(0.7,0.7)
+        local rareAward = ccui.Button:create("ui/hall/shop/Diamond-shop/TreasureChest - Epic.png")
+        rareAward:setScale(0.8,0.8)
         rareAward:pos(awardOriginX, 180)
         rareAward:setAnchorPoint(0.5, 0.5)
         rareAward:addTo(layer)
+        rareAward:addTouchEventListener(touchEvent)
         awardOriginX = awardOriginX+177
     end
     --第1000分固定传奇卡一张
-    local OnekAward = ccui.ImageView:create("ui/hall/battle/rank/highLadderLegendCard/group 914.png")
-    --OnekAward:setScale(0.7,0.7)
+    local OnekAward = ccui.Button:create("ui/hall/battle/rank/highLadderLegendCard/group 914.png")
+    OnekAward:setScale(0.8,0.8)
     OnekAward:pos(awardOriginX, 180)
     OnekAward:setAnchorPoint(0.5, 0.5)
     OnekAward:addTo(layer)
+    OnekAward:addTouchEventListener(touchEvent)
     awardOriginX = awardOriginX+177
 
     --普通宝箱、钻石、金币轮换出现
     for i = 1,3 do--200~1000分之间，每100分奖励一个稀有宝箱
-        local treasureAward = ccui.ImageView:create("ui/hall/shop/Diamond-shop/TreasureChest - normal.png")
-        treasureAward:setScale(0.7,0.7)
+        local treasureAward = ccui.Button:create("ui/hall/shop/Diamond-shop/TreasureChest - normal.png")
+        treasureAward:setScale(0.8,0.8)
         treasureAward:pos(awardOriginX, 180)
         treasureAward:setAnchorPoint(0.5, 0.5)
         treasureAward:addTo(layer)
+        treasureAward:addTouchEventListener(touchEvent)
         awardOriginX = awardOriginX+177
 
-        local diamondAward = ccui.ImageView:create("ui/hall/battle/rank/diamond.png")
-        --diamondAward:setScale(0.7,0.7)
+        local diamondAward = ccui.Button:create("ui/hall/battle/rank/diamond.png")
+        diamondAward:setScale(0.8,0.8)
         diamondAward:pos(awardOriginX, 180)
         diamondAward:setAnchorPoint(0.5, 0.5)
         diamondAward:addTo(layer)
+        diamondAward:addTouchEventListener(touchEvent)
         awardOriginX = awardOriginX+177
 
-        local coinAward = ccui.ImageView:create("ui/hall/battle/rank/coin.png")
-        --coinAward:setScale(0.7,0.7)
+        local coinAward = ccui.Button:create("ui/hall/battle/rank/coin.png")
+        coinAward:setScale(0.8,0.8)
         coinAward:pos(awardOriginX, 180)
         coinAward:setAnchorPoint(0.5, 0.5)
         coinAward:addTo(layer)
+        coinAward:addTouchEventListener(touchEvent)
         awardOriginX = awardOriginX+177
     end
 
     --第2000分随机传奇卡一张
-    local OnekAward = ccui.ImageView:create("ui/hall/battle/rank/group92.png")
-    OnekAward:pos(awardOriginX, 180)
-    OnekAward:setAnchorPoint(0.5, 0.5)
-    OnekAward:addTo(layer)
+    local twokAward = ccui.Button:create("ui/hall/battle/rank/group92.png")
+    twokAward:setScale(0.8,0.8)
+    twokAward:pos(awardOriginX, 180)
+    twokAward:setAnchorPoint(0.5, 0.5)
+    twokAward:addTo(layer)
+    twokAward:addTouchEventListener(touchEvent)
     awardOriginX = awardOriginX+197
 end
 --[[
@@ -265,7 +302,6 @@ function MainScene:slideCreate(layer,score)
     local scaleOriginX = -15
     local scaleDistance = 177
     local num = score/50--得出达到了第几个奖励
-    print(num)
     --进度条背景
     for i = 1,7 do
         local slidebg = ccui.ImageView:create("ui/hall/battle/rank/scale/ascale.png")
@@ -297,7 +333,7 @@ function MainScene:slideCreate(layer,score)
     if num ~= 0 then
         process = (num-1)*offset
     end
-    local actionToFirst = cc.ProgressFromTo:create(0,0,2.6+process)--动作：5秒内从0到100
+    local actionToFirst = cc.ProgressFromTo:create(0,0,2.6+process)--动作：0秒内从0到2.6+process
     local callFuncAction = cc.CallFunc:create(function()--动作执行完毕回调函数
 
     end)
@@ -311,9 +347,9 @@ end
     函数用途：滑动商店触摸事件
     --]]
 function MainScene:slide(layer)
-    str = "null"
     local listener = cc.EventListenerTouchOneByOne:create()--单点触摸
     local function onTouchBegan(touch, event)
+        str = "null"
         local target = event:getCurrentTarget()
         local size = target:getContentSize()
         local rect = cc.rect(0, 0, size.width, size.height)
