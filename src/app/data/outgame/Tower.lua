@@ -18,7 +18,7 @@ local Tower = class("Tower", require("app.data.ingame.Object"))
     @param atkUpgrade 类型：number 塔升级后攻击力的变化
     @param atkEnhance 类型：number 塔强化后攻击力的变化
     @param towerFireCd 类型：number 塔的攻速
-    @param fireCdUpgrade 类型：number 塔升级后公诉的变化
+    @param fireCdUpgrade 类型：number 塔升级后攻速的变化
     @param towerSkill1 类型：string 塔技能1的描述
     @param towerSkill1Num 类型：num 塔技能1
     @param skill1Value 类型：number 塔技能1的数值
