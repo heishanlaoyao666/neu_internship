@@ -2,7 +2,7 @@ Quick-Cocos2dx-Community C++ support ready.
 
 ------------------------------------------------
 
-LOAD LUA FILE: D:/neu_internship/empty/src/main.lua
+LOAD LUA FILE: F:/GitHub/neu_internship/neu_internship/empty/src/main.lua
 
 ------------------------------------------------
 
@@ -24,7 +24,7 @@ LOAD LUA FILE: D:/neu_internship/empty/src/main.lua
 
 [LUA-print] [INFO] # device.language              = cn
 
-[LUA-print] [INFO] # device.writablePath          = D:\neu_internship\empty\
+[LUA-print] [INFO] # device.writablePath          = F:\GitHub\neu_internship\neu_internship\empty\
 
 [LUA-print] [INFO] # device.directorySeparator    = \
 
@@ -70,35 +70,11 @@ LOAD LUA FILE: D:/neu_internship/empty/src/main.lua
 
 [LUA-print] [INFO] #
 
-[LUA-print] 4
-
 [LUA-print] 共可领取的奖励个数为:4
 
-WARNING: File case-sensitive.
-D:/neu_internship/empty/res/ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png
-D:/neu_internship/empty/res/ui/hall/Atlas/Subinterface_currentsquad/rank/Lv.8.png
+[LUA-print] left
 
-
-
-WARNING: File case-sensitive.
-D:/neu_internship/empty/res/ui/hall/Atlas/Subinterface_currentsquad/rank/lv.9.png
-D:/neu_internship/empty/res/ui/hall/Atlas/Subinterface_currentsquad/rank/Lv.9.png
-
-
-
-[LUA-print] down
-
-[LUA-print] up
-
-[LUA-print] up
-
-[LUA-print] down
-
-[LUA-print] down
-
-[LUA-print] up
-
-[LUA-print] up
+[LUA-print] left
 
 [LUA-print] down
 
