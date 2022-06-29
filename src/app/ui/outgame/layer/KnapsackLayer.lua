@@ -6,7 +6,6 @@ local KnapsackLayer = class("KnapsackLayer", function()
     return display.newLayer()
 end)
 local OutGameData = require("src\\app\\data\\outgame\\OutGameData.lua")
-local ConstDef = require("src\\app\\def\\outgame\\ConstDef.lua")
 local EventDef = require("src\\app\\def\\outgame\\EventDef.lua")
 local EventManager = require("app.manager.EventManager")
 local IntensifiesLayer = require("src\\app\\ui\\outgame\\layer\\IntensifiesLayer.lua")
@@ -174,6 +173,7 @@ function KnapsackLayer:initView()
     self.container_C3:setPosition(display.cx, display.cy)
     self.container_C3:addTo(listViewC)
 
+    self.typefilename={"towertype_tapping","towertype_disturbance","towertype_sup","towertype_control"}
     --已收集,一行占250
     if #num3==0 then
         self.container_C3:setContentSize(width, 450+math.ceil(#num4/4+1)*250)
@@ -196,7 +196,7 @@ function KnapsackLayer:initView()
             spriteD6:setPosition(spriteC17:getContentSize().width/2,spriteC17:getContentSize().height/2+30)
             local spriteD7 = display.
             newSprite(string.format("res\\artcontent\\lobby(ongame)\\atlas_interface\\tower_list\\grade\\Lv.%d.png",
-            num3[i]:getLevel()))
+            num3[i]:getTower():getLevel()))
             spriteC17:addChild(spriteD7)
             spriteD7:setAnchorPoint(0.5, 0.5)
             spriteD7:setPosition(spriteC17:getContentSize().width/2,spriteC17:getContentSize().height/2-40)
@@ -211,7 +211,8 @@ function KnapsackLayer:initView()
             spriteD9:setAnchorPoint(0.5, 0.5)
             spriteD9:setPosition(spriteD8:getContentSize().width/2,spriteD8:getContentSize().height/2)
             local spriteD10 = display.
-            newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\tower_list\\towertype_control.png")
+            newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\tower_list\\"..
+            self.typefilename[num3[i]:getTower():getTowerType()]..".png")
             spriteC17:addChild(spriteD10)
             spriteD10:setAnchorPoint(1, 1)
             spriteD10:setPosition(spriteC17:getContentSize().width-10,spriteC17:getContentSize().height)
@@ -268,7 +269,8 @@ function KnapsackLayer:initView()
             spriteD4:setAnchorPoint(0.5, 0.5)
             spriteD4:setPosition(spriteD3:getContentSize().width/2,spriteD3:getContentSize().height/2)
             local spriteD5 = display.
-            newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\tower_list\\towertype_control.png")
+            newSprite("res\\artcontent\\lobby(ongame)\\atlas_interface\\tower_list\\"..
+            self.typefilename[num4[i]:getTowerType()]..".png")
             spriteC16:addChild(spriteD5)
             spriteD5:setAnchorPoint(1, 1)
             spriteD5:setPosition(spriteC16:getContentSize().width-10,spriteC16:getContentSize().height)

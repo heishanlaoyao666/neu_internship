@@ -52,52 +52,53 @@ end
 
     @return none
 ]]
+
 function OutGameData:initTower()
     local tower_1 = Tower.new(1, 1, 1, "tower_1", "使被攻击目标得到“灼烧”状态。灼烧：造成两次额外伤害。",
-    "前方", 20, 3, 10, 0.8, 0.01, "额外伤害", 20, 3, 20, nil, nil)
+    "前方", 20, 3, 10, 0.8, 0.01, "额外伤害",4,20, 3, 20, nil,nil,nil)
     local tower_2 = Tower.new(2, 3, 1, "tower_2", "使星级数个怪物受到伤害。",
-    "前方", 20, 5, 10, 0.8, nil, "额外伤害", 50, 4, 40, nil, nil)
-    local tower_3 = Tower.new(3, 2, 1, "使星级数个怪物受到伤害。",
-    "前方", 40, 8, 20, 0.8, 0.01, "额外伤害", 120, 24, 40, nil, nil)
-    local tower_4 = Tower.new(4, 1, 1, "攻击生命值最高的怪物,对BOSS造成双倍伤害。",
-    "最大血量", 100, 10, 100, 1, nil, nil, nil, nil, nil, nil, nil)
-    local tower_5 = Tower.new(5, 4, 1, "每隔一段时间可以在三个形态之间切换，二形态攻速大幅度加强，三形态攻击必定暴击。",
-    "前方", 20, 3, 30, 0.6, nil, "初次变声时间", 6, nil, nil, "二次变身给时间",4)
-    local tower_6 = Tower.new(6, 4, 1, "当场上有1,4,9个该种类防御塔时,攻速加强，同时造成额外伤害。",
-    "前方", 35, 5, 11, 1.2, nil, "额外伤害", 35, 5, 10.5, nil, nil)
-    local tower_7 = Tower.new(7, 1, 1, "攻击时攻速获得提高。",
-    "前方", 20, 3, 15, 0.45, nil, "攻速加强", 0.1, 0.02, nil, nil, nil)
-    local tower_8 = Tower.new(8, 3, 1, "每合成一次，获得攻击力加成。",
-    "前方", 10, 10, 10, 1, nil, "攻击力加成", 20, 1, nil, nil)
-    local tower_9 = Tower.new(9, 1, 1, "攻击时有概率直接杀死怪物,对BOSS无效。",
-    "随机敌人", 20, 4, nil, 1.2, nil, "攻击致死概率", 0.02, 0.002, 0.005, nil, nil)
-    local tower_10 = Tower.new(10, 1, 1, "使被攻击目标得到“中毒”状态。中毒：每秒造成额外伤害。",
-    "随即敌人", 30, 2, 10, 1.3, nil, "额外伤害", 50, 5, 20, nil, nil)
-    local tower_11 = Tower.new(11, 3, 2, "合成时在对方玩家区域召唤一个特殊怪，使该区域的所有怪物加速。",
-    "前方", 10, 5, 10, 0.8, 0.02, "加速效果", 0.05, nil, nil, nil, nil)
-    local tower_12 = Tower.new(12, 3, 2,"对战开始时，随机选择一种敌方防御塔，获得其属性及技能。",
-    "前方", 30, nil, nil, 0.8, nil, nil, nil, nil, nil, nil, nil)
-    local tower_13 = Tower.new(13, 4, 2, "合成时随机降低一个敌方防御塔的星级。",
-    "前方", 10, 5, 10, 0.8, 0.02, nil, nil, nil, nil, nil, nil)
-    local tower_14 = Tower.new(14, 2, 3, "复制任意相同星级的防御塔。",
-    "前方", 10, 5, 10, 1, nil, nil, nil, nil, nil, nil, nil)
-    local tower_15 = Tower.new(15, 2, 3, "合成或遭受攻击时获得能量。",
-    "前方", 10, 10, 10, 1, nil, nil, nil, nil, nil, nil, nil)
-    local tower_16 = Tower.new(16, 3, 3, "生成一段时间后，变成星级加一的随机防御塔。",
-    "前方", 10, 5, 10, 2, nil, nil, nil, nil, nil, "成长时间", 15)
-    local tower_17 = Tower.new(17, 3, 3, "可以和任意相同星级的防御塔合成，不改变防御塔种类。",
-    "前方", 20, 5, 10, 1,  nil, nil, nil, nil, nil, nil, nil)
-    local tower_18 = Tower.new(18, 1, 3, "使被攻击目标得到”脆弱“状态。脆弱：受到伤害提高。",
-    "随机敌人", 30, 5, 10, 1, nil, "增伤效果", 0.1, 0.01, 0.05, nil, nil)
-    local tower_19 = Tower.new(19, 4, 4, "每隔一段时间使本方半场所有敌人减速。",
-    "前方", 60, 5, 20, 2, nil, "技能减速效果", nil, 0.005, 0.01, "技能发动时间", 10)
-    local tower_20 = Tower.new(20, 1, 4, "使被攻击目标进入“混乱”状态。混乱：无法移动。",
-    "随机敌人", 20, 5, 20, 1, 0.02, "技能持续时间", 2, 0.5, 0.5, "技能发动时间", 10)
+    "前方", 20, 5, 10, 0.8, nil, "额外伤害",4,50, 4, 40, nil,nil,nil)
+    local tower_3 = Tower.new(3, 2, 1, "tower_3","使星级数个怪物受到伤害。",
+    "前方", 40, 8, 20, 0.8, 0.01, "额外伤害",4 ,120, 24, 40, nil,nil, nil)
+    local tower_4 = Tower.new(4, 1, 1, "tower_4","攻击生命值最高的怪物,对BOSS造成双倍伤害。",
+    "最大血量", 100, 10, 100, 1, nil, nil,nil, nil, nil, nil, nil,nil, nil)
+    local tower_5 = Tower.new(5, 4, 1, "tower_5","每隔一段时间可以在三个形态之间切换，二形态攻速大幅度加强，三形态攻击必定暴击。",
+    "前方", 20, 3, 30, 0.6, nil, "初次变身时间", 3,6, nil, nil, "二次变身时间",5,4)
+    local tower_6 = Tower.new(6, 4, 1, "tower_6","当场上有1,4,9个该种类防御塔时,攻速加强，同时造成额外伤害。",
+    "前方", 35, 5, 11, 1.2, nil, "额外伤害", 4,35, 5, 10.5, nil, nil,nil)
+    local tower_7 = Tower.new(7, 1, 1,"tower_7", "攻击时攻速获得提高。",
+    "前方", 20, 3, 15, 0.45, nil, "攻速加强", 9,0.1, 0.02, nil, nil,nil, nil)
+    local tower_8 = Tower.new(8, 3, 1,"tower_8", "每合成一次，获得攻击力加成。",
+    "前方", 10, 10, 10, 1, nil, "攻击力加成", 1,20, 1, nil, nil,nil,nil)
+    local tower_9 = Tower.new(9, 1, 1,"tower_9","攻击时有概率直接杀死怪物,对BOSS无效。",
+    "随机敌人", 20, 4, nil, 1.2, nil, "攻击致死概率",7, 0.02, 0.002, 0.005, nil,nil, nil)
+    local tower_10 = Tower.new(10, 2, 1, "tower_10","使被攻击目标得到“中毒”状态。中毒：每秒造成额外伤害。",
+    "随即敌人", 30, 2, 10, 1.3, nil, "额外伤害", 4,50, 5, 20, nil, nil,nil)
+    local tower_11 = Tower.new(11, 3, 2, "tower_11","合成时在对方玩家区域召唤一个特殊怪，使该区域的所有怪物加速。",
+    "前方", 10, 5, 10, 0.8, 0.02, "加速效果", 14,0.05, nil, nil, nil, nil,nil)
+    local tower_12 = Tower.new(12, 3, 2,"tower_12","对战开始时，随机选择一种敌方防御塔，获得其属性及技能。",
+    "前方", 30, nil, nil, 0.8, nil, nil,nil,nil, nil, nil, nil, nil, nil)
+    local tower_13 = Tower.new(13, 4, 2, "tower_13","合成时随机降低一个敌方防御塔的星级。",
+    "前方", 10, 5, 10, 0.8, 0.02, nil, nil,nil,nil, nil, nil, nil, nil)
+    local tower_14 = Tower.new(14, 2, 3, "tower_14","复制任意相同星级的防御塔。",
+    "前方", 10, 5, 10, 1, nil, nil, nil, nil,nil,nil, nil, nil, nil)
+    local tower_15 = Tower.new(15, 2, 3, "tower_15","合成或遭受攻击时获得能量。",
+    "前方", 10, 10, 10, 1, nil, nil, nil,nil,nil, nil, nil, nil, nil)
+    local tower_16 = Tower.new(16, 3, 3, "tower_16","生成一段时间后，变成星级加一的随机防御塔。",
+    "前方", 10, 5, 10, 2, nil, nil, nil, nil,nil, nil, "成长时间",2, 15)
+    local tower_17 = Tower.new(17, 3, 3, "tower_17","可以和任意相同星级的防御塔合成，不改变防御塔种类。",
+    "前方", 20, 5, 10, 1,  nil, nil, nil, nil,nil,nil, nil, nil, nil)
+    local tower_18 = Tower.new(18, 1, 3, "tower_18","使被攻击目标得到”脆弱“状态。脆弱：受到伤害提高。",
+    "随机敌人", 30, 5, 10, 1, nil, "增伤效果", 17,0.1, 0.01, 0.05, nil,nil, nil)
+    local tower_19 = Tower.new(19, 4, 4,"tower_19", "每隔一段时间使本方半场所有敌人减速。",
+    "前方", 60, 5, 20, 2, nil, "技能减速效果", 13,nil, 0.005, 0.01, "技能发动时间", 12,10)
+    local tower_20 = Tower.new(20, 1, 4, "tower_20","使被攻击目标进入“混乱”状态。混乱：无法移动。",
+    "随机敌人", 20, 5, 20, 1, 0.02, "技能持续时间",10, 2, 0.5, 0.5, "技能发动时间", 12,10)
 
-    towersOrdinary_ = {tower_1, tower_4, tower_7, tower_9, tower_10, tower_18, tower_20, }
-    unPacksOrdinary_ = {tower_1, tower_4, tower_7, tower_9, tower_10, tower_18, tower_20, }
-    towersRarity_ = {tower_3, tower_14, tower_15, }
-    unPacksRarity_ = {tower_3, tower_14, tower_15, }
+    towersOrdinary_ = {tower_1, tower_4, tower_7, tower_9,  tower_18, tower_20, }
+    unPacksOrdinary_ = {tower_1, tower_4, tower_7, tower_9, tower_18, tower_20, }
+    towersRarity_ = {tower_3, tower_10,tower_14, tower_15, }
+    unPacksRarity_ = {tower_3,tower_10, tower_14, tower_15, }
     towersEpic_ = {tower_2, tower_8, tower_11, tower_12, tower_16, tower_17, }
     unPacksEpic_ = {tower_2, tower_8, tower_11, tower_12, tower_16, tower_17, }
     towersLegend_ = {tower_5, tower_6, tower_13, tower_19, }
@@ -174,7 +175,7 @@ function OutGameData:goldShop()
     local c = math.random(1, #towersOrdinary_) --数量：1 价格：360 gold
     local d = math.random(1, #towersRarity_) --数量：1 价格：600 gold
     local e = math.random(1, #towersEpic_) --数量：1 价格：1000 gold
-    local packs = {towersOrdinary_[a], towersOrdinary_[b], towersOrdinary_[c], towersRarity_[d], towerEpic_[e]}
+    local packs = {towersOrdinary_[a], towersOrdinary_[b], towersOrdinary_[c], towersRarity_[d], towersEpic_[e]}
     return packs
 end
 
@@ -463,23 +464,6 @@ function OutGameData:towerLevelUp(packs, index)
 end
 
 --[[--
-    塔强化
-
-    @parm packs 类型：table
-    @parm index 类型：number
-
-    @return none
-]]
-function OutGameData:towerEnhance(packs, index)
-    if packs[index].getLevel() <= packs[index].getEnhanceLevel() then
-        print("已经强化到当前最高等级")
-    else
-        packs[index].getTower().AtkEnhance()
-        packs[index].getTower().ValueEnhance()
-    end
-end
-
---[[--
     获取已收集塔
 
     @parm none
@@ -499,7 +483,7 @@ end
 ]]
 
 function OutGameData:getUnCollected()
-    return unPacksLegend_, unPacksRarity_, unPacksEpic_, unPacksLegend_
+    return unPacksOrdinary_, unPacksRarity_, unPacksEpic_, unPacksLegend_
 end
 
 --[[--

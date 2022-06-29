@@ -64,7 +64,8 @@ function RegisterView:initView()
     self.container_:addChild(passwordEditbox)
 
     --注册确定按钮
-    local btn = ccui.Button:create("artcontent/register/register.png","artcontent/register/register2.png")
+    local btn = ccui.Button:create("res\\artcontent\\register\\register.png",
+    "res\\artcontent\\register\\register2.png")
     btn:addTouchEventListener(function(sender, eventType)
         if 2 == eventType then
             account = tostring(accountEditbox:getText())

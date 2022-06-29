@@ -28,7 +28,7 @@ end
 function LoadBGLayer:initView()
     -- 背景图720 * 1280
     -- 设计尺寸 720 * 1280
-    local sprite = display.newSprite("artcontent/load/scene_bg.jpg")
+    local sprite = display.newSprite("res\\artcontent\\load\\scene_bg.jpg")
     sprite:setAnchorPoint(0.5,0.5)
     sprite:pos(display.cx, display.cy)
     self:addChild(sprite)

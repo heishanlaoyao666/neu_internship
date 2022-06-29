@@ -646,12 +646,15 @@ function MainView:onEnter()
         self.container_2:addChild(self.KnapsackLayer_)
     end)
     EventManager:regListener(EventDef.ID.INTENSIFIES, self, function(pack)
-        -- print(pack)
-        -- print(pack:getTower():getTowerRarity())
         IntensifiesLayer:setTower(pack)
         IntensifiesLayer:new():addTo(self)
-        --IntensifiesLayer:setTower(pack)
     end)
+    -- EventManager:regListener(EventDef.ID.LEVEL_CHANGE, self, function(pack)
+    --     -- self.KnapsackLayer_=KnapsackLayer.new()
+    --     -- self.container_2:addChild(self.KnapsackLayer_)
+    --     IntensifiesLayer:setTower(pack)
+    --     IntensifiesLayer:new():addTo(self)
+    -- end)
 end
 
 --[[--
@@ -665,6 +668,7 @@ function MainView:onExit()
     EventManager:unRegListener(EventDef.ID.GAMESTATE_CHANGE, self)
     EventManager:unRegListener(EventDef.ID.GAMEDATA_CHANGE, self)
     EventManager:unRegListener(EventDef.ID.KNAPSACK_CHANGE, self)
+    --EventManager:unRegListener(EventDef.ID.LEVEL_CHANGE, self)
 end
 
 --[[--

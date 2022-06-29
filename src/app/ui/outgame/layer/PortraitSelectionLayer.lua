@@ -266,8 +266,6 @@ end
     @return none
 ]]
 function PortraitSelectionLayer:setportrait(filename)
-    -- filename=string.format("res\\artcontent\\lobby(ongame)\\currency\\icon_tower\\%02d.png",dt)
-    -- print(filename)
     EventManager:doEvent(EventDef.ID.PORTRAIT_CHANGE,
     filename)
 end
@@ -279,8 +277,7 @@ end
     @return none
 ]]
 function PortraitSelectionLayer:update(dt)
-    -- self.lifeLabelBmf_:setString(tostring(GameData:getLife()))
-    -- self.scoreLabelBmf_:setString(tostring(GameData:getScore()))
+
 end
 
 return PortraitSelectionLayer

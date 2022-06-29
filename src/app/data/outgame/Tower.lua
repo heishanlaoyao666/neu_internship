@@ -2,7 +2,7 @@
     Tower.lua
     塔对象类
 ]]
-local Tower = class("Tower")
+local Tower = class("Tower", require("app.data.ingame.Object"))
 
 
 --[[--
@@ -20,19 +20,19 @@ local Tower = class("Tower")
     @param towerFireCd 类型：number 塔的攻速
     @param fireCdUpgrade 类型：number 塔升级后公诉的变化
     @param towerSkill1 类型：string 塔技能1的描述
+    @param towerSkill1Num 类型：num 塔技能1
     @param skill1Value 类型：number 塔技能1的数值
     @param valueUpgrade 类型：number 塔技能1升级后的数值变化
     @param valueEnhance 类型：number 塔技能1强化后的数值变化
     @param towerSkill2 类型：string 塔技能2的描述
+    @param towerSkill2Num 类型：num 塔技能2
     @param skill2Value 类型：number 塔技能2的数值
-    @parm res1 类型：string 塔碎片图片资源
-    @parm res2 类型：string 塔图鉴图片资源
 
     @return none
 ]]
 function Tower:ctor(towerId, towerRarity, towerType, towerName, towerInfo,
     atkTarget, towerAtk, atkUpgrade, atkEnhance, towerFireCd, fireCdUpgrade,
-    towerSkill1, skill1Value, valueUpgrade, valueEnhance, towerSkill2, skill2Value)
+    towerSkill1, towerSkill1Num,skill1Value, valueUpgrade, valueEnhance, towerSkill2,towerSkill2Num, skill2Value)
     self.towerId_ = towerId
     self.towerRarity_ = towerRarity
     self.towerType_ = towerType
@@ -45,11 +45,14 @@ function Tower:ctor(towerId, towerRarity, towerType, towerName, towerInfo,
     self.towerFireCd_ = towerFireCd
     self.fireCdUpgrade_ = fireCdUpgrade
     self.towerSkill1_ = towerSkill1
+    self.towerSkill1Num_ =towerSkill1Num
     self.skill1Value_ = skill1Value
     self.valueUpgrade_ = valueUpgrade
     self.valueEnhance_ = valueEnhance
     self.towerSkill2_ = towerSkill2
+    self.towerSkill2Num_ =towerSkill2Num
     self.skill2Value_ = skill2Value
+    self.level_ = 1
 end
 
 --[[--
@@ -126,7 +129,18 @@ end
     @return number
 ]]
 function Tower:GetTowerAtk()
-    return self.atkTarget_
+    return self.towerAtk_
+end
+
+--[[--
+    获取塔的攻击力变化
+
+    @parm none
+
+    @return number
+]]
+function Tower:GetAtkUpgrade()
+    return self.atkUpgrade_
 end
 
 --[[--
@@ -167,6 +181,17 @@ function Tower:GetTowerFireCd()
 end
 
 --[[--
+    获取塔的攻速变化
+
+    @parm none
+
+    @return number
+]]
+function Tower:GetFireCdUpgrade()
+    return self.fireCdUpgrade_
+end
+
+--[[--
     升级后塔的攻速改变
 
     @parm none
@@ -191,6 +216,17 @@ function Tower:GetTowerSkill1()
 end
 
 --[[--
+    获取塔的技能1对应数字
+
+    @parm none
+
+    @return number
+]]
+function Tower:GetTowerSkill1Num()
+    return self.towerSkill1Num_
+end
+
+--[[--
     获取塔的技能1的数值
 
     @parm none
@@ -199,6 +235,17 @@ end
 ]]
 function Tower:GetSkill1Value()
     return self.skill1Value_
+end
+
+--[[--
+    获取塔的技能1的数值变化
+
+    @parm none
+
+    @return number
+]]
+function Tower:GetValueUpgrade()
+    return self.valueUpgrade_
 end
 
 --[[--
@@ -239,6 +286,16 @@ function Tower:GetTowerSkill2()
 end
 
 --[[--
+    获取塔的技能2对应数字
+
+    @parm none
+
+    @return number
+]]
+function Tower:GetTowerSkill2Num()
+    return self.towerSkill2Num_
+end
+--[[--
     获取塔的技能2的数值
 
     @parm none
@@ -247,6 +304,29 @@ end
 ]]
 function Tower:GetSkill2Value()
     return self.skill2Value_
+end
+
+--[[--
+    塔升级
+
+    @parm none
+
+    @return none
+]]
+
+function Tower:levelUp()
+    self.level_ = self.level_ + 1
+end
+
+--[[--
+    获取塔的等级
+
+    @paem none
+
+    @return number
+]]
+function Tower:getLevel()
+    return self.level_
 end
 
 return Tower
