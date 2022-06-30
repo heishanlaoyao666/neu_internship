@@ -315,7 +315,7 @@ function Shop:goldPurchasePanel(layer,path,fragNum,price)--图片路径，碎片
     purchaseLayer:setContentSize(width, height)
     purchaseLayer:pos(width*0.5, height *0.5)
     purchaseLayer:setAnchorPoint(0.5, 0.5)
-    purchaseLayer:addTo(self)
+    purchaseLayer:addTo(layer)
     purchaseLayer:setTouchEnabled(true)--屏蔽一级界面
 
     --图片：弹窗背景
@@ -408,7 +408,7 @@ function Shop:diamondPurchasePanel(layer,treasurePath,treasureType,nCardNum,rCar
     purchaseLayer:setContentSize(width, height)
     purchaseLayer:pos(width*0.5, height *0.5)
     purchaseLayer:setAnchorPoint(0.5, 0.5)
-    purchaseLayer:addTo(self)
+    purchaseLayer:addTo(layer)
     purchaseLayer:setTouchEnabled(true)--屏蔽一级界面
 
     --图片：弹窗背景
@@ -457,7 +457,7 @@ function Shop:diamondPurchasePanel(layer,treasurePath,treasureType,nCardNum,rCar
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
-            self:obtainFromTreasure(nCardNum,rCardNum,eCardNum,lCardNum,coinNum)
+            self:obtainFromTreasure(layer,nCardNum,rCardNum,eCardNum,lCardNum,coinNum)
             purchaseLayer:setVisible(false)--隐藏二级弹窗
         elseif eventType == ccui.TouchEventType.canceled then
             local scale = cc.ScaleTo:create(1,1)
@@ -587,7 +587,7 @@ end
 --[[
     函数用途：二级界面-宝箱开启获得物品弹窗
     --]]
-function Shop:obtainFromTreasure(nCardNum,rCardNum,eCardNum,lCardNum,coinNum)
+function Shop:obtainFromTreasure(layer,nCardNum,rCardNum,eCardNum,lCardNum,coinNum)
     local width ,height = display.width,display.height
     --层：灰色背景
     local grayLayer = ccui.Layout:create()
@@ -597,7 +597,7 @@ function Shop:obtainFromTreasure(nCardNum,rCardNum,eCardNum,lCardNum,coinNum)
     grayLayer:setContentSize(width, height)
     grayLayer:pos(width*0.5, height *0.5)
     grayLayer:setAnchorPoint(0.5, 0.5)
-    grayLayer:addTo(self)
+    grayLayer:addTo(layer)
     grayLayer:setTouchEnabled(true)--屏蔽一级界面
     --图片：弹窗背景
     local obtainBg =ccui.ImageView:create("ui/hall/common/SecondaryInterface-Open the treasure chest to obtain the item pop-up window/bg-pop-up.png")
@@ -646,7 +646,7 @@ function Shop:obtained(layer,nCardNum,rCardNum,eCardNum,lCardNum)
     local originX = 140
     local originY = 260
     for i = 1,4 do
-        local ItemObtained =ccui.ImageView:create("ui/hall/common/SecondaryInterface-Open the treasure chest to obtain the item pop-up window/Icon - tower/1.png")
+        local ItemObtained =ccui.ImageView:create("ui/hall/common/SecondaryInterface-Open the treasure chest to obtain the item pop-up window/Icon - tower/01.png")
         ItemObtained:setScale(0.9,0.9)
         ItemObtained:setPosition(cc.p(originX, originY))
         ItemObtained:addTo(layer)
@@ -661,7 +661,7 @@ function Shop:obtained(layer,nCardNum,rCardNum,eCardNum,lCardNum)
     originY = originY-150
     originX = 140
     for i = 1,4 do
-        local ItemObtained =ccui.ImageView:create("ui/hall/common/SecondaryInterface-Open the treasure chest to obtain the item pop-up window/Icon - tower/1.png")
+        local ItemObtained =ccui.ImageView:create("ui/hall/common/SecondaryInterface-Open the treasure chest to obtain the item pop-up window/Icon - tower/01.png")
         ItemObtained:setScale(0.9,0.9)
         ItemObtained:setPosition(cc.p(originX, originY))
         ItemObtained:addTo(layer)

@@ -151,7 +151,7 @@ function Atlas:towerusingPanel(layer,bg)
     towerusingLayer:setContentSize(width, height)
     towerusingLayer:pos(width*0.5, height *0.5)
     towerusingLayer:setAnchorPoint(0.5, 0.5)
-    towerusingLayer:addTo(self)
+    towerusingLayer:addTo(layer)
     towerusingLayer:setTouchEnabled(true)--屏蔽一级界面
 
     local pop2Layer = ccui.ImageView:create("ui/hall/Atlas/Secondaryinterface_towerusing/group119.png")
@@ -204,7 +204,7 @@ function Atlas:towerinfoPanel(layer,bg,path,towertype,rank)--图片路径，塔�
     towerinfoLayer:setContentSize(width, height)
     towerinfoLayer:pos(width*0.5, height *0.5)
     towerinfoLayer:setAnchorPoint(0.5, 0.5)
-    towerinfoLayer:addTo(self)
+    towerinfoLayer:addTo(layer)
     towerinfoLayer:setTouchEnabled(true)--屏蔽一级界面
 
     --图片：弹窗背景
