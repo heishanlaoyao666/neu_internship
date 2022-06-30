@@ -1,7 +1,4 @@
-
-local ShopScene = class("ShopScene", function()
-    return display.newScene("ShopScene")
-end)
+local Shop = class("Shop")
 
 --[[
 local function buttonEvent(sender,eventType)--按钮点击后放大缩小特效
@@ -21,19 +18,15 @@ local function buttonEvent(sender,eventType)--按钮点击后放大缩小特效
         sender:runAction(ease_elastic)
     end
 end--]]
-function ShopScene:ctor()
-    self:createMiddleMiddlePanel()
-    local layer = self:ShopPanel()
-    self:slide(layer)
+function Shop:ctor()
 
-
-    self:createMiddleBottomPanel()
-    self:createMiddleTopPanel()
 end
+
+
 --[[
     函数用途：滑动商店触摸事件
     --]]
-function ShopScene:slide(layer)
+function Shop:slide(layer)
     local listener = cc.EventListenerTouchOneByOne:create()--单点触摸
     local function onTouchBegan(touch, event)
         str = "null"
@@ -54,17 +47,21 @@ function ShopScene:slide(layer)
         local location2 = touch:getLocationInView()
         local y2 = location2["y"] or 0
         if y1<y2 then
-            str = "up"
+            if layer:getPositionY() ~= 1140 then--边缘内滑动
+                str = "down"
+            end
         elseif y1>y2 then
-            str = "down"
+            if layer:getPositionY() ~= 1510 then--边缘内滑动
+                str = "up"
+            end
         end
     end
     local function onTouchEnded(touch, event)
-        if str == "up" then
-            self:slideShop(layer,-350)
+        if str == "down" then
+            self:slideShop(layer,-370)
             print(str)
-        elseif str == "down" then
-            self:slideShop(layer,350)
+        elseif str == "up" then
+            self:slideShop(layer,370)
             print(str)
         end
     end
@@ -78,7 +75,7 @@ end
 --[[
     函数用途：商店页面的滑动
     --]]
-function ShopScene:slideShop(layer,distance)
+function Shop:slideShop(layer,distance)
     local moveAction = cc.MoveBy:create(0.5,cc.p(0,distance))
     layer:runAction(moveAction)
 end
@@ -86,42 +83,48 @@ end
 --[[
     函数用途：商店一级页面的展示
     --]]
-function ShopScene:ShopPanel()
-    local width,height = display.width,display.top
+function Shop:ShopPanel()
+    --层：整个商店
     local ShopLayer = ccui.Layout:create()
     ShopLayer:setBackGroundColorOpacity(180)--设置为透明
     --ShopLayer:setBackGroundColorType(1)
-    ShopLayer:setContentSize(width, height)--占满全屏
-    ShopLayer:setPosition(0, display.top-140)--左上角
-    ShopLayer:setAnchorPoint(0, 1)
-    ShopLayer:addTo(self)
+    ShopLayer:setAnchorPoint(0, 0)
+    ShopLayer:setPosition(0, display.top-140)
+    ShopLayer:setContentSize(720, 1280)
 
-    --标题背景条
+    --self:slide(ShopLayer)
+
+    --图片：商店背景图
+    local Bg = ccui.ImageView:create("ui/hall/shop/bg-StoreInterface.png")
+    Bg:setAnchorPoint(0.5, 0.5)
+    Bg:setPosition(display.cx,display.cy)
+    Bg:addTo(ShopLayer)
+    --图片：标题背景条
     local goldTitleBg = ccui.ImageView:create("ui/hall/shop/Goldcoin-shop/bg-title_block.png")
     goldTitleBg:setAnchorPoint(0, 1)
     goldTitleBg:setPosition(cc.p(0, display.top-50))
     goldTitleBg:addTo(ShopLayer)
-    --文字：金币商店
+    --图片：金币商店
     local goldStoreText = ccui.ImageView:create("ui/hall/shop/Goldcoin-shop/Title - gold_coin_store.png")
     goldStoreText:setAnchorPoint(0.5, 0.5)
     goldStoreText:addTo(goldTitleBg)
     goldStoreText:setPosition(cc.p(display.cx,35))
 
-    --刷新背景条
+    --图片：刷新背景条
     local refreshBg = ccui.ImageView:create("ui/hall/shop/Goldcoin-shop/bg-remaining_refresh_time.png")
     refreshBg:setPosition(cc.p(display.cx, display.top-160))
     refreshBg:addTo(ShopLayer)
-    --文字：商店刷新剩余时间
+    --图片：商店刷新剩余时间
     local refreshText = ccui.ImageView:create("ui/hall/shop/Goldcoin-shop/Prompt-refresh_time_remaining.png")--文字：商店刷新剩余时间
     refreshText:setAnchorPoint(0.5, 0.5)
     refreshText:addTo(refreshBg)
     refreshText:setPosition(cc.p(display.cx-100,25))
-    --文本：商品刷新剩余时间
+    --文本：刷新剩余时间
     local time = os.date("%H:%M")
     local refreshLabel = cc.Label:createWithTTF(time,"ui/font/fzbiaozjw.ttf",30)
     refreshLabel:setPosition(cc.p(display.cx+50,25))
     refreshLabel:setColor(cc.c3b(255, 206, 55))
-    --refreshLabel:enableShadow(cc.c3b(0,0,0), cc.size(2,-2), 100)--字体描边有待学习
+    refreshLabel:enableOutline(cc.c4b(0, 0, 0, 255),1)--字体描边
     refreshLabel:addTo(refreshBg)
 
     --按钮：免费商品
@@ -149,7 +152,7 @@ function ShopScene:ShopPanel()
         end
     end)
     freeItemButton:addTo(ShopLayer)
-    --图标：钻石
+    --图片：钻石
     local diamondIcon =ccui.ImageView:create("ui/hall/shop/Goldcoin-shop/ItemIcon-Diamond.png")
     diamondIcon:setPosition(cc.p(78, 115))
     diamondIcon:addTo(freeItemButton)
@@ -157,9 +160,9 @@ function ShopScene:ShopPanel()
     local freeItemNum = cc.Label:createWithTTF("X100","ui/font/fzbiaozjw.ttf",24)
     freeItemNum:setPosition(cc.p(78,65))
     freeItemNum:setColor(cc.c3b(173, 196, 255))
-    --freeItemNum:enableShadow(cc.c3b(0,0,0), cc.size(2,-2), 100)--字体描边有待学习
+    freeItemNum:enableOutline(cc.c4b(0, 0, 0, 255),1)--字体描边
     freeItemNum:addTo(freeItemButton)
-    --图标：免费字样
+    --图片：免费字样
     local freeIcon =ccui.ImageView:create("ui/hall/shop/Goldcoin-shop/PriceIcon-free.png")
     freeIcon:setPosition(cc.p(78, 25))
     freeIcon:addTo(freeItemButton)
@@ -176,12 +179,12 @@ function ShopScene:ShopPanel()
     ,"X1","1000",210,-220)
 
     --***************************钻石商店****************************************
-    --标题背景条
+    --图片：钻石商店标题背景条
     local diamondTitleBg = ccui.ImageView:create("ui/hall/shop/Diamond-shop/bg-title.png")
     diamondTitleBg:setAnchorPoint(0, 1)
     diamondTitleBg:setPosition(cc.p(0, display.top-660))
     diamondTitleBg:addTo(ShopLayer)
-    --文字：钻石商店
+    --图片：钻石商店
     local diamondStoreText = ccui.ImageView:create("ui/hall/shop/Diamond-shop/Title-diamond_store.png")
     diamondStoreText:setAnchorPoint(0.5, 0.5)
     diamondStoreText:addTo(diamondTitleBg)
@@ -206,9 +209,9 @@ end
 --[[
     函数用途：金币商店商品的展示
     --]]
-function ShopScene:createGoldItem(layer,path,fragNum,price,offsetX,offsetY)--层级、图片路径、碎片数量、价格、偏移量
+function Shop:createGoldItem(layer,path,fragNum,price,offsetX,offsetY)--层级、图片路径、碎片数量、价格、偏移量
 
-    --按钮：商品1
+    --按钮：商品
     local ItemButton = ccui.Button:create(path, path, path)
     ItemButton:setPosition(cc.p(370+offsetX, display.top-310+offsetY))
     ItemButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
@@ -231,7 +234,7 @@ function ShopScene:createGoldItem(layer,path,fragNum,price,offsetX,offsetY)--层
     end)
     ItemButton:addTo(layer)
 
-    --图标：碎片数量背景
+    --图片：碎片数量背景
     local fragmentBg =ccui.ImageView:create("ui/hall/shop/Goldcoin-shop/bg-fragment_number.png")
     fragmentBg:setPosition(cc.p(110, 170))
     fragmentBg:addTo(ItemButton)
@@ -239,17 +242,17 @@ function ShopScene:createGoldItem(layer,path,fragNum,price,offsetX,offsetY)--层
     local fragmentNum = cc.Label:createWithTTF(fragNum,"ui/font/fzbiaozjw.ttf",19)
     fragmentNum:setPosition(cc.p(45,15))
     fragmentNum:setColor(cc.c3b(255, 206, 55))
-    --fragmentNum:enableShadow(cc.c3b(0,0,0), cc.size(2,-2), 100)--字体描边有待学习
+    fragmentNum:enableOutline(cc.c4b(0, 0, 0, 255),1)--字体描边
     fragmentNum:addTo(fragmentBg)
-    --图标：金币图标
+    --图片：金币图标
     local goldCoinIcon =ccui.ImageView:create("ui/hall/shop/Goldcoin-shop/PriceIcon-gold_coins.png")
     goldCoinIcon:setPosition(cc.p(50, 30))
     goldCoinIcon:addTo(ItemButton)
-    --文本：价格
+    --文本：商品价格
     local priceNum = cc.Label:createWithTTF(price,"ui/font/fzbiaozjw.ttf",25)
     priceNum:setPosition(cc.p(95,30))
     priceNum:setColor(cc.c3b(255, 255, 255))
-    --priceNum:enableShadow(cc.c3b(0,0,0), cc.size(2,-2), 100)--字体描边有待学习
+    priceNum:enableOutline(cc.c4b(0, 0, 0, 255),1)--字体描边
     priceNum:addTo(ItemButton)
 
 
@@ -258,7 +261,7 @@ end
 --[[
     函数用途：钻石商店商品的展示
     --]]
-function ShopScene:createDiamondItem(layer,bgPath,treasurePath,treasureType,price,offsetX,offsetY,nCardNum,rCardNum,eCardNum,lCardNum,coinNum)--层级、背景图路径、宝箱图路径、价格、偏移量
+function Shop:createDiamondItem(layer,bgPath,treasurePath,treasureType,price,offsetX,offsetY,nCardNum,rCardNum,eCardNum,lCardNum,coinNum)--层级、背景图路径、宝箱图路径、价格、偏移量
     --按钮：商品
     local ItemButton = ccui.Button:create(bgPath, bgPath, bgPath)
     ItemButton:setPosition(cc.p(130+offsetX, display.top-900+offsetY))
@@ -282,11 +285,11 @@ function ShopScene:createDiamondItem(layer,bgPath,treasurePath,treasureType,pric
     end)
     ItemButton:addTo(layer)
 
-    --图标：宝箱图标
+    --图片：宝箱图标
     local treasureIcon =ccui.ImageView:create(treasurePath)
     treasureIcon:setPosition(cc.p(105, 140))
     treasureIcon:addTo(ItemButton)
-    --图标：钻石图标
+    --图片：钻石图标
     local diamondIcon =ccui.ImageView:create("ui/hall/shop/Diamond-shop/PriceIcon-Diamond.png")
     diamondIcon:setPosition(cc.p(70, 40))
     diamondIcon:addTo(ItemButton)
@@ -294,14 +297,15 @@ function ShopScene:createDiamondItem(layer,bgPath,treasurePath,treasureType,pric
     local priceNum = cc.Label:createWithTTF(price,"ui/font/fzbiaozjw.ttf",25)
     priceNum:setPosition(cc.p(120,40))
     priceNum:setColor(cc.c3b(255, 255, 255))
-    --priceNum:enableShadow(cc.c3b(0,0,0), cc.size(2,-2), 100)--字体描边有待学习
+    priceNum:enableOutline(cc.c4b(15, 16, 59, 255),1)--字体描边
+    priceNum:enableShadow(cc.c4b(17,17,60,255), cc.size(0,-2), 1)--阴影
     priceNum:addTo(ItemButton)
 end
 
 --[[
     函数用途：二级弹窗-金币商店购买确认弹窗
     --]]
-function ShopScene:goldPurchasePanel(layer,path,fragNum,price)--图片路径，碎片数量，金额
+function Shop:goldPurchasePanel(layer,path,fragNum,price)--图片路径，碎片数量，金额
     local width ,height = display.width,display.height
     --层：灰色背景
     local purchaseLayer = ccui.Layout:create()
@@ -329,7 +333,7 @@ function ShopScene:goldPurchasePanel(layer,path,fragNum,price)--图片路径，�
     local fragmentNum = cc.Label:createWithTTF(fragNum,"ui/font/fzbiaozjw.ttf",25)
     fragmentNum:setPosition(cc.p(80,30))
     fragmentNum:setColor(cc.c3b(255, 206, 55))
-    --fragmentNum:enableShadow(cc.c3b(0,0,0), cc.size(2,-2), 100)--字体描边有待学习
+    fragmentNum:enableOutline(cc.c4b(0, 0, 0, 255),1)--字体描边
     fragmentNum:addTo(ItemBg)
 
     --按钮：确认按钮
@@ -362,7 +366,7 @@ function ShopScene:goldPurchasePanel(layer,path,fragNum,price)--图片路径，�
     local priceNum = cc.Label:createWithTTF(price,"ui/font/fzbiaozjw.ttf",30)
     priceNum:setPosition(cc.p(120,40))
     priceNum:setColor(cc.c3b(255, 255, 255))
-    --priceNum:enableShadow(cc.c3b(0,0,0), cc.size(2,-2), 100)--字体描边有待学习
+    priceNum:enableOutline(cc.c4b(0, 0, 0, 255),1)--字体描边
     priceNum:addTo(confirmButton)
 
     --按钮：关闭窗口
@@ -394,7 +398,7 @@ end
 --[[
     函数用途：二级弹窗-宝箱开启确认弹窗
     --]]
-function ShopScene:diamondPurchasePanel(layer,treasurePath,treasureType,nCardNum,rCardNum,eCardNum,lCardNum,coinNum)--层，宝箱图路径，宝箱类型,金币数量
+function Shop:diamondPurchasePanel(layer,treasurePath,treasureType,nCardNum,rCardNum,eCardNum,lCardNum,coinNum)--层，宝箱图路径，宝箱类型,金币数量
     local width ,height = display.width,display.height
     --层：灰色背景
     local purchaseLayer = ccui.Layout:create()
@@ -435,7 +439,7 @@ function ShopScene:diamondPurchasePanel(layer,treasurePath,treasureType,nCardNum
     local cNum = cc.Label:createWithTTF(coinNum,"ui/font/fzbiaozjw.ttf",24)
     cNum:setPosition(cc.p(60,40))
     cNum:setColor(cc.c3b(165, 237, 255))
-    --cNum:enableShadow(cc.c3b(0,0,0), cc.size(2,-2), 100)--字体描边有待学习
+    cNum:enableOutline(cc.c4b(0, 0, 0, 255),1)--字体描边
     cNum:addTo(coinBg)
     self:ItemInTreasure(popLayer,nCardNum,rCardNum,eCardNum,lCardNum)--展示宝箱开启可能获得的物品信息
     --按钮：开启按钮
@@ -494,7 +498,7 @@ end
 --[[
     函数用途：展示宝箱开启后所能获得的物品
     --]]
-function ShopScene:ItemInTreasure(layer,nCardNum,rCardNum,eCardNum,lCardNum)
+function Shop:ItemInTreasure(layer,nCardNum,rCardNum,eCardNum,lCardNum)
     --普通
     local nIcon =ccui.ImageView:create("ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Icon - normal.png")
     nIcon:setPosition(cc.p(240, 220))
@@ -508,12 +512,12 @@ function ShopScene:ItemInTreasure(layer,nCardNum,rCardNum,eCardNum,lCardNum)
     local normalText= cc.Label:createWithTTF("普通","ui/font/fzbiaozjw.ttf",20)
     normalText:setPosition(cc.p(320,240))
     normalText:setColor(cc.c3b(214, 214, 231))
-    --normalText:enableShadow(cc.c3b(0,0,0), cc.size(2,-2), 100)--字体描边有待学习
+    normalText:enableOutline(cc.c4b(0, 0, 0, 255),2)--字体描边
     normalText:addTo(layer)
     local normalNum= cc.Label:createWithTTF(nCardNum,"ui/font/fzbiaozjw.ttf",20)
     normalNum:setPosition(cc.p(320,210))
     normalNum:setColor(cc.c3b(214, 214, 231))
-    --normalNum:enableShadow(cc.c3b(0,0,0), cc.size(2,-2), 100)--字体描边有待学习
+    normalNum:enableOutline(cc.c4b(0, 0, 0, 255),1)--字体描边
     normalNum:addTo(layer)
 
     --稀有
@@ -529,12 +533,12 @@ function ShopScene:ItemInTreasure(layer,nCardNum,rCardNum,eCardNum,lCardNum)
     local rareText= cc.Label:createWithTTF("稀有","ui/font/fzbiaozjw.ttf",20)
     rareText:setPosition(cc.p(490,240))
     rareText:setColor(cc.c3b(79, 187, 245))
-    --rareText:enableShadow(cc.c3b(0,0,0), cc.size(2,-2), 100)--字体描边有待学习
+    rareText:enableOutline(cc.c4b(0, 0, 0, 255),2)--字体描边
     rareText:addTo(layer)
     local rareNum= cc.Label:createWithTTF(rCardNum,"ui/font/fzbiaozjw.ttf",20)
     rareNum:setPosition(cc.p(490,210))
     rareNum:setColor(cc.c3b(79, 187, 245))
-    --rareNum:enableShadow(cc.c3b(0,0,0), cc.size(2,-2), 100)--字体描边有待学习
+    rareNum:enableOutline(cc.c4b(0, 0, 0, 255),1)--字体描边
     rareNum:addTo(layer)
     --史诗
     local eIcon =ccui.ImageView:create("ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Icon - Epic.png")
@@ -549,12 +553,12 @@ function ShopScene:ItemInTreasure(layer,nCardNum,rCardNum,eCardNum,lCardNum)
     local epicText= cc.Label:createWithTTF("史诗","ui/font/fzbiaozjw.ttf",20)
     epicText:setPosition(cc.p(320,150))
     epicText:setColor(cc.c3b(210, 102, 249))
-    --epicText:enableShadow(cc.c3b(0,0,0), cc.size(2,-2), 100)--字体描边有待学习
+    epicText:enableOutline(cc.c4b(0, 0, 0, 255),2)--字体描边
     epicText:addTo(layer)
     local epicNum= cc.Label:createWithTTF(eCardNum,"ui/font/fzbiaozjw.ttf",20)
     epicNum:setPosition(cc.p(320,120))
     epicNum:setColor(cc.c3b(210, 102, 249))
-    --epicNum:enableShadow(cc.c3b(0,0,0), cc.size(2,-2), 100)--字体描边有待学习
+    epicNum:enableOutline(cc.c4b(0, 0, 0, 255),1)--字体描边
     epicNum:addTo(layer)
     --传说
     if lCardNum ~="X0" then
@@ -570,12 +574,12 @@ function ShopScene:ItemInTreasure(layer,nCardNum,rCardNum,eCardNum,lCardNum)
         local legendText= cc.Label:createWithTTF("传说","ui/font/fzbiaozjw.ttf",20)
         legendText:setPosition(cc.p(490,150))
         legendText:setColor(cc.c3b(250, 198, 17))
-        --legendText:enableShadow(cc.c3b(0,0,0), cc.size(2,-2), 100)--字体描边有待学习
+        legendText:enableOutline(cc.c4b(0, 0, 0, 255),2)--字体描边
         legendText:addTo(layer)
         local legendNum= cc.Label:createWithTTF(lCardNum,"ui/font/fzbiaozjw.ttf",20)
         legendNum:setPosition(cc.p(490,120))
         legendNum:setColor(cc.c3b(250, 198, 17))
-        --legendNum:enableShadow(cc.c3b(0,0,0), cc.size(2,-2), 100)--字体描边有待学习
+        legendNum:enableOutline(cc.c4b(0, 0, 0, 255),1)--字体描边
         legendNum:addTo(layer)
     end
 end
@@ -583,7 +587,7 @@ end
 --[[
     函数用途：二级界面-宝箱开启获得物品弹窗
     --]]
-function ShopScene:obtainFromTreasure(nCardNum,rCardNum,eCardNum,lCardNum,coinNum)
+function Shop:obtainFromTreasure(nCardNum,rCardNum,eCardNum,lCardNum,coinNum)
     local width ,height = display.width,display.height
     --层：灰色背景
     local grayLayer = ccui.Layout:create()
@@ -610,7 +614,7 @@ function ShopScene:obtainFromTreasure(nCardNum,rCardNum,eCardNum,lCardNum,coinNu
     local cNum = cc.Label:createWithTTF(coinNum,"ui/font/fzbiaozjw.ttf",30)
     cNum:setPosition(cc.p(380,-40))
     cNum:setColor(cc.c3b(255, 255, 255))
-    --cNum:enableShadow(cc.c3b(0,0,0), cc.size(2,-2), 100)--字体描边有待学习
+    cNum:enableOutline(cc.c4b(20, 20, 66, 255),2)--字体描边
     cNum:addTo(obtainBg)
     --按钮：开启按钮
     local confirmButton = ccui.Button:create(
@@ -638,7 +642,7 @@ function ShopScene:obtainFromTreasure(nCardNum,rCardNum,eCardNum,lCardNum,coinNu
     confirmButton:addTo(obtainBg)
 end
 
-function ShopScene:obtained(layer,nCardNum,rCardNum,eCardNum,lCardNum)
+function Shop:obtained(layer,nCardNum,rCardNum,eCardNum,lCardNum)
     local originX = 140
     local originY = 260
     for i = 1,4 do
@@ -646,6 +650,12 @@ function ShopScene:obtained(layer,nCardNum,rCardNum,eCardNum,lCardNum)
         ItemObtained:setScale(0.9,0.9)
         ItemObtained:setPosition(cc.p(originX, originY))
         ItemObtained:addTo(layer)
+        --文本：碎片数量
+        local fragmentNum = cc.Label:createWithTTF("X42","ui/font/fzbiaozjw.ttf",21)
+        fragmentNum:setPosition(cc.p(originX+45, originY+45))
+        fragmentNum:setColor(cc.c3b(255, 255, 255))
+        fragmentNum:enableOutline(cc.c4b(0, 0, 0, 255),1)--字体描边
+        fragmentNum:addTo(layer)
         originX = originX+150
     end
     originY = originY-150
@@ -655,208 +665,15 @@ function ShopScene:obtained(layer,nCardNum,rCardNum,eCardNum,lCardNum)
         ItemObtained:setScale(0.9,0.9)
         ItemObtained:setPosition(cc.p(originX, originY))
         ItemObtained:addTo(layer)
+        --文本：碎片数量
+        local fragmentNum = cc.Label:createWithTTF("X42","ui/font/fzbiaozjw.ttf",21)
+        fragmentNum:setPosition(cc.p(originX+45, originY+45))
+        fragmentNum:setColor(cc.c3b(255, 255, 255))
+        fragmentNum:enableOutline(cc.c4b(0, 0, 0, 255),1)--字体描边
+        fragmentNum:addTo(layer)
         originX = originX+150
     end
 end
 
---****************************************************************
---bg-battle_interface.png
-function ShopScene:createMiddleMiddlePanel()
-    local width ,height  =display.width,display.top
-    local settingLayer = ccui.Layout:create()
-    settingLayer:setBackGroundImage("ui/hall/battle/bg-battle_interface.png")
-    settingLayer:setContentSize(width,height)
-    settingLayer:setAnchorPoint(0.5,0.5)
-    settingLayer:setPosition(width*0.5,height*0.5)
-    settingLayer:addTo(self)
 
-end
-
-function ShopScene:createMiddleBottomPanel()
-    local width,height = display.width,display.top
-    local menuLayer = ccui.Layout:create()
-    menuLayer:setContentSize(width,height)
-    menuLayer:setAnchorPoint(0,0)
-    menuLayer:setPosition(0,0)
-
-    menuLayer:addTo(self)
-    --商店
-    local shopBtn = ccui.Button:create(
-            "ui/hall/bottom-tab/tab-unselected-left.png",
-            "ui/hall/bottom-tab/tab-selected.png",
-            "ui/hall/bottom-tab/tab-unselected-left.png"
-    )
-    shopBtn:setAnchorPoint(0,0)
-    shopBtn:setScale(240/230)
-    shopBtn:pos(0,0)
-    shopBtn:addTo(menuLayer)
-
-    shopBtn:addTouchEventListener(function(sender, eventType)
-        if 2 == eventType then
-            local shopScene=import("app/scenes/ShopScene"):new()
-            display.replaceScene(shopScene)
-        end
-    end)
-    --对战
-    local battleBtn = ccui.Button:create(
-            "ui/hall/bottom-tab/tab-unselected-middle.png",
-            "ui/hall/bottom-tab/tab-selected.png",
-            "ui/hall/bottom-tab/tab-unselected-middle.png"
-    )
-    battleBtn:setAnchorPoint(0,0)
-    battleBtn:setScale(240/230)
-    battleBtn:pos(0+230*240/230,0)
-    battleBtn:addTo(menuLayer)
-    --图鉴
-    local AtlasBtn = ccui.Button:create(
-            "ui/hall/bottom-tab/tab-unselected-right.png",
-            "ui/hall/bottom-tab/tab-selected.png",
-            "ui/hall/bottom-tab/tab-unselected-right.png"
-    )
-    AtlasBtn:setAnchorPoint(0,0)
-    AtlasBtn:setScale(240/230)
-    AtlasBtn:pos(0+230*240/230+230*240/230,0)
-    AtlasBtn:addTo(menuLayer)
-
-end
---顶部
-function ShopScene:createMiddleTopPanel()
-    local width,height = display.width,display.top
-    local infoLayer = ccui.Layout:create()
-    --infoLayer:setBackGroundImage("ui/hall/Prompt text/bg-topPanel.png")
-    infoLayer:setContentSize(width,height)
-    infoLayer:setAnchorPoint(0,0)
-    infoLayer:setPosition(0,0)
-
-    infoLayer:addTo(self)
-    --小背景
-    local bgicon=ccui.ImageView:create("ui/hall/Prompt text/bg-topPanel.png")
-    bgicon:setScale(1)
-    bgicon:setAnchorPoint(0,1)
-    bgicon:pos(0,height)
-    bgicon:addTo(infoLayer)
-
-    --第二背景（黑色）
-    local bg2icon=ccui.ImageView:create("ui/hall/Prompt text/bg-name.png")
-    bg2icon:setScale(1)
-    bg2icon:setAnchorPoint(0,1)
-    bg2icon:pos(0+100,height-20)
-    bg2icon:addTo(infoLayer)
-
-    --头像
-
-    local headBtn=ccui.Button:create(
-            "ui/hall/Prompt text/Default_Avatar.png",
-            "",
-            "ui/hall/Prompt text/Default_Avatar.png"
-    )
-    headBtn:setScale(1)
-    headBtn:setAnchorPoint(0,1)
-    headBtn:pos(0+10,height-10)
-    headBtn:addTo(infoLayer)
-
-    headBtn:addTouchEventListener(function(sender, eventType)
-        if 2 == eventType then
-            -- local newScene=import("app/scenes/HeadScene"):new()
-            -- display.replaceScene(newScene)
-            cc.Director:getInstance():pushScene(require("app.scenes.HeadScene").new())
-        end
-    end)
-
-    --名字
-    local namelabel=cc.Label:createWithTTF("黑山老妖04","ui/font/fzbiaozjw.ttf",30)
-    namelabel:setScale(1)
-    namelabel:setAnchorPoint(0,1)
-    namelabel:pos(0+150,height-25)
-    namelabel:addTo(infoLayer)
-    --小奖杯 res\ui\hall\Prompt text\trophy.png
-    local trophyicon=ccui.ImageView:create("ui/hall/Prompt text/trophy.png")
-    trophyicon:setScale(1)
-    trophyicon:setAnchorPoint(0,1)
-    trophyicon:pos(0+150,height-70)
-    trophyicon:addTo(infoLayer)
-
-    --奖杯数
-    local trophylabel=cc.Label:createWithTTF("100","ui/font/fzbiaozjw.ttf",30)
-    trophylabel:setScale(1)
-    trophylabel:setColor(cc.c3b(255,128,0))
-    trophylabel:setAnchorPoint(0,1)
-    trophylabel:pos(0+200,height-70)
-    trophylabel:addTo(infoLayer)
-
-    --两个小背景
-    local bg3icon=ccui.ImageView:create("ui/hall/Prompt text/bg-Base-diamonds &amp; gold coins.png")
-    bg3icon:setScale(1)
-    bg3icon:setAnchorPoint(0,1)
-    bg3icon:pos(0+450,height-25)
-    bg3icon:addTo(infoLayer)
-
-    local bg4icon=ccui.ImageView:create("ui/hall/Prompt text/bg-Base-diamonds &amp; gold coins.png")
-    bg4icon:setScale(1)
-    bg4icon:setAnchorPoint(0,1)
-    bg4icon:pos(0+450,height-75)
-    bg4icon:addTo(infoLayer)
-
-    --金币
-    local coinicon=ccui.ImageView:create("ui/hall/Prompt text/Gold-coin.png")
-    coinicon:setScale(1)
-    coinicon:setAnchorPoint(0,1)
-    coinicon:pos(0+430,height-20)
-    coinicon:addTo(infoLayer)
-
-    --钻石
-    local diamondicon=ccui.ImageView:create("ui/hall/Prompt text/Diamonds.png")
-    diamondicon:setScale(1)
-    diamondicon:setAnchorPoint(0,1)
-    diamondicon:pos(0+430,height-70)
-    diamondicon:addTo(infoLayer)
-    --金币数
-    local coinlabel=cc.Label:createWithTTF("100000","ui/font/fzbiaozjw.ttf",30)
-    coinlabel:setScale(1)
-    coinlabel:setAnchorPoint(0,1)
-    coinlabel:pos(0+480,height-25)
-    coinlabel:addTo(infoLayer)
-
-    --钻石数
-    local diamondlabel=cc.Label:createWithTTF("1000","ui/font/fzbiaozjw.ttf",30)
-    diamondlabel:setScale(1)
-    diamondlabel:setAnchorPoint(0,1)
-    diamondlabel:pos(0+480,height-75)
-    diamondlabel:addTo(infoLayer)
-
-    --设置
-
-    local settingBtn = ccui.Button:create(
-            "ui/hall/Prompt text/button-menu.png",
-            "",
-            "ui/hall/Prompt text/button-menu.png"
-    )
-    settingBtn:setScale(1)
-    settingBtn:setAnchorPoint(0,1)
-    settingBtn:pos(0+630,height-35)
-    settingBtn:addTo(infoLayer)
-
-    settingBtn:addTouchEventListener(function(sender, eventType)
-        if 2 == eventType then
-            cc.Director:getInstance():pushScene(require("app.scenes.SettingScene").new())
-        end
-    end)
-
-
-
-    -- local shopBtn = ccui.Button:create(
-    --     "ui/hall/bottom-tab/tab-unselected-left.png",
-    --     "ui/hall/bottom-tab/tab-selected.png",
-    --     "ui/hall/bottom-tab/tab-unselected-left.png"
-    -- )
-    -- shopBtn:setAnchorPoint(0,0)
-    -- shopBtn:setScale(240/230)
-    -- shopBtn:pos(0,0)
-    -- shopBtn:addTo(menuLayer)
-
-
-
-end
-
-
-return ShopScene
+return Shop
