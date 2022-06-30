@@ -15,56 +15,10 @@ local PackItem = class("PackItem")
 function PackItem:ctor(tower, num)
     self.tower= tower
     self.num_ = num
-    self.level_ = 1             -- 当前等级
-    self.enhanceLevel_ = 1      -- 强化等级
 end
 
 function PackItem:getTower()
     return self.tower
-end
-
---[[--
-    背包塔升级
-
-    @parm none
-
-    @return none
-]]
-function PackItem:towerLevelUp()
-    self.level_ = self.level_ + 1
-end
-
---[[--
-    背包塔强化
-
-    @parm none
-
-    @return none
-]]
-function PackItem:towerEnganceUp()
-    self.enhanceLevel_ = self.enhanceLevel_ + 1
-end
-
---[[--
-    获取背包塔等级
-
-    @parm none
-
-    @return number
-]]
-function PackItem:getLevel()
-    return self.level_
-end
-
---[[--
-    获取背包塔强化等级
-
-    @parm none
-
-    @return number
-]]
-function PackItem:getEnhanceLevel()
-    return self.enhanceLevel_
 end
 
 --[[--

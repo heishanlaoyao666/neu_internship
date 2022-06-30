@@ -6,7 +6,7 @@
 local OutGameData = {}
 
 local ConstDef = require("app.def.outgame.ConstDef")
-local EventDef = require("app.def.outgame.EventDef")
+local EventDef = require("app.def.EventDef")
 local EventManager = require("app.manager.EventManager")
 local Tower = require("app.data.outgame.Tower")
 local PackItem = require("app.data.outgame.PackItem")

@@ -4,13 +4,19 @@
 ]]
 local FightingLayer = class("FightingLayer", require("app.ui.ingame.layer.BaseLayer"))
 
-local OutGameData = require("app.data.outgame.OutGameData")
-local Tower = require("app.data.outgame.Tower")
-local FightTower = require("app.data.ingame.FightTower")
+local GameData = require("app.data.ingame.GameData")
+local TowerSprite = require("app.ui.ingame.node.TowerSprite")
+local EventDef = require("app.def.EventDef")
 local EventManager = require("app.manager.EventManager")
+
+local touchTower = nil
 
 function FightingLayer:ctor()
     FightingLayer.super.ctor(self)
+
+    GameData:init()
+
+    self.spNum_ = nil -- 生成所需sp
 
     self.bulletMap_ = {}
     self.towerMap_ = {}
@@ -30,23 +36,7 @@ end
     @return none
 ]]
 function FightingLayer:init()
-    local tower_1 = Tower.new(1, 1, 1, "tower_1", "使被攻击目标得到“灼烧”状态。灼烧：造成两次额外伤害。",
-    "前方", 20, 3, 10, 0.8, 0.01, "额外伤害",4,20, 3, 20, nil,nil,nil)
-    local tower_2 = Tower.new(2, 3, 1, "tower_2", "使星级数个怪物受到伤害。",
-    "前方", 20, 5, 10, 0.8, nil, "额外伤害",4,50, 4, 40, nil,nil,nil)
-    local tower_3 = Tower.new(3, 2, 1, "tower_3","使星级数个怪物受到伤害。",
-    "前方", 40, 8, 20, 0.8, 0.01, "额外伤害",4 ,120, 24, 40, nil,nil, nil)
-    local tower_4 = Tower.new(4, 1, 1, "tower_4","攻击生命值最高的怪物,对BOSS造成双倍伤害。",
-    "最大血量", 100, 10, 100, 1, nil, nil,nil, nil, nil, nil, nil,nil, nil)
-    local tower_5 = Tower.new(5, 4, 1, "tower_5","每隔一段时间可以在三个形态之间切换，二形态攻速大幅度加强，三形态攻击必定暴击。",
-    "前方", 20, 3, 30, 0.6, nil, "初次变身时间", 3,6, nil, nil, "二次变身时间",5,4)
-
-    local fightTower_1 = FightTower.new(tower_1)
-    local fightTower_2 = FightTower.new(tower_2)
-    local fightTower_3 = FightTower.new(tower_3)
-    local fightTower_4 = FightTower.new(tower_4)
-    local fightTower_5 = FightTower.new(tower_5)
-    self.lineup_ = {fightTower_1, fightTower_2, fightTower_3, fightTower_4, fightTower_5}
+    self.lineup_ = GameData:getMyTowers()
 end
 
 function FightingLayer:initView()
@@ -64,7 +54,7 @@ function FightingLayer:initView()
         --头像
         local towerBtn = ccui.Button:create(
             string.format("artcontent/battle(ongame)/battle_interface/tower/tower_%d.png",
-            self.lineup_[i]:getTower():getTowerId()))
+            self.lineup_[i]:getTowerId()))
         towerBtn:setPosition(index_x, 120)
         towerBtn:addTouchEventListener(function(sender, eventType)
             if eventType == 2 then
@@ -76,7 +66,7 @@ function FightingLayer:initView()
         --等级
         local levelSprite = cc.Sprite:create(
             string.format("artcontent/battle(ongame)/battle_interface/grade/LV.%d.png",
-             self.lineup_[i]:getTower():getLevel()))
+             self.lineup_[i]:getLevel()))
         levelSprite:setPosition(index_x, 50)
         levelSprite:addTo(self)
 
@@ -94,13 +84,154 @@ function FightingLayer:initView()
         table.insert(self.enhanceNeedSp_, i, needSpText)
 
         --塔类型角标
-        local angelMarkSprite = cc.Sprite:create(angelMark[self.lineup_[i]:getTower():getTowerType()])
-        angelMarkSprite:setPosition(index_x + 30, 147)
-        angelMarkSprite:addTo(self)
+        local angleMarkSprite = cc.Sprite:create(angelMark[self.lineup_[i]:getTowerType()])
+        angleMarkSprite:setPosition(index_x + 33, 150)
+        angleMarkSprite:addTo(self)
         index_x = index_x + 120
     end
 
+    --生成塔按钮
+    local buildBtn = ccui.Button:create("artcontent/battle(ongame)/battle_interface/button_generate.png")
+    buildBtn:addTouchEventListener(function(sender, eventType)
+        if eventType == 2 then
+            GameData:creatTower()
+        end
+    end)
+    buildBtn:setPosition(display.cx, 240)
+    buildBtn:addTo(self)
 
+    --生成塔所需sp数值
+    self.spNum_ = ccui.Text:create("10", "artcontent/font/fzbiaozjw.ttf", 26)
+    self.spNum_:setAnchorPoint(0.1, 0.5)
+    self.spNum_:setPosition(display.cx, 200)
+    self.spNum_:addTo(self)
+
+    --添加触摸事件
+    self:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
+        if touchTower == nil then
+            touchTower = GameData:getFightingTowerByIndex(event.x, event.y)
+        end
+        if event.name == "began" then
+            return self:onTouchBegan(event.x, event.y, touchTower)
+        elseif event.name == "moved" then
+            self:onTouchMoved(event.x, event.y, touchTower)
+        elseif event.name == "ended" then
+            self:onTouchEnded(event.x, event.y, touchTower)
+        end
+    end)
+    self:setTouchEnabled(true)
+end
+
+--[[--
+    触摸开始
+
+    @param x 类型：number
+    @param y 类型：number
+    @parm tower 类型：fightingTower
+
+    @return boolean
+]]
+function FightingLayer:onTouchBegan(x, y, tower)
+    if tower ~= nil then
+        GameData:moveTo(x, y, tower)
+        return true
+    end
+    return false
+end
+
+--[[--
+    触摸移动
+
+    @param x 类型：number
+    @param y 类型：number
+    @parm tower 类型：fightingTower
+
+    @return none
+]]
+function FightingLayer:onTouchMoved(x, y, tower)
+    GameData:moveTo(x, y, tower)
+end
+
+--[[--
+    触摸结束
+
+    @param x 类型：number
+    @param y 类型：number
+    @parm tower 类型：fightingTower
+
+    @return none
+]]
+function FightingLayer:onTouchEnded(x, y, tower1)
+    tower2 = GameData:getFightingTowerByIndex(x, y, tower1)
+    if tower2 == nil or tower1:getStar() ~= tower2:getStar() then
+        local index = GameData:getTowerIndex(tower1)
+        local index_x, index_y = index[1], index[2]
+        GameData:moveTo(index_x, index_y, tower1)
+    else
+        print("融合")
+    end
+    touchTower = nil
+end
+
+
+
+--[[--
+    节点进入
+
+    @param none
+
+    @return none
+]]
+function FightingLayer:onEnter()
+    --生成塔与角标
+    EventManager:regListener(EventDef.ID.CREATE_SELF, self, function(tower)
+        local towerNode = TowerSprite.new(
+            string.format("artcontent/battle(ongame)/battle_interface/tower/tower_%d.png",
+            tower:getTower():getTowerId()), tower)
+        towerNode:setScale(1, 0.9)
+        towerNode:setPosition(tower:getX(), tower:getY())
+        self:addChild(towerNode)
+        self.towerMap_[tower] = towerNode
+        local angleMark = ccui.ImageView:create(string.format(
+            "artcontent/battle(ongame)/battle_interface/anglemark_grade/%d.png",
+            tower:getStar()))
+        angleMark:setPosition(82, 87)
+        towerNode:addChild(angleMark)
+    end)
+
+    --销毁塔
+    EventManager:regListener(EventDef.ID.DESTORY_SELF, self, function(tower)
+        local node = self.towerMap_[tower]
+        node:removeFromParent()
+        self.towerMap_[tower] = nil
+    end)
+end
+
+--[[--
+    节点退出
+
+    @param none
+
+    @return none
+]]
+function FightingLayer:onExit()
+    EventManager:unRegListener(EventDef.ID.CREATE_SELF, self)
+    EventManager:unRegListener(EventDef.ID.DESTORY_SELF, self)
+end
+
+--[[--
+    帧循环
+
+    @param dt 类型：number，帧间隔，单位秒
+
+    @return none
+]]
+function FightingLayer:update(dt)
+    self.spNum_:setString(GameData:getNeedSp())
+
+    for _, node in pairs(self.towerMap_) do
+        node:update(dt)
+    end
 end
 
 return FightingLayer

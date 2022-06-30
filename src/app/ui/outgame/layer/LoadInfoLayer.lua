@@ -53,7 +53,7 @@ function LoadInfoLayer:initView()
     self.container_:setPosition(display.cx, display.bottom)
 
     --提示
-    self.tipLabelText_ = ccui.Text:create("大厅预加载，进行中...", "font.fzhz.ttf",30)
+    self.tipLabelText_ = ccui.Text:create("大厅预加载，进行中...", "artcontent/font.fzhz.ttf",30)
     self.tipLabelText_:setColor(cc.c3b(255, 255, 255))
     self.tipLabelText_:setAnchorPoint(0.5, 1)
     self.tipLabelText_:setPosition(display.cx, height)
@@ -61,7 +61,7 @@ function LoadInfoLayer:initView()
     self.container_:addChild(self.tipLabelText_)
 
     --加载进度
-    self.proLabelText_ = ccui.Text:create(tostring(self.pro).."%", "font.fzhz.ttf",30)
+    self.proLabelText_ = ccui.Text:create(tostring(self.pro).."%", "artcontent/font.fzhz.ttf",30)
     self.proLabelText_:setColor(cc.c3b(253, 239, 117))
     self.proLabelText_:setAnchorPoint(1, 1)
     self.proLabelText_:setPosition(width - 10, height)
@@ -69,7 +69,7 @@ function LoadInfoLayer:initView()
     self.container_:addChild(self.proLabelText_)
 
     --进度条背景
-    local loadBarProBG = cc.Sprite:create("res\\artcontent\\load\\progress_bar_underlay.png")
+    local loadBarProBG = cc.Sprite:create("artcontent/load/progress_bar_underlay.png")
     --720/15 按比例拉伸
     loadBarProBG:setScale(720/15,1)
     loadBarProBG:setAnchorPoint(0.5,0)
@@ -77,7 +77,7 @@ function LoadInfoLayer:initView()
     self.container_:addChild(loadBarProBG)
 
     --进度条
-    self.loadBarPro_ = cc.ProgressTimer:create(cc.Sprite:create("res\\artcontent\\load\\progressbar_stretch.png"))
+    self.loadBarPro_ = cc.ProgressTimer:create(cc.Sprite:create("artcontent/load/progressbar_stretch.png"))
     self.loadBarPro_:setScale(720/15,1)
     self.loadBarPro_:setAnchorPoint(0, 0)
     self.loadBarPro_:setType(cc.PROGRESS_TIMER_TYPE_BAR)
@@ -88,7 +88,7 @@ function LoadInfoLayer:initView()
     self.container_:addChild(self.loadBarPro_)
 
     --进度条头部
-    self.loadBarProHead_ = cc.Sprite:create("res\\artcontent\\load\\progressbar_header.png")
+    self.loadBarProHead_ = cc.Sprite:create("artcontent/load/progressbar_header.png")
     self.loadBarProHead_:setAnchorPoint(0, 0)
     self.loadBarProHead_:pos(720 * 0 / 100, 0)
     self.container_:addChild(self.loadBarProHead_)

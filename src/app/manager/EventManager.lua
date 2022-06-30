@@ -46,7 +46,7 @@ end
 
     @param eventId  类型：number，事件id
     @param 。。。
-    
+
     @return none
 ]]
 function EventManger:doEvent(eventId, ...)

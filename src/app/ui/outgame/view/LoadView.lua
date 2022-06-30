@@ -6,7 +6,7 @@ local LoadView = class("LoadView", function()
     return display.newColorLayer(cc.c4b(0, 0, 0, 0))
 end)
 local ConstDef = require("app.def.outgame.ConstDef")
-local EventDef = require("app.def.outgame.EventDef")
+local EventDef = require("app.def.EventDef")
 local EventManager = require("app.manager.EventManager")
 local OutGameData = require("app.data.outgame.OutGameData")
 local LoadBGLayer = require("app.ui.outgame.layer.LoadBGLayer")
@@ -87,9 +87,6 @@ function LoadView:onEnter()
         print("登录事件")
         if state == ConstDef.GAME_STATE.REGISTER then
             self.registerView_:showView()
-        elseif state == ConstDef.GAME_STATE.INIT then
-            local AnotherScene=require("src\\app\\scenes\\outgame\\MainScene.lua"):new()
-                display.replaceScene(AnotherScene, "fade", 0.5)
         end
     end)
 end

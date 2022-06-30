@@ -33,6 +33,7 @@ end
     @return none
 ]]
 function FightingScene:update(dt)
+    self.fightingView_:update(dt)
 end
 
 return FightingScene
