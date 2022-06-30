@@ -1,9 +1,16 @@
 
 local Atlas = class("Atlas")
 
+local Headdata = require("app/data/Headdata")
+local Towerdata = require("app/data/Towerdata")
+local TowerDef = require("app/def/TowerDef")
+
+
 function Atlas:ctor()
 
 end
+
+
 
 
 function Atlas:slide(layer)
@@ -108,16 +115,16 @@ function Atlas:createCollectionPanel()
     "ui/hall/common/Tower-Icon/01.png","ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_disturb.png",
     "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",0,-450)
     self:createCollectedItem(AtlasLayer,"ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-rare.png",
-    "ui/hall/common/Tower-Icon/01.png","ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png",
+    "ui/hall/common/Tower-Icon/02.png","ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png",
     "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",170,-450)
     self:createCollectedItem(AtlasLayer,"ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-rare.png"
-    ,"ui/hall/common/Tower-Icon/01.png","ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png",
+    ,"ui/hall/common/Tower-Icon/03.png","ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png",
     "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",170*2,-450)
     self:createCollectedItem(AtlasLayer,"ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-rare.png"
-    ,"ui/hall/common/Tower-Icon/01.png","ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png",
+    ,"ui/hall/common/Tower-Icon/04.png","ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png",
     "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",170*3,-450)
     self:createCollectedItem(AtlasLayer,"ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-rare.png"
-    ,"ui/hall/common/Tower-Icon/01.png","ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png",
+    ,"ui/hall/common/Tower-Icon/05.png","ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png",
     "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.9.png",0,-700)
 
 
@@ -639,14 +646,14 @@ function Atlas:createTroopPanel(layer)
     trooplabel:addTo(layer)
 
     self:createTroopItem(layer,"ui/hall/common/Tower-Icon/01.png"
-    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_disturb.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",0,0)
-    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/01.png"
-    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",130,0)
-    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/01.png"
-    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",130+130,0)
-    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/01.png"
+    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_disturb.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.13.png",0,0)
+    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/06.png"
+    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.12.png",130,0)
+    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/08.png"
+    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.11.png",130+130,0)
+    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/09.png"
     ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",130*3,0)
-    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/01.png"
+    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/07.png"
     ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.9.png",130*4,0)
 
 end
