@@ -4,15 +4,14 @@
 ]]
 local ConstDef = {
     --我方塔大小
-    TOWER_SIZE = {
-        width = 100,
+    TOWER_SIZE ={
+        Width = 100,
         HEIGHT = 100,
     },
 
     --敌人大小
-    ENEMY_SIZE = {
-        width = 43,
-        HEIGHT = 44,
+    ENEMY_SIZE ={
+
     },
 }
 

@@ -18,7 +18,7 @@ local BuyLayer = require("src\\app\\ui\\outgame\\layer\\BuyLayer.lua")
 local ObtainItemLayer = require("src\\app\\ui\\outgame\\layer\\ObtainItemLayer.lua")
 local KnapsackLayer = require("src\\app\\ui\\outgame\\layer\\KnapsackLayer.lua")
 local IntensifiesLayer = require("src\\app\\ui\\outgame\\layer\\IntensifiesLayer.lua")
-
+local MatchLayer = require("src\\app\\ui\\outgame\\layer\\MatchLayer.lua")
 --[[--
     构造函数
 
@@ -30,7 +30,8 @@ function MainView:ctor()
     self.TopInfoLayer_ = nil -- 类型：TopInfoLayer，顶部信息层
     self.BottomInfoLayer_ = nil -- 类型：BottomInfoLayer，底部信息层
     self.KnapsackLayer_ = nil -- 类型：KnapsackLayer，背包层
-    --self.ShopLayer_=nil -- 类型：ShopLayer_，商店层
+    -- self.ShopLayer_=nil -- 类型：ShopLayer_，商店层
+    self.MatchLayer_ = nil -- 类型：MatchLayer，匹配层
     OutGameData:initTower()
     self.packs=OutGameData:goldShop()
 
@@ -79,6 +80,7 @@ function MainView:initView()
                 -- body
                 -- local AnotherScene=require("src\\app\\ui\\outgame\\layer\\ShopLayer.lua"):new()
                 -- display.replaceScene(AnotherScene, "moveInL", 0.5)
+                self.MatchLayer_=MatchLayer.new():addTo(self)
                 print("进入战斗")
             end
         end)
@@ -91,19 +93,120 @@ function MainView:initView()
         local sprite2 = display.newSprite("res\\artcontent\\lobby(ongame)\\battle_interface\\rank\\basemap_rank.png")
         self.container_:addChild(sprite2)
         sprite2:setPosition(display.cx,display.cy+300)
+        self.listcontainer_ =ccui.Layout:create()
+        self.listcontainer_:setContentSize(sprite2:getContentSize().width-100, sprite2:getContentSize().height)
+        self.listcontainer_:setAnchorPoint(0.5,0.5)
+        self.listcontainer_:setPosition(sprite2:getContentSize().width/2,sprite2:getContentSize().height/2)
+        self.listcontainer_:addTo(sprite2)
+
         local listView = ccui.ListView:create()
-        listView:setContentSize(sprite2:getContentSize().width, sprite2:getContentSize().height)
+        listView:setContentSize(self.listcontainer_:getContentSize().width, self.listcontainer_:getContentSize().height)
         listView:setAnchorPoint(0.5, 0.5)
-        listView:setPosition(display.cx,display.cy+300)
+        listView:setPosition(self.listcontainer_:getContentSize().width/2,self.listcontainer_:getContentSize().height/2+50)
         listView:setDirection(2)
-        listView:addTo(self.container_)
-        for i=1,8 do
-            local img = ccui.ImageView:
+        listView:addTo(self.listcontainer_)
+        listView:setBounceEnabled(true)
+        self.imgstatus={}
+        for i=1,20 do
+            self.imgstatus[i]=1
+        end
+        for i=1,20 do
+            self.imgcontainer_ =ccui.Layout:create()
+            local img = ccui.Button:
             create("res\\artcontent\\lobby(ongame)\\battle_interface\\rank\\locked_blueborder.png")
-            listView:pushBackCustomItem(img)
+            img:setAnchorPoint(0,0.5)
+            img:setPosition(50,img:getContentSize().height/2)
+            self.imgcontainer_:addChild(img)
+            self.imgcontainer_:setContentSize(img:getContentSize().width+50,img:getContentSize().height)
+            self.imgcontainer_:setAnchorPoint(0.5,0.5)
+            self.imgcontainer_:setPosition(sprite2:getContentSize().width/2,sprite2:getContentSize().height/2+100)
+            self.imgcontainer_:addTo(listView)
+            self.spritelocked = display.newSprite("res\\artcontent\\lobby(ongame)\\battle_interface\\rank\\locked.png")
+            img:addChild(self.spritelocked)
+            self.spritelocked:setAnchorPoint(0.5, 0)
+            self.spritelocked:setPosition(img:getContentSize().width/2,-25)
+            self.spritelocked:setVisible(true)
+            self.spriteget = display.newSprite("res\\artcontent\\lobby(ongame)\\battle_interface\\rank\\group130.png")
+            img:addChild(self.spriteget)
+            self.spriteget:setAnchorPoint(0.5, 0)
+            self.spriteget:setPosition(img:getContentSize().width/2,-25)
+            self.spriteget:setVisible(false)
+            img:addTouchEventListener(function(sender, eventType)
+                if 2 == eventType then -- touch end
+                    self.MatchLayer_=MatchLayer.new():addTo(self)
+                end
+            end)
+            if self.imgstatus[i]==1 then
+                --img:loadTextureNormal
+            elseif self.imgstatus[i]==2 then
+                img:loadTextureNormal("res\\artcontent\\lobby(ongame)\\battle_interface\\rank\\unlocked_notclamide_yellowborder.png")
+                self.spritelocked:setVisible(false)
+                img:addTouchEventListener(function(sender, eventType)
+                    if 2 == eventType then -- touch end
+                        print(2)
+                    end
+                end)
+            else
+                img:loadTextureNormal("res\\artcontent\\lobby(ongame)\\battle_interface\\rank\\available.png")
+                self.spritelocked:setVisible(false)
+                self.spriteget:setVisible(true)
+                img:addTouchEventListener(function(sender, eventType)
+                    if 2 == eventType then -- touch end
+                        print(3)
+                    end
+                end)
+            end
+
+        end
+        --进度条背景
+        local loadBarProBG = cc.Sprite:
+        create("res\\artcontent\\lobby(ongame)\\battle_interface\\rank\\sacle\\scale_ruler.png")
+        loadBarProBG:setScale(self.imgcontainer_:getContentSize().width*20/loadBarProBG:getContentSize().width,1)
+        loadBarProBG:setAnchorPoint(0,0)
+        loadBarProBG:pos(0, 0)
+        listView:addChild(loadBarProBG)
+
+       --进度条
+       self.loadBarPro_ = cc.ProgressTimer:
+       create(cc.Sprite:create("res\\artcontent\\lobby(ongame)\\battle_interface\\rank\\sacle\\rectangle_1.png"))
+       self.loadBarPro_:setScale(14.3,1)
+       self.loadBarPro_:setAnchorPoint(0, 0.5)
+       self.loadBarPro_:setType(cc.PROGRESS_TIMER_TYPE_BAR)--从左到右
+       self.loadBarPro_:setMidpoint(cc.p(0, 0))
+       self.loadBarPro_:setBarChangeRate(cc.p(1, 0))
+       self.loadBarPro_:pos(3, loadBarProBG:getContentSize().height/2+1)
+       self.loadBarPro_:setPercentage(0)
+       loadBarProBG:addChild(self.loadBarPro_)
+
+       local spritekey = display.newSprite("res\\artcontent\\lobby(ongame)\\battle_interface\\rank\\sacle\\key.png")
+       spritekey:setScale(loadBarProBG:getContentSize().width/self.imgcontainer_:getContentSize().width/20,1)
+       loadBarProBG:addChild(spritekey)
+       spritekey:setAnchorPoint(0, 0.5)
+       spritekey:setPosition(0,loadBarProBG:getContentSize().height/2)
+
+        for i=1,20 do
+           local spritescale = display.newSprite("res\\artcontent\\lobby(ongame)\\battle_interface\\rank\\sacle\\scale.png")
+           spritescale:setScale(loadBarProBG:getContentSize().width/self.imgcontainer_:getContentSize().width/20,1)
+           loadBarProBG:addChild(spritescale)
+           spritescale:setAnchorPoint(0, 0.5)
+           spritescale:setPosition(3+(2*i-1)*(self.imgcontainer_:getContentSize().width/13-0.5),
+           loadBarProBG:getContentSize().height/2)
         end
 
+        self.progress=cc.UserDefault:getInstance():getIntegerForKey("奖杯数")*1.01/2000
+        for i=1,20 do
+            if i< (self.progress/50+1)/2 and self.imgstatus[i]==1 then
+                self.imgstatus[i]=2
+            end
+        end
+
+        if self.progress<1 then
+            self.loadBarPro_:setPercentage(self.progress)
+        else
+            self.loadBarPro_:setPercentage(1)
+        end
     end
+
     do
         --商店界面
         self.container_1 = ccui.Layout:create()
@@ -678,7 +781,7 @@ end
 
     @return none
 ]]
-function MainView:update()
+function MainView:update(dt)
 end
 
 return MainView

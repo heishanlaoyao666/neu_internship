@@ -46,7 +46,7 @@ function RegisterView:initView()
 
     --账号文本框
     local accountEditbox = ccui.EditBox:create(cc.size(240, 40),
-    "artcontent/lobby(ongame)/battle_interface/basemap_selectedteams.png", 0)
+    "lobby(ongame)/battle_interface/basemap_selectedteams.png", 0)
     accountEditbox:setAnchorPoint(0.5,0.5)
     accountEditbox:pos(display.cx * 3/5, display.cy * 2/5)
     self.container_:addChild(accountEditbox)
@@ -64,7 +64,8 @@ function RegisterView:initView()
     self.container_:addChild(passwordEditbox)
 
     --注册确定按钮
-    local btn = ccui.Button:create("artcontent/register/register.png","artcontent/register/register2.png")
+    local btn = ccui.Button:create("res\\artcontent\\register\\register.png",
+    "res\\artcontent\\register\\register2.png")
     btn:addTouchEventListener(function(sender, eventType)
         if 2 == eventType then
             account = tostring(accountEditbox:getText())
@@ -74,6 +75,7 @@ function RegisterView:initView()
             else
                 self:hideView(function()
                     OutGameData:setGameState(ConstDef.GAME_STATE.INIT)
+                    print("进入主界面")
                 end)
                 cc.UserDefault:getInstance():setStringForKey("account", account)
                 cc.UserDefault:getInstance():setStringForKey("password", password)

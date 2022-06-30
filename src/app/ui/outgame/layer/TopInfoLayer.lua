@@ -15,7 +15,7 @@ local OutGameData = require("src\\app\\data\\outgame\\OutGameData.lua")
 function TopInfoLayer:ctor()
     TopInfoLayer.super.ctor(self)
     cc.UserDefault:getInstance():setStringForKey("昵称","久妹")
-    cc.UserDefault:getInstance():setIntegerForKey("奖杯数",100)
+    cc.UserDefault:getInstance():setIntegerForKey("奖杯数",2250)
     cc.UserDefault:getInstance():setIntegerForKey("金币数",10000)
     cc.UserDefault:getInstance():setIntegerForKey("钻石数",10000)
     -- self.lifeLabelBmf_ = nil -- 类型：TextBMFont，生命值
