@@ -9,9 +9,7 @@ local TowerDef = require("app/def/TowerDef.lua")
 local EventManager = require("app/manager/EventManager.lua")
 
 
-local bullets_ = {} -- 类型：子弹数组
-
-
+local buffMap_ ={} --状态表 里面存状态
 --[[--
     构造函数
 
@@ -31,14 +29,33 @@ function Tower:ctor(tower_id,level)
     self.tower_fireCd_ = TowerDef.TABLE[tower_id].FIRECD --类型：number，塔攻击间隔
     self.tower_information_ = TowerDef.TABLE[tower_id].INFORMATION --类型：string，塔技能介绍
     -- self.tower_skill1_ = tower_skill1 --类型：Skill，塔技能
-    self.tower_mode_ = TowerDef.TABLE[tower_id].RARITY --类型：number，塔攻击模式
+    self.tower_mode_ = TowerDef.TABLE[tower_id].MODE --类型：number，塔攻击模式
 
     self.level_ =level --类型：number 塔等级
     self.grade_ = 1 --类型:number 当前强化等级
     self.tower_fireTick_ =0 --类型：number,塔攻击时间tick
     EventManager:doEvent(EventDef.ID.CREATE_TOWER, self)
 end
+--[[--
+    获取塔等级等级
 
+    @param none
+
+    @return life
+]]
+function Tower:getMode()
+    return self.tower_mode_
+end
+--[[--
+    获取塔等级等级
+
+    @param none
+
+    @return life
+]]
+function Tower:getLevel()
+    return self.level_
+end
 --[[--
     获取塔强化等级
 

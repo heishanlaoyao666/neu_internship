@@ -7,6 +7,7 @@ local FightLayer = class("FightLayer", require("app/scenes/GameView/ui/layer/Bas
 local EnemySprite = require("app/scenes/GameView/ui/node/EnemySprite.lua")
 local TowerSprite = require("app/scenes/GameView/ui/node/TowerSprite.lua")
 local BulletSprite = require("app/scenes/GameView/ui/node/BulletSprite.lua")
+local DamageSprite = require("app/scenes/GameView/ui/node/DamageSprite.lua")
 local GameData = require("app/data/GameData.lua")
 local ConstDef = require("app.def.ConstDef.lua")
 local EventDef = require("app.def.EventDef.lua")
@@ -23,8 +24,9 @@ function FightLayer:ctor()
     FightLayer.super.ctor(self)
 
     self.bulletMap_ = {} -- 类型：table，Key：bullet， Value：bulletSprite 子弹
-    self.towerMap_ = {} -- 类型：table，Key：plane，Value：planeSprite 我方飞机
-    self.enemyMap_ = {} -- 类型：table，Key：plane，Value：planeSprite 敌方飞机
+    self.towerMap_ = {} -- 类型：table，Key：plane，Value：towerSprite 我方飞机
+    self.enemyMap_ = {} -- 类型：table，Key：plane，Value：enemySprite 敌方飞机
+    self.damageMap_ ={} --类型: table,Key :damage,Value: damageSprite 伤害数字
 
     -- -- 加载音效资源
     -- audio.loadFile("sounds/fireEffect.ogg", function() end)
@@ -45,6 +47,19 @@ end
     @return none
 ]]
 function FightLayer:onEnter()
+    EventManager:regListener(EventDef.ID.CREATE_DAMAGE, self, function(damage)
+        local damageNode = DamageSprite.new(damage)
+        self:addChild(damageNode,40,1)
+        self.damageMap_[damage] =damageNode
+
+        --audio.playEffect("sounds/fireEffect.ogg", false)
+    end)
+    EventManager:regListener(EventDef.ID.DESTORY_DAMAGE, self, function(damage)
+        local node=self.damageMap_[damage]
+        node:removeFromParent()
+        self.damageMap_[damage]= nil
+    end)
+
     EventManager:regListener(EventDef.ID.CREATE_BULLET, self, function(bullet)
         local bulletNode = BulletSprite.new(string.format("ui/battle/Battle interface/Bullet/%u.png",bullet:getID()), bullet)
         self:addChild(bulletNode,30,1)
@@ -177,6 +192,9 @@ function FightLayer:update(dt)
     end
 
     for _, node in pairs(self.enemyMap_) do
+        node:update(dt)
+    end
+    for _, node in pairs(self.damageMap_) do
         node:update(dt)
     end
 end

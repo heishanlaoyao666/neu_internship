@@ -13,6 +13,8 @@ EventDef.ID = {
     DESTORY_BULLET =332, --子弹销毁
     CREATE_TOWER = 111, --创建塔
     DESTORY_TOWER = 222, --摧毁塔
+    CREATE_DAMAGE = 441, --伤害信息创建
+    DESTORY_DAMAGE = 442, --伤害信息销毁
     GAMESTATE_CHANGE = 666, -- 游戏状态变化
 }
 

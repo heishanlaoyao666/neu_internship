@@ -30,6 +30,7 @@ end
 ]]
 function EnemySprite:update(dt)
     self:setPosition(self.data_:getX(), self.data_:getY())
+    self.life_:setString(self.data_:getLife())
 end
 
 return EnemySprite

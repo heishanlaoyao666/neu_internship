@@ -23,5 +23,34 @@ function BuffObj:init()
     self.stack_ = 1 --类型:int ,buff当前层数
     
 end
+--[[--
+    Buff添加时
 
+    @param none
+
+    @return none
+]]
+function BuffObj:onOccur()
+    
+end
+--[[--
+    攻击时
+
+    @param target 攻击目标
+
+    @return none
+]]
+function BuffObj:onHit(target)
+    
+end
+--[[--
+    收到伤害
+
+    @param attacker 攻击者
+
+    @return none
+]]
+function BuffObj:onBeHit(attacker)
+    
+end
 return BuffObj

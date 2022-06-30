@@ -4,6 +4,10 @@
 ]]
 local ConstDef = {
 
+    GAME_TAG = {
+        UP = 1,
+        DOWN = 2,
+    },
     TOWER_POS = {
         UP_X = 155,
         DOWN_X = 160,

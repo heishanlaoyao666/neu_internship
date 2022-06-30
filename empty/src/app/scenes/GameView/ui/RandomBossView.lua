@@ -5,7 +5,7 @@
 local RandomBossView = class("RandomBossView", function()
     return display.newColorLayer(cc.c4b(100, 100, 100, 100))
 end)
-local ConstDef = require("app/def/ConstDef")
+local ConstDef = require("app/def/ConstDef.lua")
 local EventDef = require "app/def/EventDef.lua"
 local GameData = require("app/data/GameData.lua")
 local EventManager = require ("app/manager/EventManager.lua")
