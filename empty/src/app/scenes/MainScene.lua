@@ -15,8 +15,9 @@ function MainScene:ctor()
     local layer2 = battle:battlePanle()
     local layer3 = atlas:createCollectionPanel()
     self:createMiddleMiddlePanel()
-    self:sliderView(layer1,layer2,layer3)
+    --self:sliderView(layer1,layer2,layer3)
     self:createMiddleBottomPanel()
+    self:sliderView(layer1,layer2,layer3)
     self:createMiddleTopPanel()
 
 
