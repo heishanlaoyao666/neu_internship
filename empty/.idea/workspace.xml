@@ -14,17 +14,17 @@
       <file leaf-file-name="MainScene.lua" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/scenes/MainScene.lua">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="350">
-              <caret line="47" column="47" selection-start-line="47" selection-start-column="47" selection-end-line="47" selection-end-column="47" />
+            <state relative-caret-position="400">
+              <caret line="212" lean-forward="true" selection-start-line="212" selection-end-line="212" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Shop.lua" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Shop.lua" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/app/scenes/Shop.lua">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="224">
-              <caret line="648" column="155" selection-start-line="648" selection-start-column="155" selection-end-line="648" selection-end-column="155" />
+            <state relative-caret-position="207">
+              <caret line="673" column="25" lean-forward="true" selection-start-line="673" selection-start-column="25" selection-end-line="673" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -32,17 +32,17 @@
       <file leaf-file-name="Battle.lua" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/scenes/Battle.lua">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-250">
-              <caret line="38" column="31" selection-start-line="38" selection-start-column="31" selection-end-line="38" selection-end-column="31" />
+            <state relative-caret-position="232">
+              <caret line="389" column="7" lean-forward="true" selection-start-line="389" selection-start-column="7" selection-end-line="389" selection-end-column="7" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Atlas.lua" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Atlas.lua" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/scenes/Atlas.lua">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-12725">
-              <caret line="208" lean-forward="true" selection-start-line="208" selection-end-line="208" />
+            <state relative-caret-position="50">
+              <caret line="209" column="29" lean-forward="true" selection-start-line="209" selection-start-column="29" selection-end-line="209" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -62,17 +62,18 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/config.lua" />
-        <option value="$PROJECT_DIR$/src/app/scenes/MainScene.lua" />
         <option value="$PROJECT_DIR$/src/app/scenes/ShopScene.lua" />
-        <option value="$PROJECT_DIR$/src/app/scenes/Shop.lua" />
         <option value="$PROJECT_DIR$/src/app/scenes/Atlas.lua" />
+        <option value="$PROJECT_DIR$/src/app/scenes/MainScene.lua" />
+        <option value="$PROJECT_DIR$/src/app/scenes/Battle.lua" />
+        <option value="$PROJECT_DIR$/src/app/scenes/Shop.lua" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="585" />
-    <option name="width" value="1195" />
-    <option name="height" value="1095" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-8" />
+    <option name="width" value="877" />
+    <option name="height" value="1088" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -80,6 +81,7 @@
     </navigator>
     <panes>
       <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -110,7 +112,6 @@
         </subPane>
       </pane>
       <pane id="AndroidView" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -185,7 +186,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1484" height="878" extended-state="6" />
+    <frame x="-6" y="0" width="701" height="870" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
@@ -196,30 +197,64 @@
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="3" />
       <window_info anchor="bottom" id="LuaCheck" order="7" />
-      <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15986395" />
-      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.32941177" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.030567685" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="2" />
       <window_info anchor="right" id="Theme Preview" order="3" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="bottom" id="LuaCheck" order="7" />
+      <window_info id="Designer" order="2" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15986395" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info id="Image Layers" order="2" />
+      <window_info id="Capture Tool" order="2" />
+      <window_info id="UI Designer" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="right" id="Theme Preview" order="3" />
+      <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.32941177" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info anchor="right" id="Maven Projects" order="3" />
+      <window_info id="Favorites" order="2" side_tool="true" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/app/scenes/Atlas.lua">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="213" column="34" lean-forward="true" selection-start-line="213" selection-start-column="34" selection-end-line="213" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/scenes/Battle.lua">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="950">
+          <caret line="38" column="31" selection-start-line="38" selection-start-column="31" selection-end-line="38" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/scenes/MainScene.lua">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1150">
@@ -234,13 +269,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/scenes/ShopScene.lua">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1775">
-          <caret line="71" selection-start-line="71" selection-end-line="71" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/scenes/ShopScene.lua" />
     <entry file="file://$PROJECT_DIR$/src/app/scenes/MainScene.lua">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="9875">
@@ -255,13 +284,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/scenes/ShopScene.lua">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1775">
-          <caret line="71" lean-forward="true" selection-start-line="71" selection-end-line="71" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/scenes/ShopScene.lua" />
     <entry file="file://$PROJECT_DIR$/src/app/scenes/MainScene.lua">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="10675">
@@ -277,13 +300,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/scenes/ShopScene.lua">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21025">
-          <caret line="841" column="11" lean-forward="true" selection-start-line="841" selection-start-column="11" selection-end-line="841" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/scenes/ShopScene.lua" />
     <entry file="file://$PROJECT_DIR$/src/app/scenes/MainScene.lua">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6875">
@@ -299,13 +316,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/scenes/ShopScene.lua">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19150">
-          <caret line="766" lean-forward="true" selection-start-line="766" selection-end-line="766" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/scenes/ShopScene.lua" />
     <entry file="file://$PROJECT_DIR$/src/app/scenes/MainScene.lua">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6875">
@@ -321,13 +332,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/scenes/ShopScene.lua">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19150">
-          <caret line="766" lean-forward="true" selection-start-line="766" selection-end-line="766" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/scenes/ShopScene.lua" />
     <entry file="file://$PROJECT_DIR$/src/app/scenes/MainScene.lua">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6500">
@@ -343,13 +348,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/scenes/ShopScene.lua">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19275">
-          <caret line="771" column="16" lean-forward="true" selection-start-line="771" selection-start-column="16" selection-end-line="771" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/scenes/ShopScene.lua" />
     <entry file="file://$PROJECT_DIR$/src/app/scenes/MainScene.lua">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="400">
@@ -365,13 +364,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/scenes/ShopScene.lua">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="13000">
-          <caret line="520" column="35" lean-forward="true" selection-start-line="520" selection-start-column="35" selection-end-line="520" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/scenes/ShopScene.lua" />
     <entry file="file://$PROJECT_DIR$/src/app/scenes/MainScene.lua">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="400">
@@ -386,13 +379,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/scenes/ShopScene.lua">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5850">
-          <caret line="234" selection-start-line="234" selection-end-line="234" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/scenes/ShopScene.lua" />
     <entry file="file://$PROJECT_DIR$/src/app/scenes/HeadScene.lua" />
     <entry file="file://$PROJECT_DIR$/src/app/scenes/MainScene.lua">
       <provider selected="true" editor-type-id="text-editor">
@@ -408,13 +395,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/scenes/ShopScene.lua">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8250">
-          <caret line="330" column="60" lean-forward="true" selection-start-line="330" selection-start-column="60" selection-end-line="330" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/scenes/ShopScene.lua" />
     <entry file="file://$PROJECT_DIR$/src/app/scenes/MainScene.lua">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="325">
@@ -429,13 +410,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/scenes/ShopScene.lua">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7950">
-          <caret line="318" column="8" lean-forward="true" selection-start-line="318" selection-start-column="8" selection-end-line="318" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/scenes/ShopScene.lua" />
     <entry file="file://$PROJECT_DIR$/src/config.lua">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
@@ -450,13 +425,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/scenes/ShopScene.lua">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1102">
-          <caret line="234" column="32" selection-start-line="234" selection-start-column="19" selection-end-line="234" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/scenes/ShopScene.lua" />
     <entry file="file://$PROJECT_DIR$/src/app/scenes/MainScene.lua">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="325">
@@ -471,35 +440,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/scenes/ShopScene.lua">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7950">
-          <caret line="318" column="8" lean-forward="true" selection-start-line="318" selection-start-column="8" selection-end-line="318" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/scenes/ShopScene.lua" />
     <entry file="file://$PROJECT_DIR$/src/app/scenes/HeadScene.lua" />
-    <entry file="file://$PROJECT_DIR$/src/app/scenes/ShopScene.lua">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1775">
-          <caret line="71" selection-start-line="71" selection-end-line="71" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/scenes/MainScene.lua">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="47" column="47" selection-start-line="47" selection-start-column="47" selection-end-line="47" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/scenes/Shop.lua">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="648" column="155" selection-start-line="648" selection-start-column="155" selection-end-line="648" selection-end-column="155" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/scenes/ShopScene.lua" />
     <entry file="file://$PROJECT_DIR$/src/config.lua">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
@@ -507,17 +450,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/scenes/MainScene.lua">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="212" lean-forward="true" selection-start-line="212" selection-end-line="212" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/scenes/Battle.lua">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-250">
-          <caret line="38" column="31" selection-start-line="38" selection-start-column="31" selection-end-line="38" selection-end-column="31" />
+        <state relative-caret-position="232">
+          <caret line="389" column="7" lean-forward="true" selection-start-line="389" selection-start-column="7" selection-end-line="389" selection-end-column="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/scenes/Atlas.lua">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-12725">
-          <caret line="208" lean-forward="true" selection-start-line="208" selection-end-line="208" />
+        <state relative-caret-position="50">
+          <caret line="209" column="29" lean-forward="true" selection-start-line="209" selection-start-column="29" selection-end-line="209" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/scenes/Shop.lua">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="673" column="25" lean-forward="true" selection-start-line="673" selection-start-column="25" selection-end-line="673" selection-end-column="25" />
         </state>
       </provider>
     </entry>

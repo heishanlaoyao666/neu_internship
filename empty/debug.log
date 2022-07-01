@@ -73,12 +73,6 @@ LOAD LUA FILE: F:/GitHub/neu_internship/neu_internship/empty/src/main.lua
 [LUA-print] 共可领取的奖励个数为:4
 
 WARNING: File case-sensitive.
-F:/GitHub/neu_internship/neu_internship/empty/res/ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png
-F:/GitHub/neu_internship/neu_internship/empty/res/ui/hall/Atlas/Subinterface_currentsquad/rank/Lv.8.png
-
-
-
-WARNING: File case-sensitive.
 F:/GitHub/neu_internship/neu_internship/empty/res/ui/hall/Atlas/Subinterface_currentsquad/rank/lv.9.png
 F:/GitHub/neu_internship/neu_internship/empty/res/ui/hall/Atlas/Subinterface_currentsquad/rank/Lv.9.png
 
@@ -102,47 +96,149 @@ F:/GitHub/neu_internship/neu_internship/empty/res/ui/hall/Atlas/Subinterface_cur
 
 
 
-[LUA-print] 当前页码是2
-
-[LUA-print] 当前页码是3
-
-[LUA-print] 当前页码是3
-
-[LUA-print] 当前页码是3
-
-[LUA-print] 当前页码是3
-
 WARNING: File case-sensitive.
 F:/GitHub/neu_internship/neu_internship/empty/res/ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png
 F:/GitHub/neu_internship/neu_internship/empty/res/ui/hall/Atlas/Subinterface_currentsquad/rank/Lv.8.png
 
 
 
-[LUA-print] 当前页码是3
+[LUA-print] 当前页码是2
+
+[LUA-print] 当前页码是2
+
+[LUA-print] 当前页码是1
+
+[LUA-print] 当前页码是1
+
+[LUA-print] 当前页码是1
+
+[LUA-print] 当前页码是1
+
+[LUA-print] 当前页码是1
+
+[LUA-print] up
+
+[LUA-print] 当前页码是1
+
+[LUA-print] 当前页码是1
+
+[LUA-print] 当前页码是1
+
+[LUA-print] 当前页码是1
+
+[LUA-print] 当前页码是1
+
+[LUA-print] down
+
+[LUA-print] 当前页码是1
+
+[LUA-print] 当前页码是1
+
+[LUA-print] 当前页码是1
+
+[LUA-print] 当前页码是1
+
+[LUA-print] 当前页码是2
 
 [LUA-print] 当前页码是3
 
-[LUA-print] 当前页码是3
+[LUA-print] 当前页码是1
 
-[LUA-print] 当前页码是3
+[LUA-print] 当前页码是1
 
-[LUA-print] 当前页码是3
+[LUA-print] 当前页码是1
 
-[LUA-print] 当前页码是3
+[LUA-print] 当前页码是1
 
-[LUA-print] 当前页码是3
+[LUA-print] 当前页码是1
 
-[LUA-print] 当前页码是3
+[LUA-print] 当前页码是1
 
-[LUA-print] 当前页码是3
+[LUA-print] up
 
-[LUA-print] 当前页码是3
+[LUA-print] 当前页码是1
 
-[LUA-print] 当前页码是3
+[LUA-print] 当前页码是1
 
-[LUA-print] 当前页码是3
+[LUA-print] 当前页码是1
 
-[LUA-print] 当前页码是3
+[LUA-print] 当前页码是1
 
-[LUA-print] 当前页码是3
+[LUA-print] 当前页码是1
+
+[LUA-print] 当前页码是2
+
+[LUA-print] 当前页码是2
+
+[LUA-print] 当前页码是2
+
+[LUA-print] 当前页码是2
+
+[LUA-print] 当前页码是2
+
+[LUA-print] 当前页码是2
+
+[LUA-print] 当前页码是2
+
+[LUA-print] 当前页码是2
+
+[LUA-print] 当前页码是1
+
+[LUA-print] 当前页码是1
+
+[LUA-print] 当前页码是1
+
+[LUA-print] down
+
+[LUA-print] 当前页码是1
+
+[LUA-print] 当前页码是1
+
+[LUA-print] 当前页码是1
+
+[LUA-print] 当前页码是2
+
+[LUA-print] 当前页码是2
+
+[LUA-print] 当前页码是2
+
+[LUA-print] 当前页码是2
+
+[LUA-print] 当前页码是2
+
+[LUA-print] 当前页码是2
+
+[LUA-print] 当前页码是2
+
+[LUA-print] 当前页码是2
+
+[LUA-print] 当前页码是2
+
+[LUA-print] 当前页码是2
+
+[LUA-print] 当前页码是1
+
+[LUA-print] 当前页码是1
+
+[LUA-print] 当前页码是1
+
+[LUA-print] 当前页码是1
+
+[LUA-print] 当前页码是1
+
+[LUA-print] 当前页码是1
+
+[LUA-print] 当前页码是1
+
+[LUA-print] 当前页码是1
+
+[LUA-print] 当前页码是1
+
+[LUA-print] 当前页码是1
+
+[LUA-print] 当前页码是1
+
+[LUA-print] 当前页码是1
+
+[LUA-print] 当前页码是1
 

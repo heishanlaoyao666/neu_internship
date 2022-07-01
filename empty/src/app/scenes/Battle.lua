@@ -25,6 +25,7 @@ local function touchEvent(sender,eventType,bg)--按钮点击事件
     end
 end
 function Battle:ctor()
+
 end
 
 function Battle:battlePanle()
@@ -53,11 +54,11 @@ function Battle:battlePanle()
     NewGameBtn:setScale(0.5, 0.5)
     NewGameBtn:setEnabled(true)
     NewGameBtn:addTouchEventListener(function(sender, eventType)
-	 	if eventType == ccui.TouchEventType.ended then
-	 		local ABtn = import("app.scenes.GameView.GameScene"):new()
+        if eventType == ccui.TouchEventType.ended then
+            local ABtn = import("app.scenes.GameView.GameScene"):new()
             display.replaceScene(ABtn,"turnOffTiles",0.5)
-	 	end
-	end)
+        end
+    end)
     NewGameBtn:addTo(battleLayer)
 
     return battleLayer
@@ -83,7 +84,7 @@ function Battle:highLadder(layer)
     slideLayer:setPosition(0, 283)
     slideLayer:setAnchorPoint(0,1)
     slideLayer:addTo(highLadderLayer)
-    self:slide(slideLayer)
+    --self:slide(slideLayer)
     --进度条
     self:slideCreate(slideLayer,score)
     --奖励
@@ -117,11 +118,16 @@ function Battle:highLadder(layer)
             local scale = cc.ScaleTo:create(1,0.9)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
-            self:slideShop(slideLayer,570)
+            --print(slideLayer:getPositionX())
+            if slideLayer:getPositionX()~=0 then
+                self:slideShop(slideLayer,570)
+            end
+
         elseif eventType == ccui.TouchEventType.ended then
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
+
         elseif eventType == ccui.TouchEventType.canceled then
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
@@ -140,7 +146,10 @@ function Battle:highLadder(layer)
             local scale = cc.ScaleTo:create(1,0.9)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
-            self:slideShop(slideLayer,-570)
+            if slideLayer:getPositionX()>-3420 then
+                self:slideShop(slideLayer,-570)
+            end
+            --print(slideLayer:getPositionX())
         elseif eventType == ccui.TouchEventType.ended then
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)

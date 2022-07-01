@@ -46,12 +46,13 @@ function Shop:slide(layer)
         local y1 = location["y"] or 0
         local location2 = touch:getLocationInView()
         local y2 = location2["y"] or 0
-        if y1<y2 then
-            if layer:getPositionY() ~= 1140 then--边缘内滑动
+        if y2-y1>50 then
+            --print(layer:getPositionY())
+            if layer:getPositionY() ~= 0 then--边缘内滑动
                 str = "down"
             end
-        elseif y1>y2 then
-            if layer:getPositionY() ~= 1510 then--边缘内滑动
+        elseif y1-y2>50 then
+            if layer:getPositionY() ~=370 then--边缘内滑动
                 str = "up"
             end
         end
@@ -89,10 +90,9 @@ function Shop:ShopPanel()
     ShopLayer:setBackGroundColorOpacity(180)--设置为透明
     --ShopLayer:setBackGroundColorType(1)
     ShopLayer:setAnchorPoint(0, 0)
-    ShopLayer:setPosition(0, display.top-140)
+    ShopLayer:setPosition(cc.p(0, display.top))
     ShopLayer:setContentSize(720, 1280)
-
-    --self:slide(ShopLayer)
+    self:slide(ShopLayer)
 
     --图片：商店背景图
     local Bg = ccui.ImageView:create("ui/hall/shop/bg-StoreInterface.png")
@@ -207,7 +207,7 @@ function Shop:ShopPanel()
 end
 
 --[[
-    函数用途：金币商店商品的展示
+    函数用途：金币商店商品的展示:serveTo ShopPanel
     --]]
 function Shop:createGoldItem(layer,path,fragNum,price,offsetX,offsetY)--层级、图片路径、碎片数量、价格、偏移量
 
@@ -259,7 +259,7 @@ function Shop:createGoldItem(layer,path,fragNum,price,offsetX,offsetY)--层级�
 end
 
 --[[
-    函数用途：钻石商店商品的展示
+    函数用途：钻石商店商品的展示:serveTo ShopPanel
     --]]
 function Shop:createDiamondItem(layer,bgPath,treasurePath,treasureType,price,offsetX,offsetY,nCardNum,rCardNum,eCardNum,lCardNum,coinNum)--层级、背景图路径、宝箱图路径、价格、偏移量
     --按钮：商品
@@ -313,7 +313,11 @@ function Shop:goldPurchasePanel(layer,path,fragNum,price)--图片路径，碎片
     purchaseLayer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
     purchaseLayer:setBackGroundColorOpacity(128)--设置透明度
     purchaseLayer:setContentSize(width, height)
-    purchaseLayer:pos(width*0.5, height *0.5)
+    if layer:getPositionY() == 0 then
+        purchaseLayer:pos(width/2, height/2+140)
+    else
+        purchaseLayer:pos(width/2, height/2-370+140)
+    end
     purchaseLayer:setAnchorPoint(0.5, 0.5)
     purchaseLayer:addTo(layer)
     purchaseLayer:setTouchEnabled(true)--屏蔽一级界面
@@ -406,7 +410,11 @@ function Shop:diamondPurchasePanel(layer,treasurePath,treasureType,nCardNum,rCar
     purchaseLayer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
     purchaseLayer:setBackGroundColorOpacity(128)--设置透明度
     purchaseLayer:setContentSize(width, height)
-    purchaseLayer:pos(width*0.5, height *0.5)
+    if layer:getPositionY() == 0 then
+        purchaseLayer:pos(width/2, height/2+140)
+    else
+        purchaseLayer:pos(width/2, height/2-370+140)
+    end
     purchaseLayer:setAnchorPoint(0.5, 0.5)
     purchaseLayer:addTo(layer)
     purchaseLayer:setTouchEnabled(true)--屏蔽一级界面
@@ -496,7 +504,68 @@ function Shop:diamondPurchasePanel(layer,treasurePath,treasureType,nCardNum,rCar
 end
 
 --[[
-    函数用途：展示宝箱开启后所能获得的物品
+    函数用途：二级界面-宝箱开启获得物品弹窗serveTo diamondPurchasePanel
+    --]]
+function Shop:obtainFromTreasure(layer,nCardNum,rCardNum,eCardNum,lCardNum,coinNum)
+    local width ,height = display.width,display.height
+    --层：灰色背景
+    local grayLayer = ccui.Layout:create()
+    grayLayer:setBackGroundColor(cc.c4b(0,0,0,128))
+    grayLayer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
+    grayLayer:setBackGroundColorOpacity(128)--设置透明度
+    grayLayer:setContentSize(width, height)
+    if layer:getPositionY() == 0 then
+        grayLayer:pos(width/2, height/2+140)
+    else
+        grayLayer:pos(width/2, height/2-370+140)
+    end
+    grayLayer:setAnchorPoint(0.5, 0.5)
+    grayLayer:addTo(layer)
+    grayLayer:setTouchEnabled(true)--屏蔽一级界面
+    --图片：弹窗背景
+    local obtainBg =ccui.ImageView:create("ui/hall/common/SecondaryInterface-Open the treasure chest to obtain the item pop-up window/bg-pop-up.png")
+    obtainBg:setPosition(cc.p(display.cx, display.cy))
+    obtainBg:addTo(grayLayer)
+    obtainBg:setTouchEnabled(true)--屏蔽一级界面
+    --碎片展示
+    self:obtained(obtainBg,nCardNum,rCardNum,eCardNum,lCardNum,coinNum)
+    --金币获得
+    local coinObtained =ccui.ImageView:create("ui/hall/common/SecondaryInterface-Open the treasure chest to obtain the item pop-up window/Icon - gold coin.png")
+    coinObtained:setPosition(cc.p(300, -40))
+    coinObtained:addTo(obtainBg)
+    --文本：金币数量
+    local cNum = cc.Label:createWithTTF(coinNum,"ui/font/fzbiaozjw.ttf",30)
+    cNum:setPosition(cc.p(380,-40))
+    cNum:setColor(cc.c3b(255, 255, 255))
+    cNum:enableOutline(cc.c4b(20, 20, 66, 255),2)--字体描边
+    cNum:addTo(obtainBg)
+    --按钮：开启按钮
+    local confirmButton = ccui.Button:create(
+            "ui/hall/common/SecondaryInterface-Open the treasure chest to obtain the item pop-up window/Button - confirm.png",
+            "ui/hall/common/SecondaryInterface-Open the treasure chest to obtain the item pop-up window/Button - confirm.png",
+            "ui/hall/common/SecondaryInterface-Open the treasure chest to obtain the item pop-up window/Button - confirm.png")
+    confirmButton:setAnchorPoint(0.5,0.5)
+    confirmButton:setPosition(cc.p(display.cx, -130))
+    confirmButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
+        if eventType == ccui.TouchEventType.began then
+            local scale = cc.ScaleTo:create(1,0.9)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+        elseif eventType == ccui.TouchEventType.ended then
+            local scale = cc.ScaleTo:create(1,1)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+            grayLayer:setVisible(false)--隐藏二级弹窗
+        elseif eventType == ccui.TouchEventType.canceled then
+            local scale = cc.ScaleTo:create(1,1)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+        end
+    end)
+    confirmButton:addTo(obtainBg)
+end
+--[[
+    函数用途：展示宝箱开启后所能获得的物品serveTo diamondPurchasePanel
     --]]
 function Shop:ItemInTreasure(layer,nCardNum,rCardNum,eCardNum,lCardNum)
     --普通
@@ -583,65 +652,9 @@ function Shop:ItemInTreasure(layer,nCardNum,rCardNum,eCardNum,lCardNum)
         legendNum:addTo(layer)
     end
 end
-
 --[[
-    函数用途：二级界面-宝箱开启获得物品弹窗
-    --]]
-function Shop:obtainFromTreasure(layer,nCardNum,rCardNum,eCardNum,lCardNum,coinNum)
-    local width ,height = display.width,display.height
-    --层：灰色背景
-    local grayLayer = ccui.Layout:create()
-    grayLayer:setBackGroundColor(cc.c4b(0,0,0,128))
-    grayLayer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
-    grayLayer:setBackGroundColorOpacity(128)--设置透明度
-    grayLayer:setContentSize(width, height)
-    grayLayer:pos(width*0.5, height *0.5)
-    grayLayer:setAnchorPoint(0.5, 0.5)
-    grayLayer:addTo(layer)
-    grayLayer:setTouchEnabled(true)--屏蔽一级界面
-    --图片：弹窗背景
-    local obtainBg =ccui.ImageView:create("ui/hall/common/SecondaryInterface-Open the treasure chest to obtain the item pop-up window/bg-pop-up.png")
-    obtainBg:setPosition(cc.p(display.cx, display.cy))
-    obtainBg:addTo(grayLayer)
-    obtainBg:setTouchEnabled(true)--屏蔽一级界面
-    --碎片展示
-    self:obtained(obtainBg,nCardNum,rCardNum,eCardNum,lCardNum,coinNum)
-    --金币获得
-    local coinObtained =ccui.ImageView:create("ui/hall/common/SecondaryInterface-Open the treasure chest to obtain the item pop-up window/Icon - gold coin.png")
-    coinObtained:setPosition(cc.p(300, -40))
-    coinObtained:addTo(obtainBg)
-    --文本：金币数量
-    local cNum = cc.Label:createWithTTF(coinNum,"ui/font/fzbiaozjw.ttf",30)
-    cNum:setPosition(cc.p(380,-40))
-    cNum:setColor(cc.c3b(255, 255, 255))
-    cNum:enableOutline(cc.c4b(20, 20, 66, 255),2)--字体描边
-    cNum:addTo(obtainBg)
-    --按钮：开启按钮
-    local confirmButton = ccui.Button:create(
-            "ui/hall/common/SecondaryInterface-Open the treasure chest to obtain the item pop-up window/Button - confirm.png",
-            "ui/hall/common/SecondaryInterface-Open the treasure chest to obtain the item pop-up window/Button - confirm.png",
-            "ui/hall/common/SecondaryInterface-Open the treasure chest to obtain the item pop-up window/Button - confirm.png")
-    confirmButton:setAnchorPoint(0.5,0.5)
-    confirmButton:setPosition(cc.p(display.cx, -130))
-    confirmButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
-        if eventType == ccui.TouchEventType.began then
-            local scale = cc.ScaleTo:create(1,0.9)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
-        elseif eventType == ccui.TouchEventType.ended then
-            local scale = cc.ScaleTo:create(1,1)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
-            grayLayer:setVisible(false)--隐藏二级弹窗
-        elseif eventType == ccui.TouchEventType.canceled then
-            local scale = cc.ScaleTo:create(1,1)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
-        end
-    end)
-    confirmButton:addTo(obtainBg)
-end
-
+    函数用途：serveToobtainFromTreasure
+--]]
 function Shop:obtained(layer,nCardNum,rCardNum,eCardNum,lCardNum)
     local originX = 140
     local originY = 260
