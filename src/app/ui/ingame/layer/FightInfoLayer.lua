@@ -38,16 +38,12 @@ function FightingInfoLayer:initView()
     local width, height = display.width, display.height
 
     local myContainer = ccui.Layout:create()
-    --myContainer:setBackGroundColor(cc.c3b(200, 0, 0))
-    --myContainer:setBackGroundColorType(1)
     myContainer:setContentSize(width, height)
     myContainer:setAnchorPoint(0.5, 1)
     myContainer:setPosition(display.cx, height / 2)
     myContainer:addTo(self)
 
     local emenyContainer = ccui.Layout:create()
-    --emenyContainer:setBackGroundColor(cc.c3b(0, 200, 0))
-    --:setBackGroundColorType(1)
     emenyContainer:setContentSize(width, height)
     emenyContainer:setAnchorPoint(0.5, 0)
     emenyContainer:setPosition(display.cx, height / 2)

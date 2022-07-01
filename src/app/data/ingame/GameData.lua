@@ -8,11 +8,13 @@ local GameData = {}
 --local OutGameData = require("app.data.outgame.OutGameData.lua")
 local Tower = require("app.data.outgame.Tower")
 local FightTower = require("app.data.ingame.FightTower")
+local Enemy = require("app.data.ingame.Enemy")
 
 local myTowers_ = {} -- 我阵容的塔
 local enemyTowers_ = {} -- 敌方阵容的塔
 local indexTable_ = {} -- 塔的位置
 local indexs_ = {} -- 塔有可能生成的下标
+local enemies_ = {} --小怪
 
 local towers_ = {} -- 塔数组
 
@@ -157,7 +159,7 @@ function GameData:creatTower()
         local indexTower = math.random(1, 5)
         local tower = myTowers_[indexTower]
         local index = math.random(1, #indexs_)
-        local fightTower = FightTower.new(tower, indexTable_, indexs_[index])
+        local fightTower = FightTower.new(tower, indexTable_, indexs_[index], 1)
         table.remove(indexs_, index)
         towers_[#towers_ + 1] = fightTower
         self.sumSp_ = self.sumSp_ - self.needSp_
@@ -223,7 +225,18 @@ end
 
     @return none
 ]]
-function GameData:mergingFightingTower(toewr1, tower2)
+function GameData:mergingFightingTower(tower1, tower2)
+    local index = tower1:getIndex()
+    table.insert(indexs_, index)
+    tower1:destory()
+    index = tower2:getIndex()
+    local star = tower2:getStar() + 1
+    tower2:destory()
+    math.randomseed(os.time())
+    local indexTower = math.random(1, 5)
+    local tower = myTowers_[indexTower]
+    local fightTower = FightTower.new(tower, indexTable_, index, star)
+    towers_[#towers_ + 1] = fightTower
 end
 
 --[[--
@@ -235,6 +248,48 @@ end
 ]]
 function GameData:getTowerIndex(tower)
     return indexTable_[tower:getIndex()]
+end
+
+--[[--
+    生成敌人
+
+    @parm none
+
+    @return none
+]]
+function GameData:creatEnemy()
+    local enemy = Enemy.new(100, 1)
+    enemies_[#enemies_ + 1] = enemy
+end
+
+--[[--
+    帧刷新
+
+    @param dt 类型：number，帧间隔，单位秒
+
+    @return none
+]]
+function GameData:update(dt)
+    local destoryFightingTowers = {}
+
+    for i = 1, #towers_ do
+        local tower = towers_[i]
+        if tower:isDeath() then
+            destoryFightingTowers[#destoryFightingTowers + 1] = tower
+        end
+    end
+
+    for i = #destoryFightingTowers, 1, -1 do
+        for j = #towers_, 1, -1 do
+            if towers_[j] == destoryFightingTowers[i] then
+                table.remove(towers_, j)
+            end
+        end
+    end
+
+    for i = 1, #enemies_ do
+        enemies_[i]:update(dt)
+    end
 end
 
 return GameData

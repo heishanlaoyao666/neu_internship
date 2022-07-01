@@ -6,6 +6,7 @@ local FightingLayer = class("FightingLayer", require("app.ui.ingame.layer.BaseLa
 
 local GameData = require("app.data.ingame.GameData")
 local TowerSprite = require("app.ui.ingame.node.TowerSprite")
+local EnemySprite = require("app.ui.ingame.node.EnemySprite")
 local EventDef = require("app.def.EventDef")
 local EventManager = require("app.manager.EventManager")
 
@@ -19,8 +20,8 @@ function FightingLayer:ctor()
     self.spNum_ = nil -- 生成所需sp
 
     self.bulletMap_ = {}
-    self.towerMap_ = {}
-    self.enemyMap = {}
+    self.towerMap_ = {} -- 塔
+    self.enemyMap_ = {} -- 小怪
     self.bossMap_ = {}
     self.lineup_ = {} -- 我的阵容
     self.enhanceNeedSp_ = {}
@@ -52,9 +53,9 @@ function FightingLayer:initView()
     local index_x = 120
     for i = 1, #self.lineup_ do
         --头像
-        local towerBtn = ccui.Button:create(
-            string.format("artcontent/battle(ongame)/battle_interface/tower/tower_%d.png",
-            self.lineup_[i]:getTowerId()))
+        local spriteRes = "artcontent/battle(ongame)/battle_interface/tower/tower_%d.png"
+        local sprite =  string.format(spriteRes, self.lineup_[i]:getTowerId())
+        local towerBtn = ccui.Button:create(sprite)
         towerBtn:setPosition(index_x, 120)
         towerBtn:addTouchEventListener(function(sender, eventType)
             if eventType == 2 then
@@ -64,9 +65,9 @@ function FightingLayer:initView()
         towerBtn:addTo(self)
 
         --等级
-        local levelSprite = cc.Sprite:create(
-            string.format("artcontent/battle(ongame)/battle_interface/grade/LV.%d.png",
-             self.lineup_[i]:getLevel()))
+        spriteRes = "artcontent/battle(ongame)/battle_interface/grade/LV.%d.png"
+        sprite = string.format(spriteRes, self.lineup_[i]:getLevel())
+        local levelSprite = cc.Sprite:create(sprite)
         levelSprite:setPosition(index_x, 50)
         levelSprite:addTo(self)
 
@@ -95,6 +96,7 @@ function FightingLayer:initView()
     buildBtn:addTouchEventListener(function(sender, eventType)
         if eventType == 2 then
             GameData:creatTower()
+            GameData:creatEnemy()
         end
     end)
     buildBtn:setPosition(display.cx, 240)
@@ -162,13 +164,13 @@ end
     @return none
 ]]
 function FightingLayer:onTouchEnded(x, y, tower1)
-    tower2 = GameData:getFightingTowerByIndex(x, y, tower1)
-    if tower2 == nil or tower1:getStar() ~= tower2:getStar() then
+    local tower2 = GameData:getFightingTowerByIndex(x, y, tower1)
+    if tower1:getStar() >= 7 or tower2 == nil or tower1:getStar() ~= tower2:getStar() then
         local index = GameData:getTowerIndex(tower1)
         local index_x, index_y = index[1], index[2]
         GameData:moveTo(index_x, index_y, tower1)
     else
-        print("融合")
+        GameData:mergingFightingTower(tower1, tower2)
     end
     touchTower = nil
 end
@@ -185,16 +187,18 @@ end
 function FightingLayer:onEnter()
     --生成塔与角标
     EventManager:regListener(EventDef.ID.CREATE_SELF, self, function(tower)
-        local towerNode = TowerSprite.new(
-            string.format("artcontent/battle(ongame)/battle_interface/tower/tower_%d.png",
-            tower:getTower():getTowerId()), tower)
+        --塔
+        local spriteRes = "artcontent/battle(ongame)/battle_interface/tower/tower_%d.png"
+        local sprite = string.format(spriteRes, tower:getTower():getTowerId())
+        local towerNode = TowerSprite.new(sprite, tower)
         towerNode:setScale(1, 0.9)
         towerNode:setPosition(tower:getX(), tower:getY())
         self:addChild(towerNode)
         self.towerMap_[tower] = towerNode
-        local angleMark = ccui.ImageView:create(string.format(
-            "artcontent/battle(ongame)/battle_interface/anglemark_grade/%d.png",
-            tower:getStar()))
+        --角标
+        spriteRes = "artcontent/battle(ongame)/battle_interface/anglemark_grade/%d.png"
+        sprite = string.format(spriteRes, tower:getStar())
+        local angleMark = cc.Sprite:create(sprite)
         angleMark:setPosition(82, 87)
         towerNode:addChild(angleMark)
     end)
@@ -204,6 +208,22 @@ function FightingLayer:onEnter()
         local node = self.towerMap_[tower]
         node:removeFromParent()
         self.towerMap_[tower] = nil
+    end)
+
+    --创建小怪
+    EventManager:regListener(EventDef.ID.CREATE_MONSTER, self, function(enemy)
+        local sprite = "artcontent/battle(ongame)/battle_interface/littlemmonster.png"
+        local enemyNode = EnemySprite.new(sprite, enemy)
+        enemyNode:setPosition(enemy:getX(), enemy:getY())
+        self:addChild(enemyNode)
+        self.enemyMap_[enemy] = enemyNode
+    end)
+
+    --销毁小怪
+    EventManager:regListener(EventDef.ID.DESTORY_MONSTER, self, function(enemy)
+        local node = self.enemyMap_[enemy]
+        node:removeFromParent()
+        self.enemyMap_[enemy] = nil
     end)
 end
 
@@ -217,6 +237,8 @@ end
 function FightingLayer:onExit()
     EventManager:unRegListener(EventDef.ID.CREATE_SELF, self)
     EventManager:unRegListener(EventDef.ID.DESTORY_SELF, self)
+    EventManager:unRegListener(EventDef.ID.CREATE_MONSTER, self)
+    EventManager:unRegListener(EventDef.ID.DESTORY_MONSTER, self)
 end
 
 --[[--
@@ -229,7 +251,13 @@ end
 function FightingLayer:update(dt)
     self.spNum_:setString(GameData:getNeedSp())
 
+    --刷新塔
     for _, node in pairs(self.towerMap_) do
+        node:update(dt)
+    end
+
+    --刷新敌人
+    for _, node in pairs(self.enemyMap_) do
         node:update(dt)
     end
 end

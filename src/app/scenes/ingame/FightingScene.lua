@@ -7,6 +7,7 @@ local FightingScene = class("FightingScene", function()
 end)
 
 local FightingView = require("app.ui.ingame.view.FightingView")
+local GameData = require("app.data.ingame.GameData")
 
 --[[--
     构造函数
@@ -33,6 +34,8 @@ end
     @return none
 ]]
 function FightingScene:update(dt)
+    GameData:update(dt)
+
     self.fightingView_:update(dt)
 end
 
