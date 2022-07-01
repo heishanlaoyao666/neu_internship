@@ -15,8 +15,8 @@ function MainScene:ctor()
     local layer2 = battle:battlePanle()
     local layer3 = atlas:createCollectionPanel()
     self:createMiddleMiddlePanel()
-    self:sliderView(layer1,layer2,layer3)
-    self:createMiddleBottomPanel()
+    local pageView = self:sliderView(layer1,layer2,layer3)
+    self:createMiddleBottomPanel(pageView)
     self:createMiddleTopPanel()
 
 
@@ -48,7 +48,7 @@ function MainScene:sliderView(layer1,layer2,layer3)
     pageView:addEventListener(PageViewCallBack)
     pageView:scrollToPage(1)
     self:addChild(pageView, 0)
-
+    return pageView
 end
 
 function MainScene:createMiddleMiddlePanel()
@@ -63,58 +63,146 @@ function MainScene:createMiddleMiddlePanel()
 
 end
 
-function MainScene:createMiddleBottomPanel()
+function MainScene:createMiddleBottomPanel(pageView)
     local width,height = display.width,display.top
     local menuLayer = ccui.Layout:create()
     menuLayer:setContentSize(width,height)
     menuLayer:setAnchorPoint(0,0)
     menuLayer:setPosition(0,0)
-    
     menuLayer:addTo(self)
-    --商店
+    --按钮：商店
     local shopBtn = ccui.Button:create(
-        "ui/hall/bottom-tab/tab-unselected-left.png",
-        "ui/hall/bottom-tab/tab-selected.png",
-        "ui/hall/bottom-tab/tab-unselected-left.png"
+            "ui/hall/bottom-tab/tab-unselected-left.png",
+            "ui/hall/bottom-tab/tab-selected.png",
+            "ui/hall/bottom-tab/tab-unselected-left.png"
     )
     shopBtn:setAnchorPoint(0,0)
-    shopBtn:setScale(240/230)
+    shopBtn:setScale(240/230,1.2)
     shopBtn:pos(0,0)
     shopBtn:addTo(menuLayer)
+    --商店按钮图标
+    local shopImage = ccui.ImageView:create("ui/hall/bottom-tab/chart-shop.png")
+    shopImage:setScale(0.9,0.9)
+    shopImage:setAnchorPoint(0, 0)
+    shopImage:setPosition(cc.p(33, 20))
+    shopImage:addTo(shopBtn)
+    --商店标题
+    local shopName = ccui.ImageView:create("ui/hall/bottom-tab/title-shop.png")
+    shopName:setScale(0.9,0.9)
+    shopName:setAnchorPoint(0, 0)
+    shopName:setPosition(cc.p(95, 5))
+    shopName:addTo(shopBtn)
+    shopName:setVisible(false)
 
     shopBtn:addTouchEventListener(function(sender, eventType)
-		if 2 == eventType then
-			local shopScene=import("app/scenes/ShopScene"):new()
-            display.replaceScene(shopScene)
-		end
-	end)
-    --对战
+        if eventType == ccui.TouchEventType.began then
+            local scale = cc.ScaleTo:create(1,1)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            shopImage:runAction(ease_elastic)
+            shopName:setVisible(true)
+        elseif eventType == ccui.TouchEventType.ended then
+            local scale = cc.ScaleTo:create(0.9,0.9)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            shopImage:runAction(ease_elastic)
+            shopName:setVisible(false)
+            pageView:scrollToPage(0)
+
+        elseif eventType == ccui.TouchEventType.canceled then
+            local scale = cc.ScaleTo:create(0.9,0.9)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            shopImage:runAction(ease_elastic)
+            shopName:setVisible(false)
+        end
+    end)
+
+
+    --按钮：图鉴
+    local atlasBtn = ccui.Button:create(
+            "ui/hall/bottom-tab/tab-unselected-right.png",
+            "ui/hall/bottom-tab/tab-selected.png",
+            "ui/hall/bottom-tab/tab-unselected-right.png"
+    )
+    atlasBtn:setAnchorPoint(0,0)
+    atlasBtn:setScale(240/230,1.2)
+    atlasBtn:pos(0+230*240/230+230*240/230,0)
+    atlasBtn:addTo(menuLayer)
+    --图鉴按钮图标
+    local atlasImage = ccui.ImageView:create("ui/hall/bottom-tab/chart-Atlas.png")
+    atlasImage:setScale(0.9,0.9)
+    atlasImage:setAnchorPoint(0, 0)
+    atlasImage:setPosition(cc.p(33, 20))
+    atlasImage:addTo(atlasBtn)
+    --图鉴标题
+    local atlasName = ccui.ImageView:create("ui/hall/bottom-tab/title-Atlas.png")
+    atlasName:setScale(0.9,0.9)
+    atlasName:setAnchorPoint(0, 0)
+    atlasName:setPosition(cc.p(95, 5))
+    atlasName:addTo(atlasBtn)
+    atlasName:setVisible(false)
+    atlasBtn:addTouchEventListener(function(sender, eventType)
+        if eventType == ccui.TouchEventType.began then
+            local scale = cc.ScaleTo:create(1,1)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            atlasImage:runAction(ease_elastic)
+            atlasName:setVisible(true)
+        elseif eventType == ccui.TouchEventType.ended then
+            local scale = cc.ScaleTo:create(0.9,0.9)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            atlasImage:runAction(ease_elastic)
+            atlasName:setVisible(false)
+            pageView:scrollToPage(2)
+
+        elseif eventType == ccui.TouchEventType.canceled then
+            local scale = cc.ScaleTo:create(0.9,0.9)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            atlasImage:runAction(ease_elastic)
+            atlasName:setVisible(false)
+        end
+    end)
+
+    --按钮：对战
     local battleBtn = ccui.Button:create(
-        "ui/hall/bottom-tab/tab-unselected-middle.png",
-        "ui/hall/bottom-tab/tab-selected.png",
-        "ui/hall/bottom-tab/tab-unselected-middle.png"
+            "ui/hall/bottom-tab/tab-unselected-middle.png",
+            "ui/hall/bottom-tab/tab-selected.png",
+            "ui/hall/bottom-tab/tab-unselected-middle.png"
     )
     battleBtn:setAnchorPoint(0,0)
-    battleBtn:setScale(240/230)
+    battleBtn:setScale(240/230,1.2)
     battleBtn:pos(0+230*240/230,0)
     battleBtn:addTo(menuLayer)
-    --图鉴
-    local AtlasBtn = ccui.Button:create(
-        "ui/hall/bottom-tab/tab-unselected-right.png",
-        "ui/hall/bottom-tab/tab-selected.png",
-        "ui/hall/bottom-tab/tab-unselected-right.png"
-    )
-    AtlasBtn:setAnchorPoint(0,0)
-    AtlasBtn:setScale(240/230)
-    AtlasBtn:pos(0+230*240/230+230*240/230,0)
-    AtlasBtn:addTo(menuLayer)
+    --战斗按钮图标
+    local battleImage = ccui.ImageView:create("ui/hall/bottom-tab/chart-battle.png")
+    battleImage:setScale(0.9,0.9)
+    battleImage:setAnchorPoint(0, 0)
+    battleImage:setPosition(cc.p(33, 20))
+    battleImage:addTo(battleBtn)
+    --战斗标题
+    local battleName = ccui.ImageView:create("ui/hall/bottom-tab/title-battle.png")
+    battleName:setScale(0.9,0.9)
+    battleName:setAnchorPoint(0, 0)
+    battleName:setPosition(cc.p(95, 5))
+    battleName:addTo(battleBtn)
+    battleName:setVisible(false)
+    battleBtn:addTouchEventListener(function(sender, eventType)
+        if eventType == ccui.TouchEventType.began then
+            local scale = cc.ScaleTo:create(1,1)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            battleImage:runAction(ease_elastic)
+            battleName:setVisible(true)
+        elseif eventType == ccui.TouchEventType.ended then
+            local scale = cc.ScaleTo:create(0.9,0.9)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            battleImage:runAction(ease_elastic)
+            battleName:setVisible(false)
+            pageView:scrollToPage(1)
 
-    AtlasBtn:addTouchEventListener(function(sender, eventType)
-		if 2 == eventType then
-			local atlasScene=import("app/scenes/AtlasScene"):new()
-            display.replaceScene(atlasScene)
-		end
-	end)
+        elseif eventType == ccui.TouchEventType.canceled then
+            local scale = cc.ScaleTo:create(0.9,0.9)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            shopImage:runAction(ease_elastic)
+            shopName:setVisible(false)
+        end
+    end)
     
 end
 

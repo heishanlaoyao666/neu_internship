@@ -45,3 +45,5 @@ Towerdata.NOTOBTAINED = {
     "ui/hall/common/Tower-icon (gray)/19.png",
     "ui/hall/common/Tower-icon (gray)/20.png",
 }
+
+return Towerdata

@@ -111,21 +111,129 @@ function Atlas:createCollectionPanel()
     collectedimage:pos(0,height-600)
     collectedimage:addTo(AtlasLayer)
 
-    self:createCollectedItem(AtlasLayer,"ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-rare.png",
-    "ui/hall/common/Tower-Icon/01.png","ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_disturb.png",
-    "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",0,-450)
-    self:createCollectedItem(AtlasLayer,"ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-rare.png",
-    "ui/hall/common/Tower-Icon/02.png","ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png",
-    "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",170,-450)
-    self:createCollectedItem(AtlasLayer,"ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-rare.png"
-    ,"ui/hall/common/Tower-Icon/03.png","ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png",
-    "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",170*2,-450)
-    self:createCollectedItem(AtlasLayer,"ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-rare.png"
-    ,"ui/hall/common/Tower-Icon/04.png","ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png",
-    "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",170*3,-450)
-    self:createCollectedItem(AtlasLayer,"ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-rare.png"
-    ,"ui/hall/common/Tower-Icon/05.png","ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png",
-    "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.9.png",0,-700)
+    -- self:createCollectedItem(AtlasLayer,"ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-rare.png",
+    -- "ui/hall/common/Tower-Icon/01.png","ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_disturb.png",
+    -- "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",0,-450)
+    -- self:createCollectedItem(AtlasLayer,"ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-rare.png",
+    -- "ui/hall/common/Tower-Icon/02.png","ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png",
+    -- "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",170,-450)
+    -- self:createCollectedItem(AtlasLayer,"ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-rare.png"
+    -- ,"ui/hall/common/Tower-Icon/03.png","ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png",
+    -- "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",170*2,-450)
+    -- self:createCollectedItem(AtlasLayer,"ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-rare.png"
+    -- ,"ui/hall/common/Tower-Icon/04.png","ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png",
+    -- "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",170*3,-450)
+    -- self:createCollectedItem(AtlasLayer,"ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-rare.png"
+    -- ,"ui/hall/common/Tower-Icon/05.png","ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png",
+    -- "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.9.png",0,-700)
+
+
+    local a = 0
+    local b = -450
+    for key, value in pairs(Towerdata.OBTAINED) do
+
+        local TowerString = Towerdata.OBTAINED[key]
+        --print(TowerString)
+        --print("图片数字"..(string.sub(Towerdata.OBTAINED[1],-6,-5)))
+        -- print("稀有度"..TowerDef.RARITY.LEGEND)
+        local chartnum = tonumber(string.sub(TowerString,-6,-5))
+        local rarity = TowerDef.TABLE[chartnum].RARITY
+        local raritystring
+        if rarity == 1 then
+            --print(rarity)
+            raritystring = "common"
+        elseif rarity ==2 then
+            --print(rarity)
+            raritystring = "rare"
+        elseif rarity==3 then
+            --print(rarity)
+            raritystring = "epic"
+        else 
+            --print(rarity)
+            raritystring = "legend"
+        end
+
+        local towertype = TowerDef.TABLE[chartnum].TYPE
+        local towertypestring
+        if towertype == 1 then
+            --print(rarity)
+            towertypestring = "attack"
+        elseif towertype ==2 then
+            --print(rarity)
+            towertypestring = "disturb"
+        elseif towertype==3 then
+            --print(rarity)
+            towertypestring = "auxiliary"
+        else 
+            --print(rarity)
+            towertypestring = "control"
+        end
+
+
+        self:createCollectedItem(AtlasLayer,
+        "ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-"..raritystring..".png",
+        TowerString,
+        "ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_"..towertypestring..".png",
+        "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.".."9"..".png",a,b)
+        a=a+170
+        if key%4 ==0 then
+            a = 0
+            b = b-250
+        end
+    end
+
+
+--     --循环
+--     local TowerString = Towerdata.OBTAINED[1]
+--     --print(TowerString)
+--     --print("图片数字"..(string.sub(Towerdata.OBTAINED[1],-6,-5)))
+--     -- print("稀有度"..TowerDef.RARITY.LEGEND)
+--     local chartnum = tonumber(string.sub(TowerString,-6,-5))
+--     local rarity = TowerDef.TABLE[chartnum].RARITY
+--     local raritystring
+--     if rarity == 1 then
+--         --print(rarity)
+--         raritystring = "common"
+--     elseif rarity ==2 then
+--         --print(rarity)
+--         raritystring = "rare"
+--     elseif rarity==3 then
+--         --print(rarity)
+--         raritystring = "epic"
+--     else 
+--         --print(rarity)
+--         raritystring = "legend"
+--     end
+
+--     local towertype = TowerDef.TABLE[chartnum].TYPE
+--     local towertypestring
+--     if towertype == 1 then
+--         --print(rarity)
+--         towertypestring = "attack"
+--     elseif towertype ==2 then
+--         --print(rarity)
+--         towertypestring = "disturb"
+--     elseif towertype==3 then
+--         --print(rarity)
+--         towertypestring = "auxiliary"
+--     else 
+--         --print(rarity)
+--         towertypestring = "control"
+--     end
+
+
+
+--     self:createCollectedItem(AtlasLayer,
+--     "ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-"..raritystring..".png",
+--     TowerString,
+--     "ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_"..towertypestring..".png",
+--     "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.".."9"..".png",170,-700)
+
+    -- self:createCollectedItem(AtlasLayer,"ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-rare.png"
+    -- ,"ui/hall/common/Tower-Icon/05.png","ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png",
+    -- "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.9.png",0,-700)
+
+
 
 
     --未收集
@@ -194,7 +302,7 @@ end
 
 
 --二级页面（卡牌升级替换等）
-function Atlas:towerinfoPanel(layer,bg,path,towertype,rank)--图片路径，塔类型，卡等级
+function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，图片路径，塔类型，卡等级
     local width ,height = display.width,display.height
     --层：灰色背景
     local towerinfoLayer = ccui.Layout:create()
@@ -207,6 +315,69 @@ function Atlas:towerinfoPanel(layer,bg,path,towertype,rank)--图片路径，塔�
     towerinfoLayer:addTo(layer)
     towerinfoLayer:setTouchEnabled(true)--屏蔽一级界面
 
+
+--     local TowerString = Towerdata.OBTAINED[1]
+--     --print(TowerString)
+--     --print("图片数字"..(string.sub(Towerdata.OBTAINED[1],-6,-5)))
+--     -- print("稀有度"..TowerDef.RARITY.LEGEND)
+--     local chartnum = tonumber(string.sub(TowerString,-6,-5))
+--     local rarity = TowerDef.TABLE[chartnum].RARITY
+--     local raritystring
+    local TowerString = bg
+    local chartnum = tonumber(string.sub(TowerString,-6,-5))
+
+    local rarity = TowerDef.TABLE[chartnum].RARITY
+    
+    local raritystring  --稀有度
+    if rarity == 1 then
+        --print(rarity)
+        raritystring = "普通"
+    elseif rarity ==2 then
+        --print(rarity)
+        raritystring = "稀有"
+    elseif rarity==3 then
+        --print(rarity)
+        raritystring = "史诗"
+    else 
+        --print(rarity)
+        raritystring = "传说"
+    end
+
+    local skillinfo = TowerDef.TABLE[chartnum].INFORMATION --技能介绍
+
+    local towertype = TowerDef.TABLE[chartnum].TYPE
+    local towertypestring  --类型
+    if towertype == 1 then
+        --print(rarity)
+        towertypestring = "攻击向"
+    elseif towertype ==2 then
+        --print(rarity)
+        towertypestring = "干扰向"
+    elseif towertype==3 then
+        --print(rarity)
+        towertypestring = "辅助向"
+    else 
+        --print(rarity)
+        towertypestring = "控制向"
+    end
+
+    local atk = TowerDef.TABLE[chartnum].ATK  --攻击力
+    local speed = TowerDef.TABLE[chartnum].FIRECD  --攻速
+    local target = TowerDef.TABLE[chartnum].MODE  
+    local targetstring  --目标
+    if target == 1 then
+        --print(rarity)
+        targetstring = "前方"
+    elseif target ==2 then
+        --print(rarity)
+        targetstring = "最大生命"
+    else 
+        --print(rarity)
+        targetstring = "随机"
+    end
+
+
+
     --图片：弹窗背景
     local popLayer = ccui.ImageView:create("ui/hall/Atlas/Secondaryinterface_towerinfo/buttomchart_pop_up_windows.png")
     popLayer:pos(display.cx, display.cy-220)
@@ -215,13 +386,13 @@ function Atlas:towerinfoPanel(layer,bg,path,towertype,rank)--图片路径，塔�
 
 
 
-    --图片：塔
+    --图片：稀有度框框
     local ItemBg =ccui.ImageView:create(path)
     ItemBg:setScale(1)
     ItemBg:setPosition(cc.p(120, 685))
     ItemBg:addTo(popLayer)
     
-    --ta
+    --塔
     local towericon =ccui.ImageView:create(bg)
     towericon:setScale(1)
     towericon:setPosition(cc.p(120, 685))
@@ -261,7 +432,7 @@ function Atlas:towerinfoPanel(layer,bg,path,towertype,rank)--图片路径，塔�
     rareimage:setScale(1)
     rareimage:setPosition(cc.p(540, 750))
     rareimage:addTo(popLayer)
-    local rarelabel=cc.Label:createWithTTF("传说","ui/font/fzzdhjw.ttf",34)
+    local rarelabel=cc.Label:createWithTTF(raritystring,"ui/font/fzzdhjw.ttf",34)
     rarelabel:setScale(1)
     rarelabel:setColor(cc.c3b(255, 255, 255))
     rarelabel:setAnchorPoint(0,1)
@@ -273,7 +444,7 @@ function Atlas:towerinfoPanel(layer,bg,path,towertype,rank)--图片路径，塔�
     skillinfoimage:setScale(1)
     skillinfoimage:setPosition(cc.p(255, 675))
     skillinfoimage:addTo(popLayer)
-    local skillinfolabel=cc.Label:createWithTTF("每隔一段时间可以在三个形态之间切换\n，二技能攻速大幅度加强，三形态攻击\n必定暴击。","ui/font/fzzdhjw.ttf",20)
+    local skillinfolabel=cc.Label:createWithTTF(skillinfo,"ui/font/fzzdhjw.ttf",20)
     skillinfolabel:setScale(1)
     skillinfolabel:setColor(cc.c3b(255, 255, 255))
     skillinfolabel:setAnchorPoint(0,1)
@@ -328,7 +499,7 @@ function Atlas:towerinfoPanel(layer,bg,path,towertype,rank)--图片路径，塔�
     type1attri:setScale(1)
     type1attri:setPosition(cc.p(130, 480))
     type1attri:addTo(popLayer)
-    local type1label=cc.Label:createWithTTF("攻击向","ui/font/fzzdhjw.ttf",26)
+    local type1label=cc.Label:createWithTTF(towertypestring,"ui/font/fzzdhjw.ttf",26)
     type1label:setScale(1)
     type1label:setColor(cc.c3b(255, 255, 255))
     type1label:setAnchorPoint(0,1)
@@ -345,7 +516,7 @@ function Atlas:towerinfoPanel(layer,bg,path,towertype,rank)--图片路径，塔�
     type2attri:setScale(1)
     type2attri:setPosition(cc.p(450, 480))
     type2attri:addTo(popLayer)
-    local type2label=cc.Label:createWithTTF("20","ui/font/fzzdhjw.ttf",26)
+    local type2label=cc.Label:createWithTTF(atk,"ui/font/fzzdhjw.ttf",26)
     type2label:setScale(1)
     type2label:setColor(cc.c3b(255, 255, 255))
     type2label:setAnchorPoint(0,1)
@@ -362,7 +533,7 @@ function Atlas:towerinfoPanel(layer,bg,path,towertype,rank)--图片路径，塔�
     type3attri:setScale(1)
     type3attri:setPosition(cc.p(130, 370))
     type3attri:addTo(popLayer)
-    local type3label=cc.Label:createWithTTF("0.6s","ui/font/fzzdhjw.ttf",26)
+    local type3label=cc.Label:createWithTTF(speed.."s","ui/font/fzzdhjw.ttf",26)
     type3label:setScale(1)
     type3label:setColor(cc.c3b(255, 255, 255))
     type3label:setAnchorPoint(0,1)
@@ -379,7 +550,7 @@ function Atlas:towerinfoPanel(layer,bg,path,towertype,rank)--图片路径，塔�
     type4attri:setScale(1)
     type4attri:setPosition(cc.p(440, 370))
     type4attri:addTo(popLayer)
-    local type4label=cc.Label:createWithTTF("前方","ui/font/fzzdhjw.ttf",26)
+    local type4label=cc.Label:createWithTTF(targetstring ,"ui/font/fzzdhjw.ttf",26)
     type4label:setScale(1)
     type4label:setColor(cc.c3b(255, 255, 255))
     type4label:setAnchorPoint(0,1)
@@ -562,7 +733,7 @@ function Atlas:createCollectedItem(layer,path,bg,towertype,rank,offsetX,offsetY)
             sender:runAction(ease_elastic)
 
         elseif eventType == ccui.TouchEventType.ended then
-            self:towerinfoPanel(layer,bg,path,towertype,rank)
+            self:towerinfoPanel(layer,path,bg,towertype,rank)
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
