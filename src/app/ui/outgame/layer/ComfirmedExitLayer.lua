@@ -3,12 +3,9 @@
     BottomInfoLayer.lua
 ]]
 local ComfirmedExitLayer = class("ComfirmedExitLayer", function()
-    return display.newScene("ComfirmedExitLayer")
+    return display.newLayer()
 end)
 local AppBase = require("framework.AppBase")
--- local ConstDef = require("app.def.ConstDef")
--- local GameData = require("app.data.GameData")
---local BattleView = require("src\\app\\ui\\outgame\\view\\BattleView.lua")
 --[[--
     构造函数
 
@@ -18,8 +15,6 @@ local AppBase = require("framework.AppBase")
 ]]
 function ComfirmedExitLayer:ctor()
 
-    -- self.lifeLabelBmf_ = nil -- 类型：TextBMFont，生命值
-    -- self.scoreLabelBmf_ = nil -- 类型：TextBMFont，分值
     self:initView()
 end
 
@@ -31,8 +26,7 @@ end
     @return none
 ]]
 function ComfirmedExitLayer:initView()
-    local sprite0 = ccui.Button:
-    create("res\\artcontent\\lobby(ongame)\\currency\\mask_popup.png")
+    local sprite0 = ccui.Button:create("artcontent/lobby(ongame)/currency/mask_popup.png")
     self:addChild(sprite0)
     sprite0:setAnchorPoint(0.5, 0.5)
     sprite0:setOpacity(127)
@@ -47,8 +41,7 @@ function ComfirmedExitLayer:initView()
         end
     )
 
-    local sprite1 = display.
-    newSprite("res\\artcontent\\lobby(ongame)\\currency\\notice_popup\\basemap_popup.png")
+    local sprite1 = display.newSprite("artcontent/lobby(ongame)/currency/notice_popup/basemap_popup.png")
     sprite1:setAnchorPoint(0.5, 0.5)
 
     self.container_ = ccui.Layout:create()
@@ -62,8 +55,7 @@ function ComfirmedExitLayer:initView()
     sprite1:setPosition(sprite1:getContentSize().width/2, sprite1:getContentSize().height/2)
 
     --确认按钮
-    local sprite2= ccui.Button:
-    create("res\\artcontent\\lobby(ongame)\\currency\\notice_popup\\button_ok.png")
+    local sprite2= ccui.Button:create("artcontent/lobby(ongame)/currency/notice_popup/button_ok.png")
     self.container_:addChild(sprite2)
     sprite2:setAnchorPoint(0.5, 0.5)
     sprite2:setPosition(sprite1:getContentSize().width/2, sprite1:getContentSize().height/2-100)
@@ -80,8 +72,7 @@ function ComfirmedExitLayer:initView()
     )
 
     --文字提示
-    local sprite3= display.
-    newSprite("res\\artcontent\\lobby(ongame)\\currency\\notice_popup\\text_6.png")
+    local sprite3= display.newSprite("artcontent/lobby(ongame)/currency/notice_popup/text_6.png")
     self.container_:addChild(sprite3)
     sprite3:setAnchorPoint(0.5, 0.5)
     sprite3:setPosition(sprite1:getContentSize().width/2, sprite1:getContentSize().height/2)

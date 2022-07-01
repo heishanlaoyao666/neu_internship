@@ -1,11 +1,12 @@
 --[[--
-    信息层
-    TopInfoLayer.lua
+    菜单层
+    MenuLayer.lua
 ]]
---local PortraitSelectionLayer = class("PortraitSelectionLayer", require("src\\app\\ui\\outgame\\layer\\BaseLayer.lua"))
 local MenuLayer = class("MenuLayer", function()
-    return display.newScene("MenuLayer")
+    return display.newLayer()
 end)
+local EventDef = require("app.def.outgame.EventDef")
+local EventManager = require("app.manager.EventManager")
 
 --[[--
     构造函数
@@ -27,9 +28,9 @@ end
     @return none
 ]]
 function MenuLayer:initView()
-
-    local sprite0 = ccui.Button:
-    create("res\\artcontent\\lobby(ongame)\\currency\\mask_popup.png")
+    local tempfilename
+    --遮罩
+    local sprite0 = ccui.Button:create("artcontent/lobby(ongame)/currency/mask_popup.png")
     self:addChild(sprite0)
     sprite0:setAnchorPoint(0.5, 0.5)
     sprite0:setOpacity(127)
@@ -46,8 +47,7 @@ function MenuLayer:initView()
 
     local width, height = display.width, 1120
 
-    local sprite1 = display.
-    newSprite("res\\artcontent\\lobby(ongame)\\topbar_playerinformation\\menu_bar\\basemap_menu.png")
+    local sprite1 = display.newSprite("artcontent/lobby(ongame)/topbar_playerinformation/menu_bar/basemap_menu.png")
     sprite1:setAnchorPoint(0.5, 0.5)
 
     self.container_ = ccui.Layout:create()
@@ -61,8 +61,8 @@ function MenuLayer:initView()
     sprite1:setPosition(sprite1:getContentSize().width/2, sprite1:getContentSize().height/2)
 
     --四个按钮，从下往上
-    local sprite2 = ccui.Button:
-    create("res\\artcontent\\lobby(ongame)\\topbar_playerinformation\\menu_bar\\basemap_button.png")
+    tempfilename="artcontent/lobby(ongame)/topbar_playerinformation/menu_bar/basemap_button.png"
+    local sprite2 = ccui.Button:create(tempfilename)
     self.container_:addChild(sprite2)
     sprite2:setAnchorPoint(0.5, 0)
     sprite2:setPosition(sprite1:getContentSize().width/2,20)
@@ -71,7 +71,8 @@ function MenuLayer:initView()
         function(sender, eventType)
             -- ccui.TouchEventType
             if 2 == eventType then -- touch end
-                require("src\\app\\ui\\outgame\\layer\\SettingLayer.lua"):new():addTo(self)
+                EventManager:doEvent(EventDef.ID.SETTING)
+                self:removeFromParent(true)
                 if cc.UserDefault:getInstance():getBoolForKey("音效") then
                     audio.playEffect("sounds/ui_btn_click.OGG",false)
                 end
@@ -79,8 +80,7 @@ function MenuLayer:initView()
         end
     )
 
-    local sprite3 = ccui.Button:
-    create("res\\artcontent\\lobby(ongame)\\topbar_playerinformation\\menu_bar\\basemap_button.png")
+    local sprite3 = ccui.Button:create(tempfilename)
     self.container_:addChild(sprite3)
     sprite3:setAnchorPoint(0.5, 0)
     sprite3:setPosition(sprite1:getContentSize().width/2,sprite1:getContentSize().height/4+20)
@@ -97,8 +97,7 @@ function MenuLayer:initView()
         end
     )
 
-    local sprite4 = ccui.Button:
-    create("res\\artcontent\\lobby(ongame)\\topbar_playerinformation\\menu_bar\\basemap_button.png")
+    local sprite4 = ccui.Button:create(tempfilename)
     self.container_:addChild(sprite4)
     sprite4:setAnchorPoint(0.5, 0)
     sprite4:setPosition(sprite1:getContentSize().width/2,sprite1:getContentSize().height*2/4+20)
@@ -115,8 +114,7 @@ function MenuLayer:initView()
         end
     )
 
-    local sprite5 = ccui.Button:
-    create("res\\artcontent\\lobby(ongame)\\topbar_playerinformation\\menu_bar\\basemap_button.png")
+    local sprite5 = ccui.Button:create(tempfilename)
     self.container_:addChild(sprite5)
     sprite5:setAnchorPoint(0.5, 0)
     sprite5:setPosition(sprite1:getContentSize().width/2,sprite1:getContentSize().height*3/4+20)
@@ -134,53 +132,49 @@ function MenuLayer:initView()
     )
 
     --设置
-    local sprite6 = display.
-    newSprite("res\\artcontent\\lobby(ongame)\\topbar_playerinformation\\menu_bar\\icon_sett.png")
+    local sprite6 = display.newSprite("artcontent/lobby(ongame)/topbar_playerinformation/menu_bar/icon_sett.png")
     sprite2:addChild(sprite6)
     sprite6:setAnchorPoint(0.5,0.5)
     sprite6:setPosition(sprite2:getContentSize().width/2-70, sprite2:getContentSize().height/2)
 
-    local sprite7 = display.
-    newSprite("res\\artcontent\\lobby(ongame)\\topbar_playerinformation\\menu_bar\\font_settings.png")
+    local sprite7 = display.newSprite("artcontent/lobby(ongame)/topbar_playerinformation/menu_bar/font_settings.png")
     sprite2:addChild(sprite7)
     sprite7:setAnchorPoint(0.5,0.5)
     sprite7:setPosition(sprite2:getContentSize().width/2+20, sprite2:getContentSize().height/2)
 
     --对战记录
-    local sprite8 = display.
-    newSprite("res\\artcontent\\lobby(ongame)\\topbar_playerinformation\\menu_bar\\icon_battlerecord.png")
+    tempfilename="artcontent/lobby(ongame)/topbar_playerinformation/menu_bar/icon_battlerecord.png"
+    local sprite8 = display.newSprite(tempfilename)
     sprite3:addChild(sprite8)
     sprite8:setAnchorPoint(0.5,0.5)
     sprite8:setPosition(sprite2:getContentSize().width/2-70, sprite2:getContentSize().height/2)
 
-    local sprite9 = display.
-    newSprite("res\\artcontent\\lobby(ongame)\\topbar_playerinformation\\menu_bar\\text_battlerecord.png")
+    tempfilename="artcontent/lobby(ongame)/topbar_playerinformation/menu_bar/text_battlerecord.png"
+    local sprite9 = display.newSprite(tempfilename)
     sprite3:addChild(sprite9)
     sprite9:setAnchorPoint(0.5,0.5)
     sprite9:setPosition(sprite2:getContentSize().width/2+20, sprite2:getContentSize().height/2)
 
     --邮箱
-    local sprite10 = display.
-    newSprite("res\\artcontent\\lobby(ongame)\\topbar_playerinformation\\menu_bar\\icon_mailbox.png")
+    local sprite10 = display. newSprite("artcontent/lobby(ongame)/topbar_playerinformation/menu_bar/icon_mailbox.png")
     sprite4:addChild(sprite10)
     sprite10:setAnchorPoint(0.5,0.5)
     sprite10:setPosition(sprite2:getContentSize().width/2-70, sprite2:getContentSize().height/2)
 
-    local sprite11= display.
-    newSprite("res\\artcontent\\lobby(ongame)\\topbar_playerinformation\\menu_bar\\text_mailbox.png")
+    local sprite11= display.newSprite("artcontent/lobby(ongame)/topbar_playerinformation/menu_bar/text_mailbox.png")
     sprite4:addChild(sprite11)
     sprite11:setAnchorPoint(0.5,0.5)
     sprite11:setPosition(sprite2:getContentSize().width/2+20, sprite2:getContentSize().height/2)
 
     --公告
-    local sprite12 = display.
-    newSprite("res\\artcontent\\lobby(ongame)\\topbar_playerinformation\\menu_bar\\icon_announcement.png")
+    tempfilename="artcontent/lobby(ongame)/topbar_playerinformation/menu_bar/icon_announcement.png"
+    local sprite12 = display.newSprite(tempfilename)
     sprite5:addChild(sprite12)
     sprite12:setAnchorPoint(0.5,0.5)
     sprite12:setPosition(sprite2:getContentSize().width/2-70, sprite2:getContentSize().height/2)
 
-    local sprite13 = display.
-    newSprite("res\\artcontent\\lobby(ongame)\\topbar_playerinformation\\menu_bar\\font_announcements.png")
+    tempfilename="artcontent/lobby(ongame)/topbar_playerinformation/menu_bar/font_announcements.png"
+    local sprite13 = display.newSprite(tempfilename)
     sprite5:addChild(sprite13)
     sprite13:setAnchorPoint(0.5,0.5)
     sprite13:setPosition(sprite2:getContentSize().width/2+20, sprite2:getContentSize().height/2)
@@ -194,8 +188,6 @@ end
     @return none
 ]]
 function MenuLayer:update(dt)
-    -- self.lifeLabelBmf_:setString(tostring(GameData:getLife()))
-    -- self.scoreLabelBmf_:setString(tostring(GameData:getScore()))
 end
 
 return MenuLayer

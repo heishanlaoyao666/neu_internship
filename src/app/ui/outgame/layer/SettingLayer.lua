@@ -1,11 +1,12 @@
 --[[--
-    信息层
-    TopInfoLayer.lua
+    设置层
+    SettingLayer.lua
 ]]
---local PortraitSelectionLayer = class("PortraitSelectionLayer", require("src\\app\\ui\\outgame\\layer\\BaseLayer.lua"))
 local SettingLayer = class("SettingLayer", function()
-    return display.newScene("SettingLayer")
+    return display.newLayer()
 end)
+local EventDef = require("app.def.outgame.EventDef")
+local EventManager = require("app.manager.EventManager")
 --[[--
     构造函数
 
@@ -14,7 +15,6 @@ end)
     @return none
 ]]
 function SettingLayer:ctor()
-    --PortraitSelectionLayer.super.ctor(self)
     self:initView()
 end
 
@@ -28,7 +28,7 @@ end
 function SettingLayer:initView()
 
     local sprite0 = ccui.Button:
-    create("res\\artcontent\\lobby(ongame)\\currency\\mask_popup.png")
+    create("artcontent/lobby(ongame)/currency/mask_popup.png")
     self:addChild(sprite0)
     sprite0:setAnchorPoint(0.5, 0.5)
     sprite0:setOpacity(127)
@@ -47,7 +47,7 @@ function SettingLayer:initView()
 
     --底图
     local sprite1 = display.
-    newSprite("res\\artcontent\\lobby(ongame)\\topbar_playerinformation\\setting_popup\\basemap_popup.png")
+    newSprite("artcontent/lobby(ongame)/topbar_playerinformation/setting_popup/basemap_popup.png")
     sprite1:setAnchorPoint(0.5, 0.5)
 
     self.container_ = ccui.Layout:create()
@@ -61,14 +61,14 @@ function SettingLayer:initView()
     sprite1:setPosition(sprite1:getContentSize().width/2, sprite1:getContentSize().height/2)
 
     local sprite2 = display.
-    newSprite("res\\artcontent\\lobby(ongame)\\topbar_playerinformation\\setting_popup\\title_musiceffects.png")
+    newSprite("artcontent/lobby(ongame)/topbar_playerinformation/setting_popup/title_musiceffects.png")
     self.container_:addChild(sprite2)
     sprite2:setAnchorPoint(0, 1)
     sprite2:setPosition(sprite1:getContentSize().width/2-200, sprite1:getContentSize().height-130)
 
     local landscapeCheckBox1 = ccui.CheckBox:
-    create("res\\artcontent\\lobby(ongame)\\topbar_playerinformation\\setting_popup\\checkbox_close.png", nil,
-    "res\\artcontent\\lobby(ongame)\\topbar_playerinformation\\setting_popup\\checkbox_on.png", nil, nil)
+    create("artcontent/lobby(ongame)/topbar_playerinformation/setting_popup/checkbox_close.png", nil,
+    "artcontent/lobby(ongame)/topbar_playerinformation/setting_popup/checkbox_on.png", nil, nil)
 	:align(display.LEFT_CENTER, sprite1:getContentSize().width/2, sprite1:getContentSize().height-130)
 	:addTo(self.container_)
 
@@ -93,14 +93,14 @@ function SettingLayer:initView()
 	end)
 
     local sprite3 = display.
-    newSprite("res\\artcontent\\lobby(ongame)\\topbar_playerinformation\\setting_popup\\title_music.png")
+    newSprite("artcontent/lobby(ongame)/topbar_playerinformation/setting_popup/title_music.png")
     self.container_:addChild(sprite3)
     sprite3:setAnchorPoint(0, 1)
     sprite3:setPosition(sprite1:getContentSize().width/2-200, sprite1:getContentSize().height-200)
 
     local landscapeCheckBox2 = ccui.CheckBox:
-    create("res\\artcontent\\lobby(ongame)\\topbar_playerinformation\\setting_popup\\checkbox_close.png", nil,
-    "res\\artcontent\\lobby(ongame)\\topbar_playerinformation\\setting_popup\\checkbox_on.png", nil, nil)
+    create("artcontent/lobby(ongame)/topbar_playerinformation/setting_popup/checkbox_close.png", nil,
+    "artcontent/lobby(ongame)/topbar_playerinformation/setting_popup/checkbox_on.png", nil, nil)
 	:align(display.LEFT_CENTER, sprite1:getContentSize().width/2, sprite1:getContentSize().height-200)
 	:addTo(self.container_)
 
@@ -124,20 +124,20 @@ function SettingLayer:initView()
 	end)
 
     local sprite4= display.
-    newSprite("res\\artcontent\\lobby(ongame)\\topbar_playerinformation\\setting_popup\\title_skillintroduction.png")
+    newSprite("artcontent/lobby(ongame)/topbar_playerinformation/setting_popup/title_skillintroduction.png")
     self.container_:addChild(sprite4)
     sprite4:setAnchorPoint(0, 1)
     sprite4:setPosition(sprite1:getContentSize().width/2-200, sprite1:getContentSize().height-270)
 
     local landscapeCheckBox3 = ccui.CheckBox:
-    create("res\\artcontent\\lobby(ongame)\\topbar_playerinformation\\setting_popup\\checkbox_close.png", nil,
-    "res\\artcontent\\lobby(ongame)\\topbar_playerinformation\\setting_popup\\checkbox_on.png", nil, nil)
+    create("artcontent/lobby(ongame)/topbar_playerinformation/setting_popup/checkbox_close.png", nil,
+    "artcontent/lobby(ongame)/topbar_playerinformation/setting_popup/checkbox_on.png", nil, nil)
 	:align(display.LEFT_CENTER, sprite1:getContentSize().width/2, sprite1:getContentSize().height-270)
 	:addTo(self.container_)
 
     --退出游戏
     local sprite5= ccui.Button:
-    create("res\\artcontent\\lobby(ongame)\\topbar_playerinformation\\setting_popup\\button_exit.png")
+    create("artcontent/lobby(ongame)/topbar_playerinformation/setting_popup/button_exit.png")
     self.container_:addChild(sprite5)
     sprite5:setAnchorPoint(0.5, 0.5)
     sprite5:setPosition(sprite1:getContentSize().width/2, sprite1:getContentSize().height/2-170)
@@ -145,7 +145,8 @@ function SettingLayer:initView()
         function(sender, eventType)
             -- ccui.TouchEventType
             if 2 == eventType then -- touch end
-                require("src\\app\\ui\\outgame\\layer\\ComfirmedExitLayer.lua"):new():addTo(self)
+                EventManager:doEvent(EventDef.ID.COMFIRMEDEXIT)
+                self:removeFromParent(true)
                 if cc.UserDefault:getInstance():getBoolForKey("音效") then
                     audio.playEffect("sounds/ui_btn_click.OGG",false)
                 end
@@ -155,7 +156,7 @@ function SettingLayer:initView()
 
     --X按钮
     local sprite6= ccui.Button:
-    create("res\\artcontent\\lobby(ongame)\\topbar_playerinformation\\setting_popup\\button_off.png")
+    create("artcontent/lobby(ongame)/topbar_playerinformation/setting_popup/button_off.png")
     self.container_:addChild(sprite6)
     sprite6:setAnchorPoint(1, 1)
     sprite6:setPosition(sprite1:getContentSize().width-20, sprite1:getContentSize().height-20)
@@ -181,8 +182,6 @@ end
     @return none
 ]]
 function SettingLayer:update(dt)
-    -- self.lifeLabelBmf_:setString(tostring(GameData:getLife()))
-    -- self.scoreLabelBmf_:setString(tostring(GameData:getScore()))
 end
 
 return SettingLayer

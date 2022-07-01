@@ -3,10 +3,10 @@
     BottomInfoLayer.lua
 ]]
 local BuyLayer = class("BuyLayer", function()
-    return display.newScene("BuyLayer")
+    return display.newLayer()
 end)
-local OutGameData = require("src\\app\\data\\outgame\\OutGameData.lua")
-local EventDef = require("src\\app\\def\\outgame\\EventDef.lua")
+local OutGameData = require("app.data.outgame.OutGameData")
+local EventDef = require("app.def.outgame.EventDef")
 local EventManager = require("app.manager.EventManager")
 --[[--
     构造函数
@@ -17,8 +17,6 @@ local EventManager = require("app.manager.EventManager")
 ]]
 function BuyLayer:ctor()
 
-    -- self.lifeLabelBmf_ = nil -- 类型：TextBMFont，生命值
-    -- self.scoreLabelBmf_ = nil -- 类型：TextBMFont，分值
     self:initView()
 end
 
@@ -31,8 +29,7 @@ end
 ]]
 function BuyLayer:initView()
     --遮罩
-    local sprite0 = ccui.Button:
-    create("res\\artcontent\\lobby(ongame)\\currency\\mask_popup.png")
+    local sprite0 = ccui.Button:create("artcontent/lobby(ongame)/currency/mask_popup.png")
     self:addChild(sprite0)
     sprite0:setAnchorPoint(0.5, 0.5)
     sprite0:setOpacity(127)
@@ -48,8 +45,7 @@ function BuyLayer:initView()
     )
 
     --底图
-    local sprite1 = display.
-    newSprite("res\\artcontent\\lobby(ongame)\\store\\goldstore_confirmationpopup\\basemap_popup.png")
+    local sprite1 = display.newSprite("artcontent/lobby(ongame)/store/goldstore_confirmationpopup/basemap_popup.png")
     sprite1:setAnchorPoint(0.5, 0.5)
 
     self.container_ = ccui.Layout:create()
@@ -63,8 +59,7 @@ function BuyLayer:initView()
     sprite1:setPosition(sprite1:getContentSize().width/2, sprite1:getContentSize().height/2)
 
     --x按钮
-    local sprite2= ccui.Button:
-    create("res\\artcontent\\lobby(ongame)\\store\\goldstore_confirmationpopup\\button_off.png")
+    local sprite2= ccui.Button:create("artcontent/lobby(ongame)/store/goldstore_confirmationpopup/button_off.png")
     self.container_:addChild(sprite2)
     sprite2:setAnchorPoint(1, 1)
     sprite2:setPosition(sprite1:getContentSize().width-20, sprite1:getContentSize().height-20)
@@ -81,8 +76,7 @@ function BuyLayer:initView()
     )
 
     --金币购买确认按钮
-    local sprite3= ccui.Button:
-    create("res\\artcontent\\lobby(ongame)\\store\\goldstore_confirmationpopup\\button_purchase.png")
+    local sprite3= ccui.Button:create("artcontent/lobby(ongame)/store/goldstore_confirmationpopup/button_purchase.png")
     self.container_:addChild(sprite3)
     sprite3:setAnchorPoint(0.5, 0.5)
     sprite3:setPosition(sprite1:getContentSize().width/2, sprite1:getContentSize().height/2-130)
@@ -104,8 +98,7 @@ function BuyLayer:initView()
             end
         end
     )
-    local sprite4= ccui.Button:
-    create("res\\artcontent\\lobby(ongame)\\store\\goldstore_confirmationpopup\\icon_goldcoin.png")
+    local sprite4= ccui.Button:create("artcontent/lobby(ongame)/store/goldstore_confirmationpopup/icon_goldcoin.png")
     sprite3:addChild(sprite4)
     sprite4:setAnchorPoint(0.5, 0.5)
     sprite4:setPosition(sprite3:getContentSize().width/2-50, sprite3:getContentSize().height/2)
@@ -118,9 +111,7 @@ function BuyLayer:initView()
     :addTo(sprite3)
 
     --商品图片显示
-    local sprite5 = display.
-    newSprite("res\\artcontent\\lobby(ongame)\\store\\goldstore\\itemicon_tower\\"
-        ..self.id..".png")
+    local sprite5 = display.newSprite("artcontent/lobby(ongame)/store/goldstore/itemicon_tower/"..self.id..".png")
     sprite5:addTo(sprite1)
     sprite5:setScale(0.8)
     sprite5:setAnchorPoint(0.5, 0.5)
@@ -132,6 +123,14 @@ function BuyLayer:initView()
     })
     :align(display.CENTER_BOTTOM, sprite5:getContentSize().width/2,23)
     :addTo(sprite5)
+
+        -- 屏蔽点击
+        self:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event) 
+            if event.name == "began" then
+                return true
+            end
+        end)
+        self:setTouchEnabled(true)
 end
 
 --[[--

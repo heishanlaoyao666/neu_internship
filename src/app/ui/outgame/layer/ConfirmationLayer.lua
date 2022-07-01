@@ -1,12 +1,12 @@
 --[[--
-    信息层
+    宝箱获得物品层
     BottomInfoLayer.lua
 ]]
 local ConfirmationLayer = class("ConfirmationLayer", function()
-    return display.newScene("ConfirmationLayer")
+    return display.newLayer()
 end)
-local OutGameData = require("src\\app\\data\\outgame\\OutGameData.lua")
-local EventDef = require("src\\app\\def\\outgame\\EventDef.lua")
+local OutGameData = require("app.data.outgame.OutGameData")
+local EventDef = require("app.def.outgame.EventDef")
 local EventManager = require("app.manager.EventManager")
 --[[--
     构造函数
@@ -29,7 +29,7 @@ end
 ]]
 function ConfirmationLayer:initView()
     local sprite0 = ccui.Button:
-    create("res\\artcontent\\lobby(ongame)\\currency\\mask_popup.png")
+    create("artcontent/lobby(ongame)/currency/mask_popup.png")
     self:addChild(sprite0)
     sprite0:setAnchorPoint(0.5, 0.5)
     sprite0:setOpacity(127)
@@ -45,7 +45,7 @@ function ConfirmationLayer:initView()
     )
 
     local sprite1 = display.
-    newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_confirmationpopup\\basemap_popup.png")
+    newSprite("artcontent/lobby(ongame)/currency/chestopen_confirmationpopup/basemap_popup.png")
     sprite1:setAnchorPoint(0.5, 0.5)
 
     self.container_ = ccui.Layout:create()
@@ -60,7 +60,7 @@ function ConfirmationLayer:initView()
 
     --确认按钮
     local sprite2= ccui.Button:
-    create("res\\artcontent\\lobby(ongame)\\currency\\chestopen_confirmationpopup\\button_confirm.png")
+    create("artcontent/lobby(ongame)/currency/chestopen_confirmationpopup/button_confirm.png")
     self.container_:addChild(sprite2)
     sprite2:setAnchorPoint(0.5, 0.5)
     sprite2:setPosition(sprite1:getContentSize().width/2, -150)
@@ -77,8 +77,7 @@ function ConfirmationLayer:initView()
     )
 
     --金币
-    local sprite3= display.
-    newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_confirmationpopup\\icon_gold.png")
+    local sprite3= display.newSprite("artcontent/lobby(ongame)/currency/chestopen_confirmationpopup/icon_gold.png")
     self.container_:addChild(sprite3)
     sprite3:setAnchorPoint(0.5, 0.5)
     sprite3:setPosition(sprite1:getContentSize().width/2-30, -50)
@@ -91,9 +90,8 @@ function ConfirmationLayer:initView()
     :addTo(self.container_)
 
     --获得的塔和数目
-    local sprite4= display.
-    newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_confirmationpopup\\icon_tower\\"
-    ..packs[1]:getTowerId()..".png")
+    local tempfileneme ="artcontent/lobby(ongame)/currency/chestopen_confirmationpopup/icon_tower/%d.png"
+    local sprite4= display.newSprite(string.format(tempfileneme, packs[1]:getTowerId()))
     self.container_:addChild(sprite4)
     sprite4:setScale(0.8)
     sprite4:setAnchorPoint(0.5, 0.5)
@@ -113,9 +111,7 @@ function ConfirmationLayer:initView()
     :align(display.CENTER, sprite4:getContentSize().width/2, -30)
     :addTo(sprite4)
 
-    local sprite5= display.
-    newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_confirmationpopup\\icon_tower\\"
-    ..packs[2]:getTowerId()..".png")
+    local sprite5= display.newSprite(string.format(tempfileneme, packs[2]:getTowerId()))
     self.container_:addChild(sprite5)
     sprite5:setScale(0.8)
     sprite5:setAnchorPoint(0.5, 0.5)
@@ -135,9 +131,7 @@ function ConfirmationLayer:initView()
     :align(display.CENTER, sprite4:getContentSize().width/2, -30)
     :addTo(sprite5)
 
-    local sprite6= display.
-    newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_confirmationpopup\\icon_tower\\"
-    ..packs[3]:getTowerId()..".png")
+    local sprite6= display.newSprite(string.format(tempfileneme, packs[3]:getTowerId()))
     self.container_:addChild(sprite6)
     sprite6:setScale(0.8)
     sprite6:setAnchorPoint(0.5, 0.5)
@@ -157,9 +151,7 @@ function ConfirmationLayer:initView()
     :align(display.CENTER, sprite4:getContentSize().width/2, -30)
     :addTo(sprite6)
 
-    local sprite7= display.
-    newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_confirmationpopup\\icon_tower\\"
-    ..packs[4]:getTowerId()..".png")
+    local sprite7= display.newSprite(string.format(tempfileneme, packs[4]:getTowerId()))
     self.container_:addChild(sprite7)
     sprite7:setScale(0.8)
     sprite7:setAnchorPoint(0.5, 0.5)
@@ -186,9 +178,7 @@ function ConfirmationLayer:initView()
         sprite7:setPositionY(sprite1:getContentSize().height/2+50)
         a3:setString("普通")
         a4:setString("普通")
-        local sprite8= display.
-        newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_confirmationpopup\\icon_tower\\"
-        ..packs[5]:getTowerId()..".png")
+        local sprite8= display.newSprite(string.format(tempfileneme, packs[5]:getTowerId()))
         self.container_:addChild(sprite8)
         sprite8:setScale(0.8)
         sprite8:setAnchorPoint(0.5, 0.5)
@@ -208,9 +198,7 @@ function ConfirmationLayer:initView()
         :align(display.CENTER, sprite4:getContentSize().width/2, -30)
         :addTo(sprite8)
 
-        local sprite9= display.
-        newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_confirmationpopup\\icon_tower\\"
-        ..packs[6]:getTowerId()..".png")
+        local sprite9= display.newSprite(string.format(tempfileneme, packs[6]:getTowerId()))
         self.container_:addChild(sprite9)
         sprite9:setScale(0.8)
         sprite9:setAnchorPoint(0.5, 0.5)
@@ -230,9 +218,7 @@ function ConfirmationLayer:initView()
         :align(display.CENTER, sprite4:getContentSize().width/2, -30)
         :addTo(sprite9)
 
-        local sprite10= display.
-        newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_confirmationpopup\\icon_tower\\"
-        ..packs[7]:getTowerId()..".png")
+        local sprite10= display.newSprite(string.format(tempfileneme, packs[7]:getTowerId()))
         self.container_:addChild(sprite10)
         sprite10:setScale(0.8)
         sprite10:setAnchorPoint(0.5, 0.5)
@@ -252,9 +238,7 @@ function ConfirmationLayer:initView()
         :align(display.CENTER, sprite4:getContentSize().width/2, -30)
         :addTo(sprite10)
         if packsnum[8]==1 then
-            local sprite11= display.
-            newSprite("res\\artcontent\\lobby(ongame)\\currency\\chestopen_confirmationpopup\\icon_tower\\"
-            ..packs[8]:getTowerId()..".png")
+            local sprite11= display.newSprite(string.format(tempfileneme, packs[8]:getTowerId()))
             self.container_:addChild(sprite11)
             sprite11:setScale(0.8)
             sprite11:setAnchorPoint(0.5, 0.5)

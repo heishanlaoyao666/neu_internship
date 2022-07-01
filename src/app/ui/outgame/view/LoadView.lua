@@ -12,6 +12,7 @@ local OutGameData = require("app.data.outgame.OutGameData")
 local LoadBGLayer = require("app.ui.outgame.layer.LoadBGLayer")
 local LoadInfoLayer = require("app.ui.outgame.layer.LoadInfoLayer")
 local RegisterView = require("app.ui.outgame.view.RegisterView")
+local MainScene = require("app.scenes.outgame.MainScene")
 
 local pro = 0 -- 记录进度
 --[[--
@@ -87,6 +88,9 @@ function LoadView:onEnter()
         print("登录事件")
         if state == ConstDef.GAME_STATE.REGISTER then
             self.registerView_:showView()
+        elseif state == ConstDef.GAME_STATE.INIT then
+            local AnotherScene=MainScene:new()
+            display.replaceScene(AnotherScene, "fade", 0.5)
         end
     end)
 end

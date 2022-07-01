@@ -2,7 +2,7 @@
     信息层
     TopInfoLayer.lua
 ]]
-local MatchLayer = class("MatchLayer", require("src\\app\\ui\\outgame\\layer\\BaseLayer.lua"))
+local MatchLayer = class("MatchLayer", require("app.ui.outgame.layer.BaseLayer"))
 
 
 --[[--
@@ -27,6 +27,21 @@ end
     @return none
 ]]
 function MatchLayer:initView()
+    local sprite0 = ccui.Button:create("artcontent/lobby(ongame)/currency/mask_popup.png")
+    self:addChild(sprite0)
+    sprite0:setAnchorPoint(0.5, 0.5)
+    sprite0:setOpacity(127)
+    sprite0:setPosition(display.cx,display.cy)
+
+    sprite0:addTouchEventListener(
+        function(sender, eventType)
+            -- ccui.TouchEventType
+            if 2 == eventType then -- touch end
+                self:removeFromParent(true)
+            end
+        end
+    )
+
     local width, height = display.width, 1120
     self.container_ = ccui.Layout:create()
     -- self.container_:setBackGroundColor(cc.c3b(200, 0, 0))
@@ -36,21 +51,15 @@ function MatchLayer:initView()
     self.container_:setAnchorPoint(0.5, 0.5)
     self.container_:setPosition(display.cx, display.cy)
 
-    -- local sprite = display.newSprite("res\\artcontent\\lobby(ongame)\\battle_interface\\matching\\basemap_popup.png")
-    -- self.container_:addChild(sprite)
-    -- --sprite1:setContentSize(width, height)
-    -- sprite:setAnchorPoint(0.5, 0.5)
-    -- sprite:setPosition(width/2,height/2)
-
     --底图
-    local sprite1 = display.newSprite("res\\artcontent\\lobby(ongame)\\battle_interface\\matching\\basemap_popup.png")
+    local sprite1 = display.newSprite("artcontent/lobby(ongame)/battle_interface/matching/basemap_popup.png")
     self.container_:addChild(sprite1)
     --sprite1:setContentSize(width, height)
     sprite1:setAnchorPoint(0.5, 0.5)
     sprite1:setPosition(width/2,height/2)
 
     --取消按钮
-    local button = ccui.Button:create("res\\artcontent\\lobby(ongame)\\battle_interface\\matching\\button_cancel.png")
+    local button = ccui.Button:create("artcontent/lobby(ongame)/battle_interface/matching/button_cancel.png")
     sprite1:addChild(button)
     button:setAnchorPoint(0.5, 0.5)
     button:setPosition(sprite1:getContentSize().width/2, sprite1:getContentSize().height/2-100)
@@ -62,7 +71,7 @@ function MatchLayer:initView()
     end)
 
     --旋转
-    local sprite2 = display.newSprite("res\\artcontent\\lobby(ongame)\\battle_interface\\matching\\group128.png")
+    local sprite2 = display.newSprite("artcontent/lobby(ongame)/battle_interface/matching/group128.png")
     sprite1:addChild(sprite2)
     --sprite1:setContentSize(width, height)
     sprite2:setAnchorPoint(0.5, 0.5)
