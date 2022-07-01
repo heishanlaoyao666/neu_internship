@@ -5,9 +5,7 @@
 local Object = class("Object")
 local rect1_ = cc.rect(0, 0, 0, 0)
 local rect2_ = cc.rect(0, 0, 0, 0)
-
 local id_ = 0 -- 类型：number，全局id，调试使用
-
 --[[--
     构造函数
 
@@ -23,13 +21,33 @@ function Object:ctor(x, y, width, height)
     self.y_ = y -- 类型：number
     self.width_ = width -- 类型：number
     self.height_ = height -- 类型：number
-    self.buffObj={} --类型:buffObj，塔buff表
+    self.buffObj={} --类型:buffObj，buff表
     self.isDeath_ = false -- 类型：boolean，是否死亡（销毁）
 
+    self.buffMap_ = {}
     id_ = id_ + 1
     self.id_ = id_ -- 类型：number，唯一id
 end
+--[[--
+    获取ID
 
+    @param none
+
+    @return life
+]]
+function Object:getID()
+    return self.id_
+end
+--[[--
+    获取塔BUFF表
+
+    @param none
+
+    @return life
+]]
+function Object:getBuff()
+    return self.buffMap_
+end
 --[[--
     设置x
 
@@ -84,7 +102,23 @@ end
 function Object:isDeath()
     return self.isDeath_
 end
+--[[--
+    添加Buff
 
+    @param buffInfo 类型 buffInfo 
+
+    @return none
+]]
+function Object:addBuff(buffInfo)
+    local buffmodel = buffInfo:getBuffModel()
+    for i = 1, #self.buffMap_ do
+        if self.buffMap_[i]:getID()== buffmodel:getID() then
+            print("重复buff处理")
+            return
+        end
+    end
+    self.buffMap_[#self.buffMap_+1] = buffmodel
+end
 --[[--
     碰撞判定
 

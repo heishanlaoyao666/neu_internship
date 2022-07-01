@@ -20,28 +20,8 @@ function Enemy:ctor()
 
     self.target_id = 0 
     self.life_ =200
-    self.buffMap_ = {}
+
     EventManager:doEvent(EventDef.ID.CREATE_ENEMY, self)
-end
---[[--
-    添加Buff
-
-    @param buff 类型 buff 
-
-    @return none
-]]
-function Enemy:addBuff(buff)
-    self.buffMap_[#self.buffMap_+1] = buff
-end
---[[--
-    获取塔BUFF表
-
-    @param none
-
-    @return life
-]]
-function Enemy:getBuff()
-    return self.buffMap_
 end
 --[[--
     销毁

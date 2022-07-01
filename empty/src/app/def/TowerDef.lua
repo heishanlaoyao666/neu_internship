@@ -36,6 +36,7 @@ TowerDef.TABLE = {
         FIRECD = 0.8,
         INFORMATION = "使被攻击目标得到“灼烧”状态。灼烧：造成两次额外伤害。",
         MODE = TowerDef.MODE.FRIST,
+        
     },
     [2] ={
         RARITY = TowerDef.RARITY.EPIC,

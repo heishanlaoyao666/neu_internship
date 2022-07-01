@@ -4,8 +4,8 @@
     EventManger.lua
 ]]
 local BuffManager = {}
-
-local listenerMap_ = {} -- 类型：监听映射Map，key：EventId，Value：所有监听对象 回调数组
+local BuffDef = require("app.def.BuffDef")
+local carrierMap_ = {} -- 类型：监听映射Map，key：EventId，Value：所有监听对象 回调数组
 
 --[[--
     注册监听
@@ -17,13 +17,13 @@ local listenerMap_ = {} -- 类型：监听映射Map，key：EventId，Value：�
     @return none
 ]]
 function BuffManager:regListener(eventId, target, func)
-    listenerMap_[eventId] = listenerMap_[eventId] or {}
+    carrierMap_[eventId] = carrierMap_[eventId] or {}
 
-    if not listenerMap_[eventId][target] then
-        listenerMap_[eventId][target] = {}
+    if not carrierMap_[eventId][target] then
+        carrierMap_[eventId][target] = {}
     end
 
-    table.insert(listenerMap_[eventId][target], func)
+    table.insert(carrierMap_[eventId][target], func)
 end
 
 --[[--
@@ -35,11 +35,11 @@ end
     @return none
 ]]
 function BuffManager:unRegListener(eventId, target)
-    if not listenerMap_[eventId] then
+    if not carrierMap_[eventId] then
         return
     end
 
-    listenerMap_[eventId][target] = nil
+    carrierMap_[eventId][target] = nil
 end
 
 --[[--
@@ -52,7 +52,7 @@ end
 ]]
 function BuffManager:doEvent(eventId, ...)
     print(eventId)
-    local tab = listenerMap_[eventId]
+    local tab = carrierMap_[eventId]
     print(tab)
     if not tab then
         return
@@ -79,6 +79,6 @@ end
     @return none
 ]]
 function BuffManager:AddBuffInfo(model,caster,carrier,time,addStack,param)
-    
+    carrierMap_[carrier] = carrierMap_[carrier] or {}
 end
 return BuffManager

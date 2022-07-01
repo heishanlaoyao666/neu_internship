@@ -13,6 +13,7 @@ local Enemy = require("app/data/Enemy.lua")
 local Tower = require("app/data/Tower.lua")
 local Bullet = require("app/data/Bullet.lua")
 local DamageInfo =require("app/data/DamageInfo.lua")
+local BuffTable = require("app/data/BuffTable.lua")
 -- local SHOOT_INTERVAL = 0.2 -- 类型：number，射击间隔
 -- local ENEMY_INTERVAL = 1 -- 类型：number，敌机生成间隔
 
@@ -322,7 +323,8 @@ end
     @return none
 ]]
 function GameData:hitMonster(monster, bullet)
-    local damage=DamageInfo.new(bullet,monster)
+    local damage=DamageInfo.new(bullet,monster,bullet:getAtk())
+    monster:addBuff(BuffTable:addBuffInfo(nil,monster,BuffTable["burn"],1,false,false,1))
     damages_[#damages_+1] = damage
     bullet:destory()
 end

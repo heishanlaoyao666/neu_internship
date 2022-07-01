@@ -24,5 +24,6 @@ local BuffDef = {
         SKILL_START = 9, --技能发动
 
     },
+    
 }
 return BuffDef
