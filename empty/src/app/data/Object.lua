@@ -21,8 +21,9 @@ function Object:ctor(x, y, width, height)
     self.y_ = y -- 类型：number
     self.width_ = width -- 类型：number
     self.height_ = height -- 类型：number
-    self.buffObj={} --类型:buffObj，buff表
+
     self.isDeath_ = false -- 类型：boolean，是否死亡（销毁）
+    self.moveable_ = true --类型:boolean,是否可以移动
 
     self.buffMap_ = {}
     id_ = id_ + 1
@@ -164,6 +165,28 @@ end
     @return none
 ]]
 function Object:update(dt)
+    --遍历所有buff执行
+    local destorybuffs = {}
+    for i = 1, #self.buffMap_ do
+        local nowbuff = self.buffMap_[i]
+        nowbuff:setTime(dt)
+        if nowbuff.runTime_>=nowbuff.time_ and nowbuff.permanent_~=true then
+            --buff删除
+            destorybuffs[#destorybuffs+1] = nowbuff
+        end
+        if nowbuff.runTime_>=nowbuff.tickTime_ then
+            nowbuff.runTime_=nowbuff.runTime_+nowbuff.tickTime_
+            nowbuff:onTick()
+        end
+    end
+    --清理buff
+    for i = #destorybuffs, 1, -1 do
+        for j = #self.buffMap_, 1, -1 do
+            if self.buffMap_[j] == destorybuffs[i] then
+                table.remove(self.buffMap_, j)
+            end
+        end
+    end
 end
 
 return Object
