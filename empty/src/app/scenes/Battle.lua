@@ -28,7 +28,7 @@ function Battle:ctor()
 
 end
 
-function Battle:battlePanle()
+function Battle:battlePanel()
     local battleLayer = ccui.Layout:create()
     battleLayer:setBackGroundColorOpacity(180)--设置为透明
     --battleLayer:setBackGroundColorType(1)

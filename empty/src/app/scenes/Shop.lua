@@ -1,5 +1,6 @@
 local Shop = class("Shop")
-
+local KnapsackData = require("app.data.KnapsackData")
+local TopPanel = require("app.scenes.TopPanel")
 --[[
 local function buttonEvent(sender,eventType)--按钮点击后放大缩小特效
     if eventType == ccui.TouchEventType.began then
@@ -19,7 +20,7 @@ local function buttonEvent(sender,eventType)--按钮点击后放大缩小特效
     end
 end--]]
 function Shop:ctor()
-
+    KnapsackData:init()
 end
 
 
@@ -144,6 +145,9 @@ function Shop:ShopPanel()
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
+            KnapsackData:setDiamonds(100)
+            TopPanel:setDiamondsString(KnapsackData:getDiamonds())
+            --print(KnapsackData:getDiamonds())
 
         elseif eventType == ccui.TouchEventType.canceled then
             local scale = cc.ScaleTo:create(1,1)
@@ -168,15 +172,15 @@ function Shop:ShopPanel()
     freeIcon:addTo(freeItemButton)
 
     self:createGoldItem(ShopLayer,"ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/1.png"
-    ,"X36","360",0,0)
+    ,"X36",360,0,0)
     self:createGoldItem(ShopLayer,"ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/4.png"
-    ,"X36","360",210,0)
+    ,"X36",360,210,0)
     self:createGoldItem(ShopLayer,"ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/9.png"
-    ,"X36","360",-220,-220)
+    ,"X36",360,-220,-220)
     self:createGoldItem(ShopLayer,"ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/10.png"
-    ,"X6","600",0,-220)
+    ,"X6",600,0,-220)
     self:createGoldItem(ShopLayer,"ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/12.png"
-    ,"X1","1000",210,-220)
+    ,"X1",1000,210,-220)
 
     --***************************钻石商店****************************************
     --图片：钻石商店标题背景条
@@ -355,6 +359,10 @@ function Shop:goldPurchasePanel(layer,path,fragNum,price)--图片路径，碎片
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
+            KnapsackData:setGoldCoin(-price)
+            TopPanel:setCoinString(KnapsackData:getGoldCoin())
+            --print(KnapsackData:getDiamonds())
+            purchaseLayer:setVisible(false)
         elseif eventType == ccui.TouchEventType.canceled then
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
