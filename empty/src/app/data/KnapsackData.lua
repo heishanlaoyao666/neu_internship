@@ -25,7 +25,7 @@ function KnapsackData:init()
         towerData[i].fragment_=50 --塔持有的碎片
         towerData[i].grade_=1  --塔当前等级
     end
-
+    
 end
 --[[--
     塔升级

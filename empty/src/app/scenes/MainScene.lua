@@ -4,7 +4,7 @@ local MainScene = class("MainScene", function()
 end)
 score = 200
 local TopPanel = require("app.scenes.TopPanel")
-local Shop = require("app.scenes.Shop")
+local Shop = require("app.scenes.HallView.shop.Shop")
 local Atlas = require("app.scenes.Atlas")
 local Battle = require("app.scenes.Battle")
 function MainScene:ctor()
@@ -27,7 +27,6 @@ function MainScene:ctor()
     layer:setContentSize(720, 1280)
     layer:addTo(self)
     TopPanel:createMiddleTopPanel(layer)--顶部信息栏
-    --TopPanel:init(layer)
 
 
 end

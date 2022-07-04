@@ -1,35 +1,6 @@
 local TopPanel = {}
 local Headdata = require("app/data/Headdata")
 local KnapsackData = require("app.data.KnapsackData")
---[[
-function TopPanel:init(layer)
-    local width,height = display.width,display.top
-    --奖杯数
-    local cupNum = KnapsackData:getCups()
-    trophylabel=cc.Label:createWithTTF(cupNum,"ui/font/fzbiaozjw.ttf",30)
-    trophylabel:setScale(1)
-    trophylabel:setColor(cc.c3b(255,128,0))
-    trophylabel:setAnchorPoint(0,1)
-    trophylabel:pos(0+200,height-70)
-    trophylabel:addTo(layer)
-
-    --金币数
-    --local coinNum = Currency.getGoldCoin()
-    local coinNum = KnapsackData:getGoldCoin()
-    coinlabel=cc.Label:createWithTTF(coinNum,"ui/font/fzbiaozjw.ttf",30)
-    coinlabel:setScale(1)
-    coinlabel:setAnchorPoint(0,1)
-    coinlabel:pos(0+480,height-25)
-    coinlabel:addTo(layer)
-
-    --钻石数
-    local diamondNum = KnapsackData:getDiamonds()
-    diamondlabel=cc.Label:createWithTTF(diamondNum,"ui/font/fzbiaozjw.ttf",30)
-    diamondlabel:setScale(1)
-    diamondlabel:setAnchorPoint(0,1)
-    diamondlabel:pos(0+480,height-75)
-    diamondlabel:addTo(layer)
-end--]]
 
 function TopPanel:setCoinString(str)
     coinlabel:setString(str)
@@ -288,13 +259,6 @@ function TopPanel:createsettinglayerPanel(layer)
     local setsIcon =ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - menu_bar/text-setting.png")
     setsIcon:setPosition(cc.p(155, 35))
     setsIcon:addTo(fourthBtn)
-
-
-
-
-
-
-
 
     -- 屏蔽点击
     SettingLayer:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
