@@ -4,13 +4,18 @@ local Atlas = class("Atlas")
 local Headdata = require("app/data/Headdata")
 local Towerdata = require("app/data/Towerdata")
 local TowerDef = require("app/def/TowerDef")
+local KnapsackData = require("app/data/KnapsackData")
 
 
 function Atlas:ctor()
 
 end
 
+function Atlas:setATKString(str)
+    type2label:setString(str)
+end
 
+KnapsackData:init()
 
 
 function Atlas:slide(layer)
@@ -360,7 +365,7 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
         --print(rarity)
         towertypestring = "控制向"
     end
-
+    --local atk = KnapsackData:getatk(chartnum)
     local atk = TowerDef.TABLE[chartnum].ATK  --攻击力
     local speed = TowerDef.TABLE[chartnum].FIRECD  --攻速
     local target = TowerDef.TABLE[chartnum].MODE  
@@ -516,7 +521,8 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
     type2attri:setScale(1)
     type2attri:setPosition(cc.p(450, 480))
     type2attri:addTo(popLayer)
-    local type2label=cc.Label:createWithTTF(atk,"ui/font/fzzdhjw.ttf",26)
+    
+    type2label=cc.Label:createWithTTF(KnapsackData:getatk(chartnum),"ui/font/fzzdhjw.ttf",26)
     type2label:setScale(1)
     type2label:setColor(cc.c3b(255, 255, 255))
     type2label:setAnchorPoint(0,1)
@@ -593,22 +599,42 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
     type6label:addTo(popLayer)
 
 
-    --按钮：升级按钮
+    --按钮：升级按钮------------------------------------------------------------------
     local upgradeButton = ccui.Button:create(
             "ui/hall/Atlas/Secondaryinterface_towerinfo/button_upgrade.png",
             "ui/hall/Atlas/Secondaryinterface_towerinfo/button_upgrade.png",
             "ui/hall/Atlas/Secondaryinterface_towerinfo/button_upgrade.png")
+    -- local updatelabel
     upgradeButton:setPosition(cc.p(320, 110))
     upgradeButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
         if eventType == ccui.TouchEventType.began then
+
+            updatelabel=cc.Label:createWithTTF("+"..TowerDef.TABLE[chartnum].ATK_UPGRADE,"ui/font/fzzdhjw.ttf",26)
+            updatelabel:setScale(1)
+            updatelabel:setColor(cc.c3b(255, 255, 255))
+            updatelabel:setAnchorPoint(0,1)
+            updatelabel:pos(0+495,460)
+            updatelabel:enableOutline(cc.c4b(20, 20, 66, 255),2)
+            updatelabel:addTo(popLayer)
+
+
             local scale = cc.ScaleTo:create(1,0.9)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
         elseif eventType == ccui.TouchEventType.ended then
+            
+            KnapsackData:setatk(chartnum)
+            
+            Atlas:setATKString(KnapsackData:getatk(chartnum))
+            updatelabel:setVisible(false)
+
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
         elseif eventType == ccui.TouchEventType.canceled then
+
+            updatelabel:setVisible(false)
+
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)

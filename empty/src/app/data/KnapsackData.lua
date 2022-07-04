@@ -9,6 +9,7 @@ local MsgController=require("app.msg.MsgController")
 
 local towerData = {} --类型: table ,key 塔id，value：unlock(塔解锁模式),fragment(塔碎片),level(塔等级)
 local towerArray = {} --类型:table, key 阵容顺序(12345),value:tower_id_(塔id),tower_level_(塔等级)
+local initlevel = {}
 --[[--
     初始化数据
 
@@ -27,7 +28,11 @@ function KnapsackData:init()
         towerData[i].unlock_=true
         towerData[i].fragment_=50 --塔持有的碎片
         towerData[i].level_= TowerDef.LEVEL.START_LEVEL[TowerDef.TABLE[i].RARITY]  --塔当前等级
+        -- print("bbbbb"..towerData[i].level_)
+        initlevel[i] = towerData[i].level_
+        -- print("ccccc"..initlevel[i])
     end
+
     for i = 1, 3 do
         towerArray[i]={}
         for j = 1, 5 do
@@ -220,4 +225,37 @@ function KnapsackData:setCups(number)
     self.cups=self.cups + number
     --向服务器推送数据
 end
+
+
+--[[--
+    更改奖杯数
+
+    @param number atk升级
+
+    @return none
+]]
+function KnapsackData:setatk(id)
+    -- print("aaaaa"..towerData[id].level_)
+    
+    if towerData[id].level_<=13 then
+        towerData[id].level_ = towerData[id].level_+1
+    else 
+        updatelabel:setVisible(false)
+    end
+
+end
+
+function KnapsackData:getatk(id)
+ 
+        return TowerDef.TABLE[id].ATK + (towerData[id].level_-initlevel[id])*TowerDef.TABLE[id].ATK_UPGRADE
+end
+
+-- function KnapsackData:setatk(id)
+--     TowerDef.TABLE[id].ATK = TowerDef.TABLE[id].ATK+TowerDef.TABLE[id].ATK_UPGRADE
+--     return true
+-- end
+
+-- function KnapsackData:getatk(id)
+--     return TowerDef.TABLE[id].ATK
+-- end
 return KnapsackData
