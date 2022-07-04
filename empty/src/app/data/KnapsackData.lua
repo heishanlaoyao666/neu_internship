@@ -19,6 +19,7 @@ local towerArray = {} --类型:table, key 阵容顺序(12345),value:tower_id_(�
 function KnapsackData:init()
     self.goldcoin_ = 10000
     self.diamonds_ = 10000
+    self.cups_ = 0
     --向服务器拿数据初始化
 
     for i = 1, 20 do
@@ -142,7 +143,13 @@ end
     @return none
 ]]
 function KnapsackData:setGoldCoin(number)
-    self.goldcoin_=self.goldcoin_+number
+    if self.goldcoin_+number <0 then
+        print("金币不足无法购买")
+        return false
+    else
+        self.goldcoin_=self.goldcoin_+number
+        return true
+    end
     --向服务器推送数据
 
 end
@@ -165,9 +172,38 @@ end
 
     @return none
 ]]
-function KnapsackData:setDimonds(number)
-    self.diamonds_=self.diamonds_+number
+function KnapsackData:setDiamonds(number)
+    if self.diamonds_ + number <0 then
+        print("钻石不足无法购买")
+        return false
+    else
+        self.diamonds_=self.diamonds_ + number
+        return true
+    end
     --向服务器推送数据
-    
+
+end
+--[[--
+    获取奖杯数
+
+    @param none
+
+    @return none
+]]
+function KnapsackData:getCups()
+    --向服务器拿数据
+
+    return self.cups_
+end
+--[[--
+    更改奖杯数
+
+    @param number 更改的奖杯数量
+
+    @return none
+]]
+function KnapsackData:setCups(number)
+    self.cups=self.cups + number
+    --向服务器推送数据
 end
 return KnapsackData
