@@ -13,8 +13,8 @@ EventDef.ID = {
     LEVEL_CHANGE = 6, --等级改变
     CREATE_BULLET = 7, -- 创建子弹
     DESTORY_BULLET = 8, -- 销毁子弹
-    CREATE_ENEMY = 9, -- 创建敌人
-    DESTORY_ENEMY = 10, -- 销毁敌人
+    CREATE_MONSTER = 9, -- 创建敌人
+    DESTORY_MONSTER = 10, -- 销毁敌人
     CREATE_SELF = 11, -- 创建我方塔
     DESTORY_SELF = 12, -- 销毁我方塔
     BULLET_BOMB = 13, -- 子弹命中
@@ -24,9 +24,8 @@ EventDef.ID = {
     SETTING=17, --设置菜单
     COMFIRMEDEXIT=18, --确认退出菜单
     MATCH=19, --匹配
-    CURRENTLINEUP=20, --当前阵容
-    USING=21, --使用塔
-    BATTLE=22, --战斗界面
+    CREATE_ELITE_MONSTER = 20, -- 创建精英怪
+    DESTORY_ELITE_MONSTER = 20, -- 销毁精英怪
 }
 
 return EventDef

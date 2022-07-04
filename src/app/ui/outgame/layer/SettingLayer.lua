@@ -2,8 +2,10 @@
     设置层
     SettingLayer.lua
 ]]
-local SettingLayer = class("SettingLayer", require("app.ui.outgame.layer.BaseLayer"))
-local EventDef = require("app.def.EventDef")
+local SettingLayer = class("SettingLayer", function()
+    return display.newLayer()
+end)
+local EventDef = require("app.def.outgame.EventDef")
 local EventManager = require("app.manager.EventManager")
 --[[--
     构造函数

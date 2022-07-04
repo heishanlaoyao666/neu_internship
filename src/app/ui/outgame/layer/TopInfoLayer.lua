@@ -1,5 +1,5 @@
 --[[--
-    顶部信息层
+    信息层
     TopInfoLayer.lua
 ]]
 local TopInfoLayer = class("TopInfoLayer", require("app.ui.outgame.layer.BaseLayer"))
@@ -16,7 +16,7 @@ local OutGameData = require("app.data.outgame.OutGameData")
 function TopInfoLayer:ctor()
     TopInfoLayer.super.ctor(self)
     cc.UserDefault:getInstance():setStringForKey("昵称","久妹")
-    cc.UserDefault:getInstance():setIntegerForKey("奖杯数",2200)
+    cc.UserDefault:getInstance():setIntegerForKey("奖杯数",2250)
     cc.UserDefault:getInstance():setIntegerForKey("金币数",10000)
     cc.UserDefault:getInstance():setIntegerForKey("钻石数",10000)
 

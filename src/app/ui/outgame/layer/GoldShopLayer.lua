@@ -1,10 +1,12 @@
 --[[--
     商店层
-    GoldShopLayer.lua
+    TopInfoLayer
 ]]
-local GoldShopLayer = class("GoldShopLayer", require("app.ui.outgame.layer.BaseLayer"))
+local GoldShopLayer = class("GoldShopLayer", function()
+    return display.newLayer()
+end)
 local OutGameData = require("app.data.outgame.OutGameData")
-local EventDef = require("app.def.EventDef")
+local EventDef = require("app.def.outgame.EventDef")
 local EventManager = require("app.manager.EventManager")
 local BuyLayer = require("app.ui.outgame.layer.BuyLayer")
 --[[--

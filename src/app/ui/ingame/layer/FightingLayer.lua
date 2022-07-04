@@ -6,7 +6,8 @@ local FightingLayer = class("FightingLayer", require("app.ui.ingame.layer.BaseLa
 
 local GameData = require("app.data.ingame.GameData")
 local TowerSprite = require("app.ui.ingame.node.TowerSprite")
-local EnemySprite = require("app.ui.ingame.node.EnemySprite")
+local MonsterSprite = require("app.ui.ingame.node.MonsterSprite")
+local BulletSprite = require("app.ui.ingame.node.BulletSprite")
 local EventDef = require("app.def.EventDef")
 local EventManager = require("app.manager.EventManager")
 
@@ -19,9 +20,10 @@ function FightingLayer:ctor()
 
     self.spNum_ = nil -- 生成所需sp
 
-    self.bulletMap_ = {}
+    self.bulletMap_ = {} -- 子弹
     self.towerMap_ = {} -- 塔
-    self.enemyMap_ = {} -- 小怪
+    self.monsterMap_ = {} -- 小怪
+    self.eliteMonsterMap_ = {} -- 精英怪
     self.bossMap_ = {}
     self.lineup_ = {} -- 我的阵容
     self.enhanceNeedSp_ = {}
@@ -41,6 +43,7 @@ function FightingLayer:init()
 end
 
 function FightingLayer:initView()
+
     --角标映射
     local angelMark = {
         "artcontent/battle(ongame)/battle_interface/angelmark_towertype/towertype_tapping.png",
@@ -96,7 +99,6 @@ function FightingLayer:initView()
     buildBtn:addTouchEventListener(function(sender, eventType)
         if eventType == 2 then
             GameData:creatTower()
-            GameData:creatEnemy()
         end
     end)
     buildBtn:setPosition(display.cx, 240)
@@ -190,17 +192,17 @@ function FightingLayer:onEnter()
         --塔
         local spriteRes = "artcontent/battle(ongame)/battle_interface/tower/tower_%d.png"
         local sprite = string.format(spriteRes, tower:getTower():getTowerId())
-        local towerNode = TowerSprite.new(sprite, tower)
-        towerNode:setScale(1, 0.9)
-        towerNode:setPosition(tower:getX(), tower:getY())
-        self:addChild(towerNode)
-        self.towerMap_[tower] = towerNode
+        local node = TowerSprite.new(sprite, tower)
+        node:setScale(1, 0.9)
+        node:setPosition(tower:getX(), tower:getY())
+        self:addChild(node)
+        self.towerMap_[tower] = node
         --角标
         spriteRes = "artcontent/battle(ongame)/battle_interface/anglemark_grade/%d.png"
         sprite = string.format(spriteRes, tower:getStar())
         local angleMark = cc.Sprite:create(sprite)
         angleMark:setPosition(82, 87)
-        towerNode:addChild(angleMark)
+        node:addChild(angleMark)
     end)
 
     --销毁塔
@@ -211,19 +213,51 @@ function FightingLayer:onEnter()
     end)
 
     --创建小怪
-    EventManager:regListener(EventDef.ID.CREATE_MONSTER, self, function(enemy)
+    EventManager:regListener(EventDef.ID.CREATE_MONSTER, self, function(monster)
         local sprite = "artcontent/battle(ongame)/battle_interface/littlemmonster.png"
-        local enemyNode = EnemySprite.new(sprite, enemy)
-        enemyNode:setPosition(enemy:getX(), enemy:getY())
-        self:addChild(enemyNode)
-        self.enemyMap_[enemy] = enemyNode
+        local node = MonsterSprite.new(sprite, monster)
+        node:setPosition(monster:getX(), monster:getY())
+        self:addChild(node)
+        self.monsterMap_[monster] = node
     end)
 
     --销毁小怪
-    EventManager:regListener(EventDef.ID.DESTORY_MONSTER, self, function(enemy)
-        local node = self.enemyMap_[enemy]
+    EventManager:regListener(EventDef.ID.DESTORY_MONSTER, self, function(monster)
+        local node = self.monsterMap_[monster]
         node:removeFromParent()
-        self.enemyMap_[enemy] = nil
+        self.monsterMap_[monster] = nil
+    end)
+
+    --创建精英怪
+    EventManager:regListener(EventDef.ID.CREATE_ELITE_MONSTER, self, function(eliteMonster)
+        local sprite = "artcontent/battle(ongame)/battle_interface/elitemonster.png"
+        local node = MonsterSprite.new(sprite, eliteMonster)
+        node:setPosition(eliteMonster:getX(), eliteMonster:getY())
+        self:addChild(node)
+        self.eliteMonsterMap_[eliteMonster] = node
+    end)
+
+    --销毁精英怪
+    EventManager:regListener(EventDef.ID.DESTORY_ELITE_MONSTER, self, function(elliteMonster)
+        local node = self.eliteMonsterMap_[elliteMonster]
+        node:removeFromParent()
+        self.eliteMonsterMap_[elliteMonster] = nil
+    end)
+
+    --创建子弹
+    EventManager:regListener(EventDef.ID.CREATE_BULLET, self, function(bullet)
+        local spriteRes = "artcontent/battle(ongame)/battle_interface/bullet/%d.png"
+        local sprite = string.format(spriteRes, bullet:getId())
+        local node = BulletSprite.new(sprite, bullet)
+        self:addChild(node)
+        self.bulletMap_[bullet] = node
+    end)
+
+    --销毁子弹
+    EventManager:regListener(EventDef.ID.DESTORY_BULLET, self, function(bullet)
+        local node = self.bulletMap_[bullet]
+        node:removeFromParent()
+        self.bulletMap_[bullet] = nil
     end)
 end
 
@@ -239,6 +273,10 @@ function FightingLayer:onExit()
     EventManager:unRegListener(EventDef.ID.DESTORY_SELF, self)
     EventManager:unRegListener(EventDef.ID.CREATE_MONSTER, self)
     EventManager:unRegListener(EventDef.ID.DESTORY_MONSTER, self)
+    EventManager:unRegListener(EventDef.ID.CREATE_ELITE_MONSTER, self)
+    EventManager:unRegListener(EventDef.ID.DESTORY_ELITE_MONSTER, self)
+    EventManager:unRegListener(EventDef.ID.CREATE_BULLET, self)
+    EventManager:unRegListener(EventDef.ID.DESTORY_BULLET, self)
 end
 
 --[[--
@@ -256,8 +294,18 @@ function FightingLayer:update(dt)
         node:update(dt)
     end
 
-    --刷新敌人
-    for _, node in pairs(self.enemyMap_) do
+    --刷新小怪
+    for _, node in pairs(self.monsterMap_) do
+        node:update(dt)
+    end
+
+    --刷新精英怪
+    for _, node in pairs(self.eliteMonsterMap_) do
+        node:update(dt)
+    end
+
+    --刷新子弹
+    for _, node in pairs(self.bulletMap_) do
         node:update(dt)
     end
 end

@@ -1,9 +1,11 @@
 --[[--
     砖石商店层
-    DiamondShopLayer.lua
+    DiamondShopLayer
 ]]
-local DiamondShopLayer = class("DiamondShopLayer", require("app.ui.outgame.layer.BaseLayer"))
-local EventDef = require("app.def.EventDef")
+local DiamondShopLayer = class("DiamondShopLayer", function()
+    return display.newLayer()
+end)
+local EventDef = require("app.def.outgame.EventDef")
 local EventManager = require("app.manager.EventManager")
 local ObtainItemLayer = require("app.ui.outgame.layer.ObtainItemLayer")
 --[[--

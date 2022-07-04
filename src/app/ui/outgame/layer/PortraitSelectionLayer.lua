@@ -1,9 +1,12 @@
 --[[--
-    头像选择层
-    PortraitSelectionLayer.lua
+    信息层
+    TopInfoLayer.lua
 ]]
-local PortraitSelectionLayer = class("PortraitSelectionLayer", require("app.ui.outgame.layer.BaseLayer"))
-local EventDef = require("app.def.EventDef")
+--local PortraitSelectionLayer = class("PortraitSelectionLayer", require("src/app/ui/outgame/layer/BaseLayer.lua"))
+local PortraitSelectionLayer = class("PortraitSelectionLayer", function()
+    return display.newScene("ShopLaPortraitSelectionLayeryer")
+end)
+local EventDef = require("app.def.outgame.EventDef")
 local EventManager = require("app.manager.EventManager")
 
 --[[--

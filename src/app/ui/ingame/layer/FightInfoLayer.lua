@@ -5,8 +5,8 @@
 local FightingInfoLayer = class("FightingInfoLayer", require("app.ui.ingame.layer.BaseLayer"))
 local GameData = require("app.data.ingame.GameData")
 
-local myPoint_ = {} -- 存储我方生命
-local enemyPoint_ = {} -- 存储敌方生命
+local myPoint_ = {} -- 存储我方生命图标
+local enemyPoint_ = {} -- 存储敌方生命图标
 
 --[[--
     构造函数
