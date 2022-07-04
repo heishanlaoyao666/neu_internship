@@ -128,6 +128,7 @@ function Shop:ShopPanel()
     refreshLabel:enableOutline(cc.c4b(0, 0, 0, 255),1)--字体描边
     refreshLabel:addTo(refreshBg)
 
+
     --按钮：免费商品
     local freeItemButton = ccui.Button:create(
             "ui/hall/shop/Goldcoin-shop/bg-free_items.png",
@@ -148,7 +149,8 @@ function Shop:ShopPanel()
             KnapsackData:setDiamonds(100)
             TopPanel:setDiamondsString(KnapsackData:getDiamonds())
             --print(KnapsackData:getDiamonds())
-
+            --售罄遮罩
+            self:ItemShade(ShopLayer,freeItemButton:getPositionX(),freeItemButton:getPositionY())
         elseif eventType == ccui.TouchEventType.canceled then
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
@@ -211,6 +213,20 @@ function Shop:ShopPanel()
 end
 
 --[[
+    函数用途：商品售罄遮罩
+    --]]
+function Shop:ItemShade(layer,x,y)
+    local shade = ccui.Layout:create()
+    shade:setBackGroundColor(cc.c4b(0,0,0,128))
+    shade:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
+    shade:setBackGroundColorOpacity(128)--设置透明度
+    shade:setAnchorPoint(0.5,0.5)
+    shade:setPosition(cc.p(x, y))
+    shade:setContentSize(156, 194)
+    shade:setTouchEnabled(true)
+    shade:addTo(layer)
+end
+--[[
     函数用途：金币商店商品的展示:serveTo ShopPanel
     --]]
 function Shop:createGoldItem(layer,path,fragNum,price,offsetX,offsetY)--层级、图片路径、碎片数量、价格、偏移量
@@ -225,7 +241,7 @@ function Shop:createGoldItem(layer,path,fragNum,price,offsetX,offsetY)--层级�
             sender:runAction(ease_elastic)
 
         elseif eventType == ccui.TouchEventType.ended then
-            self:goldPurchasePanel(layer,path,fragNum,price)
+            self:goldPurchasePanel(layer,path,fragNum,price,ItemButton)
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
@@ -276,7 +292,7 @@ function Shop:createDiamondItem(layer,bgPath,treasurePath,treasureType,price,off
             sender:runAction(ease_elastic)
 
         elseif eventType == ccui.TouchEventType.ended then
-            self:diamondPurchasePanel(layer,treasurePath,treasureType,nCardNum,rCardNum,eCardNum,lCardNum,coinNum)
+            self:diamondPurchasePanel(layer,treasurePath,treasureType,nCardNum,rCardNum,eCardNum,lCardNum,coinNum,price)
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
@@ -309,7 +325,7 @@ end
 --[[
     函数用途：二级弹窗-金币商店购买确认弹窗
     --]]
-function Shop:goldPurchasePanel(layer,path,fragNum,price)--图片路径，碎片数量，金额
+function Shop:goldPurchasePanel(layer,path,fragNum,price,ItemButton)--图片路径，碎片数量，金额
     local width ,height = display.width,display.height
     --层：灰色背景
     local purchaseLayer = ccui.Layout:create()
@@ -359,9 +375,11 @@ function Shop:goldPurchasePanel(layer,path,fragNum,price)--图片路径，碎片
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
-            KnapsackData:setGoldCoin(-price)
-            TopPanel:setCoinString(KnapsackData:getGoldCoin())
-            --print(KnapsackData:getDiamonds())
+            if KnapsackData:setGoldCoin(-price) then
+                TopPanel:setCoinString(KnapsackData:getGoldCoin())
+                --售罄遮罩
+                self:ItemShade(layer,ItemButton:getPositionX(),ItemButton:getPositionY())
+            end
             purchaseLayer:setVisible(false)
         elseif eventType == ccui.TouchEventType.canceled then
             local scale = cc.ScaleTo:create(1,1)
@@ -410,7 +428,7 @@ end
 --[[
     函数用途：二级弹窗-宝箱开启确认弹窗
     --]]
-function Shop:diamondPurchasePanel(layer,treasurePath,treasureType,nCardNum,rCardNum,eCardNum,lCardNum,coinNum)--层，宝箱图路径，宝箱类型,金币数量
+function Shop:diamondPurchasePanel(layer,treasurePath,treasureType,nCardNum,rCardNum,eCardNum,lCardNum,coinNum,price)--层，宝箱图路径，宝箱类型,金币数量
     local width ,height = display.width,display.height
     --层：灰色背景
     local purchaseLayer = ccui.Layout:create()
@@ -473,7 +491,15 @@ function Shop:diamondPurchasePanel(layer,treasurePath,treasureType,nCardNum,rCar
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
-            self:obtainFromTreasure(layer,nCardNum,rCardNum,eCardNum,lCardNum,coinNum)
+            --获得金币，扣除钻石
+            if KnapsackData:setDiamonds(-price) then
+                TopPanel:setDiamondsString(KnapsackData:getDiamonds())
+                --print(KnapsackData:getDiamonds())
+                KnapsackData:setGoldCoin(coinNum)
+                TopPanel:setCoinString(KnapsackData:getGoldCoin())
+                --print(KnapsackData:getGoldCoin())
+                self:obtainFromTreasure(layer,nCardNum,rCardNum,eCardNum,lCardNum,coinNum,price)
+            end
             purchaseLayer:setVisible(false)--隐藏二级弹窗
         elseif eventType == ccui.TouchEventType.canceled then
             local scale = cc.ScaleTo:create(1,1)
@@ -514,7 +540,7 @@ end
 --[[
     函数用途：二级界面-宝箱开启获得物品弹窗serveTo diamondPurchasePanel
     --]]
-function Shop:obtainFromTreasure(layer,nCardNum,rCardNum,eCardNum,lCardNum,coinNum)
+function Shop:obtainFromTreasure(layer,nCardNum,rCardNum,eCardNum,lCardNum,coinNum,price)
     local width ,height = display.width,display.height
     --层：灰色背景
     local grayLayer = ccui.Layout:create()

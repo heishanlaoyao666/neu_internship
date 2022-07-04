@@ -25,7 +25,7 @@ function KnapsackData:init()
         towerData[i].fragment_=50 --塔持有的碎片
         towerData[i].grade_=1  --塔当前等级
     end
-    
+
 end
 --[[--
     塔升级
@@ -108,7 +108,13 @@ end
     @return none
 ]]
 function KnapsackData:setGoldCoin(number)
-    self.goldcoin_=self.goldcoin_+number
+    if self.goldcoin_+number <0 then
+        print("金币不足无法购买")
+        return false
+    else
+        self.goldcoin_=self.goldcoin_+number
+        return true
+    end
     --向服务器推送数据
 
 end
@@ -132,7 +138,13 @@ end
     @return none
 ]]
 function KnapsackData:setDiamonds(number)
-    self.diamonds_=self.diamonds_ + number
+    if self.diamonds_ + number <0 then
+        print("钻石不足无法购买")
+        return false
+    else
+        self.diamonds_=self.diamonds_ + number
+        return true
+    end
     --向服务器推送数据
 
 end
