@@ -2,7 +2,7 @@ Quick-Cocos2dx-Community C++ support ready.
 
 ------------------------------------------------
 
-LOAD LUA FILE: F:/GitHub/neu_internship/neu_internship/empty/src/main.lua
+LOAD LUA FILE: D:/cocos2D/player/neu_internship/empty/src/main.lua
 
 ------------------------------------------------
 
@@ -24,7 +24,7 @@ LOAD LUA FILE: F:/GitHub/neu_internship/neu_internship/empty/src/main.lua
 
 [LUA-print] [INFO] # device.language              = cn
 
-[LUA-print] [INFO] # device.writablePath          = F:\GitHub\neu_internship\neu_internship\empty\
+[LUA-print] [INFO] # device.writablePath          = D:\cocos2D\player\neu_internship\empty\
 
 [LUA-print] [INFO] # device.directorySeparator    = \
 
@@ -73,32 +73,32 @@ LOAD LUA FILE: F:/GitHub/neu_internship/neu_internship/empty/src/main.lua
 [LUA-print] 共可领取的奖励个数为:4
 
 WARNING: File case-sensitive.
-F:/GitHub/neu_internship/neu_internship/empty/res/ui/hall/Atlas/Subinterface_currentsquad/rank/lv.9.png
-F:/GitHub/neu_internship/neu_internship/empty/res/ui/hall/Atlas/Subinterface_currentsquad/rank/Lv.9.png
+D:/cocos2D/player/neu_internship/empty/res/ui/hall/Atlas/Subinterface_currentsquad/rank/lv.9.png
+D:/cocos2D/player/neu_internship/empty/res/ui/hall/Atlas/Subinterface_currentsquad/rank/Lv.9.png
 
 
 
 WARNING: File case-sensitive.
-F:/GitHub/neu_internship/neu_internship/empty/res/ui/hall/Atlas/Subinterface_currentsquad/rank/lv.13.png
-F:/GitHub/neu_internship/neu_internship/empty/res/ui/hall/Atlas/Subinterface_currentsquad/rank/Lv.13.png
+D:/cocos2D/player/neu_internship/empty/res/ui/hall/Atlas/Subinterface_currentsquad/rank/lv.13.png
+D:/cocos2D/player/neu_internship/empty/res/ui/hall/Atlas/Subinterface_currentsquad/rank/Lv.13.png
 
 
 
 WARNING: File case-sensitive.
-F:/GitHub/neu_internship/neu_internship/empty/res/ui/hall/Atlas/Subinterface_currentsquad/rank/lv.12.png
-F:/GitHub/neu_internship/neu_internship/empty/res/ui/hall/Atlas/Subinterface_currentsquad/rank/Lv.12.png
+D:/cocos2D/player/neu_internship/empty/res/ui/hall/Atlas/Subinterface_currentsquad/rank/lv.12.png
+D:/cocos2D/player/neu_internship/empty/res/ui/hall/Atlas/Subinterface_currentsquad/rank/Lv.12.png
 
 
 
 WARNING: File case-sensitive.
-F:/GitHub/neu_internship/neu_internship/empty/res/ui/hall/Atlas/Subinterface_currentsquad/rank/lv.11.png
-F:/GitHub/neu_internship/neu_internship/empty/res/ui/hall/Atlas/Subinterface_currentsquad/rank/Lv.11.png
+D:/cocos2D/player/neu_internship/empty/res/ui/hall/Atlas/Subinterface_currentsquad/rank/lv.11.png
+D:/cocos2D/player/neu_internship/empty/res/ui/hall/Atlas/Subinterface_currentsquad/rank/Lv.11.png
 
 
 
 WARNING: File case-sensitive.
-F:/GitHub/neu_internship/neu_internship/empty/res/ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png
-F:/GitHub/neu_internship/neu_internship/empty/res/ui/hall/Atlas/Subinterface_currentsquad/rank/Lv.8.png
+D:/cocos2D/player/neu_internship/empty/res/ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png
+D:/cocos2D/player/neu_internship/empty/res/ui/hall/Atlas/Subinterface_currentsquad/rank/Lv.8.png
 
 
 
@@ -110,7 +110,9 @@ F:/GitHub/neu_internship/neu_internship/empty/res/ui/hall/Atlas/Subinterface_cur
 
 [LUA-print] 当前页码是1
 
-[LUA-print] 当前页码是1
+[LUA-print] up
+
+[LUA-print] 当前页码是2
 
 [LUA-print] 当前页码是1
 
@@ -118,35 +120,11 @@ F:/GitHub/neu_internship/neu_internship/empty/res/ui/hall/Atlas/Subinterface_cur
 
 [LUA-print] 当前页码是1
 
-[LUA-print] 当前页码是1
+[LUA-print] down
 
 [LUA-print] 当前页码是1
 
-[LUA-print] 当前页码是1
-
-[LUA-print] 当前页码是1
-
-[LUA-print] 当前页码是1
-
-[LUA-print] 当前页码是1
-
-[LUA-print] 当前页码是1
-
-[LUA-print] 当前页码是1
-
-[LUA-print] 当前页码是1
-
-[LUA-print] 当前页码是1
-
-[LUA-print] 当前页码是1
-
-[LUA-print] 当前页码是1
-
-[LUA-print] 当前页码是1
-
-[LUA-print] 当前页码是1
-
-[LUA-print] 当前页码是1
+[LUA-print] up
 
 [LUA-print] up
 
@@ -154,41 +132,129 @@ F:/GitHub/neu_internship/neu_internship/empty/res/ui/hall/Atlas/Subinterface_cur
 
 [LUA-print] 当前页码是1
 
-[LUA-print] 当前页码是1
+[LUA-print] down
 
 [LUA-print] 当前页码是1
 
 [LUA-print] 当前页码是1
 
-[LUA-print] 当前页码是1
+[LUA-print] down
 
 [LUA-print] 当前页码是1
 
-[LUA-print] 当前页码是1
+[LUA-print] 当前页码是2
+
+[LUA-print] 当前页码是3
+
+[LUA-print] 当前页码是3
+
+[LUA-print] 当前页码是3
+
+[LUA-print] 当前页码是3
+
+[LUA-print] 当前页码是3
+
+[LUA-print] 当前页码是3
+
+WARNING: File case-sensitive.
+D:/cocos2D/player/neu_internship/empty/res/ui/hall/Atlas/Subinterface_currentsquad/rank/lv.9.png
+D:/cocos2D/player/neu_internship/empty/res/ui/hall/Atlas/Subinterface_currentsquad/rank/Lv.9.png
+
+
+
+Get data from file(1) failed, error code is 2
+
+[LUA-print] 当前页码是3
+
+[LUA-print] 当前页码是3
+
+[LUA-print] 当前页码是3
+
+[LUA-print] 当前页码是3
+
+[LUA-print] 当前页码是3
+
+[LUA-print] 当前页码是3
+
+[LUA-print] 当前页码是3
+
+[LUA-print] 当前页码是3
+
+[LUA-print] 当前页码是2
 
 [LUA-print] 当前页码是1
 
-[LUA-print] 当前页码是1
+[LUA-print] 当前页码是2
+
+[LUA-print] 当前页码是3
+
+[LUA-print] 当前页码是3
+
+[LUA-print] 当前页码是3
+
+[LUA-print] 当前页码是3
+
+[LUA-print] 当前页码是3
+
+[LUA-print] buy
+
+[LUA-print] buy
+
+Get data from file(1) failed, error code is 2
+
+[LUA-print] 当前页码是3
+
+[LUA-print] 当前页码是3
+
+[LUA-print] 当前页码是3
+
+[LUA-print] 当前页码是3
+
+[LUA-print] 当前页码是2
+
+[LUA-print] 当前页码是3
 
 [LUA-print] 当前页码是1
 
-[LUA-print] 当前页码是1
+[LUA-print] 当前页码是3
 
-[LUA-print] 当前页码是1
+[LUA-print] 当前页码是3
 
-[LUA-print] 当前页码是1
+[LUA-print] 当前页码是3
 
-[LUA-print] 当前页码是1
+[LUA-print] 当前页码是3
 
-[LUA-print] 当前页码是1
+[LUA-print] 当前页码是3
 
-[LUA-print] 钻石不足无法购买
+[LUA-print] 当前页码是3
 
-[LUA-print] 当前页码是1
+[LUA-print] 当前页码是3
 
-[LUA-print] 当前页码是1
+[LUA-print] 当前页码是3
 
-[LUA-print] 钻石不足无法购买
+[LUA-print] 当前页码是3
 
-[LUA-print] 当前页码是1
+[LUA-print] 当前页码是3
+
+Get data from file(1) failed, error code is 2
+
+[LUA-print] 当前页码是3
+
+[LUA-print] 当前页码是3
+
+[LUA-print] 当前页码是3
+
+[LUA-print] 当前页码是3
+
+[LUA-print] 当前页码是3
+
+[LUA-print] 当前页码是3
+
+Get data from file(1) failed, error code is 2
+
+[LUA-print] 当前页码是3
+
+[LUA-print] 当前页码是3
+
+[LUA-print] 当前页码是3
 

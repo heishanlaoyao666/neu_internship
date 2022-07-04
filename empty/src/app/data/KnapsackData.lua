@@ -5,7 +5,7 @@
 local KnapsackData = {}
 local TowerDef = require("app/def/TowerDef.lua")
 
-local MsgController=require("app.manager.MsgController")
+local MsgController=require("app.msg.MsgController")
 
 local towerData = {} --类型: table ,key 塔id，value：unlock(塔解锁模式),fragment(塔碎片),level(塔等级)
 local towerArray = {} --类型:table, key 阵容顺序(12345),value:tower_id_(塔id),tower_level_(塔等级)
