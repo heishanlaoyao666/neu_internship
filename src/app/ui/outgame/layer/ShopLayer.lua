@@ -1,10 +1,8 @@
 --[[--
     商店层
-    TopInfoLayer
+    ShopLayer.lua
 ]]
-local ShopLayer = class("ShopLayer", function()
-    return display.newLayer()
-end)
+local ShopLayer = class("ShopLayer", require("app.ui.outgame.layer.BaseLayer"))
 local OutGameData = require("app.data.outgame.OutGameData")
 local GoldShopLayer = require("app.ui.outgame.layer.GoldShopLayer")
 local DiamondShopLayer = require("app.ui.outgame.layer.DiamondShopLayer")

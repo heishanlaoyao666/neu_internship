@@ -4,8 +4,6 @@
 ]]
 local LoadInfoLayer = class("LoadInfoLayer", require("app.ui.outgame.layer.BaseLayer"))
 
-
-
 local pro = 0
 
 --[[--

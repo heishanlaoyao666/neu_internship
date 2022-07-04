@@ -92,7 +92,7 @@ function OutGameData:initTower()
     local tower_18 = Tower.new(18, 1, 3, "tower_18","使被攻击目标得到”脆弱“状态。脆弱：受到伤害提高。",
     "随机敌人", 30, 5, 10, 1, nil, "增伤效果", 17,0.1, 0.01, 0.05, nil,nil, nil)
     local tower_19 = Tower.new(19, 4, 4,"tower_19", "每隔一段时间使本方半场所有敌人减速。",
-    "前方", 60, 5, 20, 2, nil, "技能减速效果", 13,nil, 0.005, 0.01, "技能发动时间", 12,10)
+    "前方", 60, 5, 20, 2, nil, "技能减速效果", 13,0.05, 0.005, 0.01, "技能发动时间", 12,10)
     local tower_20 = Tower.new(20, 1, 4, "tower_20","使被攻击目标进入“混乱”状态。混乱：无法移动。",
     "随机敌人", 20, 5, 20, 1, 0.02, "技能持续时间",10, 2, 0.5, 0.5, "技能发动时间", 12,10)
 
@@ -104,6 +104,36 @@ function OutGameData:initTower()
     unPacksEpic_ = {tower_2, tower_8, tower_11, tower_12, tower_16, tower_17, }
     towersLegend_ = {tower_5, tower_6, tower_13, tower_19, }
     unPacksLegend_ = {tower_5, tower_6, tower_13, tower_19, }
+end
+
+--[[--
+    获得塔
+
+    @param none
+
+    @return none
+]]
+function OutGameData:getTower(id)
+    for k, v in pairs(towersOrdinary_) do
+        if v:getTowerId()==id then
+           return v
+        end
+    end
+    for k, v in pairs(towersRarity_) do
+        if v:getTowerId()==id then
+           return v
+        end
+    end
+    for k, v in pairs(towersEpic_) do
+        if v:getTowerId()==id then
+           return v
+        end
+    end
+    for k, v in pairs(towersLegend_) do
+        if v:getTowerId()==id then
+           return v
+        end
+    end
 end
 
 --[[--

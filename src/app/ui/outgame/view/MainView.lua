@@ -7,8 +7,7 @@ local MainView = class("MainView", function()
 end)
 local TopInfoLayer = require("app.ui.outgame.layer.TopInfoLayer")
 local BottomInfoLayer = require("app.ui.outgame.layer.BottomInfoLayer")
-local OutGameData = require("app.data.outgame.OutGameData")
-local EventDef = require("app.def.outgame.EventDef")
+local EventDef = require("app.def.EventDef")
 local EventManager = require("app.manager.EventManager")
 local KnapsackLayer = require("app.ui.outgame.layer.KnapsackLayer")
 local IntensifiesLayer = require("app.ui.outgame.layer.IntensifiesLayer")
@@ -20,6 +19,7 @@ local ConfirmationLayer = require("app.ui.outgame.layer.ConfirmationLayer")
 local SettingLayer = require("app.ui.outgame.layer.SettingLayer")
 local ComfirmedExitLayer = require("app.ui.outgame.layer.ComfirmedExitLayer")
 local MatchLayer = require("app.ui.outgame.layer.MatchLayer")
+local UsingLayer = require("app.ui.outgame.layer.UsingLayer")
 --[[--
     构造函数
 
@@ -40,8 +40,7 @@ function MainView:ctor()
     self.SettingLayer_=nil -- 类型：SettingLayer，设置层
     self.ComfirmedExitLayer_=nil -- 类型：ComfirmedExitLayer，确认退出层
     self.MatchLayer_=nil -- 类型：MatchLayer，匹配层
-    OutGameData:initTower()
-    --self.packs=OutGameData:goldShop()
+    self.UsingLayer_=nil -- 类型：UsingLayer，使用塔层
 
     self:initView()
 
@@ -198,6 +197,16 @@ function MainView:onEnter()
     EventManager:regListener(EventDef.ID.MATCH, self, function()
         self.MatchLayer_=MatchLayer:new():addTo(self)
     end)
+    EventManager:regListener(EventDef.ID.USING, self, function(pack)
+        self.KnapsackLayer_:removeFromParent(true)
+        UsingLayer:setTower(pack)
+        self.UsingLayer_=UsingLayer:new():addTo(self.container_2)
+    end)
+    EventManager:regListener(EventDef.ID.BATTLE, self, function(pack)
+        self.BattleLayer_:removeFromParent(true)
+        self.BattleLayer_=BattleLayer.new()
+        self.container_:addChild(self.BattleLayer_)
+    end)
     -- EventManager:regListener(EventDef.ID.LEVEL_CHANGE, self, function(pack)
     --     -- self.KnapsackLayer_=KnapsackLayer.new()
     --     -- self.container_2:addChild(self.KnapsackLayer_)
@@ -222,6 +231,8 @@ function MainView:onExit()
     EventManager:unRegListener(EventDef.ID.SETTING, self)
     EventManager:unRegListener(EventDef.ID.COMFIRMEDEXIT, self)
     EventManager:unRegListener(EventDef.ID.MATCH, self)
+    EventManager:unRegListener(EventDef.ID.USING, self)
+    EventManager:unRegListener(EventDef.ID.BATTLE, self)
     --EventManager:unRegListener(EventDef.ID.LEVEL_CHANGE, self)
 end
 

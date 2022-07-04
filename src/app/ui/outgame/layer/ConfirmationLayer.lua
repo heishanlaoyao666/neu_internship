@@ -1,12 +1,10 @@
 --[[--
     宝箱获得物品层
-    BottomInfoLayer.lua
+    ConfirmationLayer.lua
 ]]
-local ConfirmationLayer = class("ConfirmationLayer", function()
-    return display.newLayer()
-end)
+local ConfirmationLayer = class("ConfirmationLayer", require("app.ui.outgame.layer.BaseLayer"))
 local OutGameData = require("app.data.outgame.OutGameData")
-local EventDef = require("app.def.outgame.EventDef")
+local EventDef = require("app.def.EventDef")
 local EventManager = require("app.manager.EventManager")
 --[[--
     构造函数
@@ -44,8 +42,7 @@ function ConfirmationLayer:initView()
         end
     )
 
-    local sprite1 = display.
-    newSprite("artcontent/lobby(ongame)/currency/chestopen_confirmationpopup/basemap_popup.png")
+    local sprite1 = display.newSprite("artcontent/lobby(ongame)/currency/chestopen_confirmationpopup/basemap_popup.png")
     sprite1:setAnchorPoint(0.5, 0.5)
 
     self.container_ = ccui.Layout:create()
@@ -59,8 +56,7 @@ function ConfirmationLayer:initView()
     sprite1:setPosition(sprite1:getContentSize().width/2, sprite1:getContentSize().height/2)
 
     --确认按钮
-    local sprite2= ccui.Button:
-    create("artcontent/lobby(ongame)/currency/chestopen_confirmationpopup/button_confirm.png")
+    local sprite2= ccui.Button:create("artcontent/lobby(ongame)/currency/chestopen_confirmationpopup/button_confirm.png")
     self.container_:addChild(sprite2)
     sprite2:setAnchorPoint(0.5, 0.5)
     sprite2:setPosition(sprite1:getContentSize().width/2, -150)
@@ -263,8 +259,8 @@ function ConfirmationLayer:initView()
             sprite10:setPositionX(sprite1:getContentSize().width/2+60)
         end
     end
-    pack={}
-    packnum={}
+    local pack={}
+    local packnum={}
     for i=1,#packs do
         pack[i]=packs[i]
         packnum[i]=packsnum[i]

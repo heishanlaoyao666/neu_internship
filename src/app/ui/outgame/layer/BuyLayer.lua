@@ -1,12 +1,10 @@
 --[[--
-    信息层
-    BottomInfoLayer.lua
+    购买层
+    BuyLayer.lua
 ]]
-local BuyLayer = class("BuyLayer", function()
-    return display.newLayer()
-end)
+local BuyLayer = class("BuyLayer", require("app.ui.outgame.layer.BaseLayer"))
 local OutGameData = require("app.data.outgame.OutGameData")
-local EventDef = require("app.def.outgame.EventDef")
+local EventDef = require("app.def.EventDef")
 local EventManager = require("app.manager.EventManager")
 --[[--
     构造函数
@@ -80,9 +78,9 @@ function BuyLayer:initView()
     self.container_:addChild(sprite3)
     sprite3:setAnchorPoint(0.5, 0.5)
     sprite3:setPosition(sprite1:getContentSize().width/2, sprite1:getContentSize().height/2-130)
-    buyprice = self.price
-    buytower = self.tower
-    buynum=self.num
+    local buyprice = self.price
+    local buytower = self.tower
+    local buynum=self.num
     sprite3:addTouchEventListener(
         function(sender, eventType)
             -- ccui.TouchEventType

@@ -8,11 +8,10 @@ local ConstDef = require("app.def.ingame.ConstDef")
 local EventDef = require("app.def.EventDef")
 local EventManager = require("app.manager.EventManager")
 
-function FightTower:ctor(tower, indexTable, index, star)
-    FightTower.super.ctor(self, indexTable[index][1], indexTable[index][2],
-    ConstDef.TOWER_SIZE.WIDTH,ConstDef.TOWER_SIZE.HEIGHT)
+function FightTower:ctor(tower, indexTable, index)
+    FightTower.super.ctor(self, indexTable[index][1], indexTable[index][2], ConstDef.TOWER_SIZE.width, ConstDef.TOWER_SIZE.HEIGHT)
 
-    self.star_ = star
+    self.star_ = 1
     self.tower_ = tower
     self.index_ = index
 
@@ -73,8 +72,6 @@ end
 function FightTower:starUp()
     self.star_ = self.star_ + 1
 end
-
-
 
 --[[--
     塔销毁

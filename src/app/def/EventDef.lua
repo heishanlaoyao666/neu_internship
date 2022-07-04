@@ -18,6 +18,15 @@ EventDef.ID = {
     CREATE_SELF = 11, -- 创建我方塔
     DESTORY_SELF = 12, -- 销毁我方塔
     BULLET_BOMB = 13, -- 子弹命中
+    BUY = 14, -- 金币购买
+    OBTAINITEM = 15, -- 开箱子
+    COMFIRMATION =16, --获取宝箱物品
+    SETTING=17, --设置菜单
+    COMFIRMEDEXIT=18, --确认退出菜单
+    MATCH=19, --匹配
+    CURRENTLINEUP=20, --当前阵容
+    USING=21, --使用塔
+    BATTLE=22, --战斗界面
 }
 
 return EventDef
