@@ -36,6 +36,15 @@ local TowerDef = {
         GROWTH_TIME = 11, --成长时间
     },
 }
+TowerDef.LEVEL = {
+    START_LEVEL = {
+        [TowerDef.RARITY.NORMAL] = 1,
+        [TowerDef.RARITY.RARE] = 3,
+        [TowerDef.RARITY.EPIC] = 5,
+        [TowerDef.RARITY.LEGEND] = 9,
+    },
+    MAX_LEVEL = 13,
+}
 TowerDef.SKILLNAME ={
     [TowerDef.SKILL.EXTRA_DAMAGE]="额外伤害",
     [TowerDef.SKILL.FRIST_TRANS]="初次变身时间", 
