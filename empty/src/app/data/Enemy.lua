@@ -31,8 +31,10 @@ end
     @return none
 ]]
 function Enemy:destory()
-    self.isDeath_ = true 
-    EventManager:doEvent(EventDef.ID.DESTORY_ENEMY, self)
+    if not self.isDeath_ then
+        self.isDeath_ = true 
+        EventManager:doEvent(EventDef.ID.DESTORY_ENEMY, self)
+    end
 end
 --[[--
     设置目标
@@ -80,6 +82,8 @@ end
     @return none
 ]]
 function Enemy:update(dt)
+    --父物体update
+    Enemy.super.update(self,dt)
     if self.isDeath_ then
         return
     end

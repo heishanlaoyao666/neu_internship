@@ -480,5 +480,181 @@ TowerDef.TABLE = {
         },
     },
 }
+TowerDef.BUFF = {
+    [1] = {
+        TOWER = {
+        },
+        BULLET = {
+            [1] ={
+                NAME = "bullet_burn", --BUFF名字
+                ADDSTACK = 1, --BUFF的添加层数
+                PERMANENT = true, --BUFF是否是永久的
+                DURATION = 0, --BUFF的持续时间
+            }
+        },
+    },
+    [2] = {
+        TOWER = {
+        },
+        BULLET = {
+            [1] ={
+                NAME = "grade_damage", --BUFF名字
+                ADDSTACK = 1, --BUFF的添加层数
+                PERMANENT = true, --BUFF是否是永久的
+                DURATION = 0, --BUFF的持续时间
+            }
+        },
+    },
+    [3] = {
+        TOWER = {
+            [1] ={
+                NAME = "five_time", --BUFF名字
+                ADDSTACK = 1, --BUFF的添加层数
+                PERMANENT = true, --BUFF是否是永久的
+                DURATION = 0, --BUFF的持续时间
+            }
+        },
+        BULLET = {
+            [1] ={
+                NAME = "extra_damage", --BUFF名字
+                ADDSTACK = 1, --BUFF的添加层数
+                PERMANENT = true, --BUFF是否是永久的
+                DURATION = 0, --BUFF的持续时间
+            }
+        },
+    },
+    [4] = {
+        TOWER = {
 
+        },
+        BULLET = {
+            
+        },
+    },
+    [5] = {
+        TOWER = {
+
+        },
+        BULLET = {
+            
+        },
+    },
+    [6] = {
+        TOWER = {
+
+        },
+        BULLET = {
+            
+        },
+    },
+    [7] = {
+        TOWER = {
+
+        },
+        BULLET = {
+            
+        },
+    },
+    [8] = {
+        TOWER = {
+
+        },
+        BULLET = {
+            
+        },
+    },
+    [9] = {
+        TOWER = {
+
+        },
+        BULLET = {
+            
+        },
+    },
+    [10] = {
+        TOWER = {
+
+        },
+        BULLET = {
+            
+        },
+    },
+    [11] = {
+        TOWER = {
+
+        },
+        BULLET = {
+            
+        },
+    },
+    [12] = {
+        TOWER = {
+
+        },
+        BULLET = {
+            
+        },
+    },
+    [13] = {
+        TOWER = {
+
+        },
+        BULLET = {
+            
+        },
+    },
+    [14] = {
+        TOWER = {
+        },
+        BULLET = {
+        },
+    },
+    [15] = {
+        TOWER = {
+        },
+        BULLET = {
+        },
+    },
+    [16] = {
+        TOWER = {
+
+        },
+        BULLET = {
+            
+        },
+    },
+    [17] = {
+        TOWER = {
+
+        },
+        BULLET = {
+            
+        },
+    },
+    [18] = {
+        TOWER = {
+
+        },
+        BULLET = {
+            
+        },
+    },
+    [19] = {
+        TOWER = {
+
+        },
+        BULLET = {
+            
+        },
+    },
+    [20] = {
+        TOWER = {
+
+        },
+        BULLET = {
+            
+        },
+    },
+
+}
 return TowerDef

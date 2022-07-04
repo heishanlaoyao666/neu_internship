@@ -9,6 +9,7 @@ local EventDef = require("app/def/EventDef.lua")
 local TowerDef = require("app/def/TowerDef.lua")
 local EventManager = require("app/manager/EventManager.lua")
 
+local KnapsackData = require("app/data/KnapsackData.lua")
 local Enemy = require("app/data/Enemy.lua")
 local Tower = require("app/data/Tower.lua")
 local Bullet = require("app/data/Bullet.lua")
@@ -23,6 +24,9 @@ local down_bullets_ = {} -- 类型：下方子弹数组
 local up_enemies_ = {} -- 类型：上方敌人数组
 local down_enemies_ = {} -- 类型：下方敌人数组
 
+local up_array_ = {}  --类型:上方塔阵容
+local down_array_ = {}  --类型:下方塔阵容
+
 local up_towers_ = {} -- 类型：上方塔数组
 local down_towers_ = {} -- 类型：下方塔数组
 
@@ -32,7 +36,12 @@ local down_frist_monster = 1 --最前方怪物
 
 local MONSTER_INTERVAL_ =1 --怪物生成间隔
 
-
+local moveTower = {
+    tower =nil,
+    x = 0,
+    y = 0,
+    location = 0,
+}
 --[[--
     初始化数据
 
@@ -52,7 +61,43 @@ function GameData:init()
     self.monster_tick_ = 0 --类型：number,怪物生成tick
     -- 类型：number，游戏状态
     self.gameState_ = ConstDef.GAME_STATE.INIT
+    self.monster_tick_=MONSTER_INTERVAL_
+    
+    EventManager:regListener(EventDef.ID.INIT_DAMAGE, self, function(damage)
+        damages_[#damages_+1] = damage
+        --audio.playEffect("sounds/fireEffect.ogg", false)
+    end)
+    EventManager:regListener(EventDef.ID.INIT_BULLET, self, function(tower)
+        if tower:getY()<= display.cy then
+            self:bulletCreate(tower,ConstDef.GAME_TAG.DOWN)
+        end
+        if tower:getY()> display.cy then
+            self:bulletCreate(tower,ConstDef.GAME_TAG.UP)
+        end
+        --audio.playEffect("sounds/fireEffect.ogg", false)
+    end)
+end
+--[[--
+    设置塔阵容
 
+    @param table 类型：table, 塔数据表
+    @param tag 类型：number, 设置的位置
+
+    @return none
+]]
+function GameData:setTowerArray(table,tag)
+    
+    
+end
+--[[--
+    游戏结束的处理
+
+    @param none
+
+    @return none
+]]
+function GameData:GameOver()
+    
     
 end
 
@@ -78,7 +123,86 @@ function GameData:setGameState(state)
     self.gameState_ = state
     EventManager:doEvent(EventDef.ID.GAMESTATE_CHANGE, state)
 end
+--[[--
+    位置是否在下方有效范围（判定能否点击）
 
+    @param x 类型：number
+    @param y 类型：number
+
+    @return boolean
+]]
+function GameData:isValidTouch(x, y)
+    if y >=display.cy then
+        return false
+    end
+    local pos_x=(x-ConstDef.TOWER_POS.DOWN_X)/ConstDef.TOWER_POS.MOVE_X+0.5
+    local pos_y=(y-ConstDef.TOWER_POS.DOWN_Y)/ConstDef.TOWER_POS.MOVE_Y-0.5
+
+    pos_x= math.ceil(pos_x)
+    pos_y = math.ceil(pos_y)
+    print(pos_x.." "..pos_y)
+    if pos_x<1 or pos_x> 6 then
+        return false
+    end
+    if pos_y<0 or pos_y> 2 then
+        return false
+    end
+    local move_tower = down_towers_[pos_x+pos_y*5]
+    if move_tower then
+        moveTower.tower=move_tower
+        moveTower.x = move_tower:getX()
+        moveTower.y = move_tower:getY()
+        moveTower.location = pos_x+pos_y*5
+        return move_tower
+    end
+    return false
+end
+--[[--
+    移动塔
+
+    @param x 类型：number
+    @param y 类型：number
+
+    @return none
+]]
+function GameData:moveTo(x, y)
+    -- print("是否移动")
+    moveTower.tower:setX(x)
+    moveTower.tower:setY(y)
+    --allies_[1]:setY(y)
+end
+--[[--
+    移动塔结束处理
+
+    @param x 类型：number
+    @param y 类型：number
+
+    @return none
+]]
+function GameData:moveToEnd(x, y)
+    -- print("是否移动")
+    local pos_x=(x-ConstDef.TOWER_POS.DOWN_X)/ConstDef.TOWER_POS.MOVE_X+0.5
+    local pos_y=(y-ConstDef.TOWER_POS.DOWN_Y)/ConstDef.TOWER_POS.MOVE_Y-0.5
+
+    pos_x= math.ceil(pos_x)
+    pos_y = math.ceil(pos_y)
+    local move_tower = down_towers_[pos_x+pos_y*5]
+    if move_tower and move_tower~=moveTower.tower then
+        --进行合成
+        if move_tower:getID() ==  moveTower.tower:getID() and  move_tower:getGrade()==moveTower.tower:getGrade() then
+            move_tower:destory()
+            down_towers_[pos_x+pos_y*5]=moveTower.tower
+            moveTower.tower:setGrade()
+            moveTower.tower:setX(move_tower:getX())
+            moveTower.tower:setY(move_tower:getY())
+            down_towers_[moveTower.location]=nil
+            return
+        end
+    end
+    moveTower.tower:setX(moveTower.x)
+    moveTower.tower:setY(moveTower.y)
+    --allies_[1]:setY(y)
+end
 --[[--
     获取游戏状态
 
@@ -134,26 +258,21 @@ function GameData:update(dt)
     -- self:createEnemyPlane(dt)
 
     local destoryBullets = {}
+    local destoryTowers = {}
     local destoryMonster = {}
     for i = 1, #down_bullets_ do
         local bullet = down_bullets_[i]
         bullet:update(dt)
         if bullet:isDeath() then
             destoryBullets[#destoryBullets + 1] = bullet
+        else
+            self:checkCollider(bullet:getTarget(),bullet)
         end
     end
     for i = 1, 15 do
         if down_towers_[i] ~= nil then
             local tower = down_towers_[i]
             tower:update(dt)
-            if tower:getFireTick() > tower:getFireCD() and #down_enemies_>0  then
-                tower:setFireTick(-tower:getFireCD())
-                local bullet = Bullet.new(down_towers_[i]:getID(),down_towers_[i]:getLevel())
-                down_bullets_[#down_bullets_+1] = bullet
-                bullet:setX(down_towers_[i]:getX())
-                bullet:setY(down_towers_[i]:getY())
-                self:bulletSetTarget(bullet,down_towers_[i]:getMode(),ConstDef.GAME_TAG.DOWN)
-            end
         end
         -- if bullet:isDeath() then
         --     destoryBullets[#destoryBullets + 1] = bullet
@@ -163,7 +282,6 @@ function GameData:update(dt)
     for i = 1, #down_enemies_ do
         down_enemies_[i]:update(dt)
         if not down_enemies_[i]:isDeath() then
-            self:checkCollider(down_enemies_[i], down_bullets_)
         else
             destoryMonster[#destoryMonster + 1] = down_enemies_[i]
         end
@@ -210,17 +328,51 @@ function GameData:update(dt)
     -- end
 end
 --[[--
-    子弹设置目标
+    子弹创建
 
-    @param bullet 类型:bullet 子弹
-    @param mode 类型:number 塔攻击模式
+    @param tower 类型:塔
     @param tag 类型:number 标签区分上下
 
     @return number
 ]]
-function GameData:bulletSetTarget(bullet,mode,tag)
-    local monster = nil 
-    if mode == TowerDef.MODE.FRIST then
+function GameData:bulletCreate(tower,tag)
+
+    if tag == ConstDef.GAME_TAG.DOWN then
+        if #down_enemies_ == 0 then
+            return
+        end
+    end
+    if tag ==ConstDef.GAME_TAG.UP then
+        if #up_enemies_ == 0 then
+            return
+        end
+    end
+    local bullet = Bullet.new(tower)
+    bullet:setX(tower:getX())
+    bullet:setY(tower:getY())
+    if tag == ConstDef.GAME_TAG.DOWN then
+        down_bullets_[#down_bullets_+1] = bullet
+    end
+    if tag ==ConstDef.GAME_TAG.UP then
+        up_bullets_[#up_bullets_+1] = bullet
+    end
+    --为子弹添加buff
+    for i = 1, #TowerDef.BUFF[tower:getID()].BULLET do
+        local data = TowerDef.BUFF[tower:getID()].BULLET[i]
+        local value = TowerDef.TABLE[tower:getID()].SKILLS[i]
+        bullet:addBuff(BuffTable:addBuffInfo(
+            nil,
+            bullet,
+            BuffTable[data.NAME],
+            BuffTable[data.ADDSTACK],
+            true,
+            BuffTable[data.PERMANENT],
+            0,
+            value.VALUE+value.VALUE_UPGRADE*(tower:getLevel()-1)+value.VALUE_ENHANCE*(tower:getGrade()-1)
+        ))
+    end
+    local monster = nil
+    if tower:getMode() == TowerDef.MODE.FRIST then
         if tag == ConstDef.GAME_TAG.DOWN then
             monster = down_enemies_[down_frist_monster]
         end
@@ -228,7 +380,7 @@ function GameData:bulletSetTarget(bullet,mode,tag)
             monster = up_enemies_[up_frist_monster]
         end
     end
-    if mode == TowerDef.MODE.MAXLIFE then
+    if tower:getMode() == TowerDef.MODE.MAXLIFE then
         if tag == ConstDef.GAME_TAG.DOWN then
             monster=down_enemies_[1]
             for i = 1, #down_enemies_ do
@@ -246,7 +398,7 @@ function GameData:bulletSetTarget(bullet,mode,tag)
             end
         end
     end
-    if mode == TowerDef.MODE.RANDOM then
+    if tower:getMode() == TowerDef.MODE.RANDOM then
         if tag == ConstDef.GAME_TAG.DOWN then
             monster =down_enemies_[math.random(1,#down_enemies_)]
         end
@@ -255,7 +407,7 @@ function GameData:bulletSetTarget(bullet,mode,tag)
         end
     end
     if monster then
-        bullet:setTarget(monster:getX(),monster:getY())
+        bullet:setTarget(monster)
     end
 end
 --[[--
@@ -268,6 +420,7 @@ end
     @return number
 ]]
 function GameData:createTower(tower_id,level,tag)
+    local tower = Tower.new(tower_id,level)
     if tag == ConstDef.GAME_TAG.DOWN then
         local random = math.random(1,15)
         local sum = 0
@@ -278,8 +431,6 @@ function GameData:createTower(tower_id,level,tag)
             sum =sum+1
             random = math.random(1,15)
         end
-
-        local tower = Tower.new(tower_id,level)
         local x = random%5
         local y =math.modf(random/5)+1
         if x == 0 then
@@ -288,12 +439,25 @@ function GameData:createTower(tower_id,level,tag)
         if random%5 == 0 then
             y = y-1
         end
-        print(random.." "..x.." "..y)
         tower:setX(ConstDef.TOWER_POS.DOWN_X+ConstDef.TOWER_POS.MOVE_X*(x-1))
         tower:setY(ConstDef.TOWER_POS.DOWN_Y+ConstDef.TOWER_POS.MOVE_Y*(y-1))
         down_towers_[random] = tower
     end
-    
+    --为塔添加buff
+    for i = 1, #TowerDef.BUFF[tower_id].TOWER do
+        local data = TowerDef.BUFF[tower_id].TOWER[i]
+        local value = TowerDef.TABLE[tower_id].SKILLS[i]
+        tower:addBuff(BuffTable:addBuffInfo(
+            nil,
+            tower,
+            BuffTable[data.NAME],
+            BuffTable[data.ADDSTACK],
+            true,
+            BuffTable[data.PERMANENT],
+            0,
+            value.VALUE+value.VALUE_UPGRADE*(tower:getLevel()-1)+value.VALUE_ENHANCE*(tower:getGrade()-1)
+        ))
+    end
 end
 --[[--
     碰撞检查
@@ -303,16 +467,27 @@ end
 
     @return none
 ]]
-function GameData:checkCollider(monster, bullets)
-    for i = 1, #bullets do
-        local bullet = bullets[i]
-        if not bullet:isDeath() then
-            if monster:isCollider(bullet) then
-                self:hitMonster(monster, bullet)
-                break
-            end
+function GameData:checkCollider(monster, bullet)
+    if not bullet:isDeath() then
+        if monster:isCollider(bullet) and not monster:isDeath()then
+            self:hitMonster(monster, bullet)
         end
     end
+end
+--[[--
+    获取子弹所在半区怪物信息
+
+    @param bullet
+
+    @return number
+]]
+function GameData:getMonsterForBullet(bullet)
+    for i = 1, #up_bullets_ do
+        if up_bullets_[i] == bullet then
+            return up_enemies_
+        end
+    end
+    return down_enemies_
 end
 --[[--
     伤害处理
@@ -323,9 +498,7 @@ end
     @return none
 ]]
 function GameData:hitMonster(monster, bullet)
-    local damage=DamageInfo.new(bullet,monster,bullet:getAtk())
-    monster:addBuff(BuffTable:addBuffInfo(nil,monster,BuffTable["burn"],1,false,false,1))
-    damages_[#damages_+1] = damage
+    DamageInfo.new(bullet,monster,bullet:getAtk(),ConstDef.DAMAGE.NORMAL,self)
     bullet:destory()
 end
 

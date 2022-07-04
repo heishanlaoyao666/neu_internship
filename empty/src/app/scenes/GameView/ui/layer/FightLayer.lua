@@ -13,6 +13,8 @@ local ConstDef = require("app.def.ConstDef.lua")
 local EventDef = require("app.def.EventDef.lua")
 local EventManager = require("app/manager/EventManager.lua")
 
+
+local moveTower = nil
 --[[--
     构造函数
 
@@ -51,7 +53,7 @@ function FightLayer:onEnter()
         local damageNode = DamageSprite.new(damage)
         self:addChild(damageNode,40,1)
         self.damageMap_[damage] =damageNode
-
+        
         --audio.playEffect("sounds/fireEffect.ogg", false)
     end)
     EventManager:regListener(EventDef.ID.DESTORY_DAMAGE, self, function(damage)
@@ -89,6 +91,7 @@ function FightLayer:onEnter()
         local towerNode = TowerSprite.new(string.format("ui/battle/Battle interface/Tower/tower_%u.png",tower:getID()), tower)
         self:addChild(towerNode)
         self.towerMap_[tower] = towerNode
+
     end)
 
     EventManager:regListener(EventDef.ID.DESTORY_TOWER, self, function(tower)
@@ -162,19 +165,66 @@ function FightLayer:initView()
     -- end
 
     
-    -- self:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event) 
-    --     if event.name == "began" then
-    --         return self:onTouchBegan(event.x, event.y)
-    --     elseif event.name == "moved" then
-    --         self:onTouchMoved(event.x, event.y)
-    --     elseif event.name == "ended" then
-    --         self:onTouchEnded(event.x, event.y)   
-    --     end
-    -- end)
-    -- self:setTouchEnabled(true)
+    self:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event) 
+        if event.name == "began" then
+            return self:onTouchBegan(event.x, event.y)
+        elseif event.name == "moved" then
+            if moveTower then
+                self:onTouchMoved(event.x, event.y)
+            end
+        elseif event.name == "ended" then
+            if moveTower then
+                self:onTouchEnded(event.x, event.y)
+            end
+        end
+    end)
+    self:setTouchEnabled(true)
 end
 
+--[[--
+    触摸开始
 
+    @param x 类型：number
+    @param y 类型：number
+
+    @return boolean
+]]
+function FightLayer:onTouchBegan(x, y)
+    local tower = GameData:isValidTouch(x, y)
+    if tower~=false then
+        moveTower=self.towerMap_[tower]
+        moveTower:setLocalZOrder(50)
+        GameData:moveTo(x, y)
+        return true
+    end
+
+    return false
+end
+
+--[[--
+    触摸移动
+
+    @param x 类型：number
+    @param y 类型：number
+
+    @return none
+]]
+function FightLayer:onTouchMoved(x, y)
+    GameData:moveTo(x, y)
+end
+
+--[[--
+    触摸结束
+
+    @param x 类型：number
+    @param y 类型：number
+
+    @return none
+]]
+function FightLayer:onTouchEnded(x, y)
+    GameData:moveToEnd(x, y)
+    moveTower:setLocalZOrder(10)
+end
 --[[--
     帧刷新
 

@@ -11,7 +11,7 @@ local BuffDef = require("app.def.BuffDef")
 
     @return none
 ]]
-function BuffObj:ctor(id,tag,priority,maxStack,tickTime,onOccur,onHit,onTick,onBeHit,onKill,onBeKilled)
+function BuffObj:ctor(id,tag,priority,maxStack,tickTime,onOccur,onCast,onHit,onTick,onBeHit,onKill,onBeKilled)
     --基础数值，填表初始化
     self.id_ =id
     self.tags_=tag--类型:string,tags表
@@ -21,6 +21,7 @@ function BuffObj:ctor(id,tag,priority,maxStack,tickTime,onOccur,onHit,onTick,onB
 
     --buff方法
     self.onOccur_ =onOccur  --类型; function
+    self.onCast_ =onCast  --类型; function
     self.onHit_ =onHit  --类型; function
     self.onTick_ =onTick --类型:function
     self.onBeHit_ =onBeHit  --类型; function
@@ -35,11 +36,46 @@ function BuffObj:ctor(id,tag,priority,maxStack,tickTime,onOccur,onHit,onTick,onB
     self.carrier_ = nil --类型:obj,buff携带者
     self.stack_ = 1 --类型:int ,buff当前层数
     self.ticked_ = 0  --类型:int,buff执行了多少次
+    self.value_ = 0 -- 类型:number,buff的数值
+    self.isdead_ = false --类型:boolen,buff是否死亡
 end
-function BuffObj:setData(carrier,permanent,time)
+--[[--
+    设置buff的层数
+
+    @param stack
+    @return none
+]]
+function BuffObj:setStack(stack)
+    self.stack_=self.stack_+stack
+    if self.stack_<= 0 then
+        BuffObj:destroy()
+    end
+    return self.stack_
+end
+--[[--
+    buff死亡
+
+    @param none
+    @return none
+]]
+function BuffObj:destroy()
+    self.isdead_=true
+end
+--[[--
+    设置buff的实际数据
+
+    @param carrier --类型:obj,buff的携带者
+    @param permanent --类型:boolean buff是否永久存在
+    @param time --类型:number buff的存在时间
+    @param value --类型:number buff的参数
+
+    @return flag --类型:boolean 是否删除
+]]
+function BuffObj:setData(carrier,permanent,time,value)
     self.carrier_=carrier
     self.permanent_=permanent
     self.time_=time
+    self.value_ = value
 end
 --[[--
     设置buff的运行时间
@@ -47,17 +83,31 @@ end
     @param dt -类型：number,帧间隔
     @return none
 ]]
-function BuffObj:setTime(dt)
+function BuffObj:setRunTime(dt)
+    local flag = false
+    if self.isdead_ then
+        flag = true
+        return flag
+    end
     self.runTime_=self.runTime_+dt
+    if self.runTime_>=self.time_ and self.permanent_==false then
+        flag = true
+        return flag 
+    end
+    if self.runTime_>=self.tickTime_ then
+        self.runTime_=self.runTime_+self.tickTime_
+        self:onTick()
+    end
+    return flag
 end
 --[[--
-    设置buff的负责对象
+    获取buff的数值
 
-    @param state
+    @param none
     @return none
 ]]
-function BuffObj:setState(state)
-    self.carrier_=state
+function BuffObj:getValue()
+    return self.value_
 end
 --[[--
     获取buffid
@@ -77,7 +127,19 @@ end
 ]]
 function BuffObj:onOccur(...)
     if self.onOccur_ then
-        self.onOccur_(self,self.state_,...)
+        self.onOccur_(self,self.carrier_,...)
+    end
+end
+--[[--
+    技能释放时
+
+    @param ...
+
+    @return none
+]]
+function BuffObj:onCast(...)
+    if self.onCast_ then
+        self.onCast_(self,self.carrier_,...)
     end
 end
 --[[--
@@ -89,7 +151,7 @@ end
 ]]
 function BuffObj:onTick()
     if self.onTick_ then
-        self.onTick_(self,self.state_)
+        self.onTick_(self,self.carrier_)
         self.ticked_=self.ticked_+1
     end
 end
@@ -102,7 +164,7 @@ end
 ]]
 function BuffObj:onHit(...)
     if self.onHit_ then
-        self.onHit_(self,self.state_,...)
+        self.onHit_(self,self.carrier_,...)
     end
 end
 --[[--
@@ -114,7 +176,7 @@ end
 ]]
 function BuffObj:onBeHit(...)
     if self.onBeHit_ then
-        self.onBeHit_(self,self.state_,...)
+        self.onBeHit_(self,self.carrier_,...)
     end
 end
 --[[--
@@ -126,7 +188,7 @@ end
 ]]
 function BuffObj:onKill(...)
     if self.onKill_ then
-        self.onKill_(self,self.state_,...)
+        self.onKill_(self,self.carrier_,...)
     end
 end
 --[[--
@@ -138,7 +200,7 @@ end
 ]]
 function BuffObj:onBeKilled(...)
     if self.onBeHit_ then
-        self.onBeHit_(self,self.state_,...)
+        self.onBeHit_(self,self.carrier_,...)
     end
 end
 return BuffObj

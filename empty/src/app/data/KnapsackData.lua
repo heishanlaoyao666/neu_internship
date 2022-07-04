@@ -5,7 +5,10 @@
 local KnapsackData = {}
 local TowerDef = require("app/def/TowerDef.lua")
 
-local towerData = {} --类型:二维数组 塔id 
+local MsgController=require("app.manager.MsgController")
+
+local towerData = {} --类型: table ,key 塔id，value：unlock(塔解锁模式),fragment(塔碎片),level(塔等级)
+local towerArray = {} --类型:table, key 阵容顺序(12345),value:tower_id_(塔id),tower_level_(塔等级)
 --[[--
     初始化数据
 
@@ -22,9 +25,41 @@ function KnapsackData:init()
         towerData[i]={}
         towerData[i].unlock_=true
         towerData[i].fragment_=50 --塔持有的碎片
-        towerData[i].grade_=1  --塔当前等级
+        towerData[i].level_=1  --塔当前等级
     end
-    
+    for i = 1, 3 do
+        towerArray[i]={}
+        for j = 1, 5 do
+            towerArray[i][j] = {}
+            towerArray[i][j].tower_id_ = j
+            towerArray[i][j].tower_level_ = 1
+        end
+    end
+
+end
+--[[--
+    塔升级
+
+    @param i 类型:number 第几个阵容
+    @param j 类型:number 第几个位置
+    @param tower_id 类型:number 塔id
+    @param tower_level 类型:number 塔等级
+
+    @return none
+]]
+function KnapsackData:setTowerArray(i,j,tower_id,tower_level)
+    towerArray[i][j].tower_id_=tower_id
+    towerArray[i][j].tower_level_=tower_level
+end
+--[[--
+    塔升级
+
+    @param i 类型:number 第几个阵容
+
+    @return towerArray[i]
+]]
+function KnapsackData:getTowerArray(i)
+    return towerArray[i]
 end
 --[[--
     塔升级
@@ -35,8 +70,8 @@ end
 ]]
 function KnapsackData:upTowerGrade(id)
     --向服务器拿数据
-    towerData[id].grade_=towerData[id].grade_+1
-    return towerData[id].grade_
+    towerData[id].level_=towerData[id].level_+1
+    return towerData[id].level_
 end
 --[[--
     获取塔当前等级
@@ -47,7 +82,7 @@ end
 ]]
 function KnapsackData:getTowerGrade(id)
     --向服务器拿数据
-    return towerData[id].grade_
+    return towerData[id].level_
 end
 --[[--
     解锁塔

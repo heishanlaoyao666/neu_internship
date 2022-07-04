@@ -7,7 +7,7 @@ local MsgDef = {}
 
 -- 请求消息
 MsgDef.MSG_TYPE_REQ = {
-
+    
 }
 
 -- 响应消息

@@ -3,13 +3,10 @@
     塔数据文件
 ]]
 local Tower = class("Tower", require("app.data.Object"))
-local ConstDef = require("app/def/ConstDef")
 local EventDef = require("app/def/EventDef")
 local TowerDef = require("app/def/TowerDef.lua")
 local EventManager = require("app/manager/EventManager.lua")
 
-
-local buffMap_ ={} --状态表 里面存状态
 --[[--
     构造函数
 
@@ -24,6 +21,7 @@ function Tower:ctor(tower_id,level)
     
     self.tower_id_ = tower_id --类型：number，塔编号
     self.tower_rarity_ = TowerDef.TABLE[tower_id].RARITY --类型：number，塔稀有度
+    self.star_level_ = 1 --类型:number,塔基础星极
     self.tower_type_ = TowerDef.TABLE[tower_id].TYPE--类型：number，塔类型
     self.tower_name_ = TowerDef.TABLE[tower_id].NAME --类型：string，塔名称
     self.tower_fireCd_ = TowerDef.TABLE[tower_id].FIRECD --类型：number，塔攻击间隔
@@ -37,7 +35,7 @@ function Tower:ctor(tower_id,level)
     EventManager:doEvent(EventDef.ID.CREATE_TOWER, self)
 end
 --[[--
-    获取塔等级等级
+    获取塔攻击模式
 
     @param none
 
@@ -47,7 +45,7 @@ function Tower:getMode()
     return self.tower_mode_
 end
 --[[--
-    获取塔等级等级
+    获取塔等级
 
     @param none
 
@@ -65,6 +63,16 @@ end
 ]]
 function Tower:getGrade()
     return self.grade_
+end
+--[[--
+    塔强化等级
+
+    @param none
+
+    @return none
+]]
+function Tower:setGrade()
+    self.grade_=self.grade_+1
 end
 --[[--
     获取塔ID
@@ -118,6 +126,19 @@ function Tower:destory()
     EventManager:doEvent(EventDef.ID.DESTORY_TOWER, self)
 end
 --[[--
+    塔发射
+
+    @param none
+
+    @return none
+]]
+function Tower:shoot()
+    for i = 1, #self.buffMap_ do
+        self.buffMap_[i]:onCast(self)
+    end
+    EventManager:doEvent(EventDef.ID.INIT_BULLET,self)
+end
+--[[--
     塔帧刷新
 
     @param dt 类型：number，时间，秒
@@ -125,7 +146,16 @@ end
     @return none
 ]]
 function Tower:update(dt)
+    if self.isDeath_ then
+        return
+    end
+    --父物体update
+    Tower.super.update(self,dt)
     self.tower_fireTick_ = self.tower_fireTick_ + dt
+    if self.tower_fireTick_>=self.tower_fireCd_ then
+        self.tower_fireTick_=self.tower_fireTick_-self.tower_fireCd_
+        self:shoot()
+    end
 end
 --getset合集
 -- function Tower:getGameState()

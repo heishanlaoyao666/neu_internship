@@ -4,24 +4,38 @@
 local DamageInfo = class("Damage", require("app.data.Object"))
 local EventDef = require("app/def/EventDef.lua")
 local EventManager = require("app/manager/EventManager.lua")
+local ConstDef     = require("app.def.ConstDef")
 --[[--
     初始化数据
 
     @param attack 类型 obj,攻击者
     @param target 类型 obj,被攻击者
     @param damage 类型 number,基础伤害数值
+    @param tag 类型 number,伤害类型
 
     @return none
 ]]
-function DamageInfo:ctor(attack,target,damage)
+function DamageInfo:ctor(attack,target,damage,tag,gamedata)
     DamageInfo.super.ctor(self, 0, 0, 0, 0)
     self.attack_=attack or nil
     self.target_=target
     self.damage_=damage
+    self.gamedata_=gamedata --游戏总数据
     self.addBuffMap_={} --伤害结束时目标添加的buff表,添加的buff
 
     self.tick_ = 0 --销毁时间
-    self:Count()
+    EventManager:doEvent(EventDef.ID.INIT_DAMAGE, self)
+    self:Count(tag)
+end
+--[[--
+    获取游戏数据
+
+    @param none
+
+    @return self.gamedata_
+]]
+function DamageInfo:getGameData()
+    return self.gamedata_
 end
 --[[--
     获取攻击目标
@@ -82,16 +96,28 @@ end
 
     @return none
 ]]
-function DamageInfo:Count()
+function DamageInfo:Count(tag)
     --buff遍历
-    for _, func in pairs(self.target_:getBuff()) do
+    if self.attack_ then
+        for _, func in pairs(self.attack_:getBuff()) do
+            func:onHit(self)
+        end
+    end
+    if self.target_ and tag == ConstDef.DAMAGE.NORMAL then
+        for _, func in pairs(self.target_:getBuff())  do
 
-        func:onBeHit(self)
+            func:onBeHit(self)
+        end
     end
     --伤害执行
     self.target_:setLife(-self.damage_)
+    --击杀后处理
     self.x_=self.target_:getX()
     self.y_=self.target_:getY()
+    --伤害结束处理
+    for i = 1,#self.addBuffMap_ do
+        self.target_:addBuff(self.addBuffMap_[i])
+    end
     EventManager:doEvent(EventDef.ID.CREATE_DAMAGE, self)
 end
 --[[--

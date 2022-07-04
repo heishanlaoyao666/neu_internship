@@ -52,7 +52,7 @@ local ConstDef = {
         SURRENDER = 5, --投降界面
     },
     SURRENDER ="是否认输,放弃该场战斗?",
-    
+
     BULLET_SIZE = { -- 子弹尺寸
         WIDTH = 10,
         HEIGHT = 10,
@@ -129,5 +129,9 @@ ConstDef.TARGET ={
             Y = 140,
         },
     },
+}
+ConstDef.DAMAGE= {
+    NORMAL = 1,--正常伤害，计算攻击者和受伤者的buff
+    BUFF = 2, --BUFF伤害，不进行二次计算，直接执行最终伤害(待定)
 }
 return ConstDef

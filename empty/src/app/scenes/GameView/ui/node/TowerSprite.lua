@@ -15,10 +15,11 @@ function TowerSprite:ctor(res, data)
     self:setAnchorPoint(0.5, 0.5)
     self:setPosition(self.data_:getX(), self.data_:getY())
 
-    self.grade_= display.newSprite(string.format("ui/battle/Battle interface/Angle sign-Grade/%u.png",data:getGrade()))
-    self.grade_:setAnchorPoint(0.5,0.5)
-    self.grade_:setPosition(80,85)
-    self:addChild(self.grade_)
+    self.star_level_= display.newSprite(string.format("ui/battle/Battle interface/Angle sign-Grade/%u.png",data:getGrade()))
+    self.star_level_:setAnchorPoint(0.5,0.5)
+    self.star_level_:setPosition(80,85)
+    self:addChild(self.star_level_)
+
 end
 
 --[[--
@@ -30,6 +31,7 @@ end
 ]]
 function TowerSprite:update(dt)
     self:setPosition(self.data_:getX(), self.data_:getY())
+    self.star_level_:setTexture(string.format("ui/battle/Battle interface/Angle sign-Grade/%u.png",self.data_:getGrade()))
 end
 
 return TowerSprite

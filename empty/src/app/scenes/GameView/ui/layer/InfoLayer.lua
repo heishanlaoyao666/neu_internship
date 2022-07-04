@@ -55,10 +55,11 @@ function InfoLayer:initView()
     self.container_:addChild(createBtn)
     createBtn:setAnchorPoint(0.5, 0.5)
     createBtn:setPosition(display.width*0.5, 180)
-    createBtn:addTouchEventListener(function(sender, eventType) 
+    createBtn:addTouchEventListener(function(sender, eventType)
         if eventType == 2 then
             math.randomseed(os.time())
-            GameData:createTower(math.random(1,20),1,ConstDef.GAME_TAG.DOWN)
+            --GameData:createTower(math.random(1,20),1,ConstDef.GAME_TAG.DOWN)
+            GameData:createTower(3,1,ConstDef.GAME_TAG.DOWN)
         end
     end)
     local createTTF = cc.Label:createWithTTF(20,"ui/font/fzbiaozjw.ttf",24)

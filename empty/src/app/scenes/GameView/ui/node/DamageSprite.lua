@@ -11,9 +11,11 @@ end)
 ]]
 function DamageSprite:ctor(data)
     self.data_ = data -- 类型：Bullet，子弹数据
+    self.random_x_=math.random(-10,10)
+    self.random_y_=math.random(-10,10)
 
     self:setAnchorPoint(0.5, 0.5)
-    self:setPosition(self.data_:getX(), self.data_:getY())
+    self:setPosition(self.data_:getX()+self.random_x_, self.data_:getY()+self.random_y_)
 
     self.number_ =ccui.Text:create(self.data_:getDamage(), "ui/font/fzbiaozjw.ttf", 15)
     self.number_:setAnchorPoint(0.5, 0.5)
@@ -32,7 +34,7 @@ end
     @return none
 ]]
 function DamageSprite:update(dt)
-    self:setPosition(self.data_:getX(), self.data_:getY())
+    self:setPosition(self.data_:getX()+self.random_x_, self.data_:getY()+self.random_y_)
 end
 
 return DamageSprite

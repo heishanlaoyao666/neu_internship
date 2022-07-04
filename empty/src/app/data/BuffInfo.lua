@@ -3,13 +3,12 @@
     Buff基类
 ]]
 local BuffInfo = class("BuffInfo")
-function BuffInfo:ctor(caster,target,buffmodel,addStack,durationSetTon,permanment,duration)
+function BuffInfo:ctor(caster,target,buffmodel,addStack,durationSetTon,duration)
     self.caster=caster
     self.target=target
     self.buffmodel=buffmodel
     self.addStack=addStack
     self.durationSetTo=durationSetTon
-    self.permanment=permanment
     self.duration=duration
 end
 function BuffInfo:getCaster()

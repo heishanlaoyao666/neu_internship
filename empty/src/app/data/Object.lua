@@ -114,7 +114,7 @@ function Object:addBuff(buffInfo)
     local buffmodel = buffInfo:getBuffModel()
     for i = 1, #self.buffMap_ do
         if self.buffMap_[i]:getID()== buffmodel:getID() then
-            print("重复buff处理")
+            --print("重复buff处理")
             return
         end
     end
@@ -168,15 +168,9 @@ function Object:update(dt)
     --遍历所有buff执行
     local destorybuffs = {}
     for i = 1, #self.buffMap_ do
-        local nowbuff = self.buffMap_[i]
-        nowbuff:setTime(dt)
-        if nowbuff.runTime_>=nowbuff.time_ and nowbuff.permanent_~=true then
+        if self.buffMap_[i]:setRunTime(dt) then
             --buff删除
-            destorybuffs[#destorybuffs+1] = nowbuff
-        end
-        if nowbuff.runTime_>=nowbuff.tickTime_ then
-            nowbuff.runTime_=nowbuff.runTime_+nowbuff.tickTime_
-            nowbuff:onTick()
+            destorybuffs[#destorybuffs+1] = self.buffMap_[i]
         end
     end
     --清理buff

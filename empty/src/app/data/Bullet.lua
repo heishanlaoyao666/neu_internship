@@ -10,38 +10,29 @@ local TowerDef = require("app/def/TowerDef.lua")
 --[[--
     构造函数
 
-    @param tower_id 类型:number 塔的id
+    @param tower 类型:子弹的发射者塔
 
     @return none
 ]]
-function Bullet:ctor(tower_id)
+function Bullet:ctor(tower)
     Bullet.super.ctor(self, 0, 0, ConstDef.BULLET_SIZE.WIDTH, ConstDef.BULLET_SIZE.HEIGHT)
-    self.tower_id_ = tower_id --类型：number，塔编号
-    self.atk_ = TowerDef.TABLE[tower_id].ATK --类型：number，攻击力
-    self.speed_x_ = 0 --x方向坐标
-    self.speed_y_ = 0 --y方向坐标
-    self.buffMap_ ={} --状态表 里面存状态
+    self.tower_ =tower
+    self.tower_id_ = tower:getID() --类型：number，塔编号
+    self.atk_ = TowerDef.TABLE[tower:getID()].ATK --类型：number，攻击力
+    self.speed_x_ = 0 --x方向速度
+    self.speed_y_ = 0 --y方向速度
+    --buff表初始化
     EventManager:doEvent(EventDef.ID.CREATE_BULLET, self)
 end
 --[[--
-    添加Buff
-
-    @param buff 类型 buff 
-
-    @return none
-]]
-function Bullet:addBuff(buff)
-    self.buffMap_[#self.buffMap_+1] = buff
-end
---[[--
-    获取塔BUFF表
+    获取塔伤害
 
     @param none
 
     @return life
 ]]
-function Bullet:getBuff()
-    return self.buffMap_
+function Bullet:getTower()
+    return self.tower_
 end
 --[[--
     获取塔伤害
@@ -88,16 +79,24 @@ end
 --[[--
     子弹设置目标
 
-    @param x 
-    @param y
+    @param monster
 
     @return none
 ]]
-function Bullet:setTarget(x,y)
-    self.speed_x_ = (x-self.x_)
-    self.speed_y_ = (y-self.y_)
+function Bullet:setTarget(monster)
+    self.target_ = monster
 end
 
+--[[--
+    获取子弹目标
+
+    @param none
+
+    @return target_
+]]
+function Bullet:getTarget(monster)
+    return self.target_
+end
 --[[--
     子弹帧刷新
 
@@ -106,8 +105,10 @@ end
     @return none
 ]]
 function Bullet:update(dt)
-    self.y_ = self.y_ + self.speed_y_ * dt *3
-    self.x_ = self.x_ + self.speed_x_ * dt *3
+    self.speed_x_ = (self.target_:getX()-self.x_)
+    self.speed_y_ = (self.target_:getY()-self.y_)
+    self.y_ = self.y_ + self.speed_y_ * dt *10
+    self.x_ = self.x_ + self.speed_x_ * dt *10
     -- if not self.isDeath_ then
     --     if self.y_ > display.top + ConstDef.BULLET_SIZE.HEIGHT then
     --         self:destory()
