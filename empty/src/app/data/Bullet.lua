@@ -18,7 +18,6 @@ function Bullet:ctor(tower)
     Bullet.super.ctor(self, 0, 0, ConstDef.BULLET_SIZE.WIDTH, ConstDef.BULLET_SIZE.HEIGHT)
     self.tower_ =tower
     self.tower_id_ = tower:getID() --类型：number，塔编号
-    self.atk_ = TowerDef.TABLE[tower:getID()].ATK --类型：number，攻击力
     self.speed_x_ = 0 --x方向速度
     self.speed_y_ = 0 --y方向速度
     --buff表初始化
@@ -105,6 +104,10 @@ end
     @return none
 ]]
 function Bullet:update(dt)
+    if not self.target_ then
+        self:destory()
+        return
+    end
     self.speed_x_ = (self.target_:getX()-self.x_)
     self.speed_y_ = (self.target_:getY()-self.y_)
     self.y_ = self.y_ + self.speed_y_ * dt *10

@@ -18,6 +18,9 @@ function DamageSprite:ctor(data)
     self:setPosition(self.data_:getX()+self.random_x_, self.data_:getY()+self.random_y_)
 
     self.number_ =ccui.Text:create(self.data_:getDamage(), "ui/font/fzbiaozjw.ttf", 15)
+    if self.data_:getCritical() then
+        print("暴击了")
+    end
     self.number_:setAnchorPoint(0.5, 0.5)
     self:addChild(self.number_)
     -- self.life_ = cc.Label:createWithTTF(self.data_:getLife(),"ui/font/fzbiaozjw.ttf",15)

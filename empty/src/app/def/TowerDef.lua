@@ -492,8 +492,6 @@ TowerDef.TABLE = {
 TowerDef.BUFF = {
     [1] = {
         TOWER = {
-        },
-        BULLET = {
             [1] ={
                 NAME = "bullet_burn", --BUFF名字
                 ADDSTACK = 1, --BUFF的添加层数
@@ -501,17 +499,19 @@ TowerDef.BUFF = {
                 DURATION = 0, --BUFF的持续时间
             }
         },
+        BULLET = {
+        },
     },
     [2] = {
         TOWER = {
-        },
-        BULLET = {
             [1] ={
                 NAME = "grade_damage", --BUFF名字
                 ADDSTACK = 1, --BUFF的添加层数
                 PERMANENT = true, --BUFF是否是永久的
                 DURATION = 0, --BUFF的持续时间
             }
+        },
+        BULLET = {
         },
     },
     [3] = {
@@ -521,15 +521,15 @@ TowerDef.BUFF = {
                 ADDSTACK = 1, --BUFF的添加层数
                 PERMANENT = true, --BUFF是否是永久的
                 DURATION = 0, --BUFF的持续时间
-            }
-        },
-        BULLET = {
-            [1] ={
+            },
+            [2] ={
                 NAME = "extra_damage", --BUFF名字
                 ADDSTACK = 1, --BUFF的添加层数
                 PERMANENT = true, --BUFF是否是永久的
                 DURATION = 0, --BUFF的持续时间
             }
+        },
+        BULLET = {
         },
     },
     [4] = {

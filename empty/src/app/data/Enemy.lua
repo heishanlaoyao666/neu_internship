@@ -32,7 +32,7 @@ end
 ]]
 function Enemy:destory()
     if not self.isDeath_ then
-        self.isDeath_ = true 
+        self.isDeath_ = true
         EventManager:doEvent(EventDef.ID.DESTORY_ENEMY, self)
     end
 end
@@ -82,23 +82,30 @@ end
     @return none
 ]]
 function Enemy:update(dt)
-    --父物体update
-    Enemy.super.update(self,dt)
     if self.isDeath_ then
         return
     end
-    if Target.MAXID < self.target_id then
+    --父物体update
+    Enemy.super.update(self,dt)
+    if self.target_id>Target.MAXID then
         self:destory()
+        return
     end
     if Target[self.target_id].MOVEX~=0 then
         if (Target[self.target_id].MOVEX == 1 and self.x_>=Target[self.target_id].X) or (Target[self.target_id].MOVEX == -1 and self.x_<=Target[self.target_id].X) then
         self.target_id=self.target_id+1
-        self.x_=Target[self.target_id].X
+        if self.target_id>Target.MAXID then
+            return
+        end
+        self.x_=Target[self.target_id].X or self.x_
         end
     else
         if  (Target[self.target_id].MOVEY == 1 and self.y_>=Target[self.target_id].Y) or (Target[self.target_id].MOVEY == -1 and self.y_<=Target[self.target_id].Y) then
         self.target_id=self.target_id+1
-        self.y_=Target[self.target_id].Y  
+        if self.target_id>Target.MAXID then
+            return
+        end
+        self.y_=Target[self.target_id].Y or self.y_
         end
     end
     self.x_ =self.x_ + Target[self.target_id].MOVEX*50*dt

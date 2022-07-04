@@ -26,7 +26,7 @@ function KnapsackData:init()
         towerData[i]={}
         towerData[i].unlock_=true
         towerData[i].fragment_=50 --塔持有的碎片
-        towerData[i].level_= TowerDef.LEVEL.START_LEVEL[TowerDef.TABLE[j].RARITY]  --塔当前等级
+        towerData[i].level_= TowerDef.LEVEL.START_LEVEL[TowerDef.TABLE[i].RARITY]  --塔当前等级
     end
     for i = 1, 3 do
         towerArray[i]={}

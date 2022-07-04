@@ -81,7 +81,7 @@ ConstDef.BOSS ={
     },
 }
 ConstDef.TARGET ={
-    UP = {
+    [ConstDef.GAME_TAG.UP] = {
         MAXID = 3,
         [1] ={
             MOVEX = 0,
@@ -102,7 +102,7 @@ ConstDef.TARGET ={
             Y = 100,
         },
     },
-    DOWN ={
+    [ConstDef.GAME_TAG.DOWN] ={
         MAXID = 3,
         [0] ={
             MOVEX = 1,
@@ -133,5 +133,11 @@ ConstDef.TARGET ={
 ConstDef.DAMAGE= {
     NORMAL = 1,--正常伤害，计算攻击者和受伤者的buff
     BUFF = 2, --BUFF伤害，不进行二次计算，直接执行最终伤害(待定)
+}
+ConstDef.UPGRADE ={
+    [1] =100,
+    [2] =200,
+    [3] =400,
+    [4] =700, 
 }
 return ConstDef

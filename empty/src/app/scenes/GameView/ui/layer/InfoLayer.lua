@@ -9,6 +9,8 @@ local GameData = require("app/data/GameData.lua")
 local EventManager = require("app/manager/EventManager.lua")
 local EventDef     = require("app/def/EventDef.lua")
 local TowerDef     = require("app.def.TowerDef")
+
+local player = nil
 --本地函数定义
 local timeChange
 --[[--
@@ -41,6 +43,7 @@ end
     @return none
 ]]
 function InfoLayer:initView()
+    player= GameData:getPlayer()
     local width, height = display.width, display.height
     self.container_ = ccui.Layout:create()
     --self.container_:setBackGroundColor(cc.c3b(200, 0, 0))
@@ -57,9 +60,7 @@ function InfoLayer:initView()
     createBtn:setPosition(display.width*0.5, 180)
     createBtn:addTouchEventListener(function(sender, eventType)
         if eventType == 2 then
-            math.randomseed(os.time())
-            --GameData:createTower(math.random(1,20),1,ConstDef.GAME_TAG.DOWN)
-            GameData:createTower(3,1,ConstDef.GAME_TAG.DOWN)
+            player:createTower()
         end
     end)
     local createTTF = cc.Label:createWithTTF(20,"ui/font/fzbiaozjw.ttf",24)
@@ -110,7 +111,10 @@ function InfoLayer:initView()
     self.oppositenameLabel_:enableOutline(cc.c4b(0,0,0,255), 2)
     self.container_:addChild(self.oppositenameLabel_)
     
-    
+    --我方塔阵容
+    for i = 1, 5 do
+        
+    end
     --剩余时间
     --BOSS初始化
     if GameData:getGameState() == ConstDef.GAME_STATE.INIT then

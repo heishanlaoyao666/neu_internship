@@ -12,15 +12,15 @@ local EventManager = require("app/manager/EventManager.lua")
 --OnOccur(buff,target,...)
 --OnCast(buff,target,...)
 --OnHit(buff,target,...)
-function GradeDamage(buff,target,damageinfo)
+function GradeDamage(buff,tower,damageinfo)
    local monsterMap = damageinfo:getGameData():getMonsterForBullet(target)
-   if #monsterMap<=target:getTower():getGrade() then
+   if #monsterMap<=tower:getGrade() then
       for i = 1, #monsterMap do
         DamageInfo.new(nil,monsterMap[i],buff:getValue(),ConstDef.DAMAGE.BUFF)
       end
       return
    end
-   for i = 1, target:getTower():getGrade() do
+   for i = 1, tower:getGrade() do
     DamageInfo.new(nil,monsterMap[i],buff:getValue(),ConstDef.DAMAGE.BUFF)
   end
 end
@@ -38,8 +38,8 @@ function GiveBurn(buff,target,damageinfo)
         )
     )
 end
-function ExtraDamage(buff,bullet,damageinfo)
-    local buffmap=bullet:getTower():getBuff()
+function ExtraDamage(buff,tower,damageinfo)
+    local buffmap=tower:getBuff()
     for i = 1, #buffmap do
         if buffmap[i]:getID() == "five_time" then
             if buffmap[i]:setStack(1)==6 then

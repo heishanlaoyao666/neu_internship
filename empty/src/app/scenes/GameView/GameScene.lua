@@ -6,7 +6,9 @@ local GameScene = class("GameScene", function()
     return display.newScene("GameScene")
 end)
 local PlayView = require("app/scenes/GameView/ui/PlayView")
+local ConstDef = require("app/def/ConstDef.lua")
 local GameData = require("app/data/GameData.lua")
+local KnapsackData=require("app/data/KnapsackData.lua")
 --[[--
     构造函数
 
@@ -17,6 +19,8 @@ local GameData = require("app/data/GameData.lua")
 function GameScene:ctor()
 
     GameData:init()
+    KnapsackData:init()
+    GameData:setTowerArray(KnapsackData:getTowerArray(1),ConstDef.GAME_TAG.DOWN)
     self.playView_ = PlayView.new() -- 类型：PlayView，主游戏界面
     self:addChild(self.playView_)
 

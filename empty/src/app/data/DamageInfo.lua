@@ -20,12 +20,27 @@ function DamageInfo:ctor(attack,target,damage,tag,gamedata)
     self.attack_=attack or nil
     self.target_=target
     self.damage_=damage
+    self.add_damage_ = 0 --累加伤害
     self.gamedata_=gamedata --游戏总数据
+
     self.addBuffMap_={} --伤害结束时目标添加的buff表,添加的buff
 
-    self.tick_ = 0 --销毁时间
+    self.criticalRate = 0 --最终暴击率
+    self.hitRate = 1 --命中率
+    self.tick_ = 0 --销毁时间tick
+    self.isCritical_ = false --是否暴击标记
     EventManager:doEvent(EventDef.ID.INIT_DAMAGE, self)
     self:Count(tag)
+end
+--[[--
+    是否暴击
+
+    @param none
+
+    @return self.gamedata_
+]]
+function DamageInfo:getCritical()
+    return self.isCritical_
 end
 --[[--
     获取游戏数据
@@ -97,19 +112,26 @@ end
     @return none
 ]]
 function DamageInfo:Count(tag)
+    --基础数值计算
     --buff遍历
     if self.attack_ then
+        self.attack_:count()
+        self.criticalRate=self.criticalRate+self.attack_:getCriticalRate()
         for _, func in pairs(self.attack_:getBuff()) do
             func:onHit(self)
         end
     end
     if self.target_ and tag == ConstDef.DAMAGE.NORMAL then
         for _, func in pairs(self.target_:getBuff())  do
-
             func:onBeHit(self)
         end
     end
-    --伤害执行
+    --伤害统计
+    self.damage_=self.damage_+self.add_damage_
+    if math.random()<=self.criticalRate then
+        self.isCritical_=true
+        self.damage_=self.damage_*self.attack_:getCritical()
+    end
     self.target_:setLife(-self.damage_)
     --击杀后处理
     self.x_=self.target_:getX()
