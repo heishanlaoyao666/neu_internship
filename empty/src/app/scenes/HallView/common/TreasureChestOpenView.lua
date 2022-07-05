@@ -28,6 +28,10 @@ function TreasureChestOpenView:treasureChestOpenConfirmPanel(layer,treasurePath,
     type:setPosition(cc.p(300, display.cy-310))
     type:addTo(popLayer)
 
+    --获取宝箱类型
+    local treasureChestType = string.sub(treasurePath,43,-5)
+    --print(treasureChestType)
+
     --展示金币信息
     self:goldCoinDisplay(popLayer,coinNum)
 
@@ -35,7 +39,7 @@ function TreasureChestOpenView:treasureChestOpenConfirmPanel(layer,treasurePath,
     self:fragmentInTreasure(popLayer,nCardNum,rCardNum,eCardNum,lCardNum)
 
     --宝箱开启按钮
-    self:openButton(layer,grayLayer,popLayer,nCardNum,rCardNum,eCardNum,lCardNum,coinNum,price)
+    self:openButton(layer,grayLayer,popLayer,coinNum,price,treasureChestType)
 
     --弹窗关闭按钮
     self:closeButton(layer,grayLayer,popLayer)
@@ -88,11 +92,9 @@ end
 
 --[[
     函数用途：宝箱开启按钮
-    参数：层，灰色背景层，弹窗层
-    ，普通卡数量，稀有卡数量，史诗卡数量，传说卡数量，可获得的金币数量，消耗的钻石数量
+    参数：层，灰色背景层，弹窗层，可获得的金币数量，消耗的钻石数量
     --]]
-function TreasureChestOpenView:openButton(layer,grayLayer,popLayer
-,nCardNum,rCardNum,eCardNum,lCardNum,coinNum,price)
+function TreasureChestOpenView:openButton(layer,grayLayer,popLayer,coinNum,price,treasureChestType)
     local openButton = ccui.Button:create(
             "ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Button - on.png",
             "ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Button - on.png",
@@ -113,7 +115,8 @@ function TreasureChestOpenView:openButton(layer,grayLayer,popLayer
 
                 KnapsackData:setGoldCoin(coinNum)--金币数量增加
                 TopPanel:setCoinString(KnapsackData:getGoldCoin())--改变信息栏中的金币数量
-                TreasureChestOpenObtainView:obtainFromTreasurePanel(layer,nCardNum,rCardNum,eCardNum,lCardNum,coinNum)
+
+                TreasureChestOpenObtainView:obtainFromTreasurePanel(layer,treasureChestType,coinNum)--宝箱获得物品弹窗
             end
             grayLayer:setVisible(false)--隐藏二级弹窗
         elseif eventType == ccui.TouchEventType.canceled then

@@ -18,6 +18,7 @@ function Shop:ShopPanel()
     ShopLayer:setAnchorPoint(0, 0)
     ShopLayer:setPosition(cc.p(0, display.top))
     ShopLayer:setContentSize(720, 1280)
+    --添加滑动事件
     self:slide(ShopLayer)
 
     --图片：商店背景图
@@ -53,8 +54,69 @@ function Shop:ShopPanel()
     refreshLabel:enableOutline(cc.c4b(0, 0, 0, 255),1)--字体描边
     refreshLabel:addTo(refreshBg)
 
+    --免费商品
+    self:freeItem(ShopLayer)
 
-    --按钮：免费商品
+    --金币商店商品排列
+    math.randomseed(os.time())
+    --银色框360
+    local silverArray = {"01","04","07","09","18","20"}
+    local offsetX = 0
+    for i = 1,2 do
+        local index = math.random(1, #silverArray)
+        print(index)
+        self:createGoldItem(ShopLayer,"ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..silverArray[index]..".png"
+        ,"X36",360,offsetX,0)
+        offsetX = offsetX+210
+    end
+
+    local silverIndex = math.random(1, #silverArray)
+    print(silverIndex)
+    self:createGoldItem(ShopLayer,"ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..silverArray[silverIndex]..".png"
+    ,"X36",360,-220,-220)
+
+    --蓝色框600
+    local blueArray = {"03","10","14","15"}
+    local blueIndex = math.random(1, #blueArray)
+    print(blueIndex)
+    self:createGoldItem(ShopLayer,"ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..blueArray[blueIndex]..".png"
+    ,"X6",600,0,-220)
+
+    --紫色框1000
+    local purpleArray = {"02","08","11","12","16","17"}
+    local purpleIndex = math.random(1, #purpleArray)
+    print(purpleIndex)
+    self:createGoldItem(ShopLayer,"ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..purpleArray[purpleIndex]..".png"
+    ,"X1",1000,210,-220)
+
+    --***************************钻石商店****************************************
+    --图片：钻石商店标题背景条
+    local diamondTitleBg = ccui.ImageView:create("ui/hall/shop/Diamond-shop/bg-title.png")
+    diamondTitleBg:setAnchorPoint(0, 1)
+    diamondTitleBg:setPosition(cc.p(0, display.top-660))
+    diamondTitleBg:addTo(ShopLayer)
+    --图片：钻石商店
+    local diamondStoreText = ccui.ImageView:create("ui/hall/shop/Diamond-shop/Title-diamond_store.png")
+    diamondStoreText:setAnchorPoint(0.5, 0.5)
+    diamondStoreText:addTo(diamondTitleBg)
+    diamondStoreText:setPosition(cc.p(display.cx,35))
+
+    self:createDiamondItem(ShopLayer,"ui/hall/shop/Diamond-shop/bg-normal.png","ui/hall/shop/Diamond-shop/TreasureChest - normal.png"
+    , "150",0,0,"X38","X7","X1","X0","+285")
+    self:createDiamondItem(ShopLayer,"ui/hall/shop/Diamond-shop/bg-rare.png","ui/hall/shop/Diamond-shop/TreasureChest - RARE.png"
+    ,"250",230,0,"X74","X14","X2","X0","+456")
+    self:createDiamondItem(ShopLayer,"ui/hall/shop/Diamond-shop/bg-epic.png","ui/hall/shop/Diamond-shop/TreasureChest - Epic.png"
+    ,"750",460,0,"X139","X36","X7","X0~1","+1280")
+    self:createDiamondItem(ShopLayer,"ui/hall/shop/Diamond-shop/bg-legend.png","ui/hall/shop/Diamond-shop/TreasureChest - Legend.png"
+    ,"2500",230,-320,"X187","X51","X21","X1","+3040")
+
+    return ShopLayer
+end
+
+--[[
+    函数用途：购买免费商品
+    --]]
+function Shop:freeItem(ShopLayer)
     local freeItemButton = ccui.Button:create(
             "ui/hall/shop/Goldcoin-shop/bg-free_items.png",
             "ui/hall/shop/Goldcoin-shop/bg-free_items.png",
@@ -97,46 +159,7 @@ function Shop:ShopPanel()
     local freeIcon =ccui.ImageView:create("ui/hall/shop/Goldcoin-shop/PriceIcon-free.png")
     freeIcon:setPosition(cc.p(78, 25))
     freeIcon:addTo(freeItemButton)
-
-    self:createGoldItem(ShopLayer,"ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/1.png"
-    ,"X36",360,0,0)
-    self:createGoldItem(ShopLayer,"ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/4.png"
-    ,"X36",360,210,0)
-    self:createGoldItem(ShopLayer,"ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/9.png"
-    ,"X36",360,-220,-220)
-    self:createGoldItem(ShopLayer,"ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/10.png"
-    ,"X6",600,0,-220)
-    self:createGoldItem(ShopLayer,"ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/12.png"
-    ,"X1",1000,210,-220)
-
-    --***************************钻石商店****************************************
-    --图片：钻石商店标题背景条
-    local diamondTitleBg = ccui.ImageView:create("ui/hall/shop/Diamond-shop/bg-title.png")
-    diamondTitleBg:setAnchorPoint(0, 1)
-    diamondTitleBg:setPosition(cc.p(0, display.top-660))
-    diamondTitleBg:addTo(ShopLayer)
-    --图片：钻石商店
-    local diamondStoreText = ccui.ImageView:create("ui/hall/shop/Diamond-shop/Title-diamond_store.png")
-    diamondStoreText:setAnchorPoint(0.5, 0.5)
-    diamondStoreText:addTo(diamondTitleBg)
-    diamondStoreText:setPosition(cc.p(display.cx,35))
-
-    self:createDiamondItem(ShopLayer,"ui/hall/shop/Diamond-shop/bg-normal.png","ui/hall/shop/Diamond-shop/TreasureChest - normal.png"
-    ,"ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Title - common treasure chest.png",
-            "150",0,0,"X38","X7","X1","X0","+285")
-    self:createDiamondItem(ShopLayer,"ui/hall/shop/Diamond-shop/bg-rare.png","ui/hall/shop/Diamond-shop/TreasureChest - RARE.png"
-    ,"ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Title - rare treasure chest.png",
-            "250",230,0,"X74","X14","X2","X0","+456")
-    self:createDiamondItem(ShopLayer,"ui/hall/shop/Diamond-shop/bg-epic.png","ui/hall/shop/Diamond-shop/TreasureChest - Epic.png"
-    ,"ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Title - Epic chest.png",
-            "750",460,0,"X139","X36","X7","X0~1","+1280")
-    self:createDiamondItem(ShopLayer,"ui/hall/shop/Diamond-shop/bg-legend.png","ui/hall/shop/Diamond-shop/TreasureChest - Legend.png"
-    ,"ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Title - legendary treasure chest.png",
-            "2500",230,-320,"X187","X51","X21","X1","+3040")
-
-    return ShopLayer
 end
-
 --[[
     函数用途：滑动商店触摸事件
     参数：层
@@ -269,8 +292,8 @@ end
     参数：层，宝箱背景图路径，宝箱图标路径，宝箱类型路径，宝箱价格，位置的偏移X,Y
     ，普通卡数量，稀有卡数量，史诗卡数量，传说卡数量，可获得金币数量
     --]]
-function Shop:createDiamondItem(layer,bgPath,treasurePath,treasureType,price,offsetX,offsetY
-    ,nCardNum,rCardNum,eCardNum,lCardNum,coinNum)
+function Shop:createDiamondItem(layer,bgPath,treasurePath,price,offsetX,offsetY
+,nCardNum,rCardNum,eCardNum,lCardNum,coinNum)
     --按钮：商品
     local ItemButton = ccui.Button:create(bgPath, bgPath, bgPath)
     ItemButton:setPosition(cc.p(130+offsetX, display.top-900+offsetY))
