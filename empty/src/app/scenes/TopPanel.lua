@@ -11,6 +11,8 @@ end
 function TopPanel:setCupsString(str)
     trophylabel:setString(str)
 end
+
+
 --[[
     函数用途：创建顶部信息栏
     --]]
@@ -80,6 +82,12 @@ function TopPanel:createMiddleTopPanel(layer)
             self:createlayerPanel(layer)
         end
     end)
+    head = "ui/hall/Prompt text/Default_Avatar.png"
+    headBg=ccui.ImageView:create(head)
+    headBg:setScale(1)
+    headBg:setAnchorPoint(0,1)
+    headBg:pos(0+8,height-10)
+    headBg:addTo(infoLayer)
 
     --名字
     local namelabel=cc.Label:createWithTTF("黑山老妖04","ui/font/fzbiaozjw.ttf",30)
@@ -666,13 +674,16 @@ function TopPanel:createlayerPanel(layer)
 
 end
 
-function TopPanel:createItem(layer,path,offsetX,offsetY)--层级、图片路径、碎片数量、价格、偏移量
+function TopPanel:createItem(layer,path,offsetX,offsetY)--层级、图片路径、偏移量
     --按钮：商品1
     local ItemButton = ccui.Button:create(path, path, path)
     ItemButton:setPosition(cc.p(200+offsetX, display.top-530+offsetY))
     ItemButton:addTouchEventListener(function(sender,eventType)--点击事件
         if eventType == ccui.TouchEventType.ended then
-            -- print("buy")
+            head = path
+            -- headBg:setString(head)
+            headBg:loadTexture(head)
+            print("buy")
             --获取path找到图片的名字传回文件
 
             --后续读文件修改头像

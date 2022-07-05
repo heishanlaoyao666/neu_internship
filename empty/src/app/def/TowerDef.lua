@@ -36,6 +36,34 @@ local TowerDef = {
         GROWTH_TIME = 11, --成长时间
     },
 }
+TowerDef.UPLEVELFRAG = {
+    [TowerDef.RARITY.NORMAL] = {
+        2,4,10,20,50,100,200,400,800,1000,2000,5000
+    },
+    [TowerDef.RARITY.RARE] = {
+        2,4,10,20,50,100,200,400,800,1000
+    },
+    [TowerDef.RARITY.EPIC] = {
+        2,4,10,20,50,100,200,400
+    },
+    [TowerDef.RARITY.LEGEND] = {
+        2,4,10,20
+    }
+}
+TowerDef.UPLEVELCOIN = {
+    [TowerDef.RARITY.NORMAL] = {
+        5,20,50,150,400,1000,2000,4000,8000,20000,50000,100000
+    },
+    [TowerDef.RARITY.RARE] = {
+        50,150,400,1000,2000,4000,8000,20000,50000,100000
+    },
+    [TowerDef.RARITY.EPIC] = {
+        400,1000,2000,4000,8000,20000,50000,100000
+    },
+    [TowerDef.RARITY.LEGEND] = {
+        8000,20000,50000,100000
+    }
+}
 TowerDef.LEVEL = {
     START_LEVEL = {
         [TowerDef.RARITY.NORMAL] = 1,

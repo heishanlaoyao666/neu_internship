@@ -639,9 +639,11 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
         elseif eventType == ccui.TouchEventType.ended then
+            
 
-            KnapsackData:setatk(chartnum)
 
+
+            KnapsackData:setatk(chartnum)            
             Atlas:setATKString(KnapsackData:getatk(chartnum))
             updatelabel:setVisible(false)
 
@@ -658,6 +660,11 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
         end
     end)
     upgradeButton:addTo(popLayer)
+
+    local coin_icon = ccui.ImageView:create("ui/hall/Atlas/Secondaryinterface_towerinfo/icon_coin.png")
+    coin_icon:setScale(1)
+    coin_icon:setPosition(cc.p(400, 240))
+    coin_icon:addTo(upgradeButton)
 
 
     --按钮：强化按钮
