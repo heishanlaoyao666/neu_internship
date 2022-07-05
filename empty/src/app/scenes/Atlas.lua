@@ -14,6 +14,9 @@ end
 function Atlas:setATKString(str)
     type2label:setString(str)
 end
+function Atlas:setCOINString(str)
+    coin_label:setString(str)
+end
 
 KnapsackData:init()
 
@@ -635,6 +638,8 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
             updatelabel:addTo(popLayer)
 
 
+
+
             local scale = cc.ScaleTo:create(1,0.9)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
@@ -643,8 +648,10 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
 
 
 
-            KnapsackData:setatk(chartnum)            
+            KnapsackData:uplevel(chartnum)            
             Atlas:setATKString(KnapsackData:getatk(chartnum))
+            Atlas:setCOINString(KnapsackData:getupgradecoin(chartnum))
+
             updatelabel:setVisible(false)
 
             local scale = cc.ScaleTo:create(1,1)
@@ -657,14 +664,37 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
+
+        elseif eventType == ccui.TouchEventType.moved then
+            --Atlas:setCOINString(KnapsackData:getupgradecoin(chartnum))
         end
     end)
     upgradeButton:addTo(popLayer)
 
     local coin_icon = ccui.ImageView:create("ui/hall/Atlas/Secondaryinterface_towerinfo/icon_coin.png")
     coin_icon:setScale(1)
-    coin_icon:setPosition(cc.p(400, 240))
+    coin_icon:setPosition(cc.p(50, 30))
     coin_icon:addTo(upgradeButton)
+    
+    local coinnum
+    if rarity == 1 then
+        coinnum = 5
+    elseif rarity ==2 then
+        coinnum = 50
+    elseif rarity ==3 then
+        coinnum = 400
+    else
+        coinnum =8000
+    end
+    coin_label=cc.Label:createWithTTF(KnapsackData:getupgradecoin(chartnum),"ui/font/fzbiaozjw.ttf",24)
+    coin_label:setScale(1)
+    coin_label:setColor(cc.c3b(255, 255, 255))
+    coin_label:setPosition(cc.p(110, 30))
+    coin_label:enableOutline(cc.c4b(0, 0, 0, 255),2)
+    coin_label:addTo(upgradeButton)
+
+
+
 
 
     --按钮：强化按钮
