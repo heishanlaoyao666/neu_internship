@@ -1,6 +1,6 @@
 --[[--
-    信息层
-    TopInfoLayer.lua
+    匹配层
+    MatchLayer.lua
 ]]
 local MatchLayer = class("MatchLayer", require("app.ui.outgame.layer.BaseLayer"))
 

@@ -95,7 +95,7 @@ end
 
     @return number
 ]]
-function Tower:GetTowerName()
+function Tower:getTowerName()
     return self.towerName_
 end
 
@@ -106,7 +106,7 @@ end
 
     @return number
 ]]
-function Tower:GetTowerInfo()
+function Tower:getTowerInfo()
     return self.towerInfo_
 end
 
@@ -117,7 +117,7 @@ end
 
     @return string
 ]]
-function Tower:GetAtkTarget()
+function Tower:getAtkTarget()
     return self.atkTarget_
 end
 
@@ -128,7 +128,7 @@ end
 
     @return number
 ]]
-function Tower:GetTowerAtk()
+function Tower:getTowerAtk()
     return self.towerAtk_
 end
 
@@ -139,7 +139,7 @@ end
 
     @return number
 ]]
-function Tower:GetAtkUpgrade()
+function Tower:getAtkUpgrade()
     return self.atkUpgrade_
 end
 
@@ -150,7 +150,7 @@ end
 
     @return none
 ]]
-function Tower:AtkUpgrade()
+function Tower:atkUpgrade()
     if self.atkUpgrade_ ~= nil then
         self.towerAtk_ = self.towerAtk_ + self.atkUpgrade_
     end
@@ -163,7 +163,7 @@ end
 
     @return none
 ]]
-function Tower:AtkEnhance()
+function Tower:atkEnhance()
     if self.atkEnhance_ ~= nil then
         self.towerAtk_ = self.towerAtk_ + self.atkEnhance_
     end
@@ -176,7 +176,7 @@ end
 
     @return number
 ]]
-function Tower:GetTowerFireCd()
+function Tower:getTowerFireCd()
     return self.towerFireCd_
 end
 
@@ -187,7 +187,7 @@ end
 
     @return number
 ]]
-function Tower:GetFireCdUpgrade()
+function Tower:getFireCdUpgrade()
     return self.fireCdUpgrade_
 end
 
@@ -198,7 +198,7 @@ end
 
     @return none
 ]]
-function Tower:FireCdUpgrade()
+function Tower:fireCdUpgrade()
     if self.fireCdUpgrade_ ~= nil then
         self.towerFireCd_ = self.towerFireCd_ - self.fireCdUpgrade_
     end
@@ -211,7 +211,7 @@ end
 
     @return string
 ]]
-function Tower:GetTowerSkill1()
+function Tower:getTowerSkill1()
     return self.towerSkill1_
 end
 
@@ -222,7 +222,7 @@ end
 
     @return number
 ]]
-function Tower:GetTowerSkill1Num()
+function Tower:getTowerSkill1Num()
     return self.towerSkill1Num_
 end
 
@@ -233,7 +233,7 @@ end
 
     @return number
 ]]
-function Tower:GetSkill1Value()
+function Tower:getSkill1Value()
     return self.skill1Value_
 end
 
@@ -244,7 +244,7 @@ end
 
     @return number
 ]]
-function Tower:GetValueUpgrade()
+function Tower:getValueUpgrade()
     return self.valueUpgrade_
 end
 
@@ -255,7 +255,7 @@ end
 
     @return none
 ]]
-function Tower:ValueUpgrade()
+function Tower:valueUpgrade()
     if self.valueUpgrade_ ~= nil then
         self.skill1Value_ = self.skill1Value_ + self.valueUpgrade_
     end
@@ -268,7 +268,7 @@ end
 
     @return none
 ]]
-function Tower:ValueEnhance()
+function Tower:valueEnhance()
     if self.valueEnhance_ ~= nil then
         self.skill1Value_ = self.skill1Value_ + self.valueEnhance_
     end
@@ -281,7 +281,7 @@ end
 
     @return string
 ]]
-function Tower:GetTowerSkill2()
+function Tower:getTowerSkill2()
     return self.towerSkill2_
 end
 
@@ -292,7 +292,7 @@ end
 
     @return number
 ]]
-function Tower:GetTowerSkill2Num()
+function Tower:getTowerSkill2Num()
     return self.towerSkill2Num_
 end
 --[[--
@@ -302,7 +302,7 @@ end
 
     @return number
 ]]
-function Tower:GetSkill2Value()
+function Tower:getSkill2Value()
     return self.skill2Value_
 end
 

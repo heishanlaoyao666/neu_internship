@@ -1,13 +1,13 @@
 --[[--
     商店层
-    TopInfoLayer
+    ShopLayer.lua
 ]]
-local ShopLayer = class("ShopLayer", function()
-    return display.newLayer()
-end)
+local ShopLayer = class("ShopLayer", require("app.ui.outgame.layer.BaseLayer"))
 local OutGameData = require("app.data.outgame.OutGameData")
 local GoldShopLayer = require("app.ui.outgame.layer.GoldShopLayer")
 local DiamondShopLayer = require("app.ui.outgame.layer.DiamondShopLayer")
+local EventDef = require("app.def.EventDef")
+local EventManager = require("app.manager.EventManager")
 --[[--
     构造函数
 
@@ -16,6 +16,7 @@ local DiamondShopLayer = require("app.ui.outgame.layer.DiamondShopLayer")
     @return none
 ]]
 function ShopLayer:ctor()
+    ShopLayer.super.ctor(self)
     self.GoldShopLayer_=nil
     self.DiamondShopLayer_=nil
     self.packs=OutGameData:goldShop()
@@ -49,6 +50,7 @@ function ShopLayer:initView()
     listViewB:setDirection(1)
     listViewB:addTo(self.container_1)
 
+    --金币商店
     self.container_B1 = ccui.Layout:create()
     self.container_B1:setContentSize(display.width, height+70)
     self.container_B1:setAnchorPoint(0,0)
@@ -58,6 +60,7 @@ function ShopLayer:initView()
     self.GoldShopLayer_=GoldShopLayer.new()
     self.GoldShopLayer_:addTo(self.container_B1)
 
+    --钻石商店
     self.container_B2 = ccui.Layout:create()
     self.container_B2:setContentSize(display.width, height/2-300)
     self.container_B2:setAnchorPoint(0,0)
@@ -67,7 +70,31 @@ function ShopLayer:initView()
     self.DiamondShopLayer_=DiamondShopLayer.new()
     self.DiamondShopLayer_:addTo(self.container_B2)
 end
+--[[--
+    节点进入
 
+    @param none
+
+    @return none
+]]
+function ShopLayer:onEnter()
+    EventManager:regListener(EventDef.ID.GOLDSHOP_CHANGE, self, function()
+        self.GoldShopLayer_:removeFromParent(true)
+        self.GoldShopLayer_=GoldShopLayer.new()
+        self.GoldShopLayer_:addTo(self.container_B1)
+    end)
+end
+
+--[[--
+    节点退出
+
+    @param none
+
+    @return none
+]]
+function ShopLayer:onExit()
+    EventManager:unRegListener(EventDef.ID.GOLDSHOP_CHANGE, self)
+end
 --[[--
     界面刷新
 

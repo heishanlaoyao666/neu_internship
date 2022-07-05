@@ -1,14 +1,11 @@
 --[[--
-    信息层
-    TopInfoLayer.lua
+    塔详细层
+    IntensifiesLayer.lua
 ]]
-local IntensifiesLayer =class("IntensifiesLayer", function()
-    return display.newScene("IntensifiesLayer")
-end)
-local OutGameData = require("app.data.outgame.OutGameData")
-local ConstDef = require("app.def.outgame.ConstDef")
-local EventDef = require("app.def.outgame.EventDef")
+local IntensifiesLayer =class("IntensifiesLayer", require("app.ui.outgame.layer.BaseLayer"))
+local EventDef = require("app.def.EventDef")
 local EventManager = require("app.manager.EventManager")
+--local UsingLayer = require("app.ui.outgame.layer.UsingLayer")
 --[[--
     构造函数
 
@@ -17,6 +14,7 @@ local EventManager = require("app.manager.EventManager")
     @return none
 ]]
 function IntensifiesLayer:ctor()
+    self.UsingLayer_=nil -- 类型：UsingLayer，使用塔层
     self:initView()
 end
 
@@ -145,7 +143,7 @@ function IntensifiesLayer:initView()
     })
     :align(display.LEFT_CENTER, sprite6:getContentSize().width/2-60,sprite6:getContentSize().height/2-20)
     :addTo(sprite7)
-    self.atk:setString(self.pack:getTower():GetTowerAtk())
+    self.atk:setString(self.pack:getTower():getTowerAtk())
     self.atkchange=display.newTTFLabel({
         text = "+",
         size = 25,
@@ -178,7 +176,7 @@ function IntensifiesLayer:initView()
     })
     :align(display.LEFT_CENTER, sprite6:getContentSize().width/2-60,sprite6:getContentSize().height/2-20)
     :addTo(sprite8)
-    self.fireCd:setString(self.pack:getTower():GetTowerFireCd().."S")
+    self.fireCd:setString(self.pack:getTower():getTowerFireCd().."S")
     self.fireCdchange=display.newTTFLabel({
         text = "+",
         size = 25,
@@ -211,10 +209,10 @@ function IntensifiesLayer:initView()
     })
     :align(display.LEFT_CENTER, sprite6:getContentSize().width/2-60,sprite6:getContentSize().height/2-20)
     :addTo(sprite9)
-    self.target:setString(self.pack:getTower():GetAtkTarget())
+    self.target:setString(self.pack:getTower():getAtkTarget())
 --技能1
-    local skill1num = self.pack:getTower():GetTowerSkill1Num()
-    local skill2num = self.pack:getTower():GetTowerSkill2Num()
+    local skill1num = self.pack:getTower():getTowerSkill1Num()
+    local skill2num = self.pack:getTower():getTowerSkill2Num()
     local sprite10 = ccui.CheckBox:
     create("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_properties_default.png", nil,
     "artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_properties_enhanced.png", nil, nil)
@@ -239,7 +237,8 @@ function IntensifiesLayer:initView()
         })
         :align(display.LEFT_CENTER, sprite6:getContentSize().width/2-60,sprite6:getContentSize().height/2-20)
         :addTo(sprite10)
-        self.value1:setString(self.pack:getTower():GetSkill1Value())
+        print(self.pack:getTower():getSkill1Value())
+        self.value1:setString(self.pack:getTower():getSkill1Value())
     else
         display.newTTFLabel({
             text = "-",
@@ -283,7 +282,7 @@ function IntensifiesLayer:initView()
         })
         :align(display.LEFT_CENTER, sprite6:getContentSize().width/2-60,sprite6:getContentSize().height/2-20)
         :addTo(sprite11)
-        self.value2:setString(self.pack:getTower():GetSkill2Value())
+        self.value2:setString(self.pack:getTower():getSkill2Value())
     else
         display.newTTFLabel({
             text = "-",
@@ -382,8 +381,8 @@ function IntensifiesLayer:initView()
 
 
     --技能介绍
-    local tempfileneme = "artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/text_details/title_2.png"
-    local sprite29 = display.newSprite(tempfileneme)
+    tempfilename = "artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/text_details/title_2.png"
+    local sprite29 = display.newSprite(tempfilename)
     sprite29:setAnchorPoint(1, 1)
     sprite29:setPosition(85,sprite25:getContentSize().height-10)
     sprite25:addChild(sprite29)
@@ -407,36 +406,37 @@ function IntensifiesLayer:initView()
                 if cc.UserDefault:getInstance():getBoolForKey("音效") then
                     audio.playEffect("sounds/ui_btn_close.OGG",false)
                 end
-                if self.pack:getTower():GetAtkUpgrade() then
-                    self.pack:getTower():AtkUpgrade()
-                    self.atk:setString(self.pack:getTower():GetTowerAtk())
+                if self.pack:getTower():getAtkUpgrade() then
+                    self.pack:getTower():atkUpgrade()
+                    self.atk:setString(self.pack:getTower():getTowerAtk())
                     sprite7:setSelected(true)
                     self.atkchange:setVisible(true)
-                    self.atkchange:setString("+"..tostring(self.pack:getTower():GetAtkUpgrade()))
+                    self.atkchange:setString("+"..tostring(self.pack:getTower():getAtkUpgrade()))
                 else
                     sprite7:setSelected(false)
                 end
-                if self.pack:getTower():GetFireCdUpgrade() then
-                    self.pack:getTower():FireCdUpgrade()
-                    self.fireCd:setString(self.pack:getTower():GetTowerFireCd().."S")
+                if self.pack:getTower():getFireCdUpgrade() then
+                    self.pack:getTower():fireCdUpgrade()
+                    self.fireCd:setString(self.pack:getTower():getTowerFireCd().."S")
                     sprite8:setSelected(true)
                     self.fireCdchange:setVisible(true)
-                    self.fireCdchange:setString("-"..tostring(self.pack:getTower():GetFireCdUpgrade().."S"))
+                    self.fireCdchange:setString("-"..tostring(self.pack:getTower():getFireCdUpgrade().."S"))
                 else
                     self.fireCdchange:setVisible(false)
                     sprite8:setSelected(false)
                 end
 
                 self.pack:getTower():levelUp()
-                local tempfileneme = "artcontent/lobby(ongame)/atlas_interface/tower_list/grade/Lv.%d.png"
-                self.spriteD7:setTexture(string.format(tempfileneme,self.pack:getTower():getLevel()))
+                tempfilename = "artcontent/lobby(ongame)/atlas_interface/tower_list/grade/Lv.%d.png"
+                self.spriteD7:setTexture(string.format(tempfilename,self.pack:getTower():getLevel()))
                 if skill1num then
-                    if self.pack:getTower():GetValueUpgrade() then
-                        self.pack:getTower():ValueUpgrade()
-                        self.value1:setString(self.pack:getTower():GetSkill1Value())
+                    print(self.pack:getTower():getValueUpgrade())
+                    if self.pack:getTower():getValueUpgrade() then
+                        self.pack:getTower():valueUpgrade()
+                        self.value1:setString(self.pack:getTower():getSkill1Value())
                         sprite10:setSelected(true)
                         self.value1change:setVisible(true)
-                        self.value1change:setString("+"..tostring(self.pack:getTower():GetValueUpgrade()))
+                        self.value1change:setString("+"..tostring(self.pack:getTower():getValueUpgrade()))
                     else
                         self.value1change:setVisible(false)
                         sprite10:setSelected(false)
@@ -475,6 +475,7 @@ function IntensifiesLayer:initView()
         end
     )
     --使用按钮
+    Intensifiespack=self.pack
     local sprite5= ccui.Button:create("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/button_use.png")
     sprite1:addChild(sprite5)
     sprite5:setAnchorPoint(0.5, 0)
@@ -483,6 +484,7 @@ function IntensifiesLayer:initView()
         function(sender, eventType)
             -- ccui.TouchEventType
             if 2 == eventType then -- touch end
+                EventManager:doEvent(EventDef.ID.USING,Intensifiespack)
                 self:removeFromParent(true)
                 if cc.UserDefault:getInstance():getBoolForKey("音效") then
                     audio.playEffect("sounds/ui_btn_close.OGG",false)
