@@ -2,9 +2,11 @@
     开启宝箱层
     ObtainItemLayer.lua
 ]]
-local ObtainItemLayer = class("ObtainItemLayer", require("app.ui.outgame.layer.BaseLayer"))
+local ObtainItemLayer = class("ObtainItemLayer", function()
+    return display.newLayer()
+end)
 local OutGameData = require("app.data.outgame.OutGameData")
-local EventDef = require("app.def.EventDef")
+local EventDef = require("app.def.outgame.EventDef")
 local EventManager = require("app.manager.EventManager")
 local ConfirmationLayer = require("app.ui.outgame.layer.ConfirmationLayer")
 --[[--
@@ -75,8 +77,8 @@ function ObtainItemLayer:initView()
     )
 
     --开启按钮
-    local goldprice=self.gold
-    local diamondprice=self.price
+    goldprice=self.gold
+    diamondprice=self.price
     local sprite3= ccui.Button:create("artcontent/lobby(ongame)/currency/chestopen_ obtainitemspopup/button_on.png")
     self.container_:addChild(sprite3)
     sprite3:setAnchorPoint(0.5, 0.5)
@@ -303,24 +305,6 @@ function ObtainItemLayer:SetData(data,gold)
         self.filename="icon_legendchest.png"
         self.chesttitle="chesttitle_4.png"
         self.price=2500
-        self.num1=187
-        self.num2=51
-        self.num3=21
-        self.num4=1
-    elseif data==5 then
-        self.packs, self.packsNum=OutGameData:epicChests()
-        self.filename="icon_epicchest.png"
-        self.chesttitle="chesttitle_3.png"
-        self.price=0
-        self.num1=139
-        self.num2=36
-        self.num3=7
-        self.num4="0-1"
-    elseif data==6 then
-        self.packs, self.packsNum=OutGameData:legendChests()
-        self.filename="icon_legendchest.png"
-        self.chesttitle="chesttitle_4.png"
-        self.price=0
         self.num1=187
         self.num2=51
         self.num3=21

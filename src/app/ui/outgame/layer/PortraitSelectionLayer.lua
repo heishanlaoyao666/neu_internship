@@ -1,9 +1,12 @@
 --[[--
-    头像选择层
-    PortraitSelectionLayer.lua
+    信息层
+    TopInfoLayer.lua
 ]]
-local PortraitSelectionLayer = class("PortraitSelectionLayer", require("app.ui.outgame.layer.BaseLayer"))
-local EventDef = require("app.def.EventDef")
+--local PortraitSelectionLayer = class("PortraitSelectionLayer", require("src/app/ui/outgame/layer/BaseLayer.lua"))
+local PortraitSelectionLayer = class("PortraitSelectionLayer", function()
+    return display.newScene("ShopLaPortraitSelectionLayeryer")
+end)
+local EventDef = require("app.def.outgame.EventDef")
 local EventManager = require("app.manager.EventManager")
 
 --[[--
@@ -14,7 +17,7 @@ local EventManager = require("app.manager.EventManager")
     @return none
 ]]
 function PortraitSelectionLayer:ctor()
-    PortraitSelectionLayer.super.ctor(self)
+    --PortraitSelectionLayer.super.ctor(self)
     self:initView()
 end
 
@@ -27,11 +30,9 @@ end
 ]]
 function PortraitSelectionLayer:initView()
 
-    local obtained = {1,2,3}
-    local notobtained = {4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20}
     local tempfilename
-    local num1 = #obtained--以获得头像数量
-    local num2 = #notobtained--未获得头像数量
+    local num1 = 5--以获得头像数量
+    local num2 = 5--未获得头像数量
 
     portraitfilename = {}
     for i=1,20 do
@@ -77,6 +78,20 @@ function PortraitSelectionLayer:initView()
         end
     end)
 
+    --确认按钮
+    tempfilename="artcontent/lobby(ongame)/topbar_playerinformation/avatar_selection/button_confirm.png"
+    local sprite4 = ccui.Button:create(tempfilename)
+    sprite:addChild(sprite4)
+    sprite4:setAnchorPoint(0.5, 0)
+    sprite4:setPosition(sprite:getContentSize().width/2,50)
+
+    sprite4:addTouchEventListener(function(sender, eventType)
+        -- ccui.TouchEventType
+        if 2 == eventType then -- touch end
+            self:removeFromParent(true)
+        end
+    end)
+
     --解锁信息
     tempfilename="artcontent/lobby(ongame)/topbar_playerinformation/avatar_selection/prompt_text.png"
     local sprite5 = display.newSprite(tempfilename)
@@ -84,14 +99,13 @@ function PortraitSelectionLayer:initView()
     sprite5:setAnchorPoint(0.5, 1)
     sprite5:setPosition(sprite:getContentSize().width/2+70,sprite:getContentSize().height-130)
 
-    print(PortraitSelectionLayer:getFileName())
     --选中的头像和名字
-    local sprite6 = display.newSprite(PortraitSelectionLayer:getFileName())
+    local sprite6 = display.newSprite("artcontent/lobby(ongame)/currency/icon_tower/01.png")
     sprite:addChild(sprite6)
     sprite6:setAnchorPoint(0.5, 1)
     sprite6:setPosition(sprite:getContentSize().width/2-150,sprite:getContentSize().height-90)
 
-    self.name=display.newTTFLabel({
+    display.newTTFLabel({
 		text = "坤坤",
         size = 25,
         color = display.COLOR_WHITE
@@ -117,6 +131,8 @@ function PortraitSelectionLayer:initView()
     listView:addTo(sprite2)
 
     self.container_2 = ccui.Layout:create()
+    -- self.container_2:setBackGroundColor(cc.c3b(200, 0, 0))
+    -- self.container_2:setBackGroundColorType(1)
     self.container_2:setContentSize(width, 70+math.ceil(num1/4)*130)
     self.container_2:setAnchorPoint(0.5,0.5)
     self.container_2:setPosition(display.cx, display.cy)
@@ -135,26 +151,47 @@ function PortraitSelectionLayer:initView()
     sprite3:setAnchorPoint(0.5, 0)
     sprite3:setPosition(sprite2:getContentSize().width/2,20+math.ceil(num1/4)*130)
 
-    local obtainedfilename="artcontent/lobby(ongame)/currency/icon_tower/%02d.png"
-    for k,v in pairs(obtained) do
-        self.spriteobtained = ccui.Button:create(string.format(obtainedfilename,v))
-        self.container_2:addChild(self.spriteobtained)
-        self.spriteobtained:setAnchorPoint(0.5, 0)
-        --self.spriteobtained:setPosition(sprite2:getContentSize().width*/4+75,130)
-        if k%4==0 then
-            self.spriteobtained:setPosition(75+sprite2:getContentSize().width*3/4,20+math.ceil(num1/4)*130-math.ceil(k/4)*130)
-        else
-            self.spriteobtained:setPosition(75+sprite2:getContentSize().width*(k%4-1)/4,20+math.ceil(num1/4)*130-math.ceil(k/4)*130)
+    local sprite7 = ccui.Button:create("artcontent/lobby(ongame)/currency/icon_tower/02.png")
+    self.container_2:addChild(sprite7)
+    sprite7:setAnchorPoint(0.5, 0)
+    sprite7:setPosition(75,130)
+
+    sprite7:addTouchEventListener(function(sender, eventType)
+        -- ccui.TouchEventType
+        if 2 == eventType then -- touch end
+            sprite6:setTexture("artcontent/lobby(ongame)/currency/icon_tower/02.png")
+            --EventManager:doEvent(EventDef.ID.PORTRAIT_CHANGE,"artcontent/lobby(ongame)/currency/icon_tower/02.png")
+            PortraitSelectionLayer:setportrait(portraitfilename[2])
         end
-        self.spriteobtained:addTouchEventListener(function(sender, eventType)
-            -- ccui.TouchEventType
-            if 2 == eventType then -- touch end
-                PortraitSelectionLayer:setFileName(portraitfilename[v])
-                sprite6:setTexture(string.format(obtainedfilename,v))
-                self.name:setString()
-            end
-        end)
-    end
+    end)
+
+    local sprite8 = ccui.Button:create("artcontent/lobby(ongame)/currency/icon_tower/03.png")
+    self.container_2:addChild(sprite8)
+    sprite8:setAnchorPoint(0.5, 0)
+    sprite8:setPosition(sprite2:getContentSize().width/4+75,130)
+    sprite8:addTouchEventListener(function(sender, eventType)
+        -- ccui.TouchEventType
+        if 2 == eventType then -- touch end
+            --TopInfoLayer.container_.sprite1:setTexture("artcontent/lobby(ongame)/currency/icon_tower/02.png")
+            PortraitSelectionLayer:setportrait(portraitfilename[3])
+
+        end
+    end)
+
+    local sprite9 = display.newSprite("artcontent/lobby(ongame)/currency/icon_tower/01.png")
+    self.container_2:addChild(sprite9)
+    sprite9:setAnchorPoint(0.5, 0)
+    sprite9:setPosition(75,0)
+
+    local sprite11 = display.newSprite("artcontent/lobby(ongame)/currency/icon_tower/01.png")
+    self.container_2:addChild(sprite11)
+    sprite11:setAnchorPoint(0.5, 0)
+    sprite11:setPosition(sprite2:getContentSize().width*2/4+75,130)
+
+    local sprite12 = display.newSprite("artcontent/lobby(ongame)/currency/icon_tower/01.png")
+    self.container_2:addChild(sprite12)
+    sprite12:setAnchorPoint(0.5, 0)
+    sprite12:setPosition(sprite2:getContentSize().width*3/4+75,130)
     -- 未获得
     tempfilename="artcontent/lobby(ongame)/topbar_playerinformation/avatar_selection/splitline_notacquired.png"
     local sprite10 = display.newSprite(tempfilename)
@@ -162,54 +199,33 @@ function PortraitSelectionLayer:initView()
     sprite10:setAnchorPoint(0.5, 0)
     sprite10:setPosition(sprite2:getContentSize().width/2,20+math.ceil(num2/4)*130)
 
-    local notobtainedfilename="artcontent/lobby(ongame)/currency/icon_towergray/%d.png"
-    for k,v in pairs(notobtained) do
-        self.spriteobtained =  display.newSprite(string.format(notobtainedfilename,v))
-        self.container_3:addChild(self.spriteobtained)
-        self.spriteobtained:setAnchorPoint(0.5, 0)
-        --self.spriteobtained:setPosition(sprite2:getContentSize().width*/4+75,130)
-        if k%4==0 then
-            self.spriteobtained:setPosition(75+sprite2:getContentSize().width*3/4,20+math.ceil(num2/4)*130-math.ceil(k/4)*130)
-        else
-            self.spriteobtained:setPosition(75+sprite2:getContentSize().width*(k%4-1)/4,20+math.ceil(num2/4)*130-math.ceil(k/4)*130)
-        end
-    end
+    local sprite13 = display.newSprite("artcontent/lobby(ongame)/currency/icon_tower/01.png")
+    self.container_3:addChild(sprite13)
+    sprite13:setAnchorPoint(0.5, 0)
+    sprite13:setPosition(75,130)
 
-    --确认按钮
-    tempfilename="artcontent/lobby(ongame)/topbar_playerinformation/avatar_selection/button_confirm.png"
-    local sprite4 = ccui.Button:create(tempfilename)
-    sprite:addChild(sprite4)
-    sprite4:setAnchorPoint(0.5, 0)
-    sprite4:setPosition(sprite:getContentSize().width/2,50)
-    sprite4:addTouchEventListener(function(sender, eventType)
-        -- ccui.TouchEventType
-        if 2 == eventType then -- touch end
-            PortraitSelectionLayer:setPortrait(PortraitSelectionLayer:getFileName())
-            self:removeFromParent(true)
-        end
-    end)
+    local sprite14 = display.newSprite("artcontent/lobby(ongame)/currency/icon_tower/01.png")
+    self.container_3:addChild(sprite14)
+    sprite14:setAnchorPoint(0.5, 0)
+    sprite14:setPosition(sprite2:getContentSize().width/4+75,130)
+
+    local sprite15 = display.newSprite("artcontent/lobby(ongame)/currency/icon_tower/01.png")
+    self.container_3:addChild(sprite15)
+    sprite15:setAnchorPoint(0.5, 0)
+    sprite15:setPosition(75,0)
+
+    local sprite16 = display.newSprite("artcontent/lobby(ongame)/currency/icon_tower/01.png")
+    self.container_3:addChild(sprite16)
+    sprite16:setAnchorPoint(0.5, 0)
+    sprite16:setPosition(sprite2:getContentSize().width*2/4+75,130)
+
+    local sprite17 = display.newSprite("artcontent/lobby(ongame)/currency/icon_tower/01.png")
+    self.container_3:addChild(sprite17)
+    sprite17:setAnchorPoint(0.5, 0)
+    sprite17:setPosition(sprite2:getContentSize().width*3/4+75,130)
+
 end
 
---[[--
-    设置头像文件
-
-    @param dt 类型：number，对应文件后缀数字
-
-    @return none
-]]
-function PortraitSelectionLayer:setFileName(filename)
-    self.filename=filename
-end
---[[--
-    获取头像文件
-
-    @param dt 类型：number，对应文件后缀数字
-
-    @return none
-]]
-function PortraitSelectionLayer:getFileName()
-    return self.filename
-end
 --[[--
     修改头像
 
@@ -217,7 +233,7 @@ end
 
     @return none
 ]]
-function PortraitSelectionLayer:setPortrait(filename)
+function PortraitSelectionLayer:setportrait(filename)
     EventManager:doEvent(EventDef.ID.PORTRAIT_CHANGE,
     filename)
 end

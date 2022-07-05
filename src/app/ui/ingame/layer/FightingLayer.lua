@@ -26,7 +26,7 @@ function FightingLayer:ctor()
     self.eliteMonsterMap_ = {} -- 精英怪
     self.bossMap_ = {}
     self.lineup_ = {} -- 我的阵容
-    self.enhanceNeedSp_ = {}
+    self.enhanceNeedSp_ = {} -- 强化所需sp
 
     self:init()
     self:initView()
@@ -62,7 +62,7 @@ function FightingLayer:initView()
         towerBtn:setPosition(index_x, 120)
         towerBtn:addTouchEventListener(function(sender, eventType)
             if eventType == 2 then
-                print(self.lineup_[i]:getTowerId())
+                GameData:enhance(i)
             end
         end)
         towerBtn:addTo(self)
@@ -259,6 +259,9 @@ function FightingLayer:onEnter()
         node:removeFromParent()
         self.bulletMap_[bullet] = nil
     end)
+
+    --基地受伤
+
 end
 
 --[[--
@@ -307,6 +310,12 @@ function FightingLayer:update(dt)
     --刷新子弹
     for _, node in pairs(self.bulletMap_) do
         node:update(dt)
+    end
+
+    --刷新塔需要的sp
+    local needSp = GameData:getEnhanceNeedSp()
+    for i = 1, #self.enhanceNeedSp_ do
+        self.enhanceNeedSp_[i]:setString(tostring(needSp[i]))
     end
 end
 

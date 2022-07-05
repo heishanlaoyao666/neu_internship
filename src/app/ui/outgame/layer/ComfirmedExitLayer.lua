@@ -1,8 +1,10 @@
 --[[--
-    确认退出层
-    ComfirmedExitLayer.lua
+    信息层
+    BottomInfoLayer.lua
 ]]
-local ComfirmedExitLayer = class("ComfirmedExitLayer", require("app.ui.outgame.layer.BaseLayer"))
+local ComfirmedExitLayer = class("ComfirmedExitLayer", function()
+    return display.newLayer()
+end)
 local AppBase = require("framework.AppBase")
 --[[--
     构造函数

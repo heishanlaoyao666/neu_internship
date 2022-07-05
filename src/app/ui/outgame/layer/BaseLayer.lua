@@ -14,13 +14,7 @@ end)
     @return none
 ]]
 function BaseLayer:ctor()
-    self:registerScriptHandler(function(event)
-        if event == "enter" then
-            self:onEnter()
-        elseif event == "exit" then
-            self:onExit()
-        end
-    end)
+
 end
 
 --[[--

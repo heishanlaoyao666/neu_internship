@@ -1,10 +1,12 @@
 --[[--
-    购买层
-    BuyLayer.lua
+    信息层
+    BottomInfoLayer.lua
 ]]
-local BuyLayer = class("BuyLayer", require("app.ui.outgame.layer.BaseLayer"))
+local BuyLayer = class("BuyLayer", function()
+    return display.newLayer()
+end)
 local OutGameData = require("app.data.outgame.OutGameData")
-local EventDef = require("app.def.EventDef")
+local EventDef = require("app.def.outgame.EventDef")
 local EventManager = require("app.manager.EventManager")
 --[[--
     构造函数
@@ -27,7 +29,6 @@ end
 ]]
 function BuyLayer:initView()
     --遮罩
-    self.goods=1
     local sprite0 = ccui.Button:create("artcontent/lobby(ongame)/currency/mask_popup.png")
     self:addChild(sprite0)
     sprite0:setAnchorPoint(0.5, 0.5)
@@ -79,10 +80,9 @@ function BuyLayer:initView()
     self.container_:addChild(sprite3)
     sprite3:setAnchorPoint(0.5, 0.5)
     sprite3:setPosition(sprite1:getContentSize().width/2, sprite1:getContentSize().height/2-130)
-    local buyprice = self.price
-    local buytower = self.tower
-    local buynum=self.num
-    local i=self.i
+    buyprice = self.price
+    buytower = self.tower
+    buynum=self.num
     sprite3:addTouchEventListener(
         function(sender, eventType)
             -- ccui.TouchEventType
@@ -95,7 +95,6 @@ function BuyLayer:initView()
                 EventManager:doEvent(EventDef.ID.GAMEDATA_CHANGE)
                 OutGameData:choosePacks(buytower,buynum)
                 EventManager:doEvent(EventDef.ID.KNAPSACK_CHANGE)
-                EventManager:doEvent(EventDef.ID.GOODS_CHANGE,i)
             end
         end
     )
@@ -134,19 +133,16 @@ function BuyLayer:initView()
         self:setTouchEnabled(true)
 end
 
-
 --[[--
     传入购买商品数据
 
-    @param i 类型：number，第几个商品
     @param num 类型：number，商品数目
     @param price 类型：number，商品价格
     @param tower 类型：table，商品
 
     @return none
 ]]
-function BuyLayer:SetBuy(i,num,price,tower)
-    self.i=i
+function BuyLayer:SetBuy(num,price,tower)
     self.num=num
     self.price=price
     self.id=tower:getTowerId()

@@ -25,6 +25,7 @@ function FightingTower:ctor(tower, indexTable, index, star)
     self.index_ = index
 
     EventManager:doEvent(EventDef.ID.CREATE_SELF, self)
+
 end
 
 --[[--

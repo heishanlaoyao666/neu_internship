@@ -128,6 +128,20 @@ function FightingInfoLayer:initView()
 end
 
 --[[--
+    刷新生命
+
+    @param none
+
+    @return none
+]]
+function FightingInfoLayer:updatePoint()
+    local point = GameData:getMyPoint()
+    if point < 3 then
+        myPoint_[point + 1]:loadTexture("artcontent/battle(ongame)/battle_interface/hp_empty.png")
+    end
+end
+
+--[[--
     帧循环
 
     @param dt 类型：number，帧间隔，单位秒
@@ -136,6 +150,7 @@ end
 ]]
 function FightingInfoLayer:update(dt)
     self.sumSpNum_:setString(GameData:getSumSp())
+    self:updatePoint()
 end
 
 return FightingInfoLayer
