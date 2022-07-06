@@ -163,6 +163,7 @@ function _handleMsg(event, data)
     elseif event == SimpleTCP.EVENT_CONNECTED then
         Log.i(TAG, "连接成功！")
         isConnect_ = true
+        --向服务器拿数据初始化
     elseif event == SimpleTCP.EVENT_FAILED then
         Log.w(TAG, "连接失败！")
         isConnect_ = false

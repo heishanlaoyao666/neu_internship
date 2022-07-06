@@ -8,6 +8,7 @@ local Shop = require("app.scenes.HallView.shop.Shop")
 local Atlas = require("app.scenes.Atlas")
 local Battle = require("app.scenes.Battle")
 local KnapsackData = require("app/data/KnapsackData.lua")
+
 function MainScene:ctor()
     local shop = Shop.new()
     local atlas = Atlas.new()
@@ -16,6 +17,7 @@ function MainScene:ctor()
     local layer2 = battle:battlePanel()
     local layer3 = atlas:createCollectionPanel()
     self:createBg()--创建主界面背景图
+
 
     local pageView = self:sliderView(layer1,layer2,layer3)--将商店、战斗、图鉴界面加入到翻页中
     self:createMiddleBottomPanel(pageView)--底部按钮导航栏
@@ -28,8 +30,11 @@ function MainScene:ctor()
     layer:setContentSize(720, 1280)
     layer:addTo(self)
     TopPanel:createMiddleTopPanel(layer)--顶部信息栏
-
     KnapsackData:init()
+    self:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, handler(self, self.update))
+    self:performWithDelay(function() 
+        self:scheduleUpdate()
+    end, 0.5)
 end
 
 --[[
@@ -271,5 +276,14 @@ function MainScene:loadingPanel()
     barPro:runAction(sequenceAction)
 
 end
+--[[--
+    主界面帧循环
 
+    @param dt 类型：number，帧间隔，单位秒
+
+    @return none
+]]
+function MainScene:update(dt)
+    KnapsackData:Login()
+end
 return MainScene

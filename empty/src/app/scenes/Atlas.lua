@@ -4,11 +4,9 @@ local Atlas = class("Atlas")
 local Headdata = require("app/data/Headdata")
 local Towerdata = require("app/data/Towerdata")
 local TowerDef = require("app/def/TowerDef")
-local KnapsackData = require("app/data/KnapsackData.lua")
 
 
 function Atlas:ctor()
-
 end
 
 function Atlas:setATKString(str)

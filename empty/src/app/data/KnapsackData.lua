@@ -5,13 +5,15 @@
 local KnapsackData = {}
 local TowerDef = require("app/def/TowerDef.lua")
 
-local MsgController=require("app.msg.MsgController")
+local MsgController=require("app/msg/MsgController.lua")
 local MsgDef=require("app.msg.MsgDef")
 
 local towerData = {} --类型: table ,key 塔id，value：unlock(塔解锁模式),fragment(塔碎片),level(塔等级)
 local towerArray = {} --类型:table, key 阵容顺序(12345),value:tower_id_(塔id),tower_level_(塔等级)
 local initlevel = {}
 local a = {}
+
+local isLogin = false --类型:boolen,是否已经注册
 --[[--
     初始化数据
 
@@ -25,7 +27,7 @@ function KnapsackData:init()
     self.diamonds_ = 0
     self.cups_ = 0
 
-    
+    MsgController:connect()
     --初始化msg控制器的监听
     MsgController:registerListener(self,function (msg)
         if msg["type"] == MsgDef.MSG_TYPE_ACK.LOGIN then
@@ -35,19 +37,6 @@ function KnapsackData:init()
         end
     end)
 
-
-
-
-    --链接服务器
-
-    --向服务器拿数据初始化
-    -- local msg = {
-    --     type = MsgDef.MSG_TYPE_REQ.LOGIN,
-    --     userId = 0,
-    --     pid = 5088,
-    --     loginname = "???",
-    -- }
-    -- MsgController:sendMsg(msg)
     for i = 1, 20 do
         towerData[i]={}
         towerData[i].unlock_=true
@@ -68,6 +57,29 @@ function KnapsackData:init()
         end
     end
 
+end
+--[[--
+    背包注册
+
+    @param none
+
+    @return none
+]]
+function KnapsackData:Login()
+    if isLogin == true then
+        return
+    end
+    if MsgController:isConnect() then
+        local msg = {
+            type = MsgDef.MSG_TYPE_REQ.LOGIN,
+            userId = 0,
+            pid = 5088,
+            loginname = "???",
+        }
+        MsgController:sendMsg(msg)
+        isLogin=true
+    end
+    
 end
 --[[--
     塔升级

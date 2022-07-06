@@ -1687,3 +1687,48 @@ function string.formatnumberthousands(num)
     end
     return formatted
 end
+
+function vardump(object, label)
+    local lookupTable = {}
+    local result = {}
+
+    local function _v(v)
+        if type(v) == "string" then
+            v = "\"" .. v .. "\""
+        end
+        return tostring(v)
+    end
+
+    local function _vardump(object, label, indent, nest)
+        label = label or "<var>"
+        local postfix = ""
+        if nest > 1 then postfix = "," end
+        if type(object) ~= "table" then
+            result[#result +1] = string.format("%s%s = %s%s", indent, tostring(label), _v(object), postfix)
+        elseif not lookupTable[object] then
+            lookupTable[object] = true
+            result[#result +1 ] = string.format("%s%s = {", indent, tostring(label))
+            local indent2 = indent .. "    "
+            local keys = {}
+            local values = {}
+            for k, v in pairs(object) do
+                keys[#keys + 1] = k
+                values[k] = v
+            end
+            table.sort(keys, function(a, b)
+                if type(a) == "number" and type(b) == "number" then
+                    return a < b
+                else
+                    return tostring(a) < tostring(b)
+                end
+            end)
+            for i, k in ipairs(keys) do
+                _vardump(values[k], k, indent2, nest + 1)
+            end
+            result[#result +1] = string.format("%s}%s", indent, postfix)
+        end
+    end
+    _vardump(object, label, "", 1)
+
+    return table.concat(result, "\n")
+end
