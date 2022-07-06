@@ -87,7 +87,7 @@ function KnapsackData:Login()
             type = MsgDef.MSG_TYPE_REQ.LOGIN,
             userId = 0,
             pid = 5088,
-            loginname = "????",
+            loginname = "5088",
         }
         MsgController:sendMsg(msg)
         isLogin=true
