@@ -190,9 +190,37 @@ end
 function KnapsackData:setTowerFragment_(id,number)
     --向服务器拿数据
     towerData[id].fragment_=towerData[id].fragment_+number
+    --向服务器推送数据
+    self:sendData()
     return towerData[id].fragment_
 end
+--[[--
+    --向服务器推送数据
 
+    @param none
+
+    @return none
+]]
+function KnapsackData:sendData()
+    --全部数据向服务器推送
+    if MsgController:isConnect() then
+        local msg = {
+            type = MsgDef.MSG_TYPE_REQ.UPDATE_DATA,
+            loginname = "5088",
+            gold=self.goldcoin_,
+            diamod=self.diamonds_,
+            cup=self.cups_
+        }
+        msg.towerData={}
+        for i = 1, 20 do
+            msg.towerData[i]={}
+            msg.towerData[i].unlock=towerData[i].unlock_
+            msg.towerData[i].fragment=towerData[i].fragment_ --塔持有的碎片
+            msg.towerData[i].level=towerData[i].level_  --塔当前等级
+        end
+        MsgController:sendMsg(msg)
+    end
+end
 --[[--
     获取金币数
 
@@ -220,7 +248,6 @@ function KnapsackData:setGoldCoin(number)
         return true
     end
     --向服务器推送数据
-
 end
 --[[--
     获取钻石数

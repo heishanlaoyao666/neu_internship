@@ -11,6 +11,7 @@ local KnapsackData = require("app.data.KnapsackData")
 local MenuLayer = require("app.scenes.HallView.bottomTab.MenuLayer")
 
 function MainScene:ctor()
+    KnapsackData:init()
     self:createBg()--创建主界面背景图
     local shop = Shop.new()
     local atlas = Atlas.new()
@@ -33,7 +34,7 @@ function MainScene:ctor()
 
     menu:createBottomTab(layer,pageView)--底部按钮导航栏
     TopPanel:createMiddleTopPanel(layer)--顶部信息栏
-    KnapsackData:init()
+    
     self:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, handler(self, self.update))
     self:performWithDelay(function() 
         self:scheduleUpdate()

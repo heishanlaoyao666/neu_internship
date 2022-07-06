@@ -13,6 +13,7 @@ MsgDef.MSG_TYPE_REQ = {
 	HEARTBEAT   =    4,
 	LOGIN       =    5,
 
+    UPDATE_DATA = 6,
 	CREATEGAME   =    500,
 }
 
@@ -23,6 +24,8 @@ MsgDef.MSG_TYPE_ACK = {
 	RANKLIST    =    0x80000 + 3,
 	HEARTBEAT   =    0x80000 + 4,
 	LOGIN       =    0x80000 + 5,
+
+    UPDATE_DATA =    0x80000 + 6,
 }
 
 return MsgDef
