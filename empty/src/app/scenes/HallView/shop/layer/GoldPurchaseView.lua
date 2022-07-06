@@ -20,14 +20,18 @@ function GoldPurchaseView:goldPurchasePanel(layer,path,fragNum,price,ItemButton)
     ItemBg:setPosition(cc.p(display.cx-90, 185))
     ItemBg:addTo(popLayer)
     --文本：碎片数量
-    local fragmentNum = cc.Label:createWithTTF(fragNum,"ui/font/fzbiaozjw.ttf",25)
+    local fragmentNum = cc.Label:createWithTTF("X"..fragNum,"ui/font/fzbiaozjw.ttf",25)
     fragmentNum:setPosition(cc.p(80,30))
     fragmentNum:setColor(cc.c3b(255, 206, 55))
     fragmentNum:enableOutline(cc.c4b(0, 0, 0, 255),1)--字体描边
     fragmentNum:addTo(ItemBg)
 
+    --获取卡牌ID
+    local id = tonumber(string.sub(path,57,-5))
+    --print(id)
+
     --确认按钮
-    self:confirmButton(layer,grayLayer,popLayer,price,ItemButton)
+    self:confirmButton(layer,grayLayer,popLayer,price,ItemButton,fragNum,id)
     --关闭按钮
     self:closeButton(layer,grayLayer,popLayer)
 end
@@ -72,9 +76,9 @@ end
 
 --[[
     函数用途：确认按钮
-    参数：层，灰色背景，弹窗背景层，金额，所属商品
+    参数：层，灰色背景，弹窗背景层，金额，所属商品,碎片数量,卡牌ID
     --]]
-function GoldPurchaseView:confirmButton(layer,grayLayer,popLayer,price,ItemButton)
+function GoldPurchaseView:confirmButton(layer,grayLayer,popLayer,price,ItemButton,fragNum,id)
     --按钮：确认按钮
     local confirmButton = ccui.Button:create(
             "ui/hall/shop/SecondaryInterface-Goldcoin_store_purchase_confirmation_pop-up/Button-purchase.png",
@@ -91,7 +95,14 @@ function GoldPurchaseView:confirmButton(layer,grayLayer,popLayer,price,ItemButto
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
             if KnapsackData:setGoldCoin(-price) then--如果金币充足
-                TopPanel:setCoinString(KnapsackData:getGoldCoin())--更新顶部信息栏的金币数量
+                --更新顶部信息栏的金币数量
+                TopPanel:setCoinString(KnapsackData:getGoldCoin())
+                print("购买后金币数量为"..KnapsackData:getGoldCoin())
+
+                --添加碎片
+                KnapsackData:setTowerFragment_(id,fragNum)
+                print("购买后卡牌ID为"..id.."的碎片数量为"..KnapsackData:getTowerFragment_(id))
+
                 --售罄遮罩
                 self:ItemShade(layer,ItemButton:getPositionX(),ItemButton:getPositionY())
             end

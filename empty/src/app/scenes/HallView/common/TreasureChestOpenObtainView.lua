@@ -1,4 +1,5 @@
 local TreasureChestOpenObtainView = {}
+local KnapsackData = require("app.data.KnapsackData")
 --[[
     函数用途：二级界面-宝箱开启获得物品弹窗
     参数：层，普通卡数量，稀有卡数量，史诗卡数量，传奇卡数量，可获得的金币数量
@@ -115,6 +116,12 @@ function TreasureChestOpenObtainView:normalObtained(obtainBg)
         local normalIndex = math.random(1, #normalArray)
         --print(normalIndex)
         self:diaplayFragment(obtainBg,normalArray[normalIndex],cNum,"普通",originX,originY)
+
+        --增加卡牌碎片数量
+        local id = tonumber(normalArray[normalIndex])
+        KnapsackData:setTowerFragment_(id,cNum)
+        print("购买后卡牌ID为"..id.."的碎片数量为"..KnapsackData:getTowerFragment_(id))
+
         cNum = nCardNum-cNum
         originX = originX+140
     end
@@ -123,12 +130,24 @@ function TreasureChestOpenObtainView:normalObtained(obtainBg)
     local rareIndex = math.random(1, #rareArray)
     --print(rareIndex)
     self:diaplayFragment(obtainBg,rareArray[rareIndex],rCardNum,"稀有",originX,originY)
+
+    --增加卡牌碎片数量
+    local id = tonumber(rareArray[rareIndex])
+    KnapsackData:setTowerFragment_(id,rCardNum)
+    print("购买后卡牌ID为"..id.."的碎片数量为"..KnapsackData:getTowerFragment_(id))
+
     originX = originX+140
     --一张史诗卡
     local epicArray = {"02","08","11","12","16","17"}
     local epicIndex = math.random(1, #epicArray)
     --print(epicIndex)
     self:diaplayFragment(obtainBg,epicArray[epicIndex],eCardNum,"史诗",originX,originY)
+
+    --增加卡牌碎片数量
+    local id = tonumber(epicArray[epicIndex])
+    KnapsackData:setTowerFragment_(id,eCardNum)
+    print("购买后卡牌ID为"..id.."的碎片数量为"..KnapsackData:getTowerFragment_(id))
+
 end
 
 --[[
@@ -150,6 +169,12 @@ function TreasureChestOpenObtainView:rareObtained(obtainBg)
         local normalIndex = math.random(1, #normalArray)
         --print(normalIndex)
         self:diaplayFragment(obtainBg,normalArray[normalIndex],cNum,"普通",originX,originY)
+
+        --增加卡牌碎片数量
+        local id = tonumber(normalArray[normalIndex])
+        KnapsackData:setTowerFragment_(id,cNum)
+        print("购买后卡牌ID为"..id.."的碎片数量为"..KnapsackData:getTowerFragment_(id))
+
         cNum = nCardNum-cNum
         originX = originX+140
     end
@@ -158,12 +183,21 @@ function TreasureChestOpenObtainView:rareObtained(obtainBg)
     local rareIndex = math.random(1, #rareArray)
     --print(rareIndex)
     self:diaplayFragment(obtainBg,rareArray[rareIndex],rCardNum,"稀有",originX,originY)
+    --增加卡牌碎片数量
+    local id = tonumber(rareArray[rareIndex])
+    KnapsackData:setTowerFragment_(id,rCardNum)
+    print("购买后卡牌ID为"..id.."的碎片数量为"..KnapsackData:getTowerFragment_(id))
+
     originX = originX+140
     --一张史诗卡
     local epicArray = {"02","08","11","12","16","17"}
     local epicIndex = math.random(1, #epicArray)
     --print(epicIndex)
     self:diaplayFragment(obtainBg,epicArray[epicIndex],eCardNum,"史诗",originX,originY)
+    --增加卡牌碎片数量
+    local id = tonumber(epicArray[epicIndex])
+    KnapsackData:setTowerFragment_(id,eCardNum)
+    print("购买后卡牌ID为"..id.."的碎片数量为"..KnapsackData:getTowerFragment_(id))
 end
 
 --[[
@@ -192,6 +226,10 @@ function TreasureChestOpenObtainView:epicObtained(obtainBg)
             cNum = nCardNum
         end
         self:diaplayFragment(obtainBg,normalArray[normalIndex],cNum,"普通",originX,originY)
+        --增加卡牌碎片数量
+        local id = tonumber(normalArray[normalIndex])
+        KnapsackData:setTowerFragment_(id,cNum)
+        print("购买后卡牌ID为"..id.."的碎片数量为"..KnapsackData:getTowerFragment_(id))
         originX = originX+140
     end
 
@@ -205,6 +243,10 @@ function TreasureChestOpenObtainView:epicObtained(obtainBg)
         local rareIndex = math.random(1, #rareArray)
         --print(rareIndex)
         self:diaplayFragment(obtainBg,rareArray[rareIndex],rNum,"稀有",originX,originY)
+        --增加卡牌碎片数量
+        local id = tonumber(rareArray[rareIndex])
+        KnapsackData:setTowerFragment_(id,rNum)
+        print("购买后卡牌ID为"..id.."的碎片数量为"..KnapsackData:getTowerFragment_(id))
         rNum = rCardNum-rNum
         originX = originX+140
     end
@@ -214,6 +256,10 @@ function TreasureChestOpenObtainView:epicObtained(obtainBg)
     local epicIndex = math.random(1, #epicArray)
     --print(epicIndex)
     self:diaplayFragment(obtainBg,epicArray[epicIndex],eCardNum,"史诗",originX,originY)
+    --增加卡牌碎片数量
+    local id = tonumber(epicArray[epicIndex])
+    KnapsackData:setTowerFragment_(id,eCardNum)
+    print("购买后卡牌ID为"..id.."的碎片数量为"..KnapsackData:getTowerFragment_(id))
     originX = originX+140
 
     --传说卡
@@ -222,6 +268,10 @@ function TreasureChestOpenObtainView:epicObtained(obtainBg)
         local legendIndex = math.random(1, #legendArray)
         --print(legendIndex)
         self:diaplayFragment(obtainBg,legendArray[legendIndex],lCardNum,"传说",originX,originY)
+        --增加卡牌碎片数量
+        local id = tonumber(legendArray[legendIndex])
+        KnapsackData:setTowerFragment_(id,lCardNum)
+        print("购买后卡牌ID为"..id.."的碎片数量为"..KnapsackData:getTowerFragment_(id))
     end
 end
 
@@ -251,6 +301,10 @@ function TreasureChestOpenObtainView:legendObtained(obtainBg)
             cNum = nCardNum
         end
         self:diaplayFragment(obtainBg,normalArray[normalIndex],cNum,"普通",originX,originY)
+        --增加卡牌碎片数量
+        local id = tonumber(normalArray[normalIndex])
+        KnapsackData:setTowerFragment_(id,cNum)
+        print("购买后卡牌ID为"..id.."的碎片数量为"..KnapsackData:getTowerFragment_(id))
         originX = originX+140
     end
 
@@ -264,6 +318,10 @@ function TreasureChestOpenObtainView:legendObtained(obtainBg)
         local rareIndex = math.random(1, #rareArray)
         --print(rareIndex)
         self:diaplayFragment(obtainBg,rareArray[rareIndex],rNum,"稀有",originX,originY)
+        --增加卡牌碎片数量
+        local id = tonumber(rareArray[rareIndex])
+        KnapsackData:setTowerFragment_(id,rNum)
+        print("购买后卡牌ID为"..id.."的碎片数量为"..KnapsackData:getTowerFragment_(id))
         rNum = rCardNum-rNum
         originX = originX+140
     end
@@ -273,6 +331,10 @@ function TreasureChestOpenObtainView:legendObtained(obtainBg)
     local epicIndex = math.random(1, #epicArray)
     --print(epicIndex)
     self:diaplayFragment(obtainBg,epicArray[epicIndex],eCardNum,"史诗",originX,originY)
+    --增加卡牌碎片数量
+    local id = tonumber(epicArray[epicIndex])
+    KnapsackData:setTowerFragment_(id,eCardNum)
+    print("购买后卡牌ID为"..id.."的碎片数量为"..KnapsackData:getTowerFragment_(id))
     originX = originX+140
 
     --传说卡
@@ -280,6 +342,10 @@ function TreasureChestOpenObtainView:legendObtained(obtainBg)
     local legendIndex = math.random(1, #legendArray)
     --print(legendIndex)
     self:diaplayFragment(obtainBg,legendArray[legendIndex],lCardNum,"传说",originX,originY)
+    --增加卡牌碎片数量
+    local id = tonumber(legendArray[legendIndex])
+    KnapsackData:setTowerFragment_(id,lCardNum)
+    print("购买后卡牌ID为"..id.."的碎片数量为"..KnapsackData:getTowerFragment_(id))
 end
 
 --[[
