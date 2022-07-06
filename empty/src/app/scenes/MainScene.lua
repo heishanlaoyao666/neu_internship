@@ -34,7 +34,6 @@ function MainScene:ctor()
 
     menu:createBottomTab(layer,pageView)--底部按钮导航栏
     TopPanel:createMiddleTopPanel(layer)--顶部信息栏
-    
     self:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, handler(self, self.update))
     self:performWithDelay(function() 
         self:scheduleUpdate()

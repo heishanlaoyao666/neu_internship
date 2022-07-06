@@ -4,7 +4,6 @@ local TopPanel = require("app.scenes.TopPanel")
 local GoldPurchaseView = require("app.scenes.HallView.shop.layer.GoldPurchaseView")
 local TreasureChestOpenView = require("app.scenes.HallView.common.TreasureChestOpenView")
 function Shop:ctor()
-    --KnapsackData:init()
 end
 
 --[[

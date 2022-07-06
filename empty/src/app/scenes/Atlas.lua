@@ -539,6 +539,7 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
     type2attri:setPosition(cc.p(450, 480))
     type2attri:addTo(popLayer)
 
+
     type2label=cc.Label:createWithTTF(KnapsackData:getatk(chartnum),"ui/font/fzzdhjw.ttf",26)
     type2label:setScale(1)
     type2label:setColor(cc.c3b(255, 255, 255))

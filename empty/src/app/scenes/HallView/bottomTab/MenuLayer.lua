@@ -7,7 +7,15 @@ function MenuLayer:createBottomTab(layer,pageView)
     menuLayer:setAnchorPoint(0,0)
     menuLayer:setPosition(0,0)
     menuLayer:addTo(layer)
+    self:unselectedLayer(menuLayer)
+    self:selectedLayer(menuLayer)
+    self:clickEvent(pageView)
+end
 
+--[[
+    函数用途：创建未选中按钮
+    --]]
+function MenuLayer:unselectedLayer(menuLayer)
     --未选中商店
     self.unselectedShop = ccui.Layout:create()
     self.unselectedShop:setBackGroundImage("ui/hall/bottom-tab/tab-unselected-left.png")
@@ -49,8 +57,12 @@ function MenuLayer:createBottomTab(layer,pageView)
     battleImage:setPosition(cc.p(30, 10))
     battleImage:setAnchorPoint(0,0)
     battleImage:addTo(self.unselectedBattle)
+end
 
-
+--[[
+    函数用途：创建已选中按钮
+    --]]
+function MenuLayer:selectedLayer(menuLayer)
     --选中商店
     self.selectedShop = ccui.Layout:create()
     self.selectedShop:setBackGroundImage("ui/hall/bottom-tab/tab-selected.png")
@@ -107,7 +119,12 @@ function MenuLayer:createBottomTab(layer,pageView)
     battleName:setAnchorPoint(0, 0)
     battleName:setPosition(cc.p(95, 5))
     battleName:addTo(self.selectedBattle)
+end
 
+--[[
+    函数用途：按钮响应事件
+    --]]
+function MenuLayer:clickEvent(pageView)
     self.unselectedShop:addTouchEventListener(function(sender, eventType)
         if eventType == ccui.TouchEventType.ended then
             self.selectedShop:setVisible(true)
@@ -136,5 +153,4 @@ function MenuLayer:createBottomTab(layer,pageView)
         end
     end)
 end
-
 return MenuLayer
