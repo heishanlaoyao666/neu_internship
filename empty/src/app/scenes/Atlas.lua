@@ -4,6 +4,8 @@ local Atlas = class("Atlas")
 local Headdata = require("app/data/Headdata")
 local Towerdata = require("app/data/Towerdata")
 local TowerDef = require("app/def/TowerDef")
+local KnapsackData = require("app/data/KnapsackData")
+local Music = require("app/data/Music")
 
 
 function Atlas:ctor()
@@ -640,7 +642,20 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
             sender:runAction(ease_elastic)
         elseif eventType == ccui.TouchEventType.ended then
             
-
+            local SettingMusic = require("app/scenes/SettingMusic")
+			local MusicOn = SettingMusic:isMusic1()
+			print(MusicOn)
+			if MusicOn == true then
+				local audio = require("framework.audio")
+				audio.loadFile(Music.ATLAS[1], function ()
+					audio.playEffect(Music.ATLAS[1])
+				end)
+			else
+				local audio = require("framework.audio")
+				audio.loadFile(Music.ATLAS[1], function ()
+					audio.stopEffect()
+				end)
+			end
 
 
             KnapsackData:uplevel(chartnum)            
