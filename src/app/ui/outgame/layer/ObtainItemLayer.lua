@@ -2,12 +2,13 @@
     开启宝箱层
     ObtainItemLayer.lua
 ]]
-local ObtainItemLayer = class("ObtainItemLayer", require("app.ui.outgame.layer.BaseLayer"))
+local ObtainItemLayer = class("ObtainItemLayer", function()
+    return display.newLayer()
+end)
 local OutGameData = require("app.data.outgame.OutGameData")
-local EventDef = require("app.def.EventDef")
+local EventDef = require("app.def.outgame.EventDef")
 local EventManager = require("app.manager.EventManager")
 local ConfirmationLayer = require("app.ui.outgame.layer.ConfirmationLayer")
---local BattleLayer = require("app.ui.outgame.layer.BattleLayer")
 --[[--
     构造函数
 
@@ -76,8 +77,8 @@ function ObtainItemLayer:initView()
     )
 
     --开启按钮
-    local goldprice=self.gold
-    local diamondprice=self.price
+    goldprice=self.gold
+    diamondprice=self.price
     local sprite3= ccui.Button:create("artcontent/lobby(ongame)/currency/chestopen_ obtainitemspopup/button_on.png")
     self.container_:addChild(sprite3)
     sprite3:setAnchorPoint(0.5, 0.5)
@@ -87,29 +88,13 @@ function ObtainItemLayer:initView()
             -- ccui.TouchEventType
             if 2 == eventType then -- touch end
                 --ConfirmationLayer:new():addTo(self)
+                EventManager:doEvent(EventDef.ID.COMFIRMATION)
                 if cc.UserDefault:getInstance():getBoolForKey("音效") then
                     audio.playEffect("sounds/ui_btn_close.OGG",false)
                 end
-                if diamondprice<=OutGameData:getDiamond() then
-                    EventManager:doEvent(EventDef.ID.COMFIRMATION)
-                    OutGameData:setGold(goldprice)
-                    OutGameData:setDiamond(-diamondprice)
-                    if diamondprice==0 then
-                        cc.UserDefault:getInstance():setIntegerForKey("imgstatus"..self.index,3)
-                        EventManager:doEvent(EventDef.ID.BATTLE)
-                    end
-                    EventManager:doEvent(EventDef.ID.GAMEDATA_CHANGE)
-                else
-                    EventManager:doEvent(EventDef.ID.POPUPWINDOW,3)
-                end
-                -- EventManager:doEvent(EventDef.ID.COMFIRMATION)
-                -- OutGameData:setGold(goldprice)
-                -- OutGameData:setDiamond(-diamondprice)
-                -- if diamondprice==0 then
-                --     cc.UserDefault:getInstance():setIntegerForKey("imgstatus"..self.index,3)
-                --     EventManager:doEvent(EventDef.ID.BATTLE)
-                -- end
-                -- EventManager:doEvent(EventDef.ID.GAMEDATA_CHANGE)
+                OutGameData:setGold(goldprice)
+                OutGameData:setDiamond(-diamondprice)
+                EventManager:doEvent(EventDef.ID.GAMEDATA_CHANGE)
                 self:removeFromParent(true)
             end
         end
@@ -272,17 +257,6 @@ function ObtainItemLayer:initView()
 end
 
 --[[--
-    界面刷新
-
-    @param dt 类型：number，帧间隔，单位秒
-
-    @return none
-]]
-function ObtainItemLayer:setIndex(index)
-    self.index=index
-end
-
---[[--
     传入数据
 
     @param data 类型：number,宝箱类型
@@ -331,24 +305,6 @@ function ObtainItemLayer:SetData(data,gold)
         self.filename="icon_legendchest.png"
         self.chesttitle="chesttitle_4.png"
         self.price=2500
-        self.num1=187
-        self.num2=51
-        self.num3=21
-        self.num4=1
-    elseif data==5 then
-        self.packs, self.packsNum=OutGameData:epicChests()
-        self.filename="icon_epicchest.png"
-        self.chesttitle="chesttitle_3.png"
-        self.price=0
-        self.num1=139
-        self.num2=36
-        self.num3=7
-        self.num4="0-1"
-    elseif data==6 then
-        self.packs, self.packsNum=OutGameData:legendChests()
-        self.filename="icon_legendchest.png"
-        self.chesttitle="chesttitle_4.png"
-        self.price=0
         self.num1=187
         self.num2=51
         self.num3=21

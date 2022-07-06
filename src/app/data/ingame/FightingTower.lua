@@ -23,9 +23,87 @@ function FightingTower:ctor(tower, indexTable, index, star)
     self.star_ = star
     self.tower_ = tower
     self.index_ = index
+    self.hitChance_ = 0.05
+
+    self.countShoot_ = 0 -- 塔3技能
+    self.dt_ = 0 -- 内置计时器，塔5技能
+
+    self.fireCd_ = 1 -- 攻速变化
 
     EventManager:doEvent(EventDef.ID.CREATE_SELF, self)
 
+end
+
+--[[--
+    设置暴击率
+
+    @parm n 类型：number
+
+    @return none
+]]
+function FightingTower:setHitChance(n)
+    self.hitChance_ = n
+end
+
+--[[--
+    获取暴击率
+
+    @parm none
+
+    @return number
+]]
+function FightingTower:getHitChance()
+    return self.hitChance_
+end
+
+--[[--
+    设置攻速变化
+
+    @parm n 类型：number，百分比
+
+    @return none
+]]
+function FightingTower:setFireCd(n)
+    self.fireCd_ = 1 * (1 - n)
+end
+
+--[[--
+    获取攻速变化
+
+    @parm none
+
+    @return number
+]]
+function FightingTower:getFireCd()
+    return self.fireCd_
+end
+
+--[[--
+    更新计时器
+
+    @parm dt 类型：number，时间间隔
+
+    @return number
+]]
+function FightingTower:updateTime(dt)
+    if dt == 11 then
+        self.dt = self.dt - 11
+    end
+    self.dt_ = self.dt_ + dt
+    return self.dt
+end
+
+
+--[[--
+    记录射击子弹数
+
+    @parm none
+
+    @return number
+]]
+function FightingTower:countShoot()
+    self.countShoot_ = self.countShoot_ + 1
+    return self.countShoot_
 end
 
 --[[--

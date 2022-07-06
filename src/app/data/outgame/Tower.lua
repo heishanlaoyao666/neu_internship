@@ -181,6 +181,17 @@ function Tower:getTowerFireCd()
 end
 
 --[[--
+    设置塔的攻速
+
+    @parm n 类型：number, 时间
+
+    @return none
+]]
+function Tower:setFireCd(n)
+    self.towerFireCd_ = self.towerFireCd_ - n
+end
+
+--[[--
     获取塔的攻速变化
 
     @parm none

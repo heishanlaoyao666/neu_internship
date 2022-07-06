@@ -5,12 +5,8 @@
 local MainScene = class("MainScene", function()
     return display.newScene("MainScene")
 end)
+-- local scheduler = require("framework.scheduler")
 local MainView = require("app.ui.outgame.view.MainView")
-local LoadView = require("app.ui.outgame.view.LoadView")
-local OutGameData = require("app.data.outgame.OutGameData")
-local ConstDef = require("app.def.outgame.ConstDef")
-local EventDef = require("app.def.EventDef")
-local EventManager = require("app.manager.EventManager")
 --[[--
     构造函数
 
@@ -20,33 +16,14 @@ local EventManager = require("app.manager.EventManager")
 ]]
 function MainScene:ctor()
     self:initScene()
-    self.mainView_ = nil -- 类型：MainView，主游戏界面
-    OutGameData:init()
-
-    self.loadView_ = LoadView.new() -- 类型：LoadView，加载界面
-    self:addChild(self.loadView_)
-
-    self:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, handler(self, self.update))
-    self:performWithDelay(function()
-        self:scheduleUpdate()
-    end, 1)
+    self.mainView_ = MainView.new() -- 类型：PlayView，主游戏界面
+    self:addChild(self.mainView_)
 end
 
 function MainScene:onEnter()
-    EventManager:regListener(EventDef.ID.GAMESTATE_CHANGE, self, function(state)
-        print("登录事件")
-        if state == ConstDef.GAME_STATE.REGISTER then
-            self.registerView_:showView()
-        elseif state == ConstDef.GAME_STATE.INIT then
-            self:unscheduleUpdate()
-            self.loadView_:removeFromParent(true)
-            self.mainView_=MainView:new():addTo(self)
-        end
-    end)
 end
 
 function MainScene:onExit()
-    EventManager:unRegListener(EventDef.ID.GAMESTATE_CHANGE, self)
 end
 
 --[[--
@@ -79,7 +56,7 @@ function MainScene:initScene()
 end
 
 function MainScene:update(dt)
-    self.loadView_:update(dt)
+    -- print("dt=", dt)
 end
 
 return MainScene

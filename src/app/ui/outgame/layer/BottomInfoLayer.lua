@@ -1,5 +1,5 @@
 --[[--
-    底部信息层
+    信息层
     BottomInfoLayer.lua
 ]]
 local BottomInfoLayer = class("BottomInfoLayer", require("app.ui.outgame.layer.BaseLayer"))
