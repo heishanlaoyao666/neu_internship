@@ -1,6 +1,7 @@
 local TopPanel = {}
 local Headdata = require("app/data/Headdata")
 local KnapsackData = require("app.data.KnapsackData")
+local SettingMusic = require("src/app/scenes/SettingMusic")
 
 function TopPanel:setCoinString(str)
     coinlabel:setString(str)
@@ -389,7 +390,7 @@ function TopPanel:createsetlayerPanel(layer)
         --按照state执行命令
         if state then
             print("1")
-            local SettingMusic = require("src/app/scenes/SettingMusic")
+           
             local isMusic = SettingMusic:setMusic1(true)
             print(isMusic)
 
@@ -397,7 +398,7 @@ function TopPanel:createsetlayerPanel(layer)
         else
             print("2")
 
-            local SettingMusic = require("src/app/scenes/SettingMusic")
+          
             local isMusic = SettingMusic:setMusic1(false)
             print(isMusic)
             --音效是关闭音效时候，全局变量设置为2，进入游戏界面如果全局变量2，则音效关闭
@@ -427,7 +428,7 @@ function TopPanel:createsetlayerPanel(layer)
         --按照state执行命令
         if state then
             print("1")
-            local SettingMusic = require("src/app/scenes/SettingMusic")
+           
             local isMusic = SettingMusic:setMusic2(true)
             print(isMusic)
 
@@ -435,7 +436,7 @@ function TopPanel:createsetlayerPanel(layer)
         else
             print("2")
 
-            local SettingMusic = require("src/app/scenes/SettingMusic")
+            
             local isMusic = SettingMusic:setMusic2(false)
             print(isMusic)
             --音效是关闭音效时候，全局变量设置为2，进入游戏界面如果全局变量2，则音效关闭
@@ -467,7 +468,7 @@ function TopPanel:createsetlayerPanel(layer)
         --按照state执行命令
         if state then
             print("1")
-            local SettingMusic = require("src/app/scenes/SettingMusic")
+            
             local isMusic = SettingMusic:setMusic3(true)
             print(isMusic)
 
@@ -475,7 +476,7 @@ function TopPanel:createsetlayerPanel(layer)
         else
             print("2")
 
-            local SettingMusic = require("src/app/scenes/SettingMusic")
+           
             local isMusic = SettingMusic:setMusic3(false)
             print(isMusic)
             --音效是关闭音效时候，全局变量设置为2，进入游戏界面如果全局变量2，则音效关闭
