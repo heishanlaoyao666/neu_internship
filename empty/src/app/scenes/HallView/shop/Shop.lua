@@ -26,7 +26,8 @@ function Shop:ShopPanel()
     Bg:setAnchorPoint(0.5, 0.5)
     Bg:setPosition(display.cx,display.cy)
     Bg:addTo(ShopLayer)
-    --图片：标题背景条
+
+    --图片：金币商店标题背景条
     local goldTitleBg = ccui.ImageView:create("ui/hall/shop/Goldcoin-shop/bg-title_block.png")
     goldTitleBg:setAnchorPoint(0, 1)
     goldTitleBg:setPosition(cc.p(0, display.top-50))
@@ -66,28 +67,28 @@ function Shop:ShopPanel()
         local index = math.random(1, #silverArray)
         print(index)
         self:createGoldItem(ShopLayer,"ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..silverArray[index]..".png"
-        ,"X36",360,offsetX,0)
+        ,36,360,offsetX,0)
         offsetX = offsetX+210
     end
 
     local silverIndex = math.random(1, #silverArray)
     print(silverIndex)
     self:createGoldItem(ShopLayer,"ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..silverArray[silverIndex]..".png"
-    ,"X36",360,-220,-220)
+    ,36,360,-220,-220)
 
     --蓝色框600
     local blueArray = {"03","10","14","15"}
     local blueIndex = math.random(1, #blueArray)
     print(blueIndex)
     self:createGoldItem(ShopLayer,"ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..blueArray[blueIndex]..".png"
-    ,"X6",600,0,-220)
+    ,6,600,0,-220)
 
     --紫色框1000
     local purpleArray = {"02","08","11","12","16","17"}
     local purpleIndex = math.random(1, #purpleArray)
     print(purpleIndex)
     self:createGoldItem(ShopLayer,"ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..purpleArray[purpleIndex]..".png"
-    ,"X1",1000,210,-220)
+    ,1,1000,210,-220)
 
     --***************************钻石商店****************************************
     --图片：钻石商店标题背景条
@@ -270,7 +271,7 @@ function Shop:createGoldItem(layer,path,fragNum,price,offsetX,offsetY)
     fragmentBg:setPosition(cc.p(110, 170))
     fragmentBg:addTo(ItemButton)
     --文本：碎片数量
-    local fragmentNum = cc.Label:createWithTTF(fragNum,"ui/font/fzbiaozjw.ttf",19)
+    local fragmentNum = cc.Label:createWithTTF("X"..fragNum,"ui/font/fzbiaozjw.ttf",19)
     fragmentNum:setPosition(cc.p(45,15))
     fragmentNum:setColor(cc.c3b(255, 206, 55))
     fragmentNum:enableOutline(cc.c4b(0, 0, 0, 255),1)--字体描边
