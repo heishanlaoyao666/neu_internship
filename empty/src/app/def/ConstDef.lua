@@ -16,19 +16,54 @@ local ConstDef = {
         MOVE_X = 100,
         MOVE_Y = -110,
     },
-    MONSTER_SIZE = {
-        WIDTH = 43,
-        HEIGHT = 44,
+    MONSTER_TAG = {
+        NORMAL = 1, --普通怪
+        SPEED = 2, --速度怪
+        PLUS = 3, --精英怪
+        BOSS_1 = 4, --BOSS怪
+        BOSS_2 = 5, --BOSS怪
+        BOSS_3 = 6, --BOSS怪
+        BOSS_4 = 7, --BOSS怪
     },
-    MONSTERPLUS_SIZE = {
+    MONSTER_SIZE = {
+        [1]={
+            WIDTH = 43,
+            HEIGHT = 44,
+        },
+        [2]={
+            WIDTH = 43,
+            HEIGHT = 44,
+        },
+        [3]={
+            WIDTH = 72,
+            HEIGHT = 74,
+        },
+        [4]={
+            WIDTH = 72,
+            HEIGHT = 74,
+        },
+        [5]={
+            WIDTH = 72,
+            HEIGHT = 74,
+        },
+        [6]={
+            WIDTH = 72,
+            HEIGHT = 74,
+        },
+        [7]={
+            WIDTH = 72,
+            HEIGHT = 74,
+        },
+    },
+    MONSTERBOSS_SIZE = {
         WIDTH = 72,
         HEIGHT = 74,
     },
     GAME_TYPE = {
-        BOSS_1 = 1, --boss1
-        BOSS_2 = 2, --boss2
-        BOSS_3 = 3, --boss3
-        BOSS_4 = 4, --boss4
+        BOSS_1 = 4, --boss1
+        BOSS_2 = 5, --boss2
+        BOSS_3 = 6, --boss3
+        BOSS_4 = 7, --boss4
 
         NULL = 288, --空对手
         NET = 999, --联网
@@ -38,7 +73,7 @@ local ConstDef = {
         MAXLIFE = 2,--最大生命
         RANDOM = 3, --随机敌人
     },
-    GAME_STATE = {  
+    GAME_STATE = {
         INIT = 1,   -- 初始状态
         PLAY = 2,   -- 游戏状态
         PAUSE = 3,  -- 暂停状态
@@ -78,6 +113,95 @@ ConstDef.BOSS ={
         ID = 4, --ID
         NAME = "狂战者", --名字
         SKILL = "不受控制效果影响，在血量为75%、50%、25%时会召唤普通怪物三个，召唤期间无敌", --描述
+    },
+    MONSTER_STAGE= {
+        [0] ={
+            TIME=0,
+            TICK=0,
+            NUMBER=2,
+            BOSS=true,
+            LIFE=100,
+            SP = 10,
+        },
+        [1] ={
+            TIME=120,
+            TICK=10,
+            NUMBER=4,
+            BOSS=true,
+            LIFE=100,
+            SP = 20,
+        },
+        [2] ={
+            TIME=220,
+            TICK=8,
+            NUMBER=4,
+            BOSS=true,
+            LIFE=700,
+            SP = 30,
+        },
+        [3] ={
+            TIME=300,
+            TICK=6,
+            NUMBER=4,
+            BOSS=true,
+            LIFE=700,
+            SP = 40,
+        },
+        [4] ={
+            TIME=360,
+            TICK=6,
+            NUMBER=4,
+            BOSS=true,
+            SP = 50,
+        },
+    }
+}
+ConstDef.BUFF={
+    [ConstDef.MONSTER_TAG.NORMAL]={
+        -- [1] ={
+        --     NAME = "speed_up",
+        --     ADDSTACK = 1,
+        --     PERMANENT = true,
+        --     VALUE = 10,
+        -- }
+    },
+    [ConstDef.MONSTER_TAG.SPEED]={
+        [1] ={
+            NAME = "speed_up",
+            ADDSTACK = 1,
+            PERMANENT = true,
+        }
+    },
+    [ConstDef.MONSTER_TAG.PLUS]={
+        
+    },
+    [ConstDef.MONSTER_TAG.BOSS_1]={
+        [1] ={
+            NAME = "boss_tag",
+            ADDSTACK = 1,
+            PERMANENT = true,
+        }
+    },
+    [ConstDef.MONSTER_TAG.BOSS_2]={
+        [1] ={
+            NAME = "boss_tag",
+            ADDSTACK = 1,
+            PERMANENT = true,
+        }
+    },
+    [ConstDef.MONSTER_TAG.BOSS_3]={
+        [1] ={
+            NAME = "boss_tag",
+            ADDSTACK = 1,
+            PERMANENT = true,
+        }
+    },
+    [ConstDef.MONSTER_TAG.BOSS_4]={
+        [1] ={
+            NAME = "boss_tag",
+            ADDSTACK = 1,
+            PERMANENT = true,
+        }
     },
 }
 ConstDef.TARGET ={

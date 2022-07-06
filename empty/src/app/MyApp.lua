@@ -5,6 +5,7 @@ require("framework.init")
 
 local AppBase = require("framework.AppBase")
 local MyApp = class("MyApp", AppBase)
+local MsgController=require("app.msg.MsgController")
 
 function MyApp:ctor()
     MyApp.super.ctor(self)
@@ -12,6 +13,7 @@ end
 
 function MyApp:run()
     cc.FileUtils:getInstance():addSearchPath("res/")
+    
     self:enterScene("MainScene")
 end
 

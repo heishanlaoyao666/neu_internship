@@ -58,6 +58,10 @@ function BossDamage(buff,bullet,damageinfo)
         end
     end
 end
+--OnTick(buff,target,...)
+function SpeedUp(buff,target)
+    target:setBuffSpeed(target:getSpeed())
+end
 --OnBeHit(buff,state,...)
 function Burn(buff,target,damageinfo)
     DamageInfo.new(nil,target,buff:getValue(),ConstDef.DAMAGE.BUFF)
@@ -173,6 +177,24 @@ BuffTable = {
         )
         return buff
     end,
+    ["speed_up"] =  function ()
+        local buff = BuffObj.new(
+            "speed_up",
+            {},
+            0,
+            1,
+            0,
+            nil,
+            nil,
+            nil,
+            SpeedUp,
+            nil,
+            nil,
+            nil,
+            nil
+        )
+        return buff
+    end,
     ["boss_damage"] =  function ()
         local buff = BuffObj.new(
             "boss_damage",
@@ -191,7 +213,7 @@ BuffTable = {
         )
         return buff
     end,
-    
+
 }
 
 --[[--

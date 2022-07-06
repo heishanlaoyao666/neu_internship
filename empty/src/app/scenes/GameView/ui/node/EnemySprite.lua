@@ -15,6 +15,9 @@ function EnemySprite:ctor(res, data)
     self:setAnchorPoint(0.5, 0.5)
     self:setPosition(self.data_:getX(), self.data_:getY())
 
+    self.random_x_=math.random(-10,10)
+    self.random_y_=math.random(-20,20)
+
     self.life_ = cc.Label:createWithTTF(self.data_:getLife(),"ui/font/fzbiaozjw.ttf",15)
     self:addChild(self.life_)
     self.life_:setAnchorPoint(0.5,0.5)
@@ -29,7 +32,7 @@ end
     @return none
 ]]
 function EnemySprite:update(dt)
-    self:setPosition(self.data_:getX(), self.data_:getY())
+    self:setPosition(self.data_:getX()+self.random_x_, self.data_:getY()+self.random_y_)
     self.life_:setString(self.data_:getLife())
 end
 

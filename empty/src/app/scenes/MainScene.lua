@@ -7,6 +7,7 @@ local TopPanel = require("app.scenes.TopPanel")
 local Shop = require("app.scenes.HallView.shop.Shop")
 local Atlas = require("app.scenes.Atlas")
 local Battle = require("app.scenes.Battle")
+local KnapsackData = require("app/data/KnapsackData.lua")
 function MainScene:ctor()
     local shop = Shop.new()
     local atlas = Atlas.new()
@@ -28,7 +29,7 @@ function MainScene:ctor()
     layer:addTo(self)
     TopPanel:createMiddleTopPanel(layer)--顶部信息栏
 
-
+    KnapsackData:init()
 end
 
 --[[

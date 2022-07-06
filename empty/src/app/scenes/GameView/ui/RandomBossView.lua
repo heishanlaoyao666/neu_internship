@@ -64,7 +64,7 @@ function RandomBossView:initView()
         local id =math.random(1,4)
         local sprite = display.newSprite(string.format("ui/battle/Secondary interface-Random boss pop-up/boss-%u.png",id))
         self:addChild(sprite)
-        sprite.id_=id
+        sprite.id_=id+3
         self.bossSprites_[#self.bossSprites_ + 1] = sprite
         sprite:setAnchorPoint(0.5, 0.5)
         sprite:setPosition(offsetX, display.cy)

@@ -46,6 +46,27 @@ function Player:init(array,tag)
     end)
 end
 --[[--
+    获取生成点数cost
+
+    @param none
+
+    @return sp_cost
+]]
+function Player:getSpCost()
+    return sp_cost
+end
+--[[--
+    设置sp点数
+
+    @param sp_ 类型:number
+
+    @return sp
+]]
+function Player:setSp(sp_)
+    sp=sp+sp_
+    return sp
+end
+--[[--
     获取塔数组
 
     @param none
@@ -73,33 +94,37 @@ end
     @return number
 ]]
 function Player:createTower()
+    local sum =0 
+    for i = 1, 3 do
+        for j = 1, 5 do
+            if self.towers[i][j] then
+                sum=sum+1
+            end
+        end
+    end
+    if sum == 15 then
+        return
+    end
     if sp<sp_cost then
         return
     end
     sp=sp-sp_cost
+    sp_cost=sp_cost+10
     local id=math.random(1,5)
     self:createTowerEnd(tower_array[id].id_,tower_array[id].level_,tower_array[id].grade_)
 end
 --[[--
     塔最终创建
 
-    @param id 
+    @param id
     @param level
     @param grade
 
     @return number
 ]]
 function Player:createTowerEnd(id,level,grade)
-    local tower=Tower.new(id,level,grade)
+    local tower=Tower.new(id,level,grade,self)
         local random = math.random(1,15)
-        local sum = 0
-        while tower_array[random]~=nil do
-            if sum == 15 then
-                return
-            end
-            sum =sum+1
-            random = math.random(1,15)
-        end
         local x = random%5
         local y =math.modf(random/5)+1
         if x == 0 then
@@ -108,6 +133,18 @@ function Player:createTowerEnd(id,level,grade)
         if random%5 == 0 then
             y = y-1
         end
+        while self.towers[y][x]~=nil do
+            random = math.random(1,15)
+            x = random%5
+            y =math.modf(random/5)+1
+            if x == 0 then
+                x = 5
+            end
+            if random%5 == 0 then
+                y = y-1
+            end
+        end
+        print(random)
         print(x.." "..y)
         tower:setX(ConstDef.TOWER_POS.DOWN_X+ConstDef.TOWER_POS.MOVE_X*(x-1))
         tower:setY(ConstDef.TOWER_POS.DOWN_Y+ConstDef.TOWER_POS.MOVE_Y*(y-1))
@@ -120,9 +157,9 @@ function Player:createTowerEnd(id,level,grade)
             nil,
             tower,
             BuffTable[data.NAME],
-            BuffTable[data.ADDSTACK],
+            data.ADDSTACK,
             true,
-            BuffTable[data.PERMANENT],
+            data.PERMANENT,
             0,
             value.VALUE+value.VALUE_UPGRADE*(tower:getLevel()-1)+value.VALUE_ENHANCE*(tower:getGrade()-1)
         ))
@@ -131,12 +168,37 @@ end
 --[[--
     怪物创建
 
-    @param none
+    @param life 类型:number,怪物血量
+    @param sp 类型:number,怪物击败获得的sp
+    @param tag 类型:number,怪物类型
 
     @return number
 ]]
-function Player:createMonster()
-    local monster = Monster.new()
+function Player:createMonster(life,givesp,tag)
+    local monster = Monster.new(life,givesp,tag,self)
+
+    if tag == ConstDef.MONSTER_TAG.BOSS then
+        local newlife = 0
+        for i = 1, #monsters_ do
+            newlife=newlife+monsters_[i]:getLife()
+            monsters_:destory()
+        end
+        monster:setLife(newlife*0.5)
+    end
+    --给monster添加buff
+    for i = 1, #ConstDef.BUFF[tag] do
+        local data = ConstDef.BUFF[tag][i]
+        monster:addBuff(BuffTable:addBuffInfo(
+            nil,
+            monster,
+            BuffTable[data.NAME],
+            BuffTable[data.ADDSTACK],
+            true,
+            BuffTable[data.PERMANENT],
+            0,
+            data.VALUE
+        ))
+    end
     monster:setTarget(ConstDef.TARGET[self.tag_])
     monsters_[#monsters_+1] = monster
 end

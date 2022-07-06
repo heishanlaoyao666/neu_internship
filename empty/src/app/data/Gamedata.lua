@@ -15,8 +15,6 @@ local DamageInfo =require("app/data/DamageInfo.lua")
 
 local damages_ = {} --类型:伤害信息数组
 
-local MONSTER_INTERVAL_ =1 --怪物生成间隔
-
 local moveTower = {
     tower =nil,
     x = 0,
@@ -40,7 +38,11 @@ function GameData:init()
     self.monster_tick_ = 0 --类型：number,怪物生成tick
     -- 类型：number，游戏状态
     self.gameState_ = ConstDef.GAME_STATE.INIT
-    self.monster_tick_=MONSTER_INTERVAL_
+    self.monster_tick_=0
+    self.monset_stage_=0 --怪物生成次数
+
+    self.game_time_=0
+    self.game_stage_ = 0
 
     EventManager:regListener(EventDef.ID.INIT_DAMAGE, self, function(damage)
         damages_[#damages_+1] = damage
@@ -61,10 +63,11 @@ function GameData:setTowerArray(table,tag)
         for i = 1, 5 do
             tower_table[i]={}
             tower_table[i].id_=table[i].tower_id_
-            tower_table[i].level_=table[i].level_
+            tower_table[i].level_=table[i].tower_level_
             tower_table[i].grade_=1
         end
         self.player_:init(tower_table,tag)
+        print("初始化了么")
     end
 end
 --[[--
@@ -246,11 +249,27 @@ function GameData:update(dt)
     if self.gameState_ ~= ConstDef.GAME_STATE.PLAY then
         return
     end
-    if self.monster_tick_>=MONSTER_INTERVAL_ then
-        self.monster_tick_=self.monster_tick_-MONSTER_INTERVAL_
-        self.player_:createMonster()
+    local stage_=ConstDef.BOSS.MONSTER_STAGE[self.game_stage_]
+    --普通怪物
+    if self.monster_tick_>=stage_.TICK then
+        self.monset_stage_=self.monset_stage_+1
+        --精英怪物
+        if self.monset_stage_%4 == 0 then
+            self.player_:createMonster(5*stage_.LIFE*(self.monset_stage_+1),stage_.SP,ConstDef.MONSTER_TAG.PLUS)
+        end
+        self.monster_tick_=self.monster_tick_-stage_.TICK
+        for i = 1, stage_.NUMBER do
+            self.player_:createMonster(stage_.LIFE*self.monset_stage_,stage_.SP,ConstDef.MONSTER_TAG.NORMAL)
+        end
     end
     self.monster_tick_=self.monster_tick_+dt 
+    self.game_time_=self.game_time_+dt
+    if self.game_time_>=stage_.TIME then
+        if stage_.BOSS then
+            self.player_:createMonster(self.game_stage_*50000*self.monset_stage_,stage_.SP,self.opposite_)
+        end
+        self.game_stage_=self.game_stage_+1
+    end
     -- self:shoot(dt)
     -- self:createEnemyPlane(dt)
     self.player_:update(dt)

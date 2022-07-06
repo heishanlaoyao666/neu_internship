@@ -63,10 +63,10 @@ function InfoLayer:initView()
             player:createTower()
         end
     end)
-    local createTTF = cc.Label:createWithTTF(20,"ui/font/fzbiaozjw.ttf",24)
-    createTTF:addTo(createBtn)
-    createTTF:setAnchorPoint(0.5,0)
-    createTTF:setPosition(createBtn:getContentSize().width*0.5,0)
+    self.createTTF = cc.Label:createWithTTF(player:getSpCost(),"ui/font/fzbiaozjw.ttf",24)
+    self.createTTF:addTo(createBtn)
+    self.createTTF:setAnchorPoint(0.5,0)
+    self.createTTF:setPosition(createBtn:getContentSize().width*0.5,0)
 
     --剩余sp点数
     local sp = ccui.ImageView:create("ui/battle/Battle interface/bg-sp.png")
@@ -74,7 +74,7 @@ function InfoLayer:initView()
     sp:setPosition(180, 180)
     self.container_:addChild(sp)
 
-    self.spLabel_ = cc.Label:createWithTTF(200,"ui/font/fzbiaozjw.ttf",24)
+    self.spLabel_ = cc.Label:createWithTTF(player:setSp(0),"ui/font/fzbiaozjw.ttf",24)
     self.spLabel_:setAnchorPoint(0.5, 0.5)
     self.spLabel_:setPosition(190, 180)
     self.container_:addChild(self.spLabel_)
@@ -208,6 +208,8 @@ function InfoLayer:update(dt)
     if self.randomBossView then
         self.randomBossView:update(dt)
     end
+    self.spLabel_:setString(player:setSp(0))
+    self.createTTF:setString(player:getSpCost())
     -- self.lifeLabelBmf_:setString(tostring(GameData:getLife()))
     -- self.scoreLabelBmf_:setString(tostring(GameData:getScore()))
 

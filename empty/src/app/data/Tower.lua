@@ -12,11 +12,12 @@ local EventManager = require("app/manager/EventManager.lua")
 
     @param tower_id 类型：number，塔编号
     @param level 类型：number，塔等级
+    @param grade 类型：number，塔的强化等级
     @param player 类型：number，塔的归宿玩家
 
     @return none
 ]]
-function Tower:ctor(tower_id,level,player)
+function Tower:ctor(tower_id,level,grade,player)
     Tower.super.ctor(self, 0, 0, 50, 50)
 
     self.player = player --塔的归属玩家
@@ -29,7 +30,7 @@ function Tower:ctor(tower_id,level,player)
     self.tower_mode_ = TowerDef.TABLE[tower_id].MODE --类型：number，塔攻击模式
 
     self.level_ =level --类型：number 塔等级
-    self.grade_ = 1 --类型:number 当前强化等级
+    self.grade_ = grade --类型:number 当前强化等级
     self.tower_fireTick_ =0 --类型：number,塔攻击时间tick
 
     --数值和状态区赋值

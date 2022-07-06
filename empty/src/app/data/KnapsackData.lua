@@ -6,6 +6,7 @@ local KnapsackData = {}
 local TowerDef = require("app/def/TowerDef.lua")
 
 local MsgController=require("app.msg.MsgController")
+local MsgDef=require("app.msg.MsgDef")
 
 local towerData = {} --类型: table ,key 塔id，value：unlock(塔解锁模式),fragment(塔碎片),level(塔等级)
 local towerArray = {} --类型:table, key 阵容顺序(12345),value:tower_id_(塔id),tower_level_(塔等级)
@@ -18,11 +19,34 @@ local initlevel = {}
     @return none
 ]]
 function KnapsackData:init()
-    self.goldcoin_ = 10000
-    self.diamonds_ = 10000
+    print("背包初始化开始")
+    self.goldcoin_ = 0
+    self.diamonds_ = 0
     self.cups_ = 0
-    --向服务器拿数据初始化
 
+    
+    --初始化msg控制器的监听
+    MsgController:registerListener(self,function (msg)
+        if msg["type"] == MsgDef.MSG_TYPE_ACK.LOGIN then
+            self.goldcoin_=msg["gold"]
+            self.diamonds_=msg["diamond"]
+            self.cups=msg["cup"]
+        end
+    end)
+
+
+
+
+    --链接服务器
+
+    --向服务器拿数据初始化
+    -- local msg = {
+    --     type = MsgDef.MSG_TYPE_REQ.LOGIN,
+    --     userId = 0,
+    --     pid = 5088,
+    --     loginname = "???",
+    -- }
+    -- MsgController:sendMsg(msg)
     for i = 1, 20 do
         towerData[i]={}
         towerData[i].unlock_=true
