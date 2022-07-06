@@ -297,7 +297,7 @@ function KnapsackData:uplevel(id)
 end
 
 function KnapsackData:getatk(id)
- 
+    print(towerData[id].level_)
     return TowerDef.TABLE[id].ATK + (towerData[id].level_-initlevel[id])*TowerDef.TABLE[id].ATK_UPGRADE
 end
 

@@ -1,4 +1,5 @@
 local Battle = class("Battle")
+
 local function touchEvent(sender,eventType,bg)--按钮点击事件
     if eventType == ccui.TouchEventType.began then
         if bg == "ui/hall/battle/rank/lockedBorder.png" then--未达成未领取
@@ -69,22 +70,29 @@ end
     函数用途：展示天梯
     --]]
 function Battle:highLadder(layer)
+
     --层：天梯背景
     local highLadderLayer = ccui.ImageView:create("ui/hall/battle/rank/highLadderBg.png")
     highLadderLayer:pos(display.cx, display.top-180)
     highLadderLayer:setAnchorPoint(0.5, 0.5)
     highLadderLayer:addTo(layer)
+    --listView翻页
+    local listView = ccui.ListView:create()
+    listView:setContentSize(570,285)
+    listView:setPosition(50,0)
+    listView:setAnchorPoint(0, 0)
+    listView:setDirection(1)
+    listView:addTo(highLadderLayer)
     --滑动层
     local slideLayer = ccui.Layout:create()
     slideLayer:setBackGroundColorOpacity(180)--设置为透明
     --slideLayer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid) --设置颜色
     --slideLayer:setBackGroundColorOpacity(128)--设置透明度
-    --slideLayer:setBackGroundColor(cc.c3b(51, 51, 51))
-    slideLayer:setContentSize(10000, 285)
-    slideLayer:setPosition(0, 283)
+    slideLayer:setContentSize(676, 285)
+    slideLayer:setPosition(0,0)
     slideLayer:setAnchorPoint(0,1)
-    slideLayer:addTo(highLadderLayer)
-    --self:slide(slideLayer)
+    listView:addChild(slideLayer)
+
     --进度条
     self:slideCreate(slideLayer,score)
     --奖励
@@ -92,21 +100,10 @@ function Battle:highLadder(layer)
     --图标:钥匙
     local key = ccui.ImageView:create("ui/hall/battle/rank/scale/key.png")
     key:setScale(0.9,0.9)
-    key:pos(60, 70)
+    key:pos(10, 70)
     key:setAnchorPoint(0.5, 0.5)
     key:addTo(slideLayer)
 
-    --左侧遮罩
-    --[[local leftLayer = ccui.Layout:create()
-    leftLayer:setBackGroundColorOpacity(180)--设置为透明
-    leftLayer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid) --设置颜色
-    leftLayer:setBackGroundColorOpacity(128)--设置透明度
-    leftLayer:setBackGroundColor(cc.c3b(51, 51, 51))
-    leftLayer:setContentSize(100, 285)
-    leftLayer:setPosition(-50, 0)
-    leftLayer:setAnchorPoint(0,0)
-    leftLayer:addTo(highLadderLayer)
-    --]]
     --按钮：左滑
     local leftButton = ccui.Button:create(
             "ui/hall/battle/rank/slideLeft.png",
@@ -118,7 +115,10 @@ function Battle:highLadder(layer)
             local scale = cc.ScaleTo:create(1,0.9)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
-            --print(slideLayer:getPositionX())
+            print(slideLayer:getPositionX())
+            if slideLayer:getPositionX()>0 then
+                slideLayer:setPositionX(0)
+            end
             if slideLayer:getPositionX()~=0 then
                 self:slideShop(slideLayer,570)
             end
@@ -164,6 +164,16 @@ function Battle:highLadder(layer)
 
 end
 
+
+--[[
+    函数用途：天梯滑动
+    --]]
+function Battle:ladderListView()
+
+end
+
+
+
 --[[
     函数用途：展示各个进度的奖励
     --]]
@@ -173,7 +183,7 @@ function Battle:awardPanel(layer,reachStatus,receiveStatus,score)
     --默认状态为未达成未领取
     local bg = "ui/hall/battle/rank/lockedBorder.png"
     local icon = "ui/hall/battle/rank/locked.png"
-    local bgOriginX = 165
+    local bgOriginX = 110
     for i = 1,num do
         if reachStatus == "true" then--已达成
             if receiveStatus == "false" then--未领取
@@ -220,7 +230,7 @@ function Battle:awardPanel(layer,reachStatus,receiveStatus,score)
         end
     end
 
-    local awardOriginX = 165
+    local awardOriginX = 110
 
 
     --奖励图标
@@ -304,9 +314,9 @@ end
     --]]
 function Battle:slideCreate(layer,score)
     local distance = 550
-    local originX = 60
+    local originX = 60-55
     local originY = 50
-    local scaleOriginX = -15
+    local scaleOriginX = -15-55
     local scaleDistance = 177
     local num = score/50--得出达到了第几个奖励
     --进度条背景
@@ -328,7 +338,7 @@ function Battle:slideCreate(layer,score)
     local barPro = cc.ProgressTimer:create(cc.Sprite:create("ui/hall/battle/rank/scale/rectangle1.png"))--进度条组件
     barPro:setScale(0.931,0.9)
     barPro:setAnchorPoint(0, 0)
-    barPro:setPosition(60, originY+4)
+    barPro:setPosition(5, originY+4)
     barPro:setType(cc.PROGRESS_TIMER_TYPE_BAR)
     barPro:setMidpoint(cc.p(0, 0))--进度条起点位置
     barPro:setBarChangeRate(cc.p(1, 0))--进度方向为水平方向
@@ -349,6 +359,14 @@ function Battle:slideCreate(layer,score)
     barPro:runAction(sequenceAction)
 
 end
+
+
+
+
+
+
+
+
 
 --[[
     函数用途：滑动事件
