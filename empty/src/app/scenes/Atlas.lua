@@ -14,6 +14,9 @@ end
 function Atlas:setATKString(str)
     type2label:setString(str)
 end
+function Atlas:setCOINString(str)
+    coin_label:setString(str)
+end
 
 function Atlas:slide(layer)
     str = "null"
@@ -35,18 +38,23 @@ function Atlas:slide(layer)
         local y1 = location["y"] or 0
         local location2 = touch:getLocationInView()
         local y2 = location2["y"] or 0
-        if y1<y2 then
-            str = "up"
-        elseif y1>y2 then
-            str = "down"
+        if y2-y1>50 then
+            --print(layer:getPositionY())
+            if layer:getPositionY() ~= 0 then--边缘内滑动
+                str = "down"
+            end
+        elseif y1-y2>50 then
+            if layer:getPositionY() ~=370 then--边缘内滑动
+                str = "up"
+            end
         end
     end
     local function onTouchEnded(touch, event)
-        if str == "up" then
-            self:slider(layer,-350)
+        if str == "down" then
+            self:slider(layer,-370)
             print(str)
-        elseif str == "down" then
-            self:slider(layer,350)
+        elseif str == "up" then
+            self:slider(layer,370)
             print(str)
         end
     end
@@ -70,8 +78,12 @@ function Atlas:createCollectionPanel()
     --AtlasLayer:setBackGroundColorType(1)
     AtlasLayer:setAnchorPoint(0, 0)
     AtlasLayer:setPosition(0, display.top)
+
+
+
+
     AtlasLayer:setContentSize(720, 1280)
-    --self:slide(AtlasLayer)
+    self:slide(AtlasLayer)
 
     --图片：背景图
     local Bg = ccui.ImageView:create("ui/hall/battle/bg-battle_interface.png")
@@ -83,34 +95,34 @@ function Atlas:createCollectionPanel()
     local criticaldamageback=ccui.ImageView:create("ui/hall/Atlas/Subinterface_info/bottomchart_info.png")
     criticaldamageback:setScale(1)
     criticaldamageback:setAnchorPoint(0,1)
-    criticaldamageback:pos(0+55,height-480)
+    criticaldamageback:pos(0+55,height-480+120)
     criticaldamageback:addTo(AtlasLayer)
 
     local criticaldamagebacktext2=ccui.ImageView:create("ui/hall/Atlas/Subinterface_info/Text-Totalcriticaldamage.png")
     criticaldamagebacktext2:setScale(1)
     criticaldamagebacktext2:setAnchorPoint(0,1)
-    criticaldamagebacktext2:pos(0+250,height-500)
+    criticaldamagebacktext2:pos(0+250,height-500+120)
     criticaldamagebacktext2:addTo(AtlasLayer)
 
     local criticaldamagebacktext1=ccui.ImageView:create("ui/hall/Atlas/Subinterface_info/Text-anydefensetowerupgradedwillpermanentlyincreasecriticalhitdamage.png")
     criticaldamagebacktext1:setScale(1)
     criticaldamagebacktext1:setAnchorPoint(0,1)
-    criticaldamagebacktext1:pos(0+190,height-550)
+    criticaldamagebacktext1:pos(0+190,height-550+120)
     criticaldamagebacktext1:addTo(AtlasLayer)
-    
+
     --暴击值
     local criticaldamagelabel=cc.Label:createWithTTF("220%","ui/font/fzbiaozjw.ttf",30)
     criticaldamagelabel:setScale(1)
     criticaldamagelabel:setColor(cc.c3b(255,128,0))
     criticaldamagelabel:setAnchorPoint(0,1)
-    criticaldamagelabel:pos(0+410,height-500)
+    criticaldamagelabel:pos(0+410,height-500+120)
     criticaldamagelabel:addTo(AtlasLayer)
 
     --已收集
     local collectedimage=ccui.ImageView:create("ui/hall/Atlas/Subinterface_towerlist/splitline_collected.png")
     collectedimage:setScale(1)
     collectedimage:setAnchorPoint(0,1)
-    collectedimage:pos(0,height-600)
+    collectedimage:pos(0,height-600+120)
     collectedimage:addTo(AtlasLayer)
 
     -- self:createCollectedItem(AtlasLayer,"ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-rare.png",
@@ -150,7 +162,7 @@ function Atlas:createCollectionPanel()
         elseif rarity==3 then
             --print(rarity)
             raritystring = "epic"
-        else 
+        else
             --print(rarity)
             raritystring = "legend"
         end
@@ -166,17 +178,17 @@ function Atlas:createCollectionPanel()
         elseif towertype==3 then
             --print(rarity)
             towertypestring = "auxiliary"
-        else 
+        else
             --print(rarity)
             towertypestring = "control"
         end
 
 
         self:createCollectedItem(AtlasLayer,
-        "ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-"..raritystring..".png",
-        TowerString,
-        "ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_"..towertypestring..".png",
-        "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.".."9"..".png",a,b)
+                "ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-"..raritystring..".png",
+                TowerString,
+                "ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_"..towertypestring..".png",
+                "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.".."9"..".png",a,b)
         a=a+170
         if key%4 ==0 then
             a = 0
@@ -185,51 +197,51 @@ function Atlas:createCollectionPanel()
     end
 
 
---     --循环
---     local TowerString = Towerdata.OBTAINED[1]
---     --print(TowerString)
---     --print("图片数字"..(string.sub(Towerdata.OBTAINED[1],-6,-5)))
---     -- print("稀有度"..TowerDef.RARITY.LEGEND)
---     local chartnum = tonumber(string.sub(TowerString,-6,-5))
---     local rarity = TowerDef.TABLE[chartnum].RARITY
---     local raritystring
---     if rarity == 1 then
---         --print(rarity)
---         raritystring = "common"
---     elseif rarity ==2 then
---         --print(rarity)
---         raritystring = "rare"
---     elseif rarity==3 then
---         --print(rarity)
---         raritystring = "epic"
---     else 
---         --print(rarity)
---         raritystring = "legend"
---     end
+    --     --循环
+    --     local TowerString = Towerdata.OBTAINED[1]
+    --     --print(TowerString)
+    --     --print("图片数字"..(string.sub(Towerdata.OBTAINED[1],-6,-5)))
+    --     -- print("稀有度"..TowerDef.RARITY.LEGEND)
+    --     local chartnum = tonumber(string.sub(TowerString,-6,-5))
+    --     local rarity = TowerDef.TABLE[chartnum].RARITY
+    --     local raritystring
+    --     if rarity == 1 then
+    --         --print(rarity)
+    --         raritystring = "common"
+    --     elseif rarity ==2 then
+    --         --print(rarity)
+    --         raritystring = "rare"
+    --     elseif rarity==3 then
+    --         --print(rarity)
+    --         raritystring = "epic"
+    --     else
+    --         --print(rarity)
+    --         raritystring = "legend"
+    --     end
 
---     local towertype = TowerDef.TABLE[chartnum].TYPE
---     local towertypestring
---     if towertype == 1 then
---         --print(rarity)
---         towertypestring = "attack"
---     elseif towertype ==2 then
---         --print(rarity)
---         towertypestring = "disturb"
---     elseif towertype==3 then
---         --print(rarity)
---         towertypestring = "auxiliary"
---     else 
---         --print(rarity)
---         towertypestring = "control"
---     end
+    --     local towertype = TowerDef.TABLE[chartnum].TYPE
+    --     local towertypestring
+    --     if towertype == 1 then
+    --         --print(rarity)
+    --         towertypestring = "attack"
+    --     elseif towertype ==2 then
+    --         --print(rarity)
+    --         towertypestring = "disturb"
+    --     elseif towertype==3 then
+    --         --print(rarity)
+    --         towertypestring = "auxiliary"
+    --     else
+    --         --print(rarity)
+    --         towertypestring = "control"
+    --     end
 
 
 
---     self:createCollectedItem(AtlasLayer,
---     "ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-"..raritystring..".png",
---     TowerString,
---     "ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_"..towertypestring..".png",
---     "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.".."9"..".png",170,-700)
+    --     self:createCollectedItem(AtlasLayer,
+    --     "ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-"..raritystring..".png",
+    --     TowerString,
+    --     "ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_"..towertypestring..".png",
+    --     "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.".."9"..".png",170,-700)
 
     -- self:createCollectedItem(AtlasLayer,"ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-rare.png"
     -- ,"ui/hall/common/Tower-Icon/05.png","ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png",
@@ -242,7 +254,7 @@ function Atlas:createCollectionPanel()
     local notcollectedimage=ccui.ImageView:create("ui/hall/Atlas/Subinterface_towerlist/splitline_notcollected.png")
     notcollectedimage:setScale(1)
     notcollectedimage:setAnchorPoint(0,1)
-    notcollectedimage:pos(0,height-1200)
+    notcollectedimage:pos(0,height-1200+120)
     notcollectedimage:addTo(AtlasLayer)
 
     self:createTroopPanel(AtlasLayer)
@@ -289,7 +301,7 @@ function Atlas:towerusingPanel(layer,bg)
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
-           towerusingLayer:setVisible(false)--隐藏二级弹窗
+            towerusingLayer:setVisible(false)--隐藏二级弹窗
             layer:setTouchEnabled(true)
         elseif eventType == ccui.TouchEventType.canceled then
             local scale = cc.ScaleTo:create(1,1)
@@ -312,24 +324,32 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
     towerinfoLayer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
     towerinfoLayer:setBackGroundColorOpacity(128)--设置透明度
     towerinfoLayer:setContentSize(width, height)
-    towerinfoLayer:pos(width*0.5, height *0.5)
+
+    --随着滑动的位置而改变
+    if layer:getPositionY() == 0 then
+        towerinfoLayer:pos(width/2, height/2)
+    else
+        towerinfoLayer:pos(width/2, height/2-370)
+    end
+
+    --towerinfoLayer:pos(width*0.5, height *0.5)
     towerinfoLayer:setAnchorPoint(0.5, 0.5)
     towerinfoLayer:addTo(layer)
     towerinfoLayer:setTouchEnabled(true)--屏蔽一级界面
 
 
---     local TowerString = Towerdata.OBTAINED[1]
---     --print(TowerString)
---     --print("图片数字"..(string.sub(Towerdata.OBTAINED[1],-6,-5)))
---     -- print("稀有度"..TowerDef.RARITY.LEGEND)
---     local chartnum = tonumber(string.sub(TowerString,-6,-5))
---     local rarity = TowerDef.TABLE[chartnum].RARITY
---     local raritystring
+    --     local TowerString = Towerdata.OBTAINED[1]
+    --     --print(TowerString)
+    --     --print("图片数字"..(string.sub(Towerdata.OBTAINED[1],-6,-5)))
+    --     -- print("稀有度"..TowerDef.RARITY.LEGEND)
+    --     local chartnum = tonumber(string.sub(TowerString,-6,-5))
+    --     local rarity = TowerDef.TABLE[chartnum].RARITY
+    --     local raritystring
     local TowerString = bg
     local chartnum = tonumber(string.sub(TowerString,-6,-5))
 
     local rarity = TowerDef.TABLE[chartnum].RARITY
-    
+
     local raritystring  --稀有度
     if rarity == 1 then
         --print(rarity)
@@ -340,7 +360,7 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
     elseif rarity==3 then
         --print(rarity)
         raritystring = "史诗"
-    else 
+    else
         --print(rarity)
         raritystring = "传说"
     end
@@ -358,14 +378,14 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
     elseif towertype==3 then
         --print(rarity)
         towertypestring = "辅助向"
-    else 
+    else
         --print(rarity)
         towertypestring = "控制向"
     end
     --local atk = KnapsackData:getatk(chartnum)
     local atk = TowerDef.TABLE[chartnum].ATK  --攻击力
     local speed = TowerDef.TABLE[chartnum].FIRECD  --攻速
-    local target = TowerDef.TABLE[chartnum].MODE  
+    local target = TowerDef.TABLE[chartnum].MODE
     local targetstring  --目标
     if target == 1 then
         --print(rarity)
@@ -373,7 +393,7 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
     elseif target ==2 then
         --print(rarity)
         targetstring = "最大生命"
-    else 
+    else
         --print(rarity)
         targetstring = "随机"
     end
@@ -382,7 +402,7 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
 
     --图片：弹窗背景
     local popLayer = ccui.ImageView:create("ui/hall/Atlas/Secondaryinterface_towerinfo/buttomchart_pop_up_windows.png")
-    popLayer:pos(display.cx, display.cy-220)
+    popLayer:pos(display.cx, display.cy+100)
     popLayer:setAnchorPoint(0.5, 0.5)
     popLayer:addTo(towerinfoLayer)
 
@@ -393,7 +413,7 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
     ItemBg:setScale(1)
     ItemBg:setPosition(cc.p(120, 685))
     ItemBg:addTo(popLayer)
-    
+
     --塔
     local towericon =ccui.ImageView:create(bg)
     towericon:setScale(1)
@@ -518,7 +538,7 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
     type2attri:setScale(1)
     type2attri:setPosition(cc.p(450, 480))
     type2attri:addTo(popLayer)
-    
+
     type2label=cc.Label:createWithTTF(KnapsackData:getatk(chartnum),"ui/font/fzzdhjw.ttf",26)
     type2label:setScale(1)
     type2label:setColor(cc.c3b(255, 255, 255))
@@ -615,14 +635,20 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
             updatelabel:addTo(popLayer)
 
 
+
+
             local scale = cc.ScaleTo:create(1,0.9)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
         elseif eventType == ccui.TouchEventType.ended then
             
-            KnapsackData:setatk(chartnum)
-            
+
+
+
+            KnapsackData:uplevel(chartnum)            
             Atlas:setATKString(KnapsackData:getatk(chartnum))
+            Atlas:setCOINString(KnapsackData:getupgradecoin(chartnum))
+
             updatelabel:setVisible(false)
 
             local scale = cc.ScaleTo:create(1,1)
@@ -635,9 +661,37 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
+
+        elseif eventType == ccui.TouchEventType.moved then
+            --Atlas:setCOINString(KnapsackData:getupgradecoin(chartnum))
         end
     end)
     upgradeButton:addTo(popLayer)
+
+    local coin_icon = ccui.ImageView:create("ui/hall/Atlas/Secondaryinterface_towerinfo/icon_coin.png")
+    coin_icon:setScale(1)
+    coin_icon:setPosition(cc.p(50, 30))
+    coin_icon:addTo(upgradeButton)
+    
+    local coinnum
+    if rarity == 1 then
+        coinnum = 5
+    elseif rarity ==2 then
+        coinnum = 50
+    elseif rarity ==3 then
+        coinnum = 400
+    else
+        coinnum =8000
+    end
+    coin_label=cc.Label:createWithTTF(KnapsackData:getupgradecoin(chartnum),"ui/font/fzbiaozjw.ttf",24)
+    coin_label:setScale(1)
+    coin_label:setColor(cc.c3b(255, 255, 255))
+    coin_label:setPosition(cc.p(110, 30))
+    coin_label:enableOutline(cc.c4b(0, 0, 0, 255),2)
+    coin_label:addTo(upgradeButton)
+
+
+
 
 
     --按钮：强化按钮
@@ -748,7 +802,7 @@ function Atlas:createCollectedItem(layer,path,bg,towertype,rank,offsetX,offsetY)
 
     --按钮：商品1
     local ItemButton = ccui.Button:create(path, path, path)
-    ItemButton:setPosition(cc.p(100+offsetX, display.top-340+offsetY))
+    ItemButton:setPosition(cc.p(100+offsetX, display.top-340+offsetY+120))
     ItemButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
         if eventType == ccui.TouchEventType.began then
             local scale = cc.ScaleTo:create(1,0.9)
@@ -825,18 +879,18 @@ function Atlas:createTroopPanel(layer)
     local currenttroop=ccui.ImageView:create("ui/hall/Atlas/Subinterface_currentsquad/bottomchart_title.png")
     currenttroop:setScale(1)
     currenttroop:setAnchorPoint(0,1)
-    currenttroop:pos(0+35,height-170)
+    currenttroop:pos(0+35,height-50)
     currenttroop:addTo(layer)
 
     local currenttroopblack=ccui.ImageView:create("ui/hall/Atlas/Subinterface_currentsquad/bottomchart_area.png")
     currenttroopblack:setScale(1)
     currenttroopblack:setAnchorPoint(0,1)
-    currenttroopblack:pos(0+35,height-255)
+    currenttroopblack:pos(0+35,height-135)
     currenttroopblack:addTo(layer)
     --当前阵容文字
     local trooplabel=cc.Label:createWithTTF("当前阵容","ui/font/fzbiaozjw.ttf",40)
     trooplabel:setAnchorPoint(0,1)
-    trooplabel:pos(0+200,height-190)
+    trooplabel:pos(0+200,height-70)
     trooplabel:addTo(layer)
 
     self:createTroopItem(layer,"ui/hall/common/Tower-Icon/01.png"
@@ -858,7 +912,7 @@ function Atlas:createTroopItem(layer,path,towertype,rank,offsetX,offsetY)--层�
 
     --按钮：商品1
     local ItemButton = ccui.Button:create(path, path, path)
-    ItemButton:setPosition(cc.p(100+offsetX, display.top-340+offsetY))
+    ItemButton:setPosition(cc.p(100+offsetX, display.top-340+offsetY+120))
     ItemButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
         if eventType == ccui.TouchEventType.began then
             local scale = cc.ScaleTo:create(1,0.9)

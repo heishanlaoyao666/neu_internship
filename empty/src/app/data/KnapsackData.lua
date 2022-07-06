@@ -11,6 +11,7 @@ local MsgDef=require("app.msg.MsgDef")
 local towerData = {} --类型: table ,key 塔id，value：unlock(塔解锁模式),fragment(塔碎片),level(塔等级)
 local towerArray = {} --类型:table, key 阵容顺序(12345),value:tower_id_(塔id),tower_level_(塔等级)
 local initlevel = {}
+local a = {}
 --[[--
     初始化数据
 
@@ -55,6 +56,7 @@ function KnapsackData:init()
         -- print("bbbbb"..towerData[i].level_)
         initlevel[i] = towerData[i].level_
         -- print("ccccc"..initlevel[i])
+        a[i] = 1
     end
 
     for i = 1, 3 do
@@ -258,12 +260,13 @@ end
 
     @return none
 ]]
-function KnapsackData:setatk(id)
+function KnapsackData:uplevel(id)
     -- print("aaaaa"..towerData[id].level_)
     
-    if towerData[id].level_<=13 then
+    if towerData[id].level_<13 then
         towerData[id].level_ = towerData[id].level_+1
     else 
+        a[id] = 0
         updatelabel:setVisible(false)
     end
 
@@ -271,7 +274,20 @@ end
 
 function KnapsackData:getatk(id)
  
-        return TowerDef.TABLE[id].ATK + (towerData[id].level_-initlevel[id])*TowerDef.TABLE[id].ATK_UPGRADE
+    return TowerDef.TABLE[id].ATK + (towerData[id].level_-initlevel[id])*TowerDef.TABLE[id].ATK_UPGRADE
+end
+
+
+
+function KnapsackData:getupgradecoin(id)
+    local num = towerData[id].level_
+    if a[id] ~=0 then
+        return TowerDef.UPLEVELCOIN2[num]
+    else
+        return "已满级"
+    end
+    
+    
 end
 
 -- function KnapsackData:setatk(id)
