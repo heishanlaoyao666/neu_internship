@@ -2,10 +2,8 @@
     设置层
     SettingLayer.lua
 ]]
-local SettingLayer = class("SettingLayer", function()
-    return display.newLayer()
-end)
-local EventDef = require("app.def.outgame.EventDef")
+local SettingLayer = class("SettingLayer", require("app.ui.outgame.layer.BaseLayer"))
+local EventDef = require("app.def.EventDef")
 local EventManager = require("app.manager.EventManager")
 --[[--
     构造函数
@@ -145,7 +143,7 @@ function SettingLayer:initView()
         function(sender, eventType)
             -- ccui.TouchEventType
             if 2 == eventType then -- touch end
-                EventManager:doEvent(EventDef.ID.COMFIRMEDEXIT)
+                EventManager:doEvent(EventDef.ID.POPUPWINDOW,6)
                 self:removeFromParent(true)
                 if cc.UserDefault:getInstance():getBoolForKey("音效") then
                     audio.playEffect("sounds/ui_btn_click.OGG",false)

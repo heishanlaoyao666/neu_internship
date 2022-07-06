@@ -2,10 +2,8 @@
     菜单层
     MenuLayer.lua
 ]]
-local MenuLayer = class("MenuLayer", function()
-    return display.newLayer()
-end)
-local EventDef = require("app.def.outgame.EventDef")
+local MenuLayer = class("MenuLayer", require("app.ui.outgame.layer.BaseLayer"))
+local EventDef = require("app.def..EventDef")
 local EventManager = require("app.manager.EventManager")
 
 --[[--

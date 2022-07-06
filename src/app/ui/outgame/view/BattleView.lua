@@ -5,8 +5,6 @@
 local BattleView = class("BattleView", function()
     return display.newColorLayer(cc.c4b(0, 0, 0, 0))
 end)
---local TopInfoLayer = require("src\\app\\ui\\outgame\\layer\\TopInfoLayer.lua")
---local BottomInfoLayer = require("src\\app\\ui\\outgame\\layer\\BottomInfoLayer.lua")
 
 --[[--
     构造函数

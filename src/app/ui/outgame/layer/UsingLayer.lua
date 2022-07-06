@@ -105,6 +105,7 @@ function UsingLayer:initView()
         function(sender, eventType)
             -- ccui.TouchEventType
             if 2 == eventType then -- touch end
+                cc.UserDefault:getInstance():setIntegerForKey("available",2)
                 EventManager:doEvent(EventDef.ID.KNAPSACK_CHANGE)
                 self:removeFromParent(true)
                 if cc.UserDefault:getInstance():getBoolForKey("音效") then

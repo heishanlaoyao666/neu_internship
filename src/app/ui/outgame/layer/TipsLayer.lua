@@ -54,7 +54,14 @@ function TipsLayer:initView()
     spriteC8:addChild(spriteC11)
     spriteC11:setAnchorPoint(0.5, 0.5)
     spriteC11:setPosition(spriteC8:getContentSize().width/2,spriteC8:getContentSize().height/2-20)
-
+    self.ratio=display.newTTFLabel({
+        text = "200%",
+        size = 25,
+        color = display.COLOR_WHITE
+    })
+    :align(display.LEFT_CENTER, spriteC8:getContentSize().width/2+40,spriteC8:getContentSize().height/2+20)
+    :addTo(spriteC8)
+    self.ratio:setString(OutGameData:getRatio().."%")
 end
 
 --[[--

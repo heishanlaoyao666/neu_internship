@@ -1,10 +1,10 @@
 --[[--
-    信息层
+    顶部信息层
     TopInfoLayer.lua
 ]]
 local TopInfoLayer = class("TopInfoLayer", require("app.ui.outgame.layer.BaseLayer"))
 local OutGameData = require("app.data.outgame.OutGameData")
-
+local PortraitSelectionLayer = require("app.ui.outgame.layer.PortraitSelectionLayer")
 
 --[[--
     构造函数
@@ -16,10 +16,11 @@ local OutGameData = require("app.data.outgame.OutGameData")
 function TopInfoLayer:ctor()
     TopInfoLayer.super.ctor(self)
     cc.UserDefault:getInstance():setStringForKey("昵称","久妹")
-    cc.UserDefault:getInstance():setIntegerForKey("奖杯数",2250)
-    cc.UserDefault:getInstance():setIntegerForKey("金币数",10000)
-    cc.UserDefault:getInstance():setIntegerForKey("钻石数",10000)
+    cc.UserDefault:getInstance():setIntegerForKey("奖杯数",400)
+    --cc.UserDefault:getInstance():setIntegerForKey("金币数",10000)
+    --cc.UserDefault:getInstance():setIntegerForKey("钻石数",10000)
 
+    self.portraitSelectionLayer_=nil --头像选择界面
     OutGameData:init()
     self:initView()
 end
@@ -57,8 +58,8 @@ function TopInfoLayer:initView()
 
     --默认头像
     self.sprite1 = ccui.Button:create("artcontent/lobby(ongame)/topbar_playerinformation/default_avatar.png")
+    --PortraitSelectionLayer:setFileName("artcontent/lobby(ongame)/topbar_playerinformation/default_avatar.png")
     self.container_:addChild(self.sprite1)
-    --sprite1:setContentSize(width, height)
     self.sprite1:setAnchorPoint(0.5, 1)
     self.sprite1:setPosition(width / 2 - 280, height / 2 + 20)
 
@@ -66,7 +67,7 @@ function TopInfoLayer:initView()
         function(sender, eventType)
             -- ccui.TouchEventType
             if 2 == eventType then -- touch end
-                require("src/app/ui/outgame/layer/PortraitSelectionLayer.lua"):new():addTo(self)
+                self.portraitSelectionLayer_=PortraitSelectionLayer:new():addTo(self)
                 if cc.UserDefault:getInstance():getBoolForKey("音效") then
                     audio.playEffect("sounds/ui_btn_click.OGG",false)
                 end

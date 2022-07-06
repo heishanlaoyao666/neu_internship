@@ -6,13 +6,10 @@ local LoadView = class("LoadView", function()
     return display.newColorLayer(cc.c4b(0, 0, 0, 0))
 end)
 local ConstDef = require("app.def.outgame.ConstDef")
-local EventDef = require("app.def.EventDef")
-local EventManager = require("app.manager.EventManager")
 local OutGameData = require("app.data.outgame.OutGameData")
 local LoadBGLayer = require("app.ui.outgame.layer.LoadBGLayer")
 local LoadInfoLayer = require("app.ui.outgame.layer.LoadInfoLayer")
 local RegisterView = require("app.ui.outgame.view.RegisterView")
-local MainScene = require("app.scenes.outgame.MainScene")
 
 local pro = 0 -- 记录进度
 --[[--
@@ -84,15 +81,15 @@ end
     @return none
 ]]
 function LoadView:onEnter()
-    EventManager:regListener(EventDef.ID.GAMESTATE_CHANGE, self, function(state)
-        print("登录事件")
-        if state == ConstDef.GAME_STATE.REGISTER then
-            self.registerView_:showView()
-        elseif state == ConstDef.GAME_STATE.INIT then
-            local AnotherScene=MainScene:new()
-            display.replaceScene(AnotherScene, "fade", 0.5)
-        end
-    end)
+    -- EventManager:regListener(EventDef.ID.GAMESTATE_CHANGE, self, function(state)
+    --     print("登录事件")
+    --     if state == ConstDef.GAME_STATE.REGISTER then
+    --         self.registerView_:showView()
+    --     elseif state == ConstDef.GAME_STATE.INIT then
+    --         local AnotherScene=MainView:new()
+    --         display.replaceScene(AnotherScene, "fade", 0.5)
+    --     end
+    -- end)
 end
 
 --[[--
@@ -103,7 +100,7 @@ end
     @return none
 ]]
 function LoadView:onExit()
-    EventManager:unRegListener(EventDef.ID.GAMESTATE_CHANGE, self)
+    --EventManager:unRegListener(EventDef.ID.GAMESTATE_CHANGE, self)
 end
 
 --[[--

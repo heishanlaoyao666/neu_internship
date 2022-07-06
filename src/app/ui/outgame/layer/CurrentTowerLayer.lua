@@ -25,18 +25,17 @@ end
     @return none
 ]]
 function CurrentTowerLayer:initView()
-    -- cc.UserDefault:getInstance():setIntegerForKey("current1",1)
-    -- cc.UserDefault:getInstance():setIntegerForKey("current2",2)
-    -- cc.UserDefault:getInstance():setIntegerForKey("current3",3)
-    -- cc.UserDefault:getInstance():setIntegerForKey("current4",4)
-    -- cc.UserDefault:getInstance():setIntegerForKey("current5",5)
-    print(cc.UserDefault:getInstance():getIntegerForKey("current2"))
-    local table={cc.UserDefault:getInstance():getIntegerForKey("current1"),
-    cc.UserDefault:getInstance():getIntegerForKey("current2"),
-    cc.UserDefault:getInstance():getIntegerForKey("current3"),
-    cc.UserDefault:getInstance():getIntegerForKey("current4"),
-    cc.UserDefault:getInstance():getIntegerForKey("current5")}
-
+    currentlineup=cc.UserDefault:getInstance():getIntegerForKey("currentlineup")
+    -- cc.UserDefault:getInstance():setIntegerForKey("current1"..currentlineup,1)
+    -- cc.UserDefault:getInstance():setIntegerForKey("current2"..currentlineup,2)
+    -- cc.UserDefault:getInstance():setIntegerForKey("current3"..currentlineup,3)
+    -- cc.UserDefault:getInstance():setIntegerForKey("current4"..currentlineup,4)
+    -- cc.UserDefault:getInstance():setIntegerForKey("current5"..currentlineup,5)
+    local table={cc.UserDefault:getInstance():getIntegerForKey("current1"..currentlineup),
+    cc.UserDefault:getInstance():getIntegerForKey("current2"..currentlineup),
+    cc.UserDefault:getInstance():getIntegerForKey("current3"..currentlineup),
+    cc.UserDefault:getInstance():getIntegerForKey("current4"..currentlineup),
+    cc.UserDefault:getInstance():getIntegerForKey("current5"..currentlineup)}
     local tempfilename
     local width, height = display.width, 1120
     local spriteC7 = display.newSprite("artcontent/lobby(ongame)/atlas_interface/current_lineup/basemap_area.png")
@@ -68,14 +67,27 @@ function CurrentTowerLayer:initView()
                     if cc.UserDefault:getInstance():getBoolForKey("音效") then
                         audio.playEffect("sounds/ui_btn_click.OGG",false)
                     end
-                    cc.UserDefault:getInstance():setIntegerForKey("current2",self.id)
-                    print(cc.UserDefault:getInstance():getIntegerForKey("current2"))
-                    EventManager:doEvent(EventDef.ID.KNAPSACK_CHANGE)
+                    for j=1,5 do
+                        local tempi =  cc.UserDefault:getInstance():getIntegerForKey("current"..i..currentlineup)
+                        local tempj =  cc.UserDefault:getInstance():getIntegerForKey("current"..j..currentlineup)
+                        if self.id==tempj and i~=j then
+                            cc.UserDefault:getInstance():setIntegerForKey("current"..j..currentlineup,tempi)
+                        end
+                    end
+                    cc.UserDefault:getInstance():setIntegerForKey("current"..i..currentlineup,self.id)
+                    --end
+                    cc.UserDefault:getInstance():setIntegerForKey("available",2)
                     EventManager:doEvent(EventDef.ID.BATTLE)
+                    EventManager:doEvent(EventDef.ID.KNAPSACK_CHANGE)
                     self:removeFromParent(true)
                 end
             end
         )
+        if cc.UserDefault:getInstance():getIntegerForKey("available")==1 then
+            towerbtn:setTouchEnabled(true)
+        else
+            towerbtn:setTouchEnabled(false)
+        end
         --等级底图
         local spriteD7 = display.newSprite("artcontent/lobby(ongame)/atlas_interface/current_lineup/basemap_grade.png")
         towerbtn:addChild(spriteD7)

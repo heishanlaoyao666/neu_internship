@@ -40,6 +40,7 @@ function OutGameData:init()
     self.gameState_  = ConstDef.GAME_STATE.LOAD
     self.gold = nil -- 金币数
     self.diamond = nil -- 砖石数
+    self.ratio=200--总暴击伤害
 
     self:initTower()
     self:initFinance()
@@ -92,7 +93,7 @@ function OutGameData:initTower()
     local tower_18 = Tower.new(18, 1, 3, "tower_18","使被攻击目标得到”脆弱“状态。脆弱：受到伤害提高。",
     "随机敌人", 30, 5, 10, 1, nil, "增伤效果", 17,0.1, 0.01, 0.05, nil,nil, nil)
     local tower_19 = Tower.new(19, 4, 4,"tower_19", "每隔一段时间使本方半场所有敌人减速。",
-    "前方", 60, 5, 20, 2, nil, "技能减速效果", 13,nil, 0.005, 0.01, "技能发动时间", 12,10)
+    "前方", 60, 5, 20, 2, nil, "技能减速效果", 13,0.05, 0.005, 0.01, "技能发动时间", 12,10)
     local tower_20 = Tower.new(20, 1, 4, "tower_20","使被攻击目标进入“混乱”状态。混乱：无法移动。",
     "随机敌人", 20, 5, 20, 1, 0.02, "技能持续时间",10, 2, 0.5, 0.5, "技能发动时间", 12,10)
 
@@ -107,6 +108,69 @@ function OutGameData:initTower()
 end
 
 --[[--
+    获得塔
+
+    @param none
+
+    @return none
+]]
+function OutGameData:getTower(id)
+    for k, v in pairs(towersOrdinary_) do
+        if v:getTowerId()==id then
+           return v
+        end
+    end
+    for k, v in pairs(towersRarity_) do
+        if v:getTowerId()==id then
+           return v
+        end
+    end
+    for k, v in pairs(towersEpic_) do
+        if v:getTowerId()==id then
+           return v
+        end
+    end
+    for k, v in pairs(towersLegend_) do
+        if v:getTowerId()==id then
+           return v
+        end
+    end
+end
+
+--[[--
+    初始化暴击伤害数据
+
+    @param none
+
+    @return none
+]]
+function OutGameData:initRatio()
+    self.ratio = 200
+end
+
+--[[--
+    增加暴击伤害数据
+
+    @param n,类型：number,增加的数值
+
+    @return none
+]]
+function OutGameData:addRatio(n)
+    self.ratio=self.ratio+n
+end
+
+--[[--
+    得到暴击伤害数据
+
+    @param none
+
+    @return self.ratio,类型：number，总暴击伤害
+]]
+function OutGameData:getRatio()
+    return self.ratio
+end
+
+--[[--
     初始化金融的数据
 
     @param none
@@ -114,8 +178,8 @@ end
     @return none
 ]]
 function OutGameData:initFinance()
-    self.gold = 1000000
-    self.diamond = 100000
+    self.gold = 1000
+    self.diamond = 1000
 end
 
 --[[--
@@ -436,6 +500,34 @@ function OutGameData:removeTowerTOPacks(tower, packs)
 end
 
 --[[
+    初始化塔属性
+
+    @parm packs 类型：table
+    @parm index 类型：number
+
+    @return none
+]]
+function OutGameData:initLevelUp(packs)
+    if packs:getTower():getLevel()==1 then
+        OutGameData:addRatio(1)
+    elseif packs:getTower():getLevel()==2 then
+        OutGameData:addRatio(2)
+    else
+        OutGameData:addRatio(3)
+    end
+    packs:getTower():levelUp()
+    if packs:getTower():getAtkUpgrade()then
+        packs:getTower():atkUpgrade()
+    end
+    if packs:getTower():getFireCdUpgrade() then
+        packs:getTower():fireCdUpgrade()
+    end
+    if packs:getTower():getValueUpgrade() then
+        packs:getTower():valueUpgrade()
+    end
+end
+
+--[[
     塔升级
 
     @parm packs 类型：table
@@ -443,25 +535,40 @@ end
 
     @return none
 ]]
-function OutGameData:towerLevelUp(packs, index)
-    local level = packs[index].getLevel() + 1 -- 当前塔的等级
-    local rarity = packs[index].getTower().getTowerRarity() -- 当前塔的稀有度
+function OutGameData:towerLevelUp(packs)
+    local level = packs:getTower():getLevel() + 1 -- 当前塔的等级
+    local rarity = packs:getTower():getTowerRarity() -- 当前塔的稀有度
     local needGold = ConstDef.LEVEL_UP_NEED_GOLD[level][rarity]
     local needCard = ConstDef.LEVEL_UP_NEED_CARD[level][rarity]
     if needGold > self:getGold() then
+        EventManager:doEvent(EventDef.ID.POPUPWINDOW,4)
         print("金币不足")
         return
     end
-    if needCard > packs[index].getTowerNumber() then
+    if needCard > packs:getTowerNumber() then
+        EventManager:doEvent(EventDef.ID.POPUPWINDOW,5)
         print("卡片不足")
         return
     end
-    packs[index].towerLevelUp()
-    packs[index].setTowerNumber(-needCard)
+    packs:setTowerNumber(-needCard)
     self:setGold(-needGold)
-    packs[index].getTower().AtkUpgrade()
-    packs[index].getTower().FireCdUpgrade()
-    packs[index].getTower().ValueUpgrade()
+    packs:getTower():levelUp()
+    if packs:getTower():getAtkUpgrade()then
+        packs:getTower():atkUpgrade()
+    end
+    if packs:getTower():getFireCdUpgrade() then
+        packs:getTower():fireCdUpgrade()
+    end
+    if packs:getTower():getValueUpgrade() then
+        packs:getTower():valueUpgrade()
+    end
+    if level==2 then
+        OutGameData:addRatio(1)
+    elseif level==3 then
+        OutGameData:addRatio(2)
+    else
+        OutGameData:addRatio(3)
+    end
 end
 
 --[[--

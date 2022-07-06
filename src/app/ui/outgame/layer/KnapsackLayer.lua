@@ -1,13 +1,14 @@
 --[[--
+    背包层
     KnapsackLayer.lua
-    背包类
 ]]
-local KnapsackLayer = class("KnapsackLayer", function()
-    return display.newLayer()
-end)
+local KnapsackLayer = class("KnapsackLayer", require("app.ui.outgame.layer.BaseLayer"))
+local ConstDef = require("app.def.outgame.ConstDef")
 local OutGameData = require("app.data.outgame.OutGameData")
-local EventDef = require("app.def.outgame.EventDef")
+local EventDef = require("app.def.EventDef")
 local EventManager = require("app.manager.EventManager")
+local CurrentLineupLayer = require("app.ui.outgame.layer.CurrentLineupLayer")
+local TipsLayer = require("app.ui.outgame.layer.TipsLayer")
 --[[--
     构造函数
 
@@ -33,70 +34,23 @@ function KnapsackLayer:initView()
     self.container_2:setContentSize(display.width, display.height)
     self:addChild(self.container_2)
     self.container_2:setPosition(0, 0)
+    --底图
     local spriteC = display.newSprite("artcontent/lobby(ongame)/atlas_interface/basemap_guide.png")
     self.container_2:addChild(spriteC)
     spriteC:setAnchorPoint(0.5, 0.5)
     spriteC:setPosition(display.cx,display.cy)
-    local spriteC7 = display.newSprite("artcontent/lobby(ongame)/atlas_interface/current_lineup/basemap_area.png")
-    self.container_2:addChild(spriteC7)
-    spriteC7:setAnchorPoint(0.5, 1)
-    spriteC7:setPosition(display.cx,height-150)
 
-    local spriteC1 = display.newSprite("artcontent/lobby(ongame)/atlas_interface/current_lineup/basemap_title.png")
-    self.container_2:addChild(spriteC1)
-    spriteC1:setAnchorPoint(0.5, 1)
-    spriteC1:setPosition(display.cx,height-80)
+    --当前阵容
+    CurrentLineupLayer:new():addTo(self.container_2)
 
-    local spriteC2 = display.newSprite("artcontent/lobby(ongame)/atlas_interface/current_lineup/text_currentlineup.png")
-    self.container_2:addChild(spriteC2)
-    spriteC2:setAnchorPoint(0.5, 1)
-    spriteC2:setPosition(display.cx-110,height-100)
-
-    tempfilename="artcontent/lobby(ongame)/atlas_interface/current_lineup/basemap_lineupconnection.png"
-    local spriteC3 = display.newSprite(tempfilename)
-    self.container_2:addChild(spriteC3)
-    spriteC3:setAnchorPoint(0.5, 1)
-    spriteC3:setPosition(display.cx+80,height-110)
-
-    local landscapeCheckBox1 = ccui.CheckBox:
-    create("artcontent/lobby(ongame)/atlas_interface/current_lineup/icon_unchecked.png",
-    nil, "artcontent/lobby(ongame)/atlas_interface/current_lineup/icon_checked.png", nil, nil)
-    :align(display.LEFT_CENTER, -20, spriteC3:getContentSize().height/2)
-    :addTo(spriteC3)
-
-    local landscapeCheckBox2 = ccui.CheckBox:
-    create("artcontent/lobby(ongame)/atlas_interface/current_lineup/icon_unchecked.png",
-    nil, "artcontent/lobby(ongame)/atlas_interface/current_lineup/icon_checked.png", nil, nil)
-    :align(display.LEFT_CENTER, spriteC3:getContentSize().width/2-20, spriteC3:getContentSize().height/2)
-    :addTo(spriteC3)
-
-    local landscapeCheckBox3 = ccui.CheckBox:
-    create("artcontent/lobby(ongame)/atlas_interface/current_lineup/icon_unchecked.png",
-    nil, "artcontent/lobby(ongame)/atlas_interface/current_lineup/icon_checked.png", nil, nil)
-    :align(display.LEFT_CENTER, spriteC3:getContentSize().width-20, spriteC3:getContentSize().height/2)
-    :addTo(spriteC3)
-
-    local spriteC4 = display.newSprite("artcontent/lobby(ongame)/atlas_interface/current_lineup/number_1.png")
-    landscapeCheckBox1:addChild(spriteC4)
-    spriteC4:setAnchorPoint(0.5, 0.5)
-    spriteC4:setPosition(landscapeCheckBox1:getContentSize().width/2,landscapeCheckBox1:getContentSize().height/2)
-
-    local spriteC5 = display.newSprite("artcontent/lobby(ongame)/atlas_interface/current_lineup/number_2.png")
-    landscapeCheckBox2:addChild(spriteC5)
-    spriteC5:setAnchorPoint(0.5, 0.5)
-    spriteC5:setPosition(landscapeCheckBox2:getContentSize().width/2,landscapeCheckBox2:getContentSize().height/2)
-
-    local spriteC6 = display.newSprite("artcontent/lobby(ongame)/atlas_interface/current_lineup/number_3.png")
-    landscapeCheckBox3:addChild(spriteC6)
-    spriteC6:setAnchorPoint(0.5, 0.5)
-    spriteC6:setPosition(landscapeCheckBox3:getContentSize().width/2,landscapeCheckBox3:getContentSize().height/2)
-
+    --
     local listViewC = ccui.ListView:create()
     listViewC:setContentSize(display.width, height)
     listViewC:setAnchorPoint(0.5, 1)
     listViewC:setPosition(display.cx,height-353)
     listViewC:setDirection(1)
     listViewC:addTo(self.container_2)
+    --提示信息容器，提示信息在188行
     self.container_C1 = ccui.Layout:create()
     -- self.container_C1:setBackGroundColor(cc.c3b(200, 0, 0))
     -- self.container_C1:setBackGroundColorType(1)
@@ -104,21 +58,7 @@ function KnapsackLayer:initView()
     self.container_C1:setAnchorPoint(0.5,0.5)
     self.container_C1:setPosition(display.cx, display.cy)
     self.container_C1:addTo(listViewC)
-    --提示信息
-    local spriteC8 = display.newSprite("artcontent/lobby(ongame)/atlas_interface/prompt_information/basemap_tips.png")
-    self.container_C1:addChild(spriteC8)
-    spriteC8:setAnchorPoint(0.5, 0)
-    spriteC8:setPosition(display.cx,30)
 
-    local spriteC10 = display.newSprite("artcontent/lobby(ongame)/atlas_interface/prompt_information/text_2.png")
-    spriteC8:addChild(spriteC10)
-    spriteC10:setAnchorPoint(0.5, 0.5)
-    spriteC10:setPosition(spriteC8:getContentSize().width/2-50,spriteC8:getContentSize().height/2+20)
-
-    local spriteC11 = display.newSprite("artcontent/lobby(ongame)/atlas_interface/prompt_information/text_1.png")
-    spriteC8:addChild(spriteC11)
-    spriteC11:setAnchorPoint(0.5, 0.5)
-    spriteC11:setPosition(spriteC8:getContentSize().width/2,spriteC8:getContentSize().height/2-20)
     self.collected1,self.collected2,self.collected3,self.collected4=OutGameData:getCollected()
     self.uncollected1,self.uncollected2,self.uncollected3,self.uncollected4=OutGameData:getUnCollected()
     local num3={}
@@ -147,8 +87,8 @@ function KnapsackLayer:initView()
     for i=1,#self.uncollected1 do
         num4[#num4+1]=self.uncollected1[i]
     end
-    print(#num3)
-    print(#num4)
+    print("已收集数："..#num3)
+    print("未收集数："..#num4)
     --创建三个容器，分别装提示信息，已收集和未收集
     self.container_C2 = ccui.Layout:create()
     self.container_C2:setContentSize(width, 200+math.ceil(#num3/4)*250)
@@ -162,13 +102,18 @@ function KnapsackLayer:initView()
     self.container_C3:setPosition(display.cx, display.cy)
     self.container_C3:addTo(listViewC)
 
-    self.typefilename={"towertype_tapping","towertype_disturbance","towertype_sup","towertype_control"}
+    self.typefilename={"artcontent/lobby(ongame)/atlas_interface/tower_list/towertype_tapping.png",
+    "artcontent/lobby(ongame)/atlas_interface/tower_list/towertype_disturbance.png",
+    "artcontent/lobby(ongame)/atlas_interface/tower_list/towertype_sup.png",
+    "artcontent/lobby(ongame)/atlas_interface/tower_list/towertype_control.png"}
     --已收集,一行占250
     if #num3==0 then
         self.container_C3:setContentSize(width, 450+math.ceil(#num4/4+1)*250)
     else
         for i=1,#num3 do
             tempfilename="artcontent/lobby(ongame)/atlas_interface/tower_list/basemap_towernomal.png"
+            local level = num3[i]:getTower():getLevel() -- 当前塔的等级
+            local rarity =num3[i]:getTower():getTowerRarity() -- 当前塔的稀有度
             local spriteC17 =ccui.Button:create(tempfilename)
             self.container_C2:addChild(spriteC17)
             spriteC17:setAnchorPoint(0.5, 0)
@@ -182,9 +127,24 @@ function KnapsackLayer:initView()
             spriteC17:addChild(spriteD6)
             spriteD6:setAnchorPoint(0.5, 0.5)
             spriteD6:setPosition(spriteC17:getContentSize().width/2,spriteC17:getContentSize().height/2+30)
+            if rarity ==1 then
+            elseif rarity ==2 and level==1 then
+                for j=1,2 do
+                    OutGameData:initLevelUp(num3[i])
+                end
+            elseif rarity ==3 and level==1 then
+                for j=1,4 do
+                    OutGameData:initLevelUp(num3[i])
+                end
+            elseif rarity ==4 and level==1 then
+                for j=1,8 do
+                    OutGameData:initLevelUp(num3[i])
+                end
+            end
+            level = num3[i]:getTower():getLevel() -- 当前塔的等级
             local spriteD7 = display.
             newSprite(string.format("artcontent/lobby(ongame)/atlas_interface/tower_list/grade/Lv.%d.png",
-            num3[i]:getTower():getLevel()))
+            level))
             spriteC17:addChild(spriteD7)
             spriteD7:setAnchorPoint(0.5, 0.5)
             spriteD7:setPosition(spriteC17:getContentSize().width/2,spriteC17:getContentSize().height/2-40)
@@ -198,8 +158,15 @@ function KnapsackLayer:initView()
             spriteD8:addChild(spriteD9)
             spriteD9:setAnchorPoint(0.5, 0.5)
             spriteD9:setPosition(spriteD8:getContentSize().width/2,spriteD8:getContentSize().height/2)
-            local spriteD10 = display.newSprite("artcontent/lobby(ongame)/atlas_interface/tower_list/"..
-            self.typefilename[num3[i]:getTower():getTowerType()]..".png")
+            self.num=display.newTTFLabel({
+                text = "0/1",
+                size = 22,
+                color = display.COLOR_WHITE
+            })
+            :align(display.CENTER, spriteD9:getContentSize().width/2,spriteD9:getContentSize().height/2)
+            :addTo(spriteD9)
+            self.num:setString(num3[i]:getTowerNumber().."/"..ConstDef.LEVEL_UP_NEED_CARD[level+1][rarity])
+            local spriteD10 = display.newSprite(self.typefilename[num3[i]:getTower():getTowerType()])
             spriteC17:addChild(spriteD10)
             spriteD10:setAnchorPoint(1, 1)
             spriteD10:setPosition(spriteC17:getContentSize().width-10,spriteC17:getContentSize().height)
@@ -220,6 +187,10 @@ function KnapsackLayer:initView()
     self.container_C2:addChild(spriteC9)
     spriteC9:setAnchorPoint(0.5, 0)
     spriteC9:setPosition(display.cx,100+math.ceil(#num3/4)*250)--math.ceil()向正无穷取整
+
+    --提示信息
+    TipsLayer:new():addTo(self.container_C1)
+
     if #num4==0 then
         --self.container_C3:setContentSize(width, 450+math.ceil(#num4/4+1)*250)
     else
@@ -233,8 +204,8 @@ function KnapsackLayer:initView()
             else
                 spriteC16:setPosition(100+width*(i%4-1)/4,450+math.ceil(#num4/4)*250-math.ceil(i/4)*250)
             end
-            local spriteD1 = display.newSprite(string.format("artcontent/lobby(ongame)/currency/icon_tower/%02d.png",
-            num4[i]:getTowerId()))
+            tempfilename="artcontent/lobby(ongame)/currency/icon_towergray/%d.png"
+            local spriteD1 = display.newSprite(string.format(tempfilename,num4[i]:getTowerId()))
             spriteC16:addChild(spriteD1)
             spriteD1:setAnchorPoint(0.5, 0.5)
             spriteD1:setPosition(spriteC16:getContentSize().width/2,spriteC16:getContentSize().height/2+30)
@@ -252,8 +223,7 @@ function KnapsackLayer:initView()
             spriteD3:addChild(spriteD4)
             spriteD4:setAnchorPoint(0.5, 0.5)
             spriteD4:setPosition(spriteD3:getContentSize().width/2,spriteD3:getContentSize().height/2)
-            local spriteD5 = display.newSprite("artcontent/lobby(ongame)/atlas_interface/tower_list/"..
-            self.typefilename[num4[i]:getTowerType()]..".png")
+            local spriteD5 = display.newSprite(self.typefilename[num4[i]:getTowerType()])
             spriteC16:addChild(spriteD5)
             spriteD5:setAnchorPoint(1, 1)
             spriteD5:setPosition(spriteC16:getContentSize().width-10,spriteC16:getContentSize().height)

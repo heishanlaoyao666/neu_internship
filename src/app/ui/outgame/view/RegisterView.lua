@@ -1,5 +1,5 @@
 --[[--
-    暂停界面
+    注册界面
     RegisterView.lua
 ]]
 local RegisterView = class("RegisterView", function()
