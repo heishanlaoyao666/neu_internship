@@ -28,20 +28,12 @@ function KnapsackData:init()
     self.cups_ = 0
 
     MsgController:connect()
-    --初始化msg控制器的监听
-    MsgController:registerListener(self,function (msg)
-        if msg["type"] == MsgDef.MSG_TYPE_ACK.LOGIN then
-            self.goldcoin_=msg["gold"]
-            self.diamonds_=msg["diamond"]
-            self.cups=msg["cup"]
-        end
-    end)
 
     for i = 1, 20 do
         towerData[i]={}
-        towerData[i].unlock_=true
-        towerData[i].fragment_=50 --塔持有的碎片
-        towerData[i].level_= TowerDef.LEVEL.START_LEVEL[TowerDef.TABLE[i].RARITY]  --塔当前等级
+        towerData[i].unlock_=false
+        towerData[i].fragment_=0 --塔持有的碎片
+        towerData[i].level_= 1  --塔当前等级
         -- print("bbbbb"..towerData[i].level_)
         initlevel[i] = towerData[i].level_
         -- print("ccccc"..initlevel[i])
@@ -57,6 +49,27 @@ function KnapsackData:init()
         end
     end
 
+    --初始化msg控制器的监听
+    MsgController:registerListener(self,function (msg)
+        if msg["type"] == MsgDef.MSG_TYPE_ACK.LOGIN then
+            self.goldcoin_=msg["gold"]
+            self.diamonds_=msg["diamond"]
+            self.cups=msg["cup"]
+
+            for i = 1, 20 do
+                towerData[i].unlock_=msg["towerData"][i]["unlock"]
+                towerData[i].fragment_=msg["towerData"][i]["fragment"]
+                towerData[i].level_= msg["towerData"][i]["level"]
+            end
+
+            for i = 1, 3 do
+                for j = 1, 5 do
+                    towerArray[i][j].tower_id_ = msg["towerArray"][i][j]["id"]
+                    towerArray[i][j].tower_level_ = msg["towerArray"][i][j]["level"]
+                end
+            end
+        end
+    end)
 end
 --[[--
     背包注册
@@ -74,7 +87,7 @@ function KnapsackData:Login()
             type = MsgDef.MSG_TYPE_REQ.LOGIN,
             userId = 0,
             pid = 5088,
-            loginname = "???",
+            loginname = "????",
         }
         MsgController:sendMsg(msg)
         isLogin=true
@@ -189,7 +202,6 @@ end
 ]]
 function KnapsackData:getGoldCoin()
     --向服务器拿数据
-
     return self.goldcoin_
 end
 --[[--
