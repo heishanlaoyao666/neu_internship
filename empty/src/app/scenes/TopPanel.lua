@@ -5,13 +5,19 @@ local SettingMusic = require("src/app/scenes/SettingMusic")
 local GeneralView = require("app.scenes.HallView.common.GeneralView")
 
 function TopPanel:setCoinString(str)
-    coinlabel:setString(str)
+    if coinlabel then
+        coinlabel:setString(str)
+    end
 end
 function TopPanel:setDiamondsString(str)
-    diamondlabel:setString(str)
+    if diamondlabel then
+        diamondlabel:setString(str)
+    end
 end
 function TopPanel:setCupsString(str)
-    trophylabel:setString(str)
+    if trophylabel then
+        trophylabel:setString(str)
+    end
 end
 
 

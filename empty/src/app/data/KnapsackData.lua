@@ -71,6 +71,7 @@ function KnapsackData:init()
                 end
             end
 
+            EventManager:doEvent(EventDef.ID.KNAPSACK_LOGIN)
         end
     end)
 end
@@ -93,7 +94,6 @@ function KnapsackData:Login()
         }
         MsgController:sendMsg(msg)
         isLogin=true
-        EventManager:doEvent(EventDef.ID.KNAPSACK_LOGIN)
         co=nil
     end)
 end

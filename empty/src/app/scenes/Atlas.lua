@@ -144,7 +144,6 @@ function Atlas:createCollectionPanel()
 
     local towerdataobtained = {}
     local towerdatanontobtained = {}
-
     for i = 1, 20, 1 do
         if KnapsackData:getTowerData(i).unlock_  then
             table.insert(towerdataobtained,i)
