@@ -142,11 +142,33 @@ function Atlas:createCollectionPanel()
     -- "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.9.png",0,-700)
 
 
+    local towerdataobtained = {}
+    local towerdatanontobtained = {}
+
+    for i = 1, 20, 1 do
+        if KnapsackData:getTowerData(i).unlock_  then
+            table.insert(towerdataobtained,i)
+        else
+            table.insert(towerdatanontobtained,i)
+        end
+    end
+    print("12345")
+for key, value in pairs(towerdataobtained) do
+    -- body
+    print("输出"..towerdataobtained[key])
+end
+for key, value in pairs(towerdatanontobtained) do
+    -- body
+    print("输出2"..towerdatanontobtained[key])
+end
+    print("67890")
+
+--已收集塔按钮
     local a = 0
     local b = -450
-    for key, value in pairs(Towerdata.OBTAINED) do
+    for key, value in pairs(towerdataobtained) do
 
-        local TowerString = Towerdata.OBTAINED[key]
+        local TowerString = Towerdata.OBTAINED[value]
         --print(TowerString)
         --print("图片数字"..(string.sub(Towerdata.OBTAINED[1],-6,-5)))
         -- print("稀有度"..TowerDef.RARITY.LEGEND)
@@ -190,11 +212,69 @@ function Atlas:createCollectionPanel()
                 "ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_"..towertypestring..".png",
                 "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.".."9"..".png",a,b)
         a=a+170
-        if key%4 ==0 then
+        if #towerdataobtained%4 ==0 then
             a = 0
             b = b-250
         end
     end
+
+
+--未收集塔按钮
+
+
+    -- local a = 0
+    -- local b = -450
+    -- for key, value in pairs(towerdataobtained) do
+
+    --     local TowerString = Towerdata.OBTAINED[key]
+    --     --print(TowerString)
+    --     --print("图片数字"..(string.sub(Towerdata.OBTAINED[1],-6,-5)))
+    --     -- print("稀有度"..TowerDef.RARITY.LEGEND)
+    --     local chartnum = tonumber(string.sub(TowerString,-6,-5))
+    --     local rarity = TowerDef.TABLE[chartnum].RARITY
+    --     local raritystring
+    --     if rarity == 1 then
+    --         --print(rarity)
+    --         raritystring = "common"
+    --     elseif rarity ==2 then
+    --         --print(rarity)
+    --         raritystring = "rare"
+    --     elseif rarity==3 then
+    --         --print(rarity)
+    --         raritystring = "epic"
+    --     else
+    --         --print(rarity)
+    --         raritystring = "legend"
+    --     end
+
+    --     local towertype = TowerDef.TABLE[chartnum].TYPE
+    --     local towertypestring
+    --     if towertype == 1 then
+    --         --print(rarity)
+    --         towertypestring = "attack"
+    --     elseif towertype ==2 then
+    --         --print(rarity)
+    --         towertypestring = "disturb"
+    --     elseif towertype==3 then
+    --         --print(rarity)
+    --         towertypestring = "auxiliary"
+    --     else
+    --         --print(rarity)
+    --         towertypestring = "control"
+    --     end
+
+    --     self:createCollectedItem(AtlasLayer,
+    --     "ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-"..raritystring..".png",
+    --     TowerString,
+    --     "ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_"..towertypestring..".png",
+    --     "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.".."9"..".png",a,b)
+    --     a=a+170
+    --     if key%4 ==0 then
+    --         a = 0
+    --         b = b-250
+    --     end
+    -- end
+
 
 
     --     --循环

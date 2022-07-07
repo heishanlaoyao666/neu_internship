@@ -353,6 +353,10 @@ function KnapsackData:getupgradecoin(id)
         return "已满级"
     end
 end
+
+function KnapsackData:getTowerData(id)
+    return towerData[id]
+end
 --[[--
     背包界面帧循环
 
