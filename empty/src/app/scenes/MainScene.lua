@@ -1,4 +1,3 @@
-
 local MainScene = class("MainScene", function()
     return display.newScene("MainScene")
 end)
@@ -9,35 +8,39 @@ local Atlas = require("app.scenes.Atlas")
 local Battle = require("app.scenes.Battle")
 local KnapsackData = require("app.data.KnapsackData")
 local MenuLayer = require("app.scenes.HallView.bottomTab.MenuLayer")
+local EventManager = require("app/manager/EventManager.lua")
+local EventDef = require("app/def/EventDef.lua")
 
 function MainScene:ctor()
     KnapsackData:init()
-    self:createBg()--创建主界面背景图
-    local shop = Shop.new()
-    local atlas = Atlas.new()
-    local battle = Battle.new()
-    local menu = MenuLayer.new()
-    local layer1 = shop:ShopPanel()
-    local layer2 = battle:battlePanel()
-    local layer3 = atlas:createCollectionPanel()
-
-
-    local pageView = self:sliderView(layer1,layer2,layer3)--将商店、战斗、图鉴界面加入到翻页中
-
-    local layer = ccui.Layout:create()
-    layer:setBackGroundColorOpacity(180)--设置为透明
-    --layer:setBackGroundColorType(1)
-    layer:setAnchorPoint(0.5, 0.5)
-    layer:setPosition(cc.p(display.cx, display.cy))
-    layer:setContentSize(720, 1280)
-    layer:addTo(self)
-
-    menu:createBottomTab(layer,pageView)--底部按钮导航栏
-    TopPanel:createMiddleTopPanel(layer)--顶部信息栏
     self:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, handler(self, self.update))
     self:performWithDelay(function() 
         self:scheduleUpdate()
-    end, 0.5)
+    end, 0.1)
+    EventManager:regListener(EventDef.ID.KNAPSACK_LOGIN,self,function ()
+        self:createBg()--创建主界面背景图
+        local shop = Shop.new()
+        local atlas = Atlas.new()
+        local battle = Battle.new()
+        local menu = MenuLayer.new()
+        local layer1 = shop:ShopPanel()
+        local layer2 = battle:battlePanel()
+        local layer3 = atlas:createCollectionPanel()
+
+        local pageView = self:sliderView(layer1,layer2,layer3)--将商店、战斗、图鉴界面加入到翻页中
+
+        local layer = ccui.Layout:create()
+        layer:setBackGroundColorOpacity(180)--设置为透明
+        --layer:setBackGroundColorType(1)
+        layer:setAnchorPoint(0.5, 0.5)
+        layer:setPosition(cc.p(display.cx, display.cy))
+        layer:setContentSize(720, 1280)
+        layer:addTo(self)
+
+        menu:createBottomTab(layer,pageView)--底部按钮导航栏
+        TopPanel:createMiddleTopPanel(layer)--顶部信息栏
+    end)
+    KnapsackData:Login()
 end
 
 --[[

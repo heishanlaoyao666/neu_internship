@@ -23,6 +23,8 @@ EventDef.ID = {
 
     CHECKCOLLIDER = 550, --碰撞计算
     GAMESTATE_CHANGE = 666, -- 游戏状态变化
+
+    KNAPSACK_LOGIN = 5088, --背包系统登陆
 }
 
 return EventDef

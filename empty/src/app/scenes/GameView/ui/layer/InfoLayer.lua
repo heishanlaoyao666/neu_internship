@@ -110,10 +110,11 @@ function InfoLayer:initView()
     self.oppositenameLabel_:setPosition(180, 1190)
     self.oppositenameLabel_:enableOutline(cc.c4b(0,0,0,255), 2)
     self.container_:addChild(self.oppositenameLabel_)
-    
     --我方塔阵容
     for i = 1, 5 do
-        
+        local towerBtn = self:towerInfo(i)
+        towerBtn:setPosition(180,100)
+        self.container_:addChild(towerBtn)
     end
     --剩余时间
     --BOSS初始化
@@ -197,6 +198,46 @@ function timeChange(time)
     local timeStr ="剩余时间:"
     timeStr=string.format("剩余时间:%02d:%02d",time/60,time%60)
     return timeStr
+end
+--[[--
+    创建一个towerInfo
+    @param id 类型:number 塔id
+
+    @return btn
+]]
+function InfoLayer:towerInfo(id)
+    --类型:table 塔信息 .id_(塔id) .level_(塔等级) .grade_(塔强化等级)
+    local tower=player:getTowerArray()[id]
+
+    local towerBtn=ccui.Button:create(string.format("ui/battle/Battle interface/Tower/tower_%u.png",tower.id_))
+    towerBtn:setAnchorPoint(0.5, 0)
+    towerBtn:addTouchEventListener(function(sender, eventType)
+        if eventType == 2 then
+            print("执行升级")
+            player:upTowerGrade(tower.id_)
+            self:update()
+        end
+    end)
+    --强化等级信息
+    local img=display.newSprite(string.format("ui/battle/Battle interface/Grade/LV.%u.png",tower.grade_))
+    img:setAnchorPoint(0.5,1)
+    img:setPosition(40,0)
+    towerBtn:addChild(img)
+    --强化等级所需费用
+    --角标
+    local res = "ui/battle/Battle interface/Angle sign-Tower_type/TowerType-"
+    local as_tt= display.newSprite(string.format(res..TowerDef.TABLE[tower.id_].TYPE..".png"))
+
+    as_tt:setAnchorPoint(0.5,0.5)
+    as_tt:setPosition(80,85)
+    towerBtn:addChild(as_tt)
+
+    function towerBtn:update()
+        local newtower=player:getTowerArray()[id]
+        img:setTexture(string.format(string.format("ui/battle/Battle interface/Grade/LV.%u.png",newtower.grade_)))
+
+    end
+    return towerBtn
 end
 --[[--
     界面刷新

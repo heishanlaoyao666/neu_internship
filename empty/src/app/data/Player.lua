@@ -87,6 +87,27 @@ function Player:getTowerArray()
     return tower_array
 end
 --[[--
+    获取塔阵容
+
+    @param i 类型:number,塔阵容的第几个
+
+    @return tower_array
+]]
+function Player:getTowerGrade(i)
+    return tower_array[i].grade_
+end
+--[[--
+    塔阵容某个塔强化
+
+    @param i 类型:number,塔的排序
+
+    @return none
+]]
+function Player:upTowerGrade(i)
+    tower_array[i].grade_=tower_array[i].grade_+1
+    print(tower_array[i].grade_)
+end
+--[[--
     塔创建
 
     @param none

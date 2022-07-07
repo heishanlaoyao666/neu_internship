@@ -8,7 +8,7 @@ end)
 local PlayView = require("app/scenes/GameView/ui/PlayView")
 local ConstDef = require("app/def/ConstDef.lua")
 local GameData = require("app/data/GameData.lua")
-local KnapsackData=require("app/data/KnapsackData.lua")
+local KnapsackData=require("app.data.KnapsackData")
 --[[--
     构造函数
 

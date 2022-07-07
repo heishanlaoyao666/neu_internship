@@ -8,6 +8,9 @@ local TowerDef = require("app/def/TowerDef.lua")
 local MsgController=require("app/msg/MsgController.lua")
 local MsgDef=require("app.msg.MsgDef")
 
+local EventManager = require("app/manager/EventManager.lua")
+local EventDef = require("app/def/EventDef.lua")
+
 local towerData = {} --类型: table ,key 塔id，value：unlock(塔解锁模式),fragment(塔碎片),level(塔等级)
 local towerArray = {} --类型:table, key 阵容顺序(12345),value:tower_id_(塔id),tower_level_(塔等级)
 local initlevel = {}
@@ -28,11 +31,9 @@ function KnapsackData:init()
     self.diamonds_ = 0
     self.cups_ = 0
 
-    MsgController:connect()
-
     for i = 1, 20 do
         towerData[i]={}
-        towerData[i].unlock_=false
+        towerData[i].unlock_=false --塔是否解锁
         towerData[i].fragment_=0 --塔持有的碎片
         towerData[i].level_= 1  --塔当前等级
         -- print("bbbbb"..towerData[i].level_)
@@ -80,12 +81,20 @@ end
     @return none
 ]]
 function KnapsackData:Login()
-    local msg = {
-        type = MsgDef.MSG_TYPE_REQ.LOGIN,
-        loginname = "5088",
-    }
-    MsgController:sendMsg(msg)
-    isLogin=true
+    MsgController:connect()
+    co=coroutine.create(function (flag)
+        while flag==false do
+            coroutine.yield()
+        end
+        local msg = {
+            type = MsgDef.MSG_TYPE_REQ.LOGIN,
+            loginname = "50885",
+        }
+        MsgController:sendMsg(msg)
+        isLogin=true
+        EventManager:doEvent(EventDef.ID.KNAPSACK_LOGIN)
+        co=nil
+    end)
 end
 --[[--
     塔升级
@@ -199,7 +208,7 @@ function KnapsackData:sendData()
     if MsgController:isConnect() then
         local msg = {
             type = MsgDef.MSG_TYPE_REQ.UPDATE_DATA,
-            loginname = "5088",
+            loginname = "50885",
             gold=self.goldcoin_,
             diamond=self.diamonds_,
             cup=self.cups_
@@ -339,8 +348,8 @@ end
     @return none
 ]]
 function KnapsackData:update(dt)
-    if not isLogin and MsgController:isConnect() then
-        self:Login()
+    if co~=nil then
+        coroutine.resume(co,MsgController:isConnect())
     end
 end
 -- function KnapsackData:setatk(id)

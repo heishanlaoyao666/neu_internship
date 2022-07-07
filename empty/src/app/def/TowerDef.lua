@@ -11,10 +11,11 @@ local TowerDef = {
         LEGEND = 4, --传说
     },
     TYPE = {
-        ATTACK = 1,-- 攻击
-        INTERFERE = 2, --干扰
-        AUXILIARY = 3, --辅助
-        CONTROL = 4, --控制
+        ATTACK = "attack",-- 攻击
+        INTERFERE = "interfere", --干扰
+        AUXILIARY = "auxiliary", --辅助
+        CONTROL = "control", --控制
+        SUMMONER = "summoner", -- 召唤
     },
     MODE = {
         FRIST = 1 ,--前方
