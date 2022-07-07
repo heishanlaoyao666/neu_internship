@@ -215,15 +215,26 @@ function InfoLayer:towerInfo(id)
         if eventType == 2 then
             print("执行升级")
             player:upTowerGrade(tower.id_)
-            self:update()
+            print("升级结束")
+            updateUI()
         end
     end)
     --强化等级信息
     local img=display.newSprite(string.format("ui/battle/Battle interface/Grade/LV.%u.png",tower.grade_))
     img:setAnchorPoint(0.5,1)
-    img:setPosition(40,0)
+    img:setPosition(50,0)
+    img:setScale(1.5)
     towerBtn:addChild(img)
     --强化等级所需费用
+    local sp = ccui.ImageView:create("ui/battle/Battle interface/bg-sp.png")
+    sp:setAnchorPoint(0.5, 0.5)
+    sp:setPosition(180, 180)
+    self.container_:addChild(sp)
+
+    self.spLabel_ = cc.Label:createWithTTF(player:setSp(0),"ui/font/fzbiaozjw.ttf",24)
+    self.spLabel_:setAnchorPoint(0.5, 0.5)
+    self.spLabel_:setPosition(190, 180)
+    self.container_:addChild(self.spLabel_)
     --角标
     local res = "ui/battle/Battle interface/Angle sign-Tower_type/TowerType-"
     local as_tt= display.newSprite(string.format(res..TowerDef.TABLE[tower.id_].TYPE..".png"))
@@ -232,8 +243,10 @@ function InfoLayer:towerInfo(id)
     as_tt:setPosition(80,85)
     towerBtn:addChild(as_tt)
 
-    function towerBtn:update()
+    function updateUI()
+        print("更新执行")
         local newtower=player:getTowerArray()[id]
+        print(newtower.grade_)
         img:setTexture(string.format(string.format("ui/battle/Battle interface/Grade/LV.%u.png",newtower.grade_)))
 
     end

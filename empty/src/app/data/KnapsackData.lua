@@ -70,6 +70,7 @@ function KnapsackData:init()
                     towerArray[i][j].tower_level_ = msg["towerArray"][i][j]["level"]
                 end
             end
+
         end
     end)
 end

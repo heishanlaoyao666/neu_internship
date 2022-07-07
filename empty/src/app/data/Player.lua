@@ -87,6 +87,16 @@ function Player:getTowerArray()
     return tower_array
 end
 --[[--
+    获取塔阵容第i个的强化等级
+
+    @param i 类型:number,塔阵容的第几个
+
+    @return tower_array
+]]
+function Player:getTowerGrade(i)
+    return tower_array[i].grade_
+end
+--[[--
     获取塔阵容
 
     @param i 类型:number,塔阵容的第几个
