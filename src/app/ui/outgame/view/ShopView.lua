@@ -1,19 +1,15 @@
 --[[--
-    游戏主界面
-    PlayView.lua
+    商店层
+    ShopLayer.lua
 ]]
-local PlayView = class("PlayView", function()
+local ShopView = class("ShopView", function()
     return display.newColorLayer(cc.c4b(0, 0, 0, 0))
 end)
-local BGLayer = require("app.mainui.layer.BGLayer")
-local InfoLayer = require("app.mainui.layer.InfoLayer")
-local RegisterView = require("app.mainui.RegisterView")
-local RankView = require("app.mainui.RankView")
-local SettingView = require("app.mainui.SettingView")
-local ConstDef = require("app.def.ConstDef")
+local OutGameData = require("app.data.outgame.OutGameData")
+local GoldShopLayer = require("app.ui.outgame.layer.GoldShopLayer")
+local DiamondShopLayer = require("app.ui.outgame.layer.DiamondShopLayer")
 local EventDef = require("app.def.EventDef")
 local EventManager = require("app.manager.EventManager")
-
 --[[--
     构造函数
 
@@ -21,17 +17,12 @@ local EventManager = require("app.manager.EventManager")
 
     @return none
 ]]
-function PlayView:ctor()
-    self.bgLayer_ = nil -- 类型：BGLayer，背景层
-    self.RegisterView_ = nil -- 类型：RegisterLayer，注册层
-    -- self.BattleScene_ = nil -- 类型：FightLayer，战斗层
-    -- self.ContinueScene_ = nil -- 类型：InfoLayer，信息层
-    self.RankView_ = nil -- 类型：RankView，排行榜界面
-    self.SettingView_ = nil -- 类型：SettingView，设置界面
-    self.infoLayer_ = nil -- 类型：InfoLayer，信息层
+function ShopView:ctor()
+    self.GoldShopLayer_=nil
+    self.DiamondShopLayer_=nil
+    self.packs=OutGameData:goldShop()
 
     self:initView()
-
     self:registerScriptHandler(function(event)
         if event == "enter" then
             self:onEnter()
@@ -48,26 +39,45 @@ end
 
     @return none
 ]]
-function PlayView:initView()
-    self.bgLayer_ = BGLayer.new()
-    self:addChild(self.bgLayer_)
+function ShopView:initView()
+    local width, height = display.width, 1120
+    --商店界面
+    self.container_1 = ccui.Layout:create()
+    self.container_1:setContentSize(display.width, height)
+    self.container_1:setPosition(0, 0)
+    self.container_1:addTo(self)
 
-    self.infoLayer_ = InfoLayer.new()
-    self:addChild(self.infoLayer_)
+    local spriteB = display.newSprite("artcontent/lobby(ongame)/store/basemap_store.png")
+    self.container_1:addChild(spriteB)
+    spriteB:setPosition(display.cx,display.cy)
 
-    self.RegisterView_ = RegisterView.new()
-    self:addChild(self.RegisterView_)
-    self.RegisterView_:setVisible(false)
+    local listViewB = ccui.ListView:create()
+    listViewB:setContentSize(display.width, height)
+    listViewB:setAnchorPoint(0.5, 0.5)
+    listViewB:setPosition(display.cx,display.cy)
+    listViewB:setDirection(1)
+    listViewB:addTo(self.container_1)
 
-    self.RankView_ = RankView.new()
-    self:addChild(self.RankView_)
-    self.RankView_:setVisible(false)
+    --金币商店
+    self.container_B1 = ccui.Layout:create()
+    self.container_B1:setContentSize(display.width, height+70)
+    self.container_B1:setAnchorPoint(0,0)
+    self.container_B1:setPosition(0, 1)
+    self.container_B1:addTo(listViewB)
 
-    self.SettingView_ = SettingView.new()
-    self:addChild(self.SettingView_)
-    self.SettingView_:setVisible(false)
+    self.GoldShopLayer_=GoldShopLayer.new()
+    self.GoldShopLayer_:addTo(self.container_B1)
+
+    --钻石商店
+    self.container_B2 = ccui.Layout:create()
+    self.container_B2:setContentSize(display.width, height/2-300)
+    self.container_B2:setAnchorPoint(0,0)
+    self.container_B2:setPosition(0, 0)
+    self.container_B2:addTo(listViewB)
+
+    self.DiamondShopLayer_=DiamondShopLayer.new()
+    self.DiamondShopLayer_:addTo(self.container_B2)
 end
-
 --[[--
     节点进入
 
@@ -75,13 +85,11 @@ end
 
     @return none
 ]]
-function PlayView:onEnter()
-    EventManager:regListener(EventDef.ID.GAMESTATE_CHANGE, self, function(state)
-        if state == ConstDef.GAME_STATE.PAUSE then
-            self.pauseView_:showView()
-        elseif state == ConstDef.GAME_STATE.RESULT then
-            self.resultView_:showView()
-        end
+function ShopView:onEnter()
+    EventManager:regListener(EventDef.ID.GOLDSHOP_CHANGE, self, function()
+        self.GoldShopLayer_:removeFromParent(true)
+        self.GoldShopLayer_=GoldShopLayer.new()
+        self.GoldShopLayer_:addTo(self.container_B1)
     end)
 end
 
@@ -92,21 +100,18 @@ end
 
     @return none
 ]]
-function PlayView:onExit()
-    EventManager:unRegListener(EventDef.ID.GAMESTATE_CHANGE, self)
+function ShopView:onExit()
+    EventManager:unRegListener(EventDef.ID.GOLDSHOP_CHANGE, self)
 end
-
 --[[--
-    帧刷新
+    界面刷新
 
     @param dt 类型：number，帧间隔，单位秒
 
     @return none
 ]]
-function PlayView:update(dt)
-    self.bgLayer_:update(dt)
-    self.fightLayer_:update(dt)
-    self.infoLayer_:update(dt)
+function ShopView:update(dt)
 end
 
-return PlayView
+return ShopView
+

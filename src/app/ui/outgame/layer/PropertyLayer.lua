@@ -31,25 +31,21 @@ function PropertyLayer:initView()
     local tempfilename
     local width, height = display.width, 1120
 
+    --底图
+    local sprite1 = display.newSprite("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_popup.png")
+
     self.container_ = ccui.Layout:create()
-    self.container_:setContentSize(display.width, display.height)
-    self.container_:addTo(self)
+    self.container_:setContentSize(sprite1:getContentSize().width,sprite1:getContentSize().height)
     self.container_:setAnchorPoint(0.5, 0)
-    self.container_:setPosition(display.cx+10, 190-display.cy)
-
-    -- --底图
-    -- local sprite1 = display.newSprite("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_popup.png")
-    -- sprite1:setAnchorPoint(0.5, 0)
-    -- sprite1:setPosition(width/2,30)
-    -- self.container_:addChild(sprite1)
-    -- sprite1:setVisible(false)
-
-    --属性类型
+    self.container_:setPosition(width/2-25,0)
+    self.container_:addTo(self)
+    --属性
+    --类型
     local sprite6 = ccui.CheckBox:
     create("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_properties_default.png", nil,
     "artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_properties_enhanced.png", nil, nil)
     sprite6:setAnchorPoint(0, 1)
-    sprite6:setPosition(50,self.container_:getContentSize().height-300)
+    sprite6:setPosition(25,sprite1:getContentSize().height-300)
     self.container_:addChild(sprite6)
     tempfilename="artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/text_details/text_15.png"
     local sprite12 = display.newSprite(tempfilename)
@@ -82,7 +78,7 @@ function PropertyLayer:initView()
     create("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_properties_default.png", nil,
     "artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_properties_enhanced.png", nil, nil)
     sprite7:setAnchorPoint(0, 1)
-    sprite7:setPosition(self.container_:getContentSize().width/2,self.container_:getContentSize().height-300)
+    sprite7:setPosition(25+sprite1:getContentSize().width/2,sprite1:getContentSize().height-300)
     self.container_:addChild(sprite7)
     tempfilename="artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/text_details/text_6.png"
     local sprite14 = display.newSprite(tempfilename)
@@ -110,12 +106,13 @@ function PropertyLayer:initView()
     :align(display.RIGHT_CENTER, sprite6:getContentSize().width-20,sprite6:getContentSize().height/2-20)
     :addTo(sprite7)
     self.atkchange:setVisible(false)
+    sprite7:setTouchEnabled(false)
 --攻速
     local sprite8 = ccui.CheckBox:
     create("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_properties_default.png", nil,
     "artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_properties_enhanced.png", nil, nil)
     sprite8:setAnchorPoint(0, 1)
-    sprite8:setPosition(50,self.container_:getContentSize().height-415)
+    sprite8:setPosition(25,sprite1:getContentSize().height-415)
     self.container_:addChild(sprite8)
     tempfilename="artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/text_details/text_8.png"
     local sprite16 = display.newSprite(tempfilename)
@@ -148,7 +145,7 @@ function PropertyLayer:initView()
     create("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_properties_default.png", nil,
     "artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_properties_enhanced.png", nil, nil)
     sprite9:setAnchorPoint(0, 1)
-    sprite9:setPosition(self.container_:getContentSize().width/2,self.container_:getContentSize().height-415)
+    sprite9:setPosition(25+sprite1:getContentSize().width/2,sprite1:getContentSize().height-415)
     self.container_:addChild(sprite9)
     tempfilename="artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/text_details/text_16.png"
     local sprite18 = display.newSprite(tempfilename)
@@ -175,7 +172,7 @@ function PropertyLayer:initView()
     create("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_properties_default.png", nil,
     "artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_properties_enhanced.png", nil, nil)
     sprite10:setAnchorPoint(0, 1)
-    sprite10:setPosition(50,self.container_:getContentSize().height-530)
+    sprite10:setPosition(25,sprite1:getContentSize().height-530)
     self.container_:addChild(sprite10)
     if skill1num then
         tempfilename="artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/text_details/text_%d.png"
@@ -195,8 +192,13 @@ function PropertyLayer:initView()
         })
         :align(display.LEFT_CENTER, sprite6:getContentSize().width/2-60,sprite6:getContentSize().height/2-20)
         :addTo(sprite10)
-        print(self.pack:getTower():getSkill1Value())
-        self.value1:setString(self.pack:getTower():getSkill1Value())
+        if skill1num==3 or skill1num==10 then
+            self.value1:setString(self.pack:getTower():getSkill1Value().."s")
+        elseif skill1num==9 or skill1num==7 or skill1num==14 or skill1num==13 or skill1num==17 then
+            self.value1:setString(100*self.pack:getTower():getSkill1Value().."%")
+        else
+            self.value1:setString(self.pack:getTower():getSkill1Value())
+        end
     else
         display.newTTFLabel({
             text = "-",
@@ -220,7 +222,7 @@ function PropertyLayer:initView()
     create("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_properties_default.png", nil,
     "artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_properties_enhanced.png", nil, nil)
     sprite11:setAnchorPoint(0, 1)
-    sprite11:setPosition(self.container_:getContentSize().width/2,self.container_:getContentSize().height-530)
+    sprite11:setPosition(25+sprite1:getContentSize().width/2,sprite1:getContentSize().height-530)
     self.container_:addChild(sprite11)
     if skill2num then
         tempfilename="artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/text_details/text_%d.png"
@@ -240,7 +242,7 @@ function PropertyLayer:initView()
         })
         :align(display.LEFT_CENTER, sprite6:getContentSize().width/2-60,sprite6:getContentSize().height/2-20)
         :addTo(sprite11)
-        self.value2:setString(self.pack:getTower():getSkill2Value())
+        self.value2:setString(self.pack:getTower():getSkill2Value().."s")
     else
         display.newTTFLabel({
             text = "-",
@@ -251,6 +253,58 @@ function PropertyLayer:initView()
         :addTo(sprite11)
     end
 
+    if cc.UserDefault:getInstance():getBoolForKey("攻击")==true then
+        self.atk:setString(self.pack:getTower():getTowerAtk())
+        sprite7:setSelected(true)
+        self.atkchange:setVisible(true)
+        self.atkchange:setString("+"..tostring(self.pack:getTower():getAtkUpgrade()))
+    else
+        sprite7:setSelected(false)
+    end
+    if cc.UserDefault:getInstance():getBoolForKey("攻速")==true then
+        self.fireCd:setString(self.pack:getTower():getTowerFireCd().."S")
+        sprite8:setSelected(true)
+        self.fireCdchange:setVisible(true)
+        self.fireCdchange:setString("-"..tostring(self.pack:getTower():getFireCdUpgrade().."S"))
+    else
+        self.fireCdchange:setVisible(false)
+        sprite8:setSelected(false)
+    end
+    if cc.UserDefault:getInstance():getBoolForKey("技能")==true then
+        if skill1num==3 or skill1num==10 then
+            self.value1:setString(self.pack:getTower():getSkill1Value().."s")
+        elseif skill1num==9 or skill1num==7 or skill1num==14 or skill1num==13 or skill1num==17 then
+            self.value1:setString(100*self.pack:getTower():getSkill1Value().."%")
+        else
+            self.value1:setString(self.pack:getTower():getSkill1Value())
+        end
+        sprite10:setSelected(true)
+        self.value1change:setVisible(true)
+        if skill1num==3 or skill1num==10 then
+            self.value1change:setString("+"..tostring(self.pack:getTower():getValueUpgrade()).."s")
+        elseif skill1num==9 or skill1num==7 or skill1num==14 or skill1num==13 or skill1num==17 then
+            self.value1change:setString("+"..
+            100*tostring(self.pack:getTower():getValueUpgrade()).."%")
+        else
+            self.value1change:setString("+"..tostring(self.pack:getTower():getValueUpgrade()))
+        end
+    else
+        self.value1change:setVisible(false)
+        sprite10:setSelected(false)
+    end
+end
+
+--[[--
+    传入塔数据
+
+    @param pack 类型：table，PackItem塔
+
+    @return none
+]]
+function PropertyLayer:setChange(a,b,c)
+    self.a=a
+    self.b=b
+    self.c=c
 end
 
 --[[--

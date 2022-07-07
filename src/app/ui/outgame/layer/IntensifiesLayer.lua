@@ -10,6 +10,9 @@ local EventManager = require("app.manager.EventManager")
 local OutGameData = require("app.data.outgame.OutGameData")
 local ConstDef = require("app.def.outgame.ConstDef")
 local PropertyLayer = require("app.ui.outgame.layer.PropertyLayer")
+local BigTowerLayer = require("app.ui.outgame.layer.BigTowerLayer")
+local TowerLayer = require("app.ui.outgame.layer.TowerLayer")
+local FrontLayer = require("app.ui.outgame.layer.FrontLayer")
 --[[--
     构造函数
 
@@ -18,7 +21,9 @@ local PropertyLayer = require("app.ui.outgame.layer.PropertyLayer")
     @return none
 ]]
 function IntensifiesLayer:ctor()
-    self.UsingLayer_=nil -- 类型：UsingLayer，使用塔层
+    self.usingLayer_=nil -- 类型：UsingLayer，使用塔层
+    self.bigtowerLayer_=nil -- 类型：BigTowerLayer，静态大塔层
+    self.towerLayer_=nil -- 类型：TowerLayer，塔层
     self:initView()
 end
 
@@ -30,24 +35,12 @@ end
     @return none
 ]]
 function IntensifiesLayer:initView()
+    cc.UserDefault:getInstance():setBoolForKey("攻击",false)
+    cc.UserDefault:getInstance():setBoolForKey("攻速",false)
+    cc.UserDefault:getInstance():setBoolForKey("技能",false)
     local rarity =self.pack:getTower():getTowerRarity() -- 当前塔的稀有度
     local tempfilename
     local width, height = display.width, 1120
-    -- --遮罩
-    -- local sprite0 = ccui.Button:create("artcontent/lobby(ongame)/currency/mask_popup.png")
-    -- self:addChild(sprite0)
-    -- sprite0:setAnchorPoint(0.5, 0.5)
-    -- sprite0:setOpacity(127)
-    -- sprite0:setPosition(display.cx,display.cy)
-
-    -- sprite0:addTouchEventListener(
-    --     function(sender, eventType)
-    --         -- ccui.TouchEventType
-    --         if 2 == eventType then -- touch end
-    --             self:removeFromParent(true)
-    --         end
-    --     end
-    -- )
 
     self.container_ = ccui.Layout:create()
     self.container_:setContentSize(display.width, display.height)
@@ -55,11 +48,14 @@ function IntensifiesLayer:initView()
     self.container_:setAnchorPoint(0.5, 0.5)
     self.container_:setPosition(display.cx, display.cy)
 
+    --静态大塔
+    self.bigtowerLayer_=BigTowerLayer.new():addTo(self.container_)
     --底图
-    local sprite1 = display.newSprite("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_popup.png")
+    local sprite1=display.newSprite("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_popup.png")
     sprite1:setAnchorPoint(0.5, 0)
     sprite1:setPosition(width/2,30)
     self.container_:addChild(sprite1)
+
     self.ratio=display.newTTFLabel({
         text = "XXX%",
         size = 22,
@@ -101,324 +97,22 @@ function IntensifiesLayer:initView()
         end
     )
     --属性类型
-    --PropertyLayer.new():addTo(self)
-    local sprite6 = ccui.CheckBox:
-    create("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_properties_default.png", nil,
-    "artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_properties_enhanced.png", nil, nil)
-    sprite6:setAnchorPoint(0, 1)
-    sprite6:setPosition(25,sprite1:getContentSize().height-300)
-    sprite1:addChild(sprite6)
-    tempfilename="artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/text_details/text_15.png"
-    local sprite12 = display.newSprite(tempfilename)
-    sprite12:setAnchorPoint(0, 0.5)
-    sprite12:setPosition(sprite6:getContentSize().width/2-60,sprite6:getContentSize().height/2+20)
-    sprite6:addChild(sprite12)
-    tempfilename="artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/icon_properties/type.png"
-    local sprite13 = display.newSprite(tempfilename)
-    sprite13:setAnchorPoint(1, 0.5)
-    sprite13:setPosition(sprite6:getContentSize().width/2-80,sprite6:getContentSize().height/2)
-    sprite6:addChild(sprite13)
-    self.type=display.newTTFLabel({
-        text = "攻击向塔",
-        size = 30,
-        color = display.COLOR_WHITE
-    })
-    :align(display.CENTER, sprite6:getContentSize().width/2,sprite6:getContentSize().height/2-20)
-    :addTo(sprite6)
-    if self.pack:getTower():getTowerType()==1 then
-        self.type:setString("攻击向塔")
-    elseif self.pack:getTower():getTowerType()==2 then
-        self.type:setString("干扰向塔")
-    elseif self.pack:getTower():getTowerType()==3 then
-        self.type:setString("辅助向塔")
-    elseif self.pack:getTower():getTowerType()==4 then
-        self.type:setString("控制向塔")
-    end
---攻击力
-    local sprite7 = ccui.CheckBox:
-    create("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_properties_default.png", nil,
-    "artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_properties_enhanced.png", nil, nil)
-    sprite7:setAnchorPoint(0, 1)
-    sprite7:setPosition(25+sprite1:getContentSize().width/2,sprite1:getContentSize().height-300)
-    sprite1:addChild(sprite7)
-    tempfilename="artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/text_details/text_6.png"
-    local sprite14 = display.newSprite(tempfilename)
-    sprite14:setAnchorPoint(0, 0.5)
-    sprite14:setPosition(sprite6:getContentSize().width/2-60,sprite6:getContentSize().height/2+20)
-    sprite7:addChild(sprite14)
-    tempfilename="artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/icon_properties/atk.png"
-    local sprite15 = display.newSprite(tempfilename)
-    sprite15:setAnchorPoint(1, 0.5)
-    sprite15:setPosition(sprite6:getContentSize().width/2-70,sprite6:getContentSize().height/2)
-    sprite7:addChild(sprite15)
-    self.atk=display.newTTFLabel({
-        text = "攻击向塔",
-        size = 30,
-        color =  display.COLOR_WHITE
-    })
-    :align(display.LEFT_CENTER, sprite6:getContentSize().width/2-60,sprite6:getContentSize().height/2-20)
-    :addTo(sprite7)
-    self.atk:setString(self.pack:getTower():getTowerAtk())
-    self.atkchange=display.newTTFLabel({
-        text = "+",
-        size = 25,
-        color =cc.c3b(255, 215, 0)
-    })
-    :align(display.RIGHT_CENTER, sprite6:getContentSize().width-20,sprite6:getContentSize().height/2-20)
-    :addTo(sprite7)
-    self.atkchange:setVisible(false)
-    sprite7:setTouchEnabled(false)
---攻速
-    local sprite8 = ccui.CheckBox:
-    create("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_properties_default.png", nil,
-    "artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_properties_enhanced.png", nil, nil)
-    sprite8:setAnchorPoint(0, 1)
-    sprite8:setPosition(25,sprite1:getContentSize().height-415)
-    sprite1:addChild(sprite8)
-    tempfilename="artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/text_details/text_8.png"
-    local sprite16 = display.newSprite(tempfilename)
-    sprite16:setAnchorPoint(0, 0.5)
-    sprite16:setPosition(sprite6:getContentSize().width/2-60,sprite6:getContentSize().height/2+20)
-    sprite8:addChild(sprite16)
-    tempfilename="artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/icon_properties/atkspeed.png"
-    local sprite17 = display.newSprite(tempfilename)
-    sprite17:setAnchorPoint(1, 0.5)
-    sprite17:setPosition(sprite6:getContentSize().width/2-70,sprite6:getContentSize().height/2)
-    sprite8:addChild(sprite17)
-    self.fireCd=display.newTTFLabel({
-        text = "1S",
-        size = 30,
-        color = display.COLOR_WHITE
-    })
-    :align(display.LEFT_CENTER, sprite6:getContentSize().width/2-60,sprite6:getContentSize().height/2-20)
-    :addTo(sprite8)
-    self.fireCd:setString(self.pack:getTower():getTowerFireCd().."S")
-    self.fireCdchange=display.newTTFLabel({
-        text = "+",
-        size = 25,
-        color = cc.c3b(255, 215, 0)
-    })
-    :align(display.RIGHT_CENTER, sprite6:getContentSize().width-20,sprite6:getContentSize().height/2-20)
-    :addTo(sprite8)
-    self.fireCdchange:setVisible(false)
---目标
-    local sprite9 =ccui.CheckBox:
-    create("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_properties_default.png", nil,
-    "artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_properties_enhanced.png", nil, nil)
-    sprite9:setAnchorPoint(0, 1)
-    sprite9:setPosition(25+sprite1:getContentSize().width/2,sprite1:getContentSize().height-415)
-    sprite1:addChild(sprite9)
-    tempfilename="artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/text_details/text_16.png"
-    local sprite18 = display.newSprite(tempfilename)
-    sprite18:setAnchorPoint(0, 0.5)
-    sprite18:setPosition(sprite6:getContentSize().width/2-60,sprite6:getContentSize().height/2+20)
-    sprite9:addChild(sprite18)
-    tempfilename="artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/icon_properties/target.png"
-    local sprite19 = display.newSprite(tempfilename)
-    sprite19:setAnchorPoint(1, 0.5)
-    sprite19:setPosition(sprite6:getContentSize().width/2-70,sprite6:getContentSize().height/2)
-    sprite9:addChild(sprite19)
-    self.target=display.newTTFLabel({
-        text = "攻击向塔",
-        size = 30,
-        color = display.COLOR_WHITE
-    })
-    :align(display.LEFT_CENTER, sprite6:getContentSize().width/2-60,sprite6:getContentSize().height/2-20)
-    :addTo(sprite9)
-    self.target:setString(self.pack:getTower():getAtkTarget())
---技能1
-    local skill1num = self.pack:getTower():getTowerSkill1Num()
-    local skill2num = self.pack:getTower():getTowerSkill2Num()
-    local sprite10 = ccui.CheckBox:
-    create("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_properties_default.png", nil,
-    "artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_properties_enhanced.png", nil, nil)
-    sprite10:setAnchorPoint(0, 1)
-    sprite10:setPosition(25,sprite1:getContentSize().height-530)
-    sprite1:addChild(sprite10)
-    if skill1num then
-        tempfilename="artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/text_details/text_%d.png"
-        local sprite20 = display.newSprite(string.format(tempfilename,skill1num))
-        sprite20:setAnchorPoint(0, 0.5)
-        sprite20:setPosition(sprite6:getContentSize().width/2-60,sprite6:getContentSize().height/2+20)
-        sprite10:addChild(sprite20)
-        tempfilename="artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/icon_properties/slowdown.png"
-        local sprite21 = display.newSprite(tempfilename)
-        sprite21:setAnchorPoint(1, 0.5)
-        sprite21:setPosition(sprite6:getContentSize().width/2-70,sprite6:getContentSize().height/2)
-        sprite10:addChild(sprite21)
-        self.value1=display.newTTFLabel({
-            text = "攻击向塔",
-            size = 30,
-            color = display.COLOR_WHITE
-        })
-        :align(display.LEFT_CENTER, sprite6:getContentSize().width/2-60,sprite6:getContentSize().height/2-20)
-        :addTo(sprite10)
-        print(self.pack:getTower():getSkill1Value())
-        self.value1:setString(self.pack:getTower():getSkill1Value())
-    else
-        display.newTTFLabel({
-            text = "-",
-            size = 30,
-            color = display.COLOR_WHITE
-        })
-        :align(display.LEFT_CENTER, sprite6:getContentSize().width/2-60,sprite6:getContentSize().height/2-20)
-        :addTo(sprite10)
-    end
-    self.value1change=display.newTTFLabel({
-        text = "+",
-        size = 25,
-        color = cc.c3b(255, 215, 0)
-    })
-    :align(display.RIGHT_CENTER, sprite6:getContentSize().width-20,sprite6:getContentSize().height/2-20)
-    :addTo(sprite10)
-    self.value1change:setVisible(false)
+    PropertyLayer.new():addTo(sprite1)
 
---技能2
-    local sprite11 = ccui.CheckBox:
-    create("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_properties_default.png", nil,
-    "artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_properties_enhanced.png", nil, nil)
-    sprite11:setAnchorPoint(0, 1)
-    sprite11:setPosition(25+sprite1:getContentSize().width/2,sprite1:getContentSize().height-530)
-    sprite1:addChild(sprite11)
-    if skill2num then
-        tempfilename="artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/text_details/text_%d.png"
-        local sprite22 = display.newSprite(string.format(tempfilename, skill2num))
-        sprite22:setAnchorPoint(0, 0.5)
-        sprite22:setPosition(sprite6:getContentSize().width/2-60,sprite6:getContentSize().height/2+20)
-        sprite11:addChild(sprite22)
-        tempfilename="artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/icon_properties/skill_trigger.png"
-        local sprite23 = display.newSprite(tempfilename)
-        sprite23:setAnchorPoint(1, 0.5)
-        sprite23:setPosition(sprite6:getContentSize().width/2-70,sprite6:getContentSize().height/2)
-        sprite11:addChild(sprite23)
-        self.value2=display.newTTFLabel({
-            text = "攻击向塔",
-            size = 30,
-            color = display.COLOR_WHITE
-        })
-        :align(display.LEFT_CENTER, sprite6:getContentSize().width/2-60,sprite6:getContentSize().height/2-20)
-        :addTo(sprite11)
-        self.value2:setString(self.pack:getTower():getSkill2Value())
-    else
-        display.newTTFLabel({
-            text = "-",
-            size = 30,
-            color = display.COLOR_WHITE
-        })
-        :align(display.LEFT_CENTER, sprite6:getContentSize().width/2-60,sprite6:getContentSize().height/2-20)
-        :addTo(sprite11)
-    end
+    --技能1
+    local skill1num = self.pack:getTower():getTowerSkill1Num()
 
     self.typefilename={"towertype_tapping","towertype_disturbance","towertype_sup","towertype_control"}
     self.basemapfilename={"basemap_tower_normal","basemap_tower_rare","basemap_tower_epic","basemap_towerlegend"}
     --塔图片
+    FrontLayer.new():addTo(sprite1)
     local sprite26 = display.newSprite("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/"
     ..self.basemapfilename[rarity]..".png")
     sprite26:setAnchorPoint(0, 1)
     sprite26:setPosition(50,sprite1:getContentSize().height-25)
     sprite1:addChild(sprite26)
-    tempfilename=string.format("artcontent/lobby(ongame)/currency/icon_tower/%02d.png",self.pack:getTower():getTowerId())
-    local spriteD6 = display.newSprite(tempfilename)
-    sprite26:addChild(spriteD6)
-    spriteD6:setAnchorPoint(0.5, 0.5)
-    spriteD6:setPosition(sprite26:getContentSize().width/2,sprite26:getContentSize().height/2+30)
-    self.spriteD7 = display.
-    newSprite(string.format("artcontent/lobby(ongame)/atlas_interface/tower_list/grade/Lv.%d.png",
-    self.pack:getTower():getLevel()))
-    sprite26:addChild(self.spriteD7)
-    self.spriteD7:setAnchorPoint(0.5, 0.5)
-    self.spriteD7:setPosition(sprite26:getContentSize().width/2,sprite26:getContentSize().height/2-40)
-    tempfilename ="artcontent/lobby(ongame)/atlas_interface/tower_list/progressbar_basemap_fragmentsnumber.png"
-    local spriteD8 = display.newSprite(tempfilename)
-    sprite26:addChild(spriteD8)
-    spriteD8:setAnchorPoint(0.5, 0.5)
-    spriteD8:setPosition(sprite26:getContentSize().width/2,sprite26:getContentSize().height/2-80)
-    tempfilename ="artcontent/lobby(ongame)/atlas_interface/tower_list/progress_progress_fragmentsnumber.png"
-    local spriteD9= display.newSprite(tempfilename)
-    spriteD8:addChild(spriteD9)
-    spriteD9:setAnchorPoint(0.5, 0.5)
-    spriteD9:setPosition(spriteD8:getContentSize().width/2,spriteD8:getContentSize().height/2)
-    self.num=display.newTTFLabel({
-        text = "0/1",
-        size = 22,
-        color = display.COLOR_WHITE
-    })
-    :align(display.CENTER, spriteD9:getContentSize().width/2,spriteD9:getContentSize().height/2)
-    :addTo(spriteD9)
-    self.needcard=ConstDef.LEVEL_UP_NEED_CARD[self.pack:getTower():getLevel()+1][rarity]
-    self.num:setString(self.pack:getTowerNumber().."/"..self.needcard)
-    local spriteD10 = display.newSprite("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/"
-    ..self.typefilename[self.pack:getTower():getTowerType()]..".png")
-    sprite26:addChild(spriteD10)
-    spriteD10:setAnchorPoint(1, 1)
-    spriteD10:setPosition(sprite26:getContentSize().width-10,sprite26:getContentSize().height)
 
-    --介绍底图
-    tempfilename ="artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_skillintroduction.png"
-    local sprite25= display.newSprite(tempfilename)
-    sprite25:setAnchorPoint(0, 1)
-    sprite25:setPosition(sprite1:getContentSize().width/2-120,sprite1:getContentSize().height-120)
-    sprite1:addChild(sprite25)
-    --塔类型
-    tempfilename ="artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/text_details/title_3.png"
-    local sprite27 = display.newSprite(tempfilename)
-    sprite27:setAnchorPoint(0, 1)
-    sprite27:setPosition(sprite1:getContentSize().width/2-120,sprite1:getContentSize().height-25)
-    sprite1:addChild(sprite27)
-    self.type2=display.newTTFLabel({
-        text = "攻击向塔",
-        size = 30,
-        color = display.COLOR_WHITE
-    })
-    :align(display.CENTER, sprite1:getContentSize().width/2-60,sprite1:getContentSize().height-75)
-    :addTo(sprite1)
-    if self.pack:getTower():getTowerType()==1 then
-        self.type2:setString("攻击向塔")
-    elseif self.pack:getTower():getTowerType()==2 then
-        self.type2:setString("干扰向塔")
-    elseif self.pack:getTower():getTowerType()==3 then
-        self.type2:setString("辅助向塔")
-    elseif self.pack:getTower():getTowerType()==4 then
-        self.type2:setString("控制向塔")
-    end
-    --稀有度
-    tempfilename = "artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/text_details/title_4.png"
-    local sprite28 = display.newSprite(tempfilename)
-    sprite28:setAnchorPoint(0, 1)
-    sprite28:setPosition(sprite1:getContentSize().width-200,sprite1:getContentSize().height-25)
-    sprite1:addChild(sprite28)
-    self.Rarity=display.newTTFLabel({
-        text = "普通",
-        size = 30,
-        color = display.COLOR_WHITE
-    })
-    :align(display.CENTER, sprite1:getContentSize().width-170,sprite1:getContentSize().height-75)
-    :addTo(sprite1)
-    if rarity==1 then
-        self.Rarity:setString("普通")
-    elseif rarity==2 then
-        self.Rarity:setString("稀有")
-    elseif rarity==3 then
-        self.Rarity:setString("史诗")
-    elseif rarity==4 then
-        self.Rarity:setString("传说")
-    end
-
-
-    --技能介绍
-    tempfilename = "artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/text_details/title_2.png"
-    local sprite29 = display.newSprite(tempfilename)
-    sprite29:setAnchorPoint(1, 1)
-    sprite29:setPosition(85,sprite25:getContentSize().height-10)
-    sprite25:addChild(sprite29)
-    self.introduction=display.newTTFLabel({
-        text = "普通",
-        size = 20,
-        color = display.COLOR_WHITE
-    })
-    :align(display.LEFT_CENTER, 10,sprite25:getContentSize().height-50)
-    :addTo(sprite25)
-
+    self.towerLayer_=TowerLayer.new():addTo(sprite26)
     --升级按钮
     local sprite3= ccui.Button:create("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/button_upgrade.png")
     sprite1:addChild(sprite3)
@@ -432,50 +126,43 @@ function IntensifiesLayer:initView()
                     if cc.UserDefault:getInstance():getBoolForKey("音效") then
                         audio.playEffect("sounds/ui_btn_close.OGG",false)
                     end
-                    OutGameData:towerLevelUp(self.pack)
-                    EventManager:doEvent(EventDef.ID.GAMEDATA_CHANGE)
-                    if self.pack:getTower():getAtkUpgrade() then
-                        self.atk:setString(self.pack:getTower():getTowerAtk())
-                        sprite7:setSelected(true)
-                        self.atkchange:setVisible(true)
-                        self.atkchange:setString("+"..tostring(self.pack:getTower():getAtkUpgrade()))
-                    else
-                        sprite7:setSelected(false)
-                    end
-                    if self.pack:getTower():getFireCdUpgrade() then
-                        self.fireCd:setString(self.pack:getTower():getTowerFireCd().."S")
-                        sprite8:setSelected(true)
-                        self.fireCdchange:setVisible(true)
-                        self.fireCdchange:setString("-"..tostring(self.pack:getTower():getFireCdUpgrade().."S"))
-                    else
-                        self.fireCdchange:setVisible(false)
-                        sprite8:setSelected(false)
-                    end
-
-                    if self.pack:getTower():getLevel()==1 then
-                        self.ratioadd:setString("+2%")
-                    elseif self.pack:getTower():getLevel()==2 then
-                        self.ratioadd:setString("+3%")
-                    else
-                        self.ratioadd:setString("+3%")
-                    end
-                    self.ratio:setString(OutGameData:getRatio().."%")
-                    tempfilename = "artcontent/lobby(ongame)/atlas_interface/tower_list/grade/Lv.%d.png"
-                    self.spriteD7:setTexture(string.format(tempfilename,self.pack:getTower():getLevel()))
-                    if skill1num then
-                        if self.pack:getTower():getValueUpgrade() then
-                            self.value1:setString(self.pack:getTower():getSkill1Value())
-                            sprite10:setSelected(true)
-                            self.value1change:setVisible(true)
-                            self.value1change:setString("+"..tostring(self.pack:getTower():getValueUpgrade()))
+                    if OutGameData:towerLevelUp(self.pack)==2 then
+                        EventManager:doEvent(EventDef.ID.GAMEDATA_CHANGE)
+                        if self.pack:getTower():getAtkUpgrade() then
+                            cc.UserDefault:getInstance():setBoolForKey("攻击",true)
                         else
-                            self.value1change:setVisible(false)
-                            sprite10:setSelected(false)
+                            cc.UserDefault:getInstance():setBoolForKey("攻击",false)
                         end
+                        if self.pack:getTower():getFireCdUpgrade() then
+                            cc.UserDefault:getInstance():setBoolForKey("攻速",true)
+                        else
+                            cc.UserDefault:getInstance():setBoolForKey("攻速",false)
+                        end
+
+                        if self.pack:getTower():getLevel()==1 then
+                            self.ratioadd:setString("+2%")
+                        elseif self.pack:getTower():getLevel()==2 then
+                            self.ratioadd:setString("+3%")
+                        else
+                            self.ratioadd:setString("+3%")
+                        end
+                        self.ratio:setString(OutGameData:getRatio().."%")
+                        if skill1num then
+                            if self.pack:getTower():getValueUpgrade() then
+                                cc.UserDefault:getInstance():setBoolForKey("技能",true)
+                            else
+                                cc.UserDefault:getInstance():setBoolForKey("技能",false)
+                            end
+                        end
+                    else
+                        cc.UserDefault:getInstance():setBoolForKey("攻击",false)
+                        cc.UserDefault:getInstance():setBoolForKey("攻速",false)
+                        cc.UserDefault:getInstance():setBoolForKey("技能",false)
                     end
-                    self.needcard=ConstDef.LEVEL_UP_NEED_CARD[self.pack:getTower():getLevel()+1][rarity]
-                    self.num:setString(self.pack:getTowerNumber().."/"..self.needcard)
                     self.gold:setString(ConstDef.LEVEL_UP_NEED_GOLD[self.pack:getTower():getLevel()+1][rarity])
+                    self.towerLayer_:removeFromParent(true)
+                    self.towerLayer_=TowerLayer.new():addTo(sprite26)
+                    PropertyLayer.new():addTo(sprite1)
                 end
             end
         end
@@ -527,6 +214,24 @@ function IntensifiesLayer:initView()
             end
         end
     )
+    -- 屏蔽点击
+    self:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event) 
+        if event.name == "began" then
+            return true
+        end
+    end)
+    self:setTouchEnabled(true)
+end
+
+--[[--
+    传入升级数据
+
+    @param pack 类型：table，PackItem塔
+
+    @return none
+]]
+function IntensifiesLayer:setUpgrade()
+    self.value1change:setVisible(true)
 end
 
 --[[--
@@ -537,7 +242,10 @@ end
     @return none
 ]]
 function IntensifiesLayer:setTower(pack)
+    FrontLayer:setTower(pack)
     PropertyLayer:setTower(pack)
+    BigTowerLayer:setTower(pack)
+    TowerLayer:setTower(pack)
     self.pack=pack
 end
 

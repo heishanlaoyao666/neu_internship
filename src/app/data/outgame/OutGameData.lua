@@ -178,8 +178,8 @@ end
     @return none
 ]]
 function OutGameData:initFinance()
-    self.gold = 1000
-    self.diamond = 1000
+    self.gold = 100000
+    self.diamond = 100000
 end
 
 --[[--
@@ -543,12 +543,12 @@ function OutGameData:towerLevelUp(packs)
     if needGold > self:getGold() then
         EventManager:doEvent(EventDef.ID.POPUPWINDOW,4)
         print("金币不足")
-        return
+        return 1
     end
     if needCard > packs:getTowerNumber() then
         EventManager:doEvent(EventDef.ID.POPUPWINDOW,5)
         print("卡片不足")
-        return
+        return 1
     end
     packs:setTowerNumber(-needCard)
     self:setGold(-needGold)
@@ -569,6 +569,7 @@ function OutGameData:towerLevelUp(packs)
     else
         OutGameData:addRatio(3)
     end
+    return 2
 end
 
 --[[--

@@ -11,8 +11,10 @@ local EventDef = require("app.def.EventDef")
 local EventManager = require("app.manager.EventManager")
 local KnapsackLayer = require("app.ui.outgame.layer.KnapsackLayer")
 local IntensifiesLayer = require("app.ui.outgame.layer.IntensifiesLayer")
-local ShopLayer = require("app.ui.outgame.layer.ShopLayer")
-local BattleLayer = require("app.ui.outgame.layer.BattleLayer")
+--local ShopLayer = require("app.ui.outgame.layer.ShopLayer")
+local ShopView = require("app.ui.outgame.view.ShopView")
+local BattleView = require("app.ui.outgame.view.BattleView")
+--local BattleLayer = require("app.ui.outgame.layer.BattleLayer")
 local BuyLayer = require("app.ui.outgame.layer.BuyLayer")
 local ObtainItemLayer = require("app.ui.outgame.layer.ObtainItemLayer")
 local ConfirmationLayer = require("app.ui.outgame.layer.ConfirmationLayer")
@@ -32,8 +34,10 @@ function MainView:ctor()
     self.topInfoLayer_ = nil -- 类型：TopInfoLayer，顶部信息层
     self.bottomInfoLayer_ = nil -- 类型：BottomInfoLayer，底部信息层
     self.knapsackLayer_ = nil -- 类型：KnapsackLayer，背包层
-    self.shopLayer_=nil -- 类型：ShopLayer，商店层
-    self.battleLayer_=nil -- 类型：BattleLayer，战斗层
+    --self.shopLayer_=nil -- 类型：ShopLayer，商店层
+    self.shopView_=nil -- 类型：ShopView，商店层
+    --self.battleLayer_=nil -- 类型：BattleLayer，战斗层
+    self.battleView_=nil -- 类型：BattleView，战斗层
     --self.matchLayer_ = nil -- 类型：MatchLayer，匹配层
     self.buyLayer_=nil -- 类型：BuyLayer，购买层
     self.obtainItemLayer_=nil -- 类型：ObtainItemLayer，开宝箱层
@@ -74,8 +78,8 @@ function MainView:initView()
         self.container_:setContentSize(display.width, height)
         self.container_:setPosition(0, 0)
 
-        self.battleLayer_=BattleLayer.new()
-        self.container_:addChild(self.battleLayer_)
+        self.battleView_=BattleView.new()
+        self.container_:addChild(self.battleView_)
     end
 
     do
@@ -84,8 +88,8 @@ function MainView:initView()
         self.container_1:setContentSize(display.width, height)
         self.container_1:setPosition(0, 0)
 
-        self.shopLayer_=ShopLayer.new()
-        self.container_1:addChild(self.shopLayer_)
+        self.shopView_=ShopView.new()
+        self.container_1:addChild(self.shopView_)
 
     end
 
@@ -211,9 +215,9 @@ function MainView:onEnter()
         self.usingLayer_=UsingLayer:new():addTo(self.container_2)
     end)
     EventManager:regListener(EventDef.ID.BATTLE, self, function(pack)
-        self.battleLayer_:removeFromParent(true)
-        self.battleLayer_=BattleLayer.new()
-        self.container_:addChild(self.battleLayer_)
+        self.battleView_:removeFromParent(true)
+        self.battleView_=BattleView.new()
+        self.container_:addChild(self.battleView_)
     end)
     -- EventManager:regListener(EventDef.ID.FREE, self, function()
     --     print("free")
@@ -226,12 +230,6 @@ function MainView:onEnter()
     --     end, 1)
     --     self:addChild(spine)
     --     spine:setPosition(display.cx, display.cy)
-    -- end)
-    -- EventManager:regListener(EventDef.ID.LEVEL_CHANGE, self, function(pack)
-    --     -- self.knapsackLayer_=KnapsackLayer.new()
-    --     -- self.container_2:addChild(self.knapsackLayer_)
-    --     IntensifiesLayer:setTower(pack)
-    --     IntensifiesLayer:new():addTo(self)
     -- end)
 end
 
@@ -253,7 +251,6 @@ function MainView:onExit()
     EventManager:unRegListener(EventDef.ID.MATCH, self)
     EventManager:unRegListener(EventDef.ID.USING, self)
     EventManager:unRegListener(EventDef.ID.BATTLE, self)
-    --EventManager:unRegListener(EventDef.ID.LEVEL_CHANGE, self)
 end
 
 --[[--
