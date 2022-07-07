@@ -14,6 +14,7 @@ local initlevel = {}
 local a = {}
 
 local isLogin = false --类型:boolen,是否已经注册
+local co = nil --类型:function,携程判断
 --[[--
     初始化数据
 
@@ -79,20 +80,12 @@ end
     @return none
 ]]
 function KnapsackData:Login()
-    if isLogin == true then
-        return
-    end
-    if MsgController:isConnect() then
-        local msg = {
-            type = MsgDef.MSG_TYPE_REQ.LOGIN,
-            userId = 0,
-            pid = 5088,
-            loginname = "5088",
-        }
-        MsgController:sendMsg(msg)
-        isLogin=true
-    end
-    
+    local msg = {
+        type = MsgDef.MSG_TYPE_REQ.LOGIN,
+        loginname = "5088",
+    }
+    MsgController:sendMsg(msg)
+    isLogin=true
 end
 --[[--
     塔升级
@@ -208,7 +201,7 @@ function KnapsackData:sendData()
             type = MsgDef.MSG_TYPE_REQ.UPDATE_DATA,
             loginname = "5088",
             gold=self.goldcoin_,
-            diamod=self.diamonds_,
+            diamond=self.diamonds_,
             cup=self.cups_
         }
         msg.towerData={}
@@ -337,10 +330,19 @@ function KnapsackData:getupgradecoin(id)
     else
         return "已满级"
     end
-    
-    
 end
+--[[--
+    背包界面帧循环
 
+    @param dt 类型：number，帧间隔，单位秒
+
+    @return none
+]]
+function KnapsackData:update(dt)
+    if not isLogin and MsgController:isConnect() then
+        self:Login()
+    end
+end
 -- function KnapsackData:setatk(id)
 --     TowerDef.TABLE[id].ATK = TowerDef.TABLE[id].ATK+TowerDef.TABLE[id].ATK_UPGRADE
 --     return true

@@ -145,6 +145,6 @@ end
     @return none
 ]]
 function MainScene:update(dt)
-    KnapsackData:Login()
+    KnapsackData:update(dt)
 end
 return MainScene
