@@ -135,7 +135,6 @@ function Shop:freeItem(ShopLayer)
             sender:runAction(ease_elastic)
             KnapsackData:setDiamonds(100)
             KnapsackData:sendData()
-            TopPanel:setDiamondsString(KnapsackData:getDiamonds())
             --print(KnapsackData:getDiamonds())
             --售罄遮罩
             self:ItemShade(ShopLayer,freeItemButton:getPositionX(),freeItemButton:getPositionY())

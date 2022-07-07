@@ -149,6 +149,19 @@ function KnapsackData:getTowerATK(id)
 end
 
 --[[--
+    获取塔当前解锁状态
+
+    @param id 类型:number 塔的id
+
+    @return none
+]]
+function KnapsackData:getTowerUnlock_(id)
+    --向服务器拿数据
+    return towerData[id].unlock_
+end
+
+
+--[[--
     解锁塔
 
     @param id 类型:number 塔的id

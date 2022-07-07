@@ -146,5 +146,7 @@ end
 ]]
 function MainScene:update(dt)
     KnapsackData:update(dt)
+    TopPanel:setDiamondsString(KnapsackData:getDiamonds())
+    TopPanel:setCoinString(KnapsackData:getGoldCoin())
 end
 return MainScene
