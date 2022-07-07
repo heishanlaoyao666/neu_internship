@@ -115,7 +115,7 @@ function TreasureChestOpenView:openButton(layer,grayLayer,popLayer,coinNum,price
 
                 KnapsackData:setGoldCoin(coinNum)--金币数量增加
                 TopPanel:setCoinString(KnapsackData:getGoldCoin())--改变信息栏中的金币数量
-
+                KnapsackData:sendData()
                 TreasureChestOpenObtainView:obtainFromTreasurePanel(layer,treasureChestType,coinNum)--宝箱获得物品弹窗
             end
             grayLayer:setVisible(false)--隐藏二级弹窗

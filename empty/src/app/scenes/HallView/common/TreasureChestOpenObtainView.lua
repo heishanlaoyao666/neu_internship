@@ -24,6 +24,7 @@ function TreasureChestOpenObtainView:obtainFromTreasurePanel(layer,TreasureChest
     elseif TreasureChestType == "Legend"then
         self:legendObtained(obtainBg)
     end
+    KnapsackData:sendData()
     --确认按钮
     self:confirmButton(grayLayer,obtainBg)
 end

@@ -106,6 +106,7 @@ function GoldPurchaseView:confirmButton(layer,grayLayer,popLayer,price,ItemButto
                 --售罄遮罩
                 self:ItemShade(layer,ItemButton:getPositionX(),ItemButton:getPositionY())
             end
+            KnapsackData:sendData()
             grayLayer:setVisible(false)
         elseif eventType == ccui.TouchEventType.canceled then
             local scale = cc.ScaleTo:create(1,1)
