@@ -2,6 +2,7 @@ local TopPanel = {}
 local Headdata = require("app/data/Headdata")
 local KnapsackData = require("app.data.KnapsackData")
 local SettingMusic = require("src/app/scenes/SettingMusic")
+local GeneralView = require("app.scenes.HallView.common.GeneralView")
 
 function TopPanel:setCoinString(str)
     coinlabel:setString(str)
@@ -133,7 +134,7 @@ function TopPanel:createMiddleTopPanel(layer)
     diamondicon:addTo(infoLayer)
 
 
-    --设置
+    --设置按钮
 
     local settingBtn = ccui.Button:create(
             "ui/hall/Prompt text/button-menu.png",
@@ -147,373 +148,352 @@ function TopPanel:createMiddleTopPanel(layer)
 
     settingBtn:addTouchEventListener(function(sender, eventType)
         if 2 == eventType then
-            self:createsettinglayerPanel(layer)
+            self:createSettingLayerPanel(layer)
         end
     end)
 
 end
 
 --右上角黄色按钮二级页面
-function TopPanel:createsettinglayerPanel(layer)
+function TopPanel:createSettingLayerPanel(layer)
 
     local width ,height = display.width,display.height
-    local SettingLayer = ccui.Layout:create()
-    SettingLayer:setBackGroundColor(cc.c4b(0,0,0,128))
-    SettingLayer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
-    SettingLayer:setBackGroundColorOpacity(128)--设置透明度
-    SettingLayer:setContentSize(width, height)
-    SettingLayer:pos(width*0.5, height *0.5)
-    SettingLayer:setAnchorPoint(0.5, 0.5)
-    SettingLayer:addTo(layer)
+    local grayLayer = ccui.Layout:create()
+    grayLayer:setBackGroundColor(cc.c4b(0,0,0,128))
+    grayLayer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
+    grayLayer:setBackGroundColorOpacity(128)--设置透明度
+    grayLayer:setContentSize(width, height)
+    grayLayer:pos(width*0.5, height *0.5)
+    grayLayer:setAnchorPoint(0.5, 0.5)
+    grayLayer:setTouchEnabled(true)
+    grayLayer:addTo(layer)
 
 
-
-    --设置弹窗
-    local bgmenuicon=ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - menu_bar/bg-menu.png")
-    bgmenuicon:setScale(1)
-    bgmenuicon:setAnchorPoint(0,1)
-    bgmenuicon:pos(0+350,height-40)
-    bgmenuicon:addTo(SettingLayer)
-
+    --菜单弹窗
+    local menuLayer=ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - menu_bar/bg-menu.png")
+    menuLayer:setScale(1)
+    menuLayer:setAnchorPoint(0,1)
+    menuLayer:pos(0+350,height-40)
+    menuLayer:addTo(grayLayer)
 
 
-    local firstBtn = ccui.Button:create(
+    --公告按钮
+    local announceBtn = ccui.Button:create(
             "ui/hall/Prompt text/secondary_interface - menu_bar/bg-Buttom.png",
             "",
             "ui/hall/Prompt text/secondary_interface - menu_bar/bg-Buttom.png"
     )
-    firstBtn:setPosition(cc.p(475, display.top-100))
-    firstBtn:addTouchEventListener(function(sender,eventType)--点击事件
+    announceBtn:setPosition(cc.p(130, 340))
+    announceBtn:addTouchEventListener(function(sender,eventType)--点击事件
         if eventType == ccui.TouchEventType.ended then
-            print("buy")
+            --公告弹窗
         end
     end)
-    firstBtn:addTo(SettingLayer)
-
-    --公告
+    announceBtn:addTo(menuLayer)
+    --公告图标
     local announcementIcon =ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - menu_bar/icon - announcement.png")
     announcementIcon:setPosition(cc.p(55, 35))
-    announcementIcon:addTo(firstBtn)
-    local announcementsIcon =ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - menu_bar/text - announcements.png")
-    announcementsIcon:setPosition(cc.p(155, 35))
-    announcementsIcon:addTo(firstBtn)
+    announcementIcon:addTo(announceBtn)
+    --公告文字
+    local announcementTitle =ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - menu_bar/text - announcements.png")
+    announcementTitle:setPosition(cc.p(150, 35))
+    announcementTitle:addTo(announceBtn)
 
-
-
-    local secBtn = ccui.Button:create(
+    --邮箱按钮
+    local emailBtn = ccui.Button:create(
             "ui/hall/Prompt text/secondary_interface - menu_bar/bg-Buttom.png",
             "",
             "ui/hall/Prompt text/secondary_interface - menu_bar/bg-Buttom.png"
     )
-    secBtn:setPosition(cc.p(475, display.top-190))
-    secBtn:addTouchEventListener(function(sender,eventType)--点击事件
+    emailBtn:setPosition(cc.p(130, 250))
+    emailBtn:addTouchEventListener(function(sender,eventType)--点击事件
         if eventType == ccui.TouchEventType.ended then
-            print("buy")
+            --邮箱弹窗
         end
     end)
-    secBtn:addTo(SettingLayer)
+    emailBtn:addTo(menuLayer)
 
-    --邮箱
+    --邮箱图标
     local emailIcon =ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - menu_bar/icon-email.png")
     emailIcon:setPosition(cc.p(55, 35))
-    emailIcon:addTo(secBtn)
-    local emailsIcon =ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - menu_bar/text-email.png")
-    emailsIcon:setPosition(cc.p(155, 35))
-    emailsIcon:addTo(secBtn)
+    emailIcon:addTo(emailBtn)
+    --邮箱文字
+    local emailTitle =ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - menu_bar/text-email.png")
+    emailTitle:setPosition(cc.p(150, 35))
+    emailTitle:addTo(emailBtn)
 
-
-
-    local trdBtn = ccui.Button:create(
+    --对战记录按钮
+    local recordBtn = ccui.Button:create(
             "ui/hall/Prompt text/secondary_interface - menu_bar/bg-Buttom.png",
             "",
             "ui/hall/Prompt text/secondary_interface - menu_bar/bg-Buttom.png"
     )
-    trdBtn:setPosition(cc.p(475, display.top-280))
-    trdBtn:addTouchEventListener(function(sender,eventType)--点击事件
+    recordBtn:setPosition(cc.p(130, 160))
+    recordBtn:addTouchEventListener(function(sender,eventType)--点击事件
         if eventType == ccui.TouchEventType.ended then
-            print("buy")
+            --对战记录弹窗
         end
     end)
-    trdBtn:addTo(SettingLayer)
-
-    --对战记录
+    recordBtn:addTo(menuLayer)
+    --对战记录图标
     local battleIcon =ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - menu_bar/icon - battle_record.png")
     battleIcon:setPosition(cc.p(55, 35))
-    battleIcon:addTo(trdBtn)
-    local battlesIcon =ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - menu_bar/text-battle_record.png")
-    battlesIcon:setPosition(cc.p(155, 35))
-    battlesIcon:addTo(trdBtn)
+    battleIcon:addTo(recordBtn)
+    --对战记录文字
+    local battlesTitle =ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - menu_bar/text-battle_record.png")
+    battlesTitle:setPosition(cc.p(150, 35))
+    battlesTitle:addTo(recordBtn)
 
-
-    local fourthBtn = ccui.Button:create(
+    --设置按钮
+    local settingBtn = ccui.Button:create(
             "ui/hall/Prompt text/secondary_interface - menu_bar/bg-Buttom.png",
             "",
             "ui/hall/Prompt text/secondary_interface - menu_bar/bg-Buttom.png"
     )
-    fourthBtn:setPosition(cc.p(475, display.top-370))
-    fourthBtn:addTouchEventListener(function(sender,eventType)--点击事件
+    settingBtn:setPosition(cc.p(130, 70))
+    settingBtn:addTouchEventListener(function(sender,eventType)--点击事件
         if eventType == ccui.TouchEventType.ended then
-            -- print("buy")
-            -- local newScene=import("app/scenes/SetScene"):new()
-            -- display.replaceScene(newScene)
-            self:createsetlayerPanel(layer)
+            --隐藏菜单弹窗
+            menuLayer:setVisible(false)
+            --打开设置弹窗
+            self:settingLayer(grayLayer)
         end
     end)
-    fourthBtn:addTo(SettingLayer)
-
-    --设置
-    local setIcon =ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - menu_bar/icon-setting.png")
-    setIcon:setPosition(cc.p(55, 35))
-    setIcon:addTo(fourthBtn)
-    local setsIcon =ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - menu_bar/text-setting.png")
-    setsIcon:setPosition(cc.p(155, 35))
-    setsIcon:addTo(fourthBtn)
-
-    -- 屏蔽点击
-    SettingLayer:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
-        if event.name == "began" then
-            return true
-        end
-    end)
-    SettingLayer:setTouchEnabled(true)
+    settingBtn:addTo(menuLayer)
+    --设置图标
+    local settingIcon =ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - menu_bar/icon-setting.png")
+    settingIcon:setPosition(cc.p(55, 35))
+    settingIcon:addTo(settingBtn)
+    --设置文字
+    local settingTitle =ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - menu_bar/text-setting.png")
+    settingTitle:setPosition(cc.p(155, 35))
+    settingTitle:addTo(settingBtn)
 
 
 end
---设置界面二级界面
-function TopPanel:createsetlayerPanel(layer)
+--二级弹窗：设置界面
+function TopPanel:settingLayer(grayLayer)
+    --弹窗背景
+    local popUpBg=ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - setting pop-up_window/bg-Popup.png")
+    popUpBg:setAnchorPoint(0.5,0.5)
+    popUpBg:pos(display.cx,display.cy)
+    popUpBg:addTo(grayLayer)
 
-    local width ,height = display.width,display.height
-    local SetLayer = ccui.Layout:create()
-    SetLayer:setBackGroundColor(cc.c4b(0,0,0,128))
-    SetLayer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
-    SetLayer:setBackGroundColorOpacity(128)--设置透明度
-    SetLayer:setContentSize(width, height)
-    SetLayer:pos(width*0.5, height *0.5)
-    SetLayer:setAnchorPoint(0.5, 0.5)
-    SetLayer:addTo(layer)
-    --设置弹窗
-    local bgmenuicon1=ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - setting pop-up_window/bg-Popup.png")
-    bgmenuicon1:setScale(1)
-    bgmenuicon1:setAnchorPoint(0,1)
-    bgmenuicon1:pos(0+40,height-400)
-    bgmenuicon1:addTo(SetLayer)
-
-    --叉掉
-    local deleteBtn1=ccui.Button:create(
+    --关闭按钮
+    local closeBtn=ccui.Button:create(
             "ui/hall/Prompt text/secondary_interface - setting pop-up_window/button-close.png",
             "",
             "ui/hall/Prompt text/secondary_interface - setting pop-up_window/button-close.png"
     )
-    deleteBtn1:setScale(1)
-    deleteBtn1:setAnchorPoint(0,1)
-    deleteBtn1:pos(0+610,height-415)
-    deleteBtn1:addTo(SetLayer)
-
-    deleteBtn1:addTouchEventListener(function(sender, eventType)
+    closeBtn:setAnchorPoint(0.5,0.5)
+    closeBtn:pos(600,410)
+    closeBtn:addTo(popUpBg)
+    closeBtn:addTouchEventListener(function(sender, eventType)
         if 2 == eventType then
-            --一系列操作（清空缓存）
-
-            -- local newScene=import("app/scenes/MainScene"):new()
-            -- display.replaceScene(newScene)
-            -- cc.Director:getInstance():popScene()
-            SetLayer:setVisible(false)
-            SetLayer:setTouchEnabled(false)
-            local newScene=import("app/scenes/MainScene"):new()
-            display.replaceScene(newScene)
+            --关闭弹窗
+            grayLayer:setVisible(false)
         end
     end)
 
 
+    --版本号
+    local vision = ccui.Text:create("版本号：V60000.4334.99999999.999999 ", "", 21)
+    vision:setAnchorPoint(0,1)
+    vision:setTextColor(cc.c4b(255,255,255,60))
+    vision:pos(0+150,40)
+    vision:addTo(popUpBg)
+
+    --音效文字
+    local effectTitle=ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - setting pop-up_window/Title-Effect.png")
+    effectTitle:setAnchorPoint(0,1)
+    effectTitle:pos(0+160,340)
+    effectTitle:addTo(popUpBg)
+    --音乐文字
+    local musicTitle=ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - setting pop-up_window/Title-Music.png")
+    musicTitle:setAnchorPoint(0,1)
+    musicTitle:pos(0+160,280)
+    musicTitle:addTo(popUpBg)
+    --技能介绍文字
+    local skillTitle=ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - setting pop-up_window/Title-skill introduction.png")
+    skillTitle:setAnchorPoint(0,1)
+    skillTitle:pos(0+160,220)
+    skillTitle:addTo(popUpBg)
+
+    --音效
+    local function effectStateOnChange(sender,eventType)
+        local state=false
+        if eventType==ccui.CheckBoxEventType.selected then
+            state=true
+        elseif eventType==ccui.CheckBoxEventType.unselected then
+            state=false
+        end
+
+        --按照state执行命令
+        if state then
+            print("1")
+
+            local isEffect = SettingMusic:setMusic1(true)
+            print("音效开启")
+
+            --音效是开启音效时候，全局变量设置为1，进入游戏界面如果全局变量1，则音效开启
+        else
+            print("2")
+
+            local isEffect = SettingMusic:setMusic1(false)
+            print("音效关闭")
+            --音效是关闭音效时候，全局变量设置为2，进入游戏界面如果全局变量2，则音效关闭
+        end
+    end
+
+    --音效CheckBox
+    local effectCheckBox=ccui.CheckBox:create(
+            "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-off.png",
+            "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-off.png",
+            "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-on.png",
+            "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-on.png",
+            "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-on.png")
+    effectCheckBox:setAnchorPoint(0,1)
+    effectCheckBox:pos(display.cx,340)
+    effectCheckBox:addTo(popUpBg)
+    effectCheckBox:addEventListener(effectStateOnChange)
+
+
+    local function musicStateOnChange(sender,eventType)
+        local state=false
+        if eventType==ccui.CheckBoxEventType.selected then
+            state=true
+        else if eventType==ccui.CheckBoxEventType.unselected then
+            state=false
+        end
+        end
+        --按照state执行命令
+        if state then
+            print("1")
+
+            local isMusic = SettingMusic:setMusic2(true)
+            print("音乐开启")
+
+            --音效是开启音效时候，全局变量设置为1，进入游戏界面如果全局变量1，则音效开启
+        else
+            print("2")
+
+
+            local isMusic = SettingMusic:setMusic2(false)
+            print("音乐关闭")
+            --音效是关闭音效时候，全局变量设置为2，进入游戏界面如果全局变量2，则音效关闭
+        end
+
+    end
+
+    local musicCheckBox=ccui.CheckBox:create(
+            "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-off.png",
+            "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-off.png",
+            "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-on.png",
+            "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-on.png",
+            "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-on.png")
+    musicCheckBox:setAnchorPoint(0,1)
+    musicCheckBox:pos(display.cx, 280)
+    musicCheckBox:addTo(popUpBg)
+    musicCheckBox:addEventListener(musicStateOnChange)
 
 
 
-    --退出游戏
-    local deleteBtn2=ccui.Button:create(
+    local function skillStateOnChange(sender,eventType)
+        local state=false
+        if eventType==ccui.CheckBoxEventType.selected then
+            state=true
+        else if eventType==ccui.CheckBoxEventType.unselected then
+            state=false
+        end
+        end
+        --按照state执行命令
+        if state then
+            print("1")
+
+            local isMusic = SettingMusic:setMusic3(true)
+            print("技能介绍开启")
+
+            --音效是开启音效时候，全局变量设置为1，进入游戏界面如果全局变量1，则音效开启
+        else
+            print("2")
+
+
+            local isMusic = SettingMusic:setMusic3(false)
+            print("技能介绍关闭")
+            --音效是关闭音效时候，全局变量设置为2，进入游戏界面如果全局变量2，则音效关闭
+        end
+
+    end
+
+    local skillCheckBox=ccui.CheckBox:create(
+            "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-off.png",
+            "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-off.png",
+            "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-on.png",
+            "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-on.png",
+            "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-on.png")
+    skillCheckBox:setAnchorPoint(0,1)
+    skillCheckBox:pos(display.cx,220)
+    skillCheckBox:addTo(popUpBg)
+    skillCheckBox:addEventListener(skillStateOnChange)
+
+    --退出游戏按钮
+    local exitBtn=ccui.Button:create(
             "ui/hall/Prompt text/secondary_interface - setting pop-up_window/button-exit.png",
             "",
             "ui/hall/Prompt text/secondary_interface - setting pop-up_window/button-exit.png"
     )
-    deleteBtn2:setScale(1)
-    deleteBtn2:setAnchorPoint(0,1)
-    deleteBtn2:pos(0+250,height-705)
-    deleteBtn2:addTo(SetLayer)
-
-    deleteBtn2:addTouchEventListener(function(sender, eventType)
+    exitBtn:setScale(1)
+    exitBtn:setAnchorPoint(0.5,0.5)
+    exitBtn:pos(display.cx-50,100)
+    exitBtn:addTo(popUpBg)
+    exitBtn:addTouchEventListener(function(sender, eventType)
         if 2 == eventType then
-            --一系列操作（清空缓存）
-
-            -- local newScene=import("app/scenes/MainScene"):new()
-            -- display.replaceScene(newScene)
-            cc.Director:getInstance():popScene()
+            popUpBg:setVisible(false)
+            self:exitPopLayer(grayLayer)
         end
     end)
-
-    --版本号
-    local font = ccui.Text:create("版本号：V60000.4334.99999999.999999 ", "", 21)
-    font:setAnchorPoint(0,1)
-    font:setTextColor(cc.c4b(255,255,255,60))
-    font:pos(0+170,height-805)
-    font:addTo(SetLayer)
-
-
-
-    --音乐音效等
-    local effecticon=ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - setting pop-up_window/Title-Effect.png")
-    effecticon:setScale(1)
-    effecticon:setAnchorPoint(0,1)
-    effecticon:pos(0+160,height-510)
-    effecticon:addTo(SetLayer)
-
-    local musicicon=ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - setting pop-up_window/Title-Music.png")
-    musicicon:setScale(1)
-    musicicon:setAnchorPoint(0,1)
-    musicicon:pos(0+160,height-570)
-    musicicon:addTo(SetLayer)
-
-    local skillicon=ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - setting pop-up_window/Title-skill introduction.png")
-    skillicon:setScale(1)
-    skillicon:setAnchorPoint(0,1)
-    skillicon:pos(0+160,height-510-60-60)
-    skillicon:addTo(SetLayer)
-
-    --音乐音效等按钮
-
-
-    local function onChangedCheckBox1(sender,eventType)
-        local state=false
-        if eventType==ccui.CheckBoxEventType.selected then
-            state=true
-        else if eventType==ccui.CheckBoxEventType.unselected then
-            state=false
-        end
-        end
-        --按照state执行命令
-        if state then
-            print("1")
-           
-            local isMusic = SettingMusic:setMusic1(true)
-            print(isMusic)
-
-            --音效是开启音效时候，全局变量设置为1，进入游戏界面如果全局变量1，则音效开启
-        else
-            print("2")
-
-          
-            local isMusic = SettingMusic:setMusic1(false)
-            print(isMusic)
-            --音效是关闭音效时候，全局变量设置为2，进入游戏界面如果全局变量2，则音效关闭
-        end
-
-    end
-    local sound_click_contrlButton1=ccui.CheckBox:create(
-            "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-off.png",
-            "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-off.png",
-            "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-on.png",
-            "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-on.png",
-            "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-on.png")
-    sound_click_contrlButton1:setAnchorPoint(0,0)
-    sound_click_contrlButton1:pos(width*0.5, height*0.5+90)
-    sound_click_contrlButton1:addTo(SetLayer)
-    sound_click_contrlButton1:addEventListener(onChangedCheckBox1)
-
-
-    local function onChangedCheckBox2(sender,eventType)
-        local state=false
-        if eventType==ccui.CheckBoxEventType.selected then
-            state=true
-        else if eventType==ccui.CheckBoxEventType.unselected then
-            state=false
-        end
-        end
-        --按照state执行命令
-        if state then
-            print("1")
-           
-            local isMusic = SettingMusic:setMusic2(true)
-            print(isMusic)
-
-            --音效是开启音效时候，全局变量设置为1，进入游戏界面如果全局变量1，则音效开启
-        else
-            print("2")
-
-            
-            local isMusic = SettingMusic:setMusic2(false)
-            print(isMusic)
-            --音效是关闭音效时候，全局变量设置为2，进入游戏界面如果全局变量2，则音效关闭
-        end
-
-    end
-
-    local sound_click_contrlButton2=ccui.CheckBox:create(
-            "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-off.png",
-            "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-off.png",
-            "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-on.png",
-            "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-on.png",
-            "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-on.png")
-    sound_click_contrlButton2:setAnchorPoint(0,0)
-    sound_click_contrlButton2:pos(width*0.5, height*0.5+90-65)
-    sound_click_contrlButton2:addTo(SetLayer)
-    sound_click_contrlButton2:addEventListener(onChangedCheckBox2)
-
-
-
-    local function onChangedCheckBox3(sender,eventType)
-        local state=false
-        if eventType==ccui.CheckBoxEventType.selected then
-            state=true
-        else if eventType==ccui.CheckBoxEventType.unselected then
-            state=false
-        end
-        end
-        --按照state执行命令
-        if state then
-            print("1")
-            
-            local isMusic = SettingMusic:setMusic3(true)
-            print(isMusic)
-
-            --音效是开启音效时候，全局变量设置为1，进入游戏界面如果全局变量1，则音效开启
-        else
-            print("2")
-
-           
-            local isMusic = SettingMusic:setMusic3(false)
-            print(isMusic)
-            --音效是关闭音效时候，全局变量设置为2，进入游戏界面如果全局变量2，则音效关闭
-        end
-
-    end
-
-    local sound_click_contrlButton3=ccui.CheckBox:create(
-            "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-off.png",
-            "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-off.png",
-            "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-on.png",
-            "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-on.png",
-            "ui/hall/Prompt text/secondary_interface - setting pop-up_window/CheckBox-on.png")
-    sound_click_contrlButton3:setAnchorPoint(0,0)
-    sound_click_contrlButton3:pos(width*0.5, height*0.5+90-65-65)
-    sound_click_contrlButton3:addTo(SetLayer)
-    sound_click_contrlButton3:addEventListener(onChangedCheckBox3)
-
-
-
-
-
-
-
-
-
-
-    -- 屏蔽点击
-    SetLayer:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
-        if event.name == "began" then
-            return true
-        end
-    end)
-    SetLayer:setTouchEnabled(true)
-
-
 end
+
+--[[
+    函数用途：退出弹窗
+    --]]
+function TopPanel:exitPopLayer(grayLayer)
+    self.Type = {"Exit","Gold","Diamond","Cup","CardGold","CardFragment"}
+    --弹窗背景
+    local generalBg = ccui.ImageView:create("ui/hall/common/SecondaryInterface-General notification Popup/bg-pop-up.png")
+    generalBg:setPosition(display.cx,display.cy)
+    generalBg:addTo(grayLayer)
+    generalBg:setTouchEnabled(true)
+    local text = ccui.ImageView:create("ui/hall/common/SecondaryInterface-General notification Popup/Text - confirm exit.png")
+    text:setAnchorPoint(0.5,0.5)
+    text:setPosition(cc.p(display.cx-100, 180))
+    text:addTo(generalBg)
+    --确认按钮
+    local confirmButton = ccui.Button:create(
+            "ui/hall/common/SecondaryInterface-General notification Popup/Button - confirm.png",
+            "ui/hall/common/SecondaryInterface-General notification Popup/Button - confirm.png",
+            "ui/hall/common/SecondaryInterface-General notification Popup/Button - confirm.png")
+    confirmButton:setAnchorPoint(0.5,0.5)
+    confirmButton:setPosition(cc.p(display.cx-100, 70))
+    confirmButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
+        if eventType == ccui.TouchEventType.began then
+            local scale = cc.ScaleTo:create(1,0.9)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+        elseif eventType == ccui.TouchEventType.ended then
+            local scale = cc.ScaleTo:create(1,1)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+            cc.Director:getInstance():popScene()
+        elseif eventType == ccui.TouchEventType.canceled then
+            local scale = cc.ScaleTo:create(1,1)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+        end
+    end)
+    confirmButton:addTo(generalBg)
+end
+
 --选择头像二级界面
 function TopPanel:createlayerPanel(layer)
 

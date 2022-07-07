@@ -134,7 +134,7 @@ function Shop:freeItem(ShopLayer)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
             KnapsackData:setDiamonds(100)
-            TopPanel:setDiamondsString(KnapsackData:getDiamonds())
+            KnapsackData:sendData()
             --print(KnapsackData:getDiamonds())
             --售罄遮罩
             self:ItemShade(ShopLayer,freeItemButton:getPositionX(),freeItemButton:getPositionY())

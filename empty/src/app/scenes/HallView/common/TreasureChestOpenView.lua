@@ -111,13 +111,12 @@ function TreasureChestOpenView:openButton(layer,grayLayer,popLayer,coinNum,price
             sender:runAction(ease_elastic)
             --条件允许情况下：获得金币，扣除钻石
             if KnapsackData:setDiamonds(-price) then--钻石充足时
-                TopPanel:setDiamondsString(KnapsackData:getDiamonds())--改变信息栏中的钻石数量
 
                 KnapsackData:setGoldCoin(coinNum)--金币数量增加
-                TopPanel:setCoinString(KnapsackData:getGoldCoin())--改变信息栏中的金币数量
 
                 TreasureChestOpenObtainView:obtainFromTreasurePanel(layer,treasureChestType,coinNum)--宝箱获得物品弹窗
             end
+            KnapsackData:sendData()
             grayLayer:setVisible(false)--隐藏二级弹窗
         elseif eventType == ccui.TouchEventType.canceled then
             local scale = cc.ScaleTo:create(1,1)

@@ -95,8 +95,6 @@ function GoldPurchaseView:confirmButton(layer,grayLayer,popLayer,price,ItemButto
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
             if KnapsackData:setGoldCoin(-price) then--如果金币充足
-                --更新顶部信息栏的金币数量
-                TopPanel:setCoinString(KnapsackData:getGoldCoin())
                 print("购买后金币数量为"..KnapsackData:getGoldCoin())
 
                 --添加碎片
@@ -105,7 +103,16 @@ function GoldPurchaseView:confirmButton(layer,grayLayer,popLayer,price,ItemButto
 
                 --售罄遮罩
                 self:ItemShade(layer,ItemButton:getPositionX(),ItemButton:getPositionY())
+
+                --卡牌解锁
+                if KnapsackData:getTowerUnlock_(id) then--卡牌已解锁
+                    print("卡牌已解锁")
+                else--卡牌未解锁
+                    KnapsackData:unlockTower(id)
+                    print("解锁卡牌成功！")
+                end
             end
+            KnapsackData:sendData()
             grayLayer:setVisible(false)
         elseif eventType == ccui.TouchEventType.canceled then
             local scale = cc.ScaleTo:create(1,1)
