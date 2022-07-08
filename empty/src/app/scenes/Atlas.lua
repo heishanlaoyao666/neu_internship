@@ -143,24 +143,24 @@ function Atlas:createCollectionPanel()
 
 
     local towerdataobtained = {}
-    local towerdatanontobtained = {}
+    local towerdatanotobtained = {}
     for i = 1, 20, 1 do
         if KnapsackData:getTowerData(i).unlock_  then
             table.insert(towerdataobtained,i)
         else
-            table.insert(towerdatanontobtained,i)
+            table.insert(towerdatanotobtained,i)
         end
     end
-    print("12345")
-for key, value in pairs(towerdataobtained) do
-    -- body
-    print("输出"..towerdataobtained[key])
-end
-for key, value in pairs(towerdatanontobtained) do
-    -- body
-    print("输出2"..towerdatanontobtained[key])
-end
-    print("67890")
+--     print("12345")
+-- for key, value in pairs(towerdataobtained) do
+--     -- body
+--     print("输出"..towerdataobtained[key])
+-- end
+-- for key, value in pairs(towerdatanotobtained) do
+--     -- body
+--     print("输出2"..towerdatanotobtained[key])
+-- end
+--     print("67890")
 
 --已收集塔按钮
     local a = 0
@@ -190,19 +190,22 @@ end
 
         local towertype = TowerDef.TABLE[chartnum].TYPE
         local towertypestring
-        if towertype == 1 then
+        if towertype == "attack" then
             --print(rarity)
             towertypestring = "attack"
-        elseif towertype ==2 then
+        elseif towertype =="interfere" then
             --print(rarity)
             towertypestring = "disturb"
-        elseif towertype==3 then
+        elseif towertype=="auxiliary" then
             --print(rarity)
             towertypestring = "auxiliary"
-        else
+        elseif towertype =="control" then
             --print(rarity)
             towertypestring = "control"
+        else
+            towertypestring ="summoner"
         end
+
 
 
         self:createCollectedItem(AtlasLayer,
@@ -211,7 +214,7 @@ end
                 "ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_"..towertypestring..".png",
                 "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.".."9"..".png",a,b)
         a=a+170
-        if #towerdataobtained%4 ==0 then
+        if key%4 ==0 then
             a = 0
             b = b-250
         end
@@ -221,58 +224,62 @@ end
 --未收集塔按钮
 
 
-    -- local a = 0
-    -- local b = -450
-    -- for key, value in pairs(towerdataobtained) do
+    local c = 0
+    local d = -1200
+    for key, value in pairs(towerdatanotobtained) do
 
-    --     local TowerString = Towerdata.OBTAINED[key]
-    --     --print(TowerString)
-    --     --print("图片数字"..(string.sub(Towerdata.OBTAINED[1],-6,-5)))
-    --     -- print("稀有度"..TowerDef.RARITY.LEGEND)
-    --     local chartnum = tonumber(string.sub(TowerString,-6,-5))
-    --     local rarity = TowerDef.TABLE[chartnum].RARITY
-    --     local raritystring
-    --     if rarity == 1 then
-    --         --print(rarity)
-    --         raritystring = "common"
-    --     elseif rarity ==2 then
-    --         --print(rarity)
-    --         raritystring = "rare"
-    --     elseif rarity==3 then
-    --         --print(rarity)
-    --         raritystring = "epic"
-    --     else
-    --         --print(rarity)
-    --         raritystring = "legend"
-    --     end
+        local TowerString = Towerdata.NOTOBTAINED[value]
+        --print(TowerString)
+        --print("图片数字"..(string.sub(Towerdata.OBTAINED[1],-6,-5)))
+        -- print("稀有度"..TowerDef.RARITY.LEGEND)
+        local chartnum = tonumber(string.sub(TowerString,-6,-5))
+        -- local rarity = TowerDef.TABLE[chartnum].RARITY
+        -- local raritystring
+        -- if rarity == 1 then
+        --     --print(rarity)
+        --     raritystring = "common"
+        -- elseif rarity ==2 then
+        --     --print(rarity)
+        --     raritystring = "rare"
+        -- elseif rarity==3 then
+        --     --print(rarity)
+        --     raritystring = "epic"
+        -- else
+        --     --print(rarity)
+        --     raritystring = "legend"
+        -- end
 
-    --     local towertype = TowerDef.TABLE[chartnum].TYPE
-    --     local towertypestring
-    --     if towertype == 1 then
-    --         --print(rarity)
-    --         towertypestring = "attack"
-    --     elseif towertype ==2 then
-    --         --print(rarity)
-    --         towertypestring = "disturb"
-    --     elseif towertype==3 then
-    --         --print(rarity)
-    --         towertypestring = "auxiliary"
-    --     else
-    --         --print(rarity)
-    --         towertypestring = "control"
-    --     end
+        local towertype = TowerDef.TABLE[chartnum].TYPE
+        local towertypestring
+        if towertype == "attack" then
+            --print(rarity)
+            towertypestring = "attack"
+        elseif towertype =="interfere" then
+            --print(rarity)
+            towertypestring = "disturb"
+        elseif towertype=="auxiliary" then
+            --print(rarity)
+            towertypestring = "auxiliary"
+        elseif towertype =="control" then
+            --print(rarity)
+            towertypestring = "control"
+        else
+            towertypestring ="summoner"
+        end
 
-    --     self:createCollectedItem(AtlasLayer,
-    --     "ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-"..raritystring..".png",
-    --     TowerString,
-    --     "ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_"..towertypestring..".png",
-    --     "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.".."9"..".png",a,b)
-    --     a=a+170
-    --     if key%4 ==0 then
-    --         a = 0
-    --         b = b-250
-    --     end
-    -- end
+
+
+        self:createCollectedItem(AtlasLayer,
+                "ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-notgain.png",
+                TowerString,
+                "ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_"..towertypestring..".png",
+                "ui/hall/Atlas/Subinterface_currentsquad/rank/lv.".."9"..".png",c,d)
+        c=c+170
+        if key%4 ==0 then
+            c = 0
+            d = d-250
+        end
+    end
 
 
 
@@ -414,7 +421,7 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
     --towerinfoLayer:pos(width*0.5, height *0.5)
     towerinfoLayer:setAnchorPoint(0.5, 0.5)
     towerinfoLayer:addTo(layer)
-    towerinfoLayer:setTouchEnabled(true)--屏蔽一级界面
+    --towerinfoLayer:setTouchEnabled(true)--屏蔽一级界面
 
 
     --     local TowerString = Towerdata.OBTAINED[1]

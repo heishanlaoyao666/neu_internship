@@ -106,7 +106,7 @@ function KnapsackData:Login()
         end
         local msg = {
             type = MsgDef.MSG_TYPE_REQ.LOGIN,
-            loginname = "50885",
+            loginname = "12345",
         }
         MsgController:sendMsg(msg)
         isLogin=true

@@ -3,6 +3,8 @@ local Headdata = require("app/data/Headdata")
 local KnapsackData = require("app.data.KnapsackData")
 local SettingMusic = require("src/app/scenes/SettingMusic")
 local GeneralView = require("app.scenes.HallView.common.GeneralView")
+local Towerdata = require("app/data/Towerdata")
+local TowerDef  = require("app.def.TowerDef")
 
 function TopPanel:setCoinString(str)
     if coinlabel then
@@ -17,6 +19,11 @@ end
 function TopPanel:setCupsString(str)
     if trophylabel then
         trophylabel:setString(str)
+    end
+end
+function TopPanel:setWordString(str)
+    if wordicon then
+        wordicon:setString(str)
     end
 end
 
@@ -547,14 +554,15 @@ function TopPanel:createlayerPanel(layer)
     end)
 
     --头像和文字
-
-    local headicon =ccui.ImageView:create("ui/hall/common/Tower-Icon/01.png")
+    
+    headicon =ccui.ImageView:create(head)
     headicon:setScale(1)
     headicon:setAnchorPoint(0,1)
     headicon:pos(0+150,height-250)
     headicon:addTo(HeadLayer)
 
-    local wordicon =cc.Label:createWithTTF("火焰猎人","ui/font/fzbiaozjw.ttf",30)
+    word = ""
+    wordicon =cc.Label:createWithTTF(word,"ui/font/fzbiaozjw.ttf",30)
     wordicon:setScale(1)
     wordicon:setAnchorPoint(0,1)
     wordicon:pos(0+290,height-250)
@@ -611,7 +619,7 @@ function TopPanel:createlayerPanel(layer)
             -- local newScene=import("app/scenes/MainScene"):new()
             -- display.replaceScene(newScene)
             -- cc.Director:getInstance():popScene()
-
+            headBg:loadTexture(head)
             HeadLayer:setVisible(false)--隐藏二级弹窗
             -- layer:setTouchEnabled(true)
             HeadLayer:setTouchEnabled(false)
@@ -626,11 +634,22 @@ function TopPanel:createlayerPanel(layer)
     -- self:createItem(HeadLayer,Headdata.OBTAINED2[3],220,0)
     -- self:createItem(HeadLayer,Headdata.OBTAINED2[4],330,0)
     -- self:createItem(HeadLayer,Headdata.OBTAINED2[5],0,-150)
+    local towerdataobtained = {}
+    local towerdatanotobtained = {}
+    for i = 1, 20, 1 do
+        if KnapsackData:getTowerData(i).unlock_  then
+            table.insert(towerdataobtained,i)
+        else
+            table.insert(towerdatanotobtained,i)
+        end
+    end
+    
+    
     local a = 0
     local b = 0
-    for key, value in pairs(Headdata.OBTAINED2) do
+    for key, value in pairs(towerdataobtained) do
 
-        self:createItem(HeadLayer,value,a,b)
+        self:createItem(HeadLayer,Towerdata.OBTAINED[value],a,b)
         a=a+110
         if key%4 ==0 then
             a = 0
@@ -640,9 +659,9 @@ function TopPanel:createlayerPanel(layer)
 
     local c = 0
     local d = 0
-    for key, value in pairs(Headdata.NOTOBTAINED2) do
+    for key, value in pairs(towerdatanotobtained) do
 
-        self:createItem2(HeadLayer,value,c,d)
+        self:createItem2(HeadLayer,Towerdata.NOTOBTAINED[value],c,d)
         c=c+110
         if key%4 ==0 then
             c = 0
@@ -662,14 +681,18 @@ function TopPanel:createlayerPanel(layer)
 end
 
 function TopPanel:createItem(layer,path,offsetX,offsetY)--层级、图片路径、偏移量
-    --按钮：商品1
+    --按钮：解锁头像
     local ItemButton = ccui.Button:create(path, path, path)
     ItemButton:setPosition(cc.p(200+offsetX, display.top-530+offsetY))
     ItemButton:addTouchEventListener(function(sender,eventType)--点击事件
         if eventType == ccui.TouchEventType.ended then
             head = path
-            -- headBg:setString(head)
-            headBg:loadTexture(head)
+            --headBg:setString(head)
+            --headBg:loadTexture(head)
+            headicon:loadTexture(head)
+            local i =tonumber(string.sub(path,-6,-5))
+            --TowerDef.TABLE[i].NAME
+            TopPanel:setWordString(TowerDef.TABLE[i].NAME)
             print("buy")
             --获取path找到图片的名字传回文件
 
@@ -681,7 +704,7 @@ function TopPanel:createItem(layer,path,offsetX,offsetY)--层级、图片路径�
 end
 
 function TopPanel:createItem2(layer,path,offsetX,offsetY)--层级、图片路径、碎片数量、价格、偏移量
-    --按钮：商品1
+    --按钮：未解锁头像
     local ItemButton = ccui.Button:create(path, path, path)
     ItemButton:setPosition(cc.p(200+offsetX, display.top-930+offsetY))
     ItemButton:addTouchEventListener(function(sender,eventType)--点击事件
