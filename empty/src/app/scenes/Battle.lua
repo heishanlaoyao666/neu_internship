@@ -1,32 +1,9 @@
 local Battle = class("Battle")
-
-local function touchEvent(sender,eventType,bg)--按钮点击事件
-    if eventType == ccui.TouchEventType.began then
-        if bg == "ui/hall/battle/rank/lockedBorder.png" then--未达成未领取
-
-        elseif bg == "ui/hall/battle/rank/availableButNotReceive.png" then--已达成未领取
-
-        elseif bg == "ui/hall/battle/rank/Available.png" then--已达成已领取
-
-        end
-
-        local scale = cc.ScaleTo:create(0.8,0.7)
-        local ease_elastic = cc.EaseElasticOut:create(scale)
-        sender:runAction(ease_elastic)
-
-    elseif eventType == ccui.TouchEventType.ended then
-        local scale = cc.ScaleTo:create(0.8,0.8)
-        local ease_elastic = cc.EaseElasticOut:create(scale)
-        sender:runAction(ease_elastic)
-
-    elseif eventType == ccui.TouchEventType.canceled then
-        local scale = cc.ScaleTo:create(0.8,0.8)
-        local ease_elastic = cc.EaseElasticOut:create(scale)
-        sender:runAction(ease_elastic)
-    end
-end
+local KnapsackData = require("app.data.KnapsackData")
+local LadderDef = require("app.def.LadderDef")
+local TreasureChestOpenObtainView = require("app.scenes.HallView.common.TreasureChestOpenObtainView")
 function Battle:ctor()
-
+    self.cups = KnapsackData:getCups()
 end
 
 function Battle:battlePanel()
@@ -78,10 +55,11 @@ function Battle:highLadder(layer)
     highLadderLayer:addTo(layer)
     --listView翻页
     local listView = ccui.ListView:create()
-    listView:setContentSize(570,285)
-    listView:setPosition(50,0)
+    listView:setContentSize(570,300)
+    listView:setPosition(65,30)
     listView:setAnchorPoint(0, 0)
-    listView:setDirection(1)
+    listView:setDirection(2)
+    listView:setItemsMargin(40)
     listView:addTo(highLadderLayer)
     --滑动层
     local slideLayer = ccui.Layout:create()
@@ -91,19 +69,19 @@ function Battle:highLadder(layer)
     slideLayer:setContentSize(676, 285)
     slideLayer:setPosition(0,0)
     slideLayer:setAnchorPoint(0,1)
-    listView:addChild(slideLayer)
+    --slideLayer:addTo(highLadderLayer)
+    --listView:addChild(slideLayer)
 
-    --进度条
-    self:slideCreate(slideLayer,score)
     --奖励
-    self:awardPanel(slideLayer,"true","false",score)
+    self:awardPanel(layer,listView)
     --图标:钥匙
     local key = ccui.ImageView:create("ui/hall/battle/rank/scale/key.png")
     key:setScale(0.9,0.9)
     key:pos(10, 70)
     key:setAnchorPoint(0.5, 0.5)
     key:addTo(slideLayer)
-
+    --进度条
+    self:slideCreate(listView)
     --按钮：左滑
     local leftButton = ccui.Button:create(
             "ui/hall/battle/rank/slideLeft.png",
@@ -177,180 +155,46 @@ end
 --[[
     函数用途：展示各个进度的奖励
     --]]
-function Battle:awardPanel(layer,reachStatus,receiveStatus,score)
-    local num = score/50--奖励进度
+function Battle:awardPanel(layer,listView)
+    local num = 200/50--奖励进度,最多23个
     print("共可领取的奖励个数为:"..num)
-    --默认状态为未达成未领取
-    local bg = "ui/hall/battle/rank/lockedBorder.png"
-    local icon = "ui/hall/battle/rank/locked.png"
-    local bgOriginX = 110
-    for i = 1,num do
-        if reachStatus == "true" then--已达成
-            if receiveStatus == "false" then--未领取
-                bg = "ui/hall/battle/rank/availableButNotReceive.png"
-                icon = "null"
-            elseif receiveStatus == "true" then --已领取
-                bg = "ui/hall/battle/rank/Available.png"
-                icon = "ui/hall/battle/rank/group 130.png"
-            end
-        end
-        --背景状态框
-        local statusBg = ccui.ImageView:create(bg)
-        --statusBg:setScale(1.1,1.1)
-        statusBg:pos(bgOriginX, 180)
-        statusBg:setAnchorPoint(0.5, 0.5)
-        statusBg:addTo(layer)
-        bgOriginX = bgOriginX+177
-        --下方小图标
-        if icon~="null" then
-            local iconStatus = ccui.ImageView:create(icon)
-            --iconStatus:setScale(0.9,0.9)
-            iconStatus:pos(75, 0)
-            iconStatus:setAnchorPoint(0.5, 0.5)
-            iconStatus:addTo(statusBg)
-        end
+    for i = 1,num do--已达成，未领取
+        local bg = "ui/hall/battle/rank/availableButNotReceive.png"
+        local icon = "null"
+        self:itemCreate(layer,i,bg,icon,listView)
     end
     for i = num+1,23 do
         local bg = "ui/hall/battle/rank/lockedBorder.png"
         local icon = "ui/hall/battle/rank/locked.png"
-        --背景状态框
-        local statusBg = ccui.ImageView:create(bg)
-        --statusBg:setScale(0.9,0.9)
-        statusBg:pos(bgOriginX, 180)
-        statusBg:setAnchorPoint(0.5, 0.5)
-        statusBg:addTo(layer)
-        bgOriginX = bgOriginX+177
-        --下方小图标
-        if icon~="null" then
-            local iconStatus = ccui.ImageView:create(icon)
-            --iconStatus:setScale(0.9,0.9)
-            iconStatus:pos(75, 0)
-            iconStatus:setAnchorPoint(0.5, 0.5)
-            iconStatus:addTo(statusBg)
-        end
+        self:itemCreate(layer,i,bg,icon,listView)
     end
+    --进度条
+    --self:slideCreate(listView)
 
-    local awardOriginX = 110
-
-
-    --奖励图标
-    local firstAward = ccui.Button:create("ui/hall/shop/Diamond-shop/TreasureChest - RARE.png")
-    firstAward:setScale(0.8,0.8)
-    firstAward:pos(awardOriginX, 180)
-    firstAward:setAnchorPoint(0.5, 0.5)
-    firstAward:addTo(layer)
-    firstAward:addTouchEventListener(touchEvent)
-    awardOriginX = awardOriginX+177
-    local secondAward =  ccui.Button:create("ui/hall/battle/rank/coin.png")
-    secondAward:setScale(0.8,0.8)
-    secondAward:pos(awardOriginX, 180)
-    secondAward:setAnchorPoint(0.5, 0.5)
-    secondAward:addTo(layer)
-    secondAward:addTouchEventListener(touchEvent)
-    awardOriginX = awardOriginX+177
-    local thirdAward = ccui.Button:create("ui/hall/shop/Diamond-shop/TreasureChest - normal.png")
-    thirdAward:setScale(0.8,0.8)
-    thirdAward:pos(awardOriginX, 180)
-    thirdAward:setAnchorPoint(0.5, 0.5)
-    thirdAward:addTo(layer)
-    thirdAward:addTouchEventListener(touchEvent)
-    awardOriginX = awardOriginX+177
-    for i = 1,9 do--200~1000分之间，每100分奖励一个稀有宝箱
-        local rareAward = ccui.Button:create("ui/hall/shop/Diamond-shop/TreasureChest - Epic.png")
-        rareAward:setScale(0.8,0.8)
-        rareAward:pos(awardOriginX, 180)
-        rareAward:setAnchorPoint(0.5, 0.5)
-        rareAward:addTo(layer)
-        rareAward:addTouchEventListener(touchEvent)
-        awardOriginX = awardOriginX+177
-    end
-    --第1000分固定传奇卡一张
-    local OnekAward = ccui.Button:create("ui/hall/battle/rank/highLadderLegendCard/group 914.png")
-    OnekAward:setScale(0.8,0.8)
-    OnekAward:pos(awardOriginX, 180)
-    OnekAward:setAnchorPoint(0.5, 0.5)
-    OnekAward:addTo(layer)
-    OnekAward:addTouchEventListener(touchEvent)
-    awardOriginX = awardOriginX+177
-
-    --普通宝箱、钻石、金币轮换出现
-    for i = 1,3 do--200~1000分之间，每100分奖励一个稀有宝箱
-        local treasureAward = ccui.Button:create("ui/hall/shop/Diamond-shop/TreasureChest - normal.png")
-        treasureAward:setScale(0.8,0.8)
-        treasureAward:pos(awardOriginX, 180)
-        treasureAward:setAnchorPoint(0.5, 0.5)
-        treasureAward:addTo(layer)
-        treasureAward:addTouchEventListener(touchEvent)
-        awardOriginX = awardOriginX+177
-
-        local diamondAward = ccui.Button:create("ui/hall/battle/rank/diamond.png")
-        diamondAward:setScale(0.8,0.8)
-        diamondAward:pos(awardOriginX, 180)
-        diamondAward:setAnchorPoint(0.5, 0.5)
-        diamondAward:addTo(layer)
-        diamondAward:addTouchEventListener(touchEvent)
-        awardOriginX = awardOriginX+177
-
-        local coinAward = ccui.Button:create("ui/hall/battle/rank/coin.png")
-        coinAward:setScale(0.8,0.8)
-        coinAward:pos(awardOriginX, 180)
-        coinAward:setAnchorPoint(0.5, 0.5)
-        coinAward:addTo(layer)
-        coinAward:addTouchEventListener(touchEvent)
-        awardOriginX = awardOriginX+177
-    end
-
-    --第2000分随机传奇卡一张
-    local twokAward = ccui.Button:create("ui/hall/battle/rank/group92.png")
-    twokAward:setScale(0.8,0.8)
-    twokAward:pos(awardOriginX, 180)
-    twokAward:setAnchorPoint(0.5, 0.5)
-    twokAward:addTo(layer)
-    twokAward:addTouchEventListener(touchEvent)
-    awardOriginX = awardOriginX+197
 end
 --[[
     函数用途：填充进度条背景
     --]]
-function Battle:slideCreate(layer,score)
-    local distance = 550
-    local originX = 60-55
-    local originY = 50
-    local scaleOriginX = -15-55
-    local scaleDistance = 177
-    local num = score/50--得出达到了第几个奖励
-    --进度条背景
-    for i = 1,7 do
-        local slidebg = ccui.ImageView:create("ui/hall/battle/rank/scale/ascale.png")
-        slidebg:setScale(1.13,0.9)
-        slidebg:setAnchorPoint(0, 0)
-        slidebg:setPosition(originX, originY)
-        slidebg:addTo(layer)
-        local scale = ccui.ImageView:create("ui/hall/battle/rank/scale/scale.png")
-        scale:setScale(1,1)
-        scale:setAnchorPoint(0, 0)
-        scale:setPosition(cc.p(scaleOriginX, originY+5))
-        scale:addTo(layer)
-        originX =originX+distance
-        scaleOriginX = scaleOriginX+scaleDistance
-    end
-
+function Battle:slideCreate(listView)
+    local num = 2--得出达到了第几个奖励
     local barPro = cc.ProgressTimer:create(cc.Sprite:create("ui/hall/battle/rank/scale/rectangle1.png"))--进度条组件
     barPro:setScale(0.931,0.9)
     barPro:setAnchorPoint(0, 0)
-    barPro:setPosition(5, originY+4)
+    barPro:setPosition(0, 25)
     barPro:setType(cc.PROGRESS_TIMER_TYPE_BAR)
     barPro:setMidpoint(cc.p(0, 0))--进度条起点位置
     barPro:setBarChangeRate(cc.p(1, 0))--进度方向为水平方向
-    barPro:addTo(layer)
+    barPro:addTo(listView)
     barPro:setPercentage(0)--起始进度为0
 
-    local offset = 4.4
+    local offset = 4.9
     local process = 0
-    if num ~= 0 then
-        process = (num-1)*offset
+    if num > 1 then
+        process = (num-1)*offset+1.85
+    elseif num == 1 then
+        process = 1.85
     end
-    local actionToFirst = cc.ProgressFromTo:create(0,0,2.6+process)--动作：0秒内从0到2.6+process
+    local actionToFirst = cc.ProgressFromTo:create(0,0,process)--动作：0秒内从0到2.6+process
     local callFuncAction = cc.CallFunc:create(function()--动作执行完毕回调函数
 
     end)
@@ -361,64 +205,92 @@ function Battle:slideCreate(layer,score)
 end
 
 
-
-
-
-
-
-
-
 --[[
-    函数用途：滑动事件
+    函数用途：天梯奖励内容
     --]]
-function Battle:slide(layer)
-    local listener = cc.EventListenerTouchOneByOne:create()--单点触摸
-    local function onTouchBegan(touch, event)
-        str = "null"
-        local target = event:getCurrentTarget()
-        local size = target:getContentSize()
-        local rect = cc.rect(0, 0, size.width, size.height)
-        local p = touch:getLocation()
-        p = target:convertTouchToNodeSpace(touch)
-        if cc.rectContainsPoint(rect, p) then
-            return true
-        end
-        return false
+function Battle:itemCreate(layer,i,bg,icon,listView)
+    local treasureChestType = string.sub(LadderDef[i].ICON,43,-5)
+    --单个奖励层级
+    local itemLayer = ccui.Layout:create()
+    itemLayer:setBackGroundColorOpacity(180)--设置为透明
+    --itemLayer:setBackGroundColorType(1)
+    itemLayer:setAnchorPoint(0, 0)
+    itemLayer:setPosition(cc.p(0,0))
+    itemLayer:setContentSize(160, 160)
+    --背景框
+    local statusBg = ccui.ImageView:create(bg)
+    statusBg:pos(80, 80)
+    statusBg:setAnchorPoint(0.5, 0.5)
+    if LadderDef[i].TYPE == 1 then--宝箱类型
+        local treasure = ccui.ImageView:create(LadderDef[i].ICON)
+        treasure:setScale(0.8,0.8)
+        treasure:pos(80, 80)
+        treasure:setAnchorPoint(0.5, 0.5)
+        treasure:addTo(statusBg)
+    elseif LadderDef[i].TYPE == 2 then--钻石或者金币
+        local currency = ccui.ImageView:create(LadderDef[i].ICON)
+        currency:pos(80, 95)
+        currency:setAnchorPoint(0.5, 0.5)
+        currency:addTo(statusBg)
+        local currencyText = ccui.Text:create(LadderDef[i].TEXT, "ui/font/fzbiaozjw.ttf", 30)
+        currencyText:setPosition(80,45)
+        currencyText:addTo(statusBg)
+    elseif LadderDef[i].TYPE == 3 then--卡牌
+        local card = ccui.ImageView:create(LadderDef[i].ICON)
+        card:pos(80, 80)
+        card:setAnchorPoint(0.5, 0.5)
+        card:addTo(statusBg)
     end
+    --下方小图标
+    local iconStatus = ccui.ImageView:create(icon)
+    iconStatus:pos(75, 0)
+    iconStatus:setAnchorPoint(0.5, 0.5)
+    iconStatus:addTo(statusBg)
+    --滑动条背景
+    local slidebg = ccui.ImageView:create("ui/hall/battle/rank/scale/ascale.png")
+    slidebg:setScale(0.328,0.9)
+    slidebg:setAnchorPoint(0, 0)
+    slidebg:setPosition(0, -50)
+    slidebg:addTo(itemLayer)
+    --滑动条截断
+    local scale = ccui.ImageView:create("ui/hall/battle/rank/scale/scale.png")
+    scale:setScale(1.1,1.1)
+    scale:setAnchorPoint(0, 0)
+    scale:setPosition(cc.p(230,5))
+    scale:addTo(slidebg)
 
-    local function onTouchMoved(touch, event)
-        local location = touch:getStartLocationInView()
-        local x1 = location["x"] or 0
-        local location2 = touch:getLocationInView()
-        local x2 = location2["x"] or 0
-        if x1<x2 then
-            str = "right"
-        elseif x1>x2 then
-            str = "left"
+    statusBg:addTouchEventListener(function(sender,eventType)
+        if eventType == ccui.TouchEventType.began then
+            local scale = cc.ScaleTo:create(1,0.9)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+
+        elseif eventType == ccui.TouchEventType.ended then
+            local scale = cc.ScaleTo:create(1,1)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+
+            if bg == "ui/hall/battle/rank/availableButNotReceive.png" then--已达成未领取
+                if LadderDef[i].TYPE == 1 then--宝箱
+                    TreasureChestOpenObtainView:obtainFromTreasurePanel(layer,treasureChestType,LadderDef[i].TEXT)--宝箱获得物品弹窗
+                    KnapsackData:setGoldCoin(LadderDef[i].TEXT)--金币数量增加
+                elseif LadderDef[i].TYPE == 2 then
+
+                end
+                statusBg:loadTexture("ui/hall/battle/rank/Available.png")
+                iconStatus:loadTexture("ui/hall/battle/rank/group 130.png")
+                statusBg:setTouchEnabled(false)
+            end
+            KnapsackData:sendData()
+        elseif eventType == ccui.TouchEventType.canceled then
+            local scale = cc.ScaleTo:create(1,1)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
         end
-    end
-    local function onTouchEnded(touch, event)
-        if str == "right" then
-            self:slideShop(layer,570)
-            print(str)
-        elseif str == "left" then
-            self:slideShop(layer,-570)
-            print(str)
-        end
-    end
-
-    listener:registerScriptHandler(onTouchBegan,cc.Handler.EVENT_TOUCH_BEGAN )
-    listener:registerScriptHandler(onTouchMoved,cc.Handler.EVENT_TOUCH_MOVED )
-    listener:registerScriptHandler(onTouchEnded,cc.Handler.EVENT_TOUCH_ENDED )
-    cc.Director:getInstance():getEventDispatcher():addEventListenerWithSceneGraphPriority(listener, layer)
-end
-
---[[
-    函数用途：页面的滑动
-    --]]
-function Battle:slideShop(layer,distance)
-    local moveAction = cc.MoveBy:create(0.5,cc.p(distance,0))
-    layer:runAction(moveAction)
+    end)
+    statusBg:setTouchEnabled(true)
+    statusBg:addTo(itemLayer)
+    listView:pushBackCustomItem(itemLayer)
 end
 
 
