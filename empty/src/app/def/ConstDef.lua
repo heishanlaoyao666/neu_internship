@@ -119,7 +119,7 @@ ConstDef.BOSS ={
             TIME=0,
             TICK=0,
             NUMBER=2,
-            BOSS=true,
+            BOSS=false,
             LIFE=100,
             SP = 10,
         },

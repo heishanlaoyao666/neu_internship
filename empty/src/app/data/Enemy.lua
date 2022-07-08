@@ -38,6 +38,16 @@ function Enemy:ctor(life,sp,tag,player)
     EventManager:doEvent(EventDef.ID.CREATE_ENEMY, self)
 end
 --[[--
+    获取怪物的所属玩家
+
+    @param none
+
+    @return self.player_
+]]
+function Enemy:getPlayer()
+    return self.player_
+end
+--[[--
     获取怪物的移动速度
 
     @param none

@@ -30,6 +30,16 @@ function Object:ctor(x, y, width, height)
     self.id_ = id_ -- 类型：number，唯一id
 end
 --[[--
+    获取长
+
+    @param none
+
+    @return self.width_
+]]
+function Object:getWidth()
+    return self.width_
+end
+--[[--
     获取ID
 
     @param none

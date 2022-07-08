@@ -73,6 +73,22 @@ function KnapsackData:init()
 
             EventManager:doEvent(EventDef.ID.KNAPSACK_LOGIN)
         end
+        if msg["type"] == MsgDef.MSG_TYPE_ACK.UPDATE_DATA then
+            self.goldcoin_=msg["gold"]
+            self.diamonds_=msg["diamond"]
+            self.cups=msg["cup"]
+            for i = 1, 20 do
+                towerData[i].unlock_=msg["towerData"][i]["unlock"]
+                towerData[i].fragment_=msg["towerData"][i]["fragment"]
+                towerData[i].level_= msg["towerData"][i]["level"]
+            end
+            for i = 1, 3 do
+                for j = 1, 5 do
+                    towerArray[i][j].tower_id_ = msg["towerArray"][i][j]["id"]
+                    towerArray[i][j].tower_level_ = msg["towerArray"][i][j]["level"]
+                end
+            end
+        end
     end)
 end
 --[[--

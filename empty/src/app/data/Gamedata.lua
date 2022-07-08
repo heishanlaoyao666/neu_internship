@@ -183,6 +183,11 @@ end
     @return none
 ]]
 function GameData:moveToEnd(x, y)
+    if y>display.cy then
+        moveTower.tower:setX(moveTower.x)
+        moveTower.tower:setY(moveTower.y)
+        return
+    end
     -- print("是否移动")
     local pos_x=(x-ConstDef.TOWER_POS.DOWN_X)/ConstDef.TOWER_POS.MOVE_X+0.5
     local pos_y=(y-ConstDef.TOWER_POS.DOWN_Y)/ConstDef.TOWER_POS.MOVE_Y+0.5
@@ -195,12 +200,13 @@ function GameData:moveToEnd(x, y)
         --进行合成
         if move_tower:getID() ==  moveTower.tower:getID() and  move_tower:getGrade()==moveTower.tower:getGrade() then
             print("能合成么")
-            move_tower:destory()
-            self.player_:getTowers()[pos_y][pos_x]=moveTower.tower
-            moveTower.tower:setGrade()
-            moveTower.tower:setX(move_tower:getX())
-            moveTower.tower:setY(move_tower:getY())
-            self.player_:getTowers()[moveTower.location_y][moveTower.location_x]=nil
+            self.player_:composeTower(move_tower,moveTower.tower)
+            -- move_tower:destory()
+            -- self.player_:getTowers()[pos_y][pos_x]=moveTower.tower
+            -- moveTower.tower:setGrade()
+            -- moveTower.tower:setX(move_tower:getX())
+            -- moveTower.tower:setY(move_tower:getY())
+            -- self.player_:getTowers()[moveTower.location_y][moveTower.location_x]=nil
             return
         end
     end
@@ -266,9 +272,12 @@ function GameData:update(dt)
     self.game_time_=self.game_time_+dt
     if self.game_time_>=stage_.TIME then
         if stage_.BOSS then
-            self.player_:createMonster(self.game_stage_*50000*self.monset_stage_,stage_.SP,self.opposite_)
+            self.player_:createMonster(self.game_stage_*50000,stage_.SP,self.opposite_)
+            print("boss生成")
         end
+        print("阶段转换")
         self.game_stage_=self.game_stage_+1
+        self.monset_stage_=0
     end
     -- self:shoot(dt)
     -- self:createEnemyPlane(dt)

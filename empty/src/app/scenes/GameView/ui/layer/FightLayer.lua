@@ -51,9 +51,8 @@ end
 function FightLayer:onEnter()
     EventManager:regListener(EventDef.ID.CREATE_DAMAGE, self, function(damage)
         local damageNode = DamageSprite.new(damage)
-        self:addChild(damageNode,40,1)
+        self:addChild(damageNode,60,1)
         self.damageMap_[damage] =damageNode
-        
         --audio.playEffect("sounds/fireEffect.ogg", false)
     end)
     EventManager:regListener(EventDef.ID.DESTORY_DAMAGE, self, function(damage)
@@ -78,6 +77,22 @@ function FightLayer:onEnter()
 
     EventManager:regListener(EventDef.ID.CREATE_ENEMY, self, function(enemy)
         local enemyNode = EnemySprite.new("ui/battle/Battle interface/monster.png", enemy)
+        if enemy:getTag()==ConstDef.MONSTER_TAG.PLUS then
+            enemyNode:setTexture("ui/battle/Battle interface/monsterPlus.png")
+            enemyNode:setLocalZOrder(50)
+        elseif enemy:getTag()==ConstDef.MONSTER_TAG.BOSS_1 then
+            enemyNode:setTexture("ui/battle/Battle interface/monsterPlus.png")
+            enemyNode:setLocalZOrder(50)
+        elseif enemy:getTag()==ConstDef.MONSTER_TAG.BOSS_2 then
+            enemyNode:setTexture("ui/battle/Battle interface/monsterPlus.png")
+            enemyNode:setLocalZOrder(50)
+        elseif enemy:getTag()==ConstDef.MONSTER_TAG.BOSS_3 then
+            enemyNode:setTexture("ui/battle/Battle interface/monsterPlus.png")
+            enemyNode:setLocalZOrder(50)
+        elseif enemy:getTag()==ConstDef.MONSTER_TAG.BOSS_4 then
+            enemyNode:setTexture("ui/battle/Battle interface/monsterPlus.png")
+            enemyNode:setLocalZOrder(50)
+        end
         self:addChild(enemyNode)
         self.enemyMap_[enemy] = enemyNode
     end)

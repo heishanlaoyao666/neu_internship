@@ -54,6 +54,26 @@ function Tower:ctor(tower_id,level,grade,player)
     EventManager:doEvent(EventDef.ID.CREATE_TOWER, self)
 end
 --[[--
+    获取塔所在玩家
+
+    @param none
+
+    @return self.player
+]]
+function Tower:getPlayer()
+    return self.player
+end
+--[[--
+    设置塔buff暴击率
+
+    @param number
+
+    @return self.tower_atk_
+]]
+function Tower:setBuffCriticalRate(number)
+    self.buff_criticalRate_=self.buff_criticalRate_+number
+end
+--[[--
     获取塔暴击率
 
     @param none
@@ -153,6 +173,16 @@ end
 ]]
 function Tower:getFireCD()
     return self.tower_fireCd_
+end
+--[[--
+    设置塔发射CD
+
+    @param number
+
+    @return none
+]]
+function Tower:setBuffFireCd(number)
+    self.buff_fireCd_=number
 end
 --[[--
     获取塔发射间隔

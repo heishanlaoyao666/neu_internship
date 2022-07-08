@@ -11,9 +11,12 @@ local EventManager = require("app/manager/EventManager.lua")
 --表中使用的方法定义 target代表buff的携带者
 --OnOccur(buff,target,...)
 --OnCast(buff,target,...)
+function StackUpForAttack(buff,tower)
+    buff:setStack(1)
+end
 --OnHit(buff,target,...)
 function GradeDamage(buff,tower,damageinfo)
-   local monsterMap = damageinfo:getGameData():getMonsterForBullet(target)
+   local monsterMap = damageinfo:getGameData():getMonsterForBullet(tower)
    if #monsterMap<=tower:getGrade() then
       for i = 1, #monsterMap do
         DamageInfo.new(nil,monsterMap[i],buff:getValue(),ConstDef.DAMAGE.BUFF)
@@ -50,17 +53,106 @@ function ExtraDamage(buff,tower,damageinfo)
         end
     end
 end
-function BossDamage(buff,bullet,damageinfo)
+function BossDamage(buff,tower,damageinfo)
     local buffmap=damageinfo:getTarget():getBuff()
     for i = 1, #buffmap do
         if buffmap[i]:getID() == "boss_tag" then
-            damageinfo:setDamage(bullet:getAtk())
+            damageinfo:setDamage(tower:getAtk())
         end
     end
+end
+function ExtraDamage149(buff,tower,damageinfo)
+    local towers=tower:getPlayer():getTowers()
+    local sum=0
+    for i = 1, 3 do
+        for j = 1, 5 do
+            if towers[i][j]~=nil and towers[i][j]:getID()==tower:getID() then
+                sum=sum+1
+            end
+        end
+    end
+    if sum >= 1 then
+        tower:setBuffFireCd(tower:getFrieCD()*0.3)
+        DamageInfo.new(nil,damageinfo:getTarget(),buff:getValue(),ConstDef.DAMAGE.BUFF)
+    end
+    if sum >= 4 then
+        tower:setBuffFireCd(tower:getFrieCD()*0.3)
+        DamageInfo.new(nil,damageinfo:getTarget(),buff:getValue(),ConstDef.DAMAGE.BUFF)
+    end
+    if sum >= 9 then
+        tower:setBuffFireCd(tower:getFrieCD()*0.3)
+        DamageInfo.new(nil,damageinfo:getTarget(),buff:getValue(),ConstDef.DAMAGE.BUFF)
+    end
+    
+end
+function AttackDeath(buff,tower,damageinfo)
+    local buffmap=damageinfo:getTarget():getBuff()
+    for i = 1, #buffmap do
+        if buffmap[i]:getID() == "boss_tag" then
+           return
+        end
+    end
+    if math.random()<=buff:getValue() then
+        damageinfo:setDamage(99999999)
+    end
+end
+function GivePoison(buff,target,damageinfo)
+    local newbuff = BuffTable["poison"]()
+    newbuff:setData(damageinfo:getTarget(),false,3,buff:getValue())
+    damageinfo:setBuffInfo(
+        BuffInfo.new(
+            nil,
+            damageinfo:getTarget(),
+            newbuff,
+            1,
+            true,
+            2
+        )
+    )
 end
 --OnTick(buff,target,...)
 function SpeedUp(buff,target)
     target:setBuffSpeed(target:getSpeed())
+end
+function FireCdUp(buff,target)
+    if buff:getRunTime()>=buff:getValue() then
+        target:setBuffFireCd(target:getFrieCD())
+    end
+end
+function CriticalRateUp(buff,target)
+    if buff:getRunTime()>=buff:getValue()+6 then
+        target:setBuffCriticalRate(1)
+    end
+end
+function FireCdUp149(buff,target)
+    local towers=target:getPlayer():getTowers()
+    local sum=0
+    for i = 1, 3 do
+        for j = 1, 5 do
+            if towers[i][j]~=nil and towers[i][j]:getID()==target:getID() then
+                sum=sum+1
+            end
+        end
+    end
+    if sum >= 1 then
+        target:setBuffFireCd(target:getFrieCD()*0.3)
+    end
+    if sum >= 4 then
+        target:setBuffFireCd(target:getFrieCD()*0.3)
+    end
+    if sum >= 9 then
+        target:setBuffFireCd(target:getFrieCD()*0.3)
+    end
+end
+function FireCdUpForAttack(buff,tower)
+    tower:setBuffFireCd(tower:getFrieCD()*buff:setStack(0)*buff:getValue())
+end
+function Poison(buff,target)
+    DamageInfo.new(nil,target,buff:getValue(),ConstDef.DAMAGE.BUFF)
+end
+function TowerChange(buff,boss)
+    local player=boss:getPlayer()
+    
 end
 --OnBeHit(buff,state,...)
 function Burn(buff,target,damageinfo)
@@ -159,24 +251,6 @@ BuffTable = {
         )
         return buff
     end,
-    ["boss_tag"] =  function ()
-        local buff = BuffObj.new(
-            "boss_tag",
-            {},
-            0,
-            1,
-            0,
-            nil,
-            nil,
-            nil,
-            nil,
-            nil,
-            nil,
-            nil,
-            nil
-        )
-        return buff
-    end,
     ["speed_up"] =  function ()
         local buff = BuffObj.new(
             "speed_up",
@@ -213,7 +287,172 @@ BuffTable = {
         )
         return buff
     end,
+    ["fireCd_up"] =  function ()
+        local buff = BuffObj.new(
+            "fireCd_up",
+            {},
+            0,
+            1,
+            0,
+            nil,
+            nil,
+            nil,
+            FireCdUp,
+            nil,
+            nil,
+            nil,
+            nil
+        )
+        return buff
+    end,
+    ["criticalRate_up"] =  function ()
+        local buff = BuffObj.new(
+            "criticalRate_up",
+            {},
+            0,
+            1,
+            0,
+            nil,
+            nil,
+            nil,
+            FireCdUp149,
+            ExtraDamage149,
+            nil,
+            nil,
+            nil
+        )
+        return buff
+    end,
+    ["tower_149"] =  function ()
+        local buff = BuffObj.new(
+            "tower_149",
+            {},
+            0,
+            1,
+            0,
+            nil,
+            nil,
+            nil,
+            CriticalRateUp,
+            nil,
+            nil,
+            nil,
+            nil
+        )
+        return buff
+    end,
+    ["attack_firecd_up"] = function ()
+        local buff = BuffObj.new(
+            "attack_firecd_up",
+            {},
+            0,
+            10,
+            0,
+            nil,
+            StackUpForAttack,
+            nil,
+            FireCdUpForAttack,
+            nil,
+            nil,
+            nil,
+            nil
+        )
+        return buff
+    end,
+    ["attack_death"] = function ()
+        local buff = BuffObj.new(
+            "attack_death",
+            {},
+            0,
+            1,
+            0,
+            nil,
+            nil,
+            AttackDeath,
+            nil,
+            nil,
+            nil,
+            nil,
+            nil
+        )
+        return buff
+    end,
+    ["give_poison"] = function ()
+        local buff = BuffObj.new(
+            "attack_death",
+            {},
+            0,
+            1,
+            0,
+            nil,
+            nil,
+            GivePoison,
+            nil,
+            nil,
+            nil,
+            nil,
+            nil
+        )
+        return buff
+    end,
+    ["poison"] = function ()
+        local buff = BuffObj.new(
+            "poison",
+            {BuffDef.TAG.POISON},
+            0,
+            1,
+            1,
+            nil,
+            nil,
+            nil,
+            Poison,
+            nil,
+            nil,
+            nil,
+            nil
+        )
+        return buff
+    end,
+    ["tower_copy"] = function ()
 
+    end,
+    --boss所持有的buff
+    ["boss_tag"] =  function ()
+        local buff = BuffObj.new(
+            "boss_tag",
+            {},
+            0,
+            1,
+            0,
+            nil,
+            nil,
+            nil,
+            nil,
+            nil,
+            nil,
+            nil,
+            nil
+        )
+        return buff
+    end,
+    ["boss_1"] = function ()
+        local buff = BuffObj.new(
+            "boss_1",
+            {},
+            0,
+            1,
+            10,
+            nil,
+            nil,
+            nil,
+            TowerChange,
+            nil,
+            nil,
+            nil,
+            nil
+        )
+        return buff
+    end,
 }
 
 --[[--

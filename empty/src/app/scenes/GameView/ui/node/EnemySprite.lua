@@ -15,13 +15,20 @@ function EnemySprite:ctor(res, data)
     self:setAnchorPoint(0.5, 0.5)
     self:setPosition(self.data_:getX(), self.data_:getY())
 
-    self.random_x_=math.random(-10,10)
-    self.random_y_=math.random(-20,20)
+    self.random_x_=math.random(-20,20)
+    self.random_y_=math.random(-30,30)
 
-    self.life_ = cc.Label:createWithTTF(self.data_:getLife(),"ui/font/fzbiaozjw.ttf",15)
+    local ttfsize =15
+    if data:getTag()>=3 then
+        ttfsize=30
+    end
+    self.life_ = cc.Label:createWithTTF(self.data_:getLife(),"ui/font/fzbiaozjw.ttf",ttfsize)
     self:addChild(self.life_)
     self.life_:setAnchorPoint(0.5,0.5)
-    self.life_:setPosition(20,10)
+    self.life_:setPosition(data:getWidth()*0.5,10)
+
+    --自适应
+    --self:setScale(2)
 end
 
 --[[--

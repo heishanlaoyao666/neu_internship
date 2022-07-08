@@ -87,14 +87,14 @@ function Player:getTowerArray()
     return tower_array
 end
 --[[--
-    获取塔阵容第i个的强化等级
+    获取塔阵容第i个的强化所需费用
 
     @param i 类型:number,塔阵容的第几个
 
     @return tower_array
 ]]
-function Player:getTowerGrade(i)
-    return tower_array[i].grade_
+function Player:getTowerGradeCost(i)
+    return TowerDef.GRADE_COST[tower_array[i].grade_]
 end
 --[[--
     获取塔阵容
@@ -114,8 +114,10 @@ end
     @return none
 ]]
 function Player:upTowerGrade(i)
-    tower_array[i].grade_=tower_array[i].grade_+1
-    print(tower_array[i].grade_)
+    if sp >=TowerDef.GRADE_COST[tower_array[i].grade_] then
+        sp=sp-TowerDef.GRADE_COST[tower_array[i].grade_]
+        tower_array[i].grade_=tower_array[i].grade_+1
+    end
 end
 --[[--
     塔创建
@@ -141,9 +143,31 @@ function Player:createTower()
     end
     sp=sp-sp_cost
     sp_cost=sp_cost+10
+
+    local random = math.random(1,15)
+    local x = random%5
+    local y =math.modf(random/5)+1
+    if x == 0 then
+        x = 5
+    end
+    if random%5 == 0 then
+        y = y-1
+    end
+    while self.towers[y][x]~=nil do
+        random = math.random(1,15)
+        x = random%5
+        y =math.modf(random/5)+1
+        if x == 0 then
+            x = 5
+        end
+        if random%5 == 0 then
+            y = y-1
+        end
+    end
     local id=math.random(1,5)
-    self:createTowerEnd(tower_array[id].id_,tower_array[id].level_,tower_array[id].grade_)
+    self:createTowerEnd(tower_array[id].id_,tower_array[id].level_,tower_array[id].grade_,x,y)
 end
+
 --[[--
     塔最终创建
 
@@ -153,30 +177,8 @@ end
 
     @return number
 ]]
-function Player:createTowerEnd(id,level,grade)
+function Player:createTowerEnd(id,level,grade,x,y)
     local tower=Tower.new(id,level,grade,self)
-        local random = math.random(1,15)
-        local x = random%5
-        local y =math.modf(random/5)+1
-        if x == 0 then
-            x = 5
-        end
-        if random%5 == 0 then
-            y = y-1
-        end
-        while self.towers[y][x]~=nil do
-            random = math.random(1,15)
-            x = random%5
-            y =math.modf(random/5)+1
-            if x == 0 then
-                x = 5
-            end
-            if random%5 == 0 then
-                y = y-1
-            end
-        end
-        print(random)
-        print(x.." "..y)
         tower:setX(ConstDef.TOWER_POS.DOWN_X+ConstDef.TOWER_POS.MOVE_X*(x-1))
         tower:setY(ConstDef.TOWER_POS.DOWN_Y+ConstDef.TOWER_POS.MOVE_Y*(y-1))
         self.towers[y][x] = tower
@@ -197,6 +199,30 @@ function Player:createTowerEnd(id,level,grade)
     end
 end
 --[[--
+    塔合成
+
+    @param tower1
+    @param tower2
+
+    @return number
+]]
+function Player:composeTower(tower1,tower2)
+    local x = 0
+    local y = 0
+    for i = 1, 3 do
+        for j = 1, 5 do
+            if self.towers[i][j]==tower1 then
+                y = i
+                x = j
+            end
+        end
+    end
+    tower1:destory()
+    tower2:destory()
+    local id=math.random(1,5)
+    self:createTowerEnd(tower_array[id].id_,tower_array[id].level_,tower1:getGrade()+1,x,y)
+end
+--[[--
     怪物创建
 
     @param life 类型:number,怪物血量
@@ -208,11 +234,12 @@ end
 function Player:createMonster(life,givesp,tag)
     local monster = Monster.new(life,givesp,tag,self)
 
-    if tag == ConstDef.MONSTER_TAG.BOSS then
+    if tag ~= ConstDef.MONSTER_TAG.NORMAL and tag~=ConstDef.MONSTER_TAG.SPEED and tag~=ConstDef.MONSTER_TAG.PLUS then
         local newlife = 0
+        print(#monsters_)
         for i = 1, #monsters_ do
             newlife=newlife+monsters_[i]:getLife()
-            monsters_:destory()
+            monsters_[i]:destory()
         end
         monster:setLife(newlife*0.5)
     end

@@ -36,6 +36,12 @@ local TowerDef = {
         ATTACK_DEATH = 10 ,--攻击致死
         GROWTH_TIME = 11, --成长时间
     },
+    GRADE_COST = {
+        [1] = 100,
+        [2] = 200,
+        [3] = 400,
+        [4] = 700,
+    }
 }
 TowerDef.UPLEVELFRAG = {
     [TowerDef.RARITY.NORMAL] = {
@@ -86,9 +92,9 @@ TowerDef.SKILLNAME ={
     [TowerDef.SKILL.ENEMY_SPEED]="加速效果",--敌方怪物加速效果
     [TowerDef.SKILL.GROWTH_TIME]="成长时间",
     [TowerDef.SKILL.INCREASE_DAMAGE]="增伤效果",
-    [TowerDef.SKILL.SKILL_DECELERATE]="技能减速效果", 
-    [TowerDef.SKILL.SKILL_CONTINUED]="技能持续时间", 
-    [TowerDef.SKILL.SKILL_START]="技能发动时间", 
+    [TowerDef.SKILL.SKILL_DECELERATE]="技能减速效果",
+    [TowerDef.SKILL.SKILL_CONTINUED]="技能持续时间",
+    [TowerDef.SKILL.SKILL_START]="技能发动时间",
 }
 TowerDef.TABLE = {
     [1] ={
@@ -565,34 +571,56 @@ TowerDef.BUFF = {
     },
     [4] = {
         TOWER = {
-
+            [1] ={
+                NAME = "boss_damage", --BUFF名字
+                ADDSTACK = 1, --BUFF的添加层数
+                PERMANENT = true, --BUFF是否是永久的
+                DURATION = 0, --BUFF的持续时间
+            }
         },
         BULLET = {
-            
         },
     },
     [5] = {
         TOWER = {
-
+            [1] ={
+                NAME = "fireCd_up", --BUFF名字
+                ADDSTACK = 1, --BUFF的添加层数
+                PERMANENT = true, --BUFF是否是永久的
+                DURATION = 0, --BUFF的持续时间
+            },
+            [2] ={
+                NAME = "criticalRate_up", --BUFF名字
+                ADDSTACK = 1, --BUFF的添加层数
+                PERMANENT = true, --BUFF是否是永久的
+                DURATION = 0, --BUFF的持续时间
+            }
         },
         BULLET = {
-            
         },
     },
     [6] = {
         TOWER = {
-
+            [1] ={
+                NAME = "tower_149", --BUFF名字
+                ADDSTACK = 1, --BUFF的添加层数
+                PERMANENT = true, --BUFF是否是永久的
+                DURATION = 0, --BUFF的持续时间
+            },
         },
         BULLET = {
-            
         },
     },
     [7] = {
         TOWER = {
-
+            [1] ={
+                NAME = "attack_firecd_up", --BUFF名字
+                ADDSTACK = 1, --BUFF的添加层数
+                PERMANENT = true, --BUFF是否是永久的
+                DURATION = 0, --BUFF的持续时间
+            },
         },
         BULLET = {
-            
         },
     },
     [8] = {
@@ -605,18 +633,26 @@ TowerDef.BUFF = {
     },
     [9] = {
         TOWER = {
-
+            [1] ={
+                NAME = "attack_death", --BUFF名字
+                ADDSTACK = 1, --BUFF的添加层数
+                PERMANENT = true, --BUFF是否是永久的
+                DURATION = 0, --BUFF的持续时间
+            },
         },
         BULLET = {
-            
         },
     },
     [10] = {
         TOWER = {
-
+            [1] ={
+                NAME = "give_poison", --BUFF名字
+                ADDSTACK = 1, --BUFF的添加层数
+                PERMANENT = true, --BUFF是否是永久的
+                DURATION = 0, --BUFF的持续时间
+            },
         },
         BULLET = {
-            
         },
     },
     [11] = {
