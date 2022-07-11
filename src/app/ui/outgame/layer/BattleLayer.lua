@@ -2,7 +2,7 @@
     战斗层
     BattleLayer.lua
 ]]
-local BattleLayer = class("BattleLayer", require("app.ui.outgame.layer.BaseLayer"))
+local BattleLayer = class("BattleLayer",require("app.ui.outgame.layer.BaseLayer"))
 local EventDef = require("app.def.EventDef")
 local EventManager = require("app.manager.EventManager")
 local CurrentTowerLayer = require("app.ui.outgame.layer.CurrentTowerLayer")
@@ -16,6 +16,7 @@ local ObtainItemLayer = require("app.ui.outgame.layer.ObtainItemLayer")
     @return none
 ]]
 function BattleLayer:ctor()
+    BattleLayer.super.ctor(self)
     self:initView()
 end
 
@@ -47,6 +48,9 @@ function BattleLayer:initView()
     button:addTouchEventListener(function(sender, eventType)
         -- ccui.TouchEventType
         if 2 == eventType then -- touch end
+            if cc.UserDefault:getInstance():getBoolForKey("音效") then
+                audio.playEffect("sounds/player_match.OGG",false)
+            end
             EventManager:doEvent(EventDef.ID.MATCH)
         end
     end)
@@ -204,6 +208,9 @@ function BattleLayer:initView()
 
         img:addTouchEventListener(function(sender, eventType)
             if 2 == eventType then -- touch end
+                if cc.UserDefault:getInstance():getBoolForKey("音效") then
+                    audio.playEffect("sounds/ui_btn_click.OGG",false)
+                end
                 EventManager:doEvent(EventDef.ID.POPUPWINDOW,1)
             end
         end)
@@ -214,6 +221,9 @@ function BattleLayer:initView()
             self.spritelocked:setVisible(false)
             img:addTouchEventListener(function(sender, eventType)
                 if 2 == eventType then -- touch end
+                    if cc.UserDefault:getInstance():getBoolForKey("音效") then
+                        audio.playEffect("sounds/ui_btn_click.OGG",false)
+                    end
                     if i==1 then
                         ObtainItemLayer:SetData(6,3040)
                         ObtainItemLayer:setIndex(i)
@@ -261,6 +271,9 @@ function BattleLayer:initView()
             self.spriteget:setVisible(true)
             img:addTouchEventListener(function(sender, eventType)
                 if 2 == eventType then -- touch end
+                    if cc.UserDefault:getInstance():getBoolForKey("音效") then
+                        audio.playEffect("sounds/ui_btn_click.OGG",false)
+                    end
                     print(3)
                 end
             end)
@@ -331,17 +344,6 @@ function BattleLayer:initView()
     else
         self.loadBarPro_:setPercentage(0.993)
     end
-end
-
---[[--
-    界面刷新
-
-    @param dt 类型：number，帧间隔，单位秒
-
-    @return none
-]]
-function BattleLayer:update(dt)
-    print(dt)
 end
 
 return BattleLayer

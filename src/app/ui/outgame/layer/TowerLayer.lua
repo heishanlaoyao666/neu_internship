@@ -3,9 +3,6 @@
     TowerLayer.lua
 ]]
 local TowerLayer =class("TowerLayer",require("app.ui.outgame.layer.BaseLayer"))
-local EventDef = require("app.def.EventDef")
-local EventManager = require("app.manager.EventManager")
-local OutGameData = require("app.data.outgame.OutGameData")
 local ConstDef = require("app.def.outgame.ConstDef")
 --[[--
     构造函数
@@ -15,7 +12,6 @@ local ConstDef = require("app.def.outgame.ConstDef")
     @return noneT
 ]]
 function TowerLayer:ctor()
-    self.UsingLayer_=nil -- 类型：UsingLayer，使用塔层
     self:initView()
 end
 

@@ -108,6 +108,7 @@ function GoldShopLayer:initView()
                 if cc.UserDefault:getInstance():getBoolForKey("音效") then
                     audio.playEffect("sounds/get_free_item.OGG",false)
                 end
+                EventManager:doEvent(EventDef.ID.FREE)
                 OutGameData:setDiamond(100)
                 EventManager:doEvent(EventDef.ID.GAMEDATA_CHANGE)
                 spriteB4:setBright(false);

@@ -1,12 +1,8 @@
 --[[--
-    塔详细层
+    塔详细中层
     PropertyLayer.lua
 ]]
 local PropertyLayer =class("PropertyLayer", require("app.ui.outgame.layer.BaseLayer"))
-local EventDef = require("app.def.EventDef")
-local EventManager = require("app.manager.EventManager")
-local OutGameData = require("app.data.outgame.OutGameData")
-local ConstDef = require("app.def.outgame.ConstDef")
 --[[--
     构造函数
 
@@ -15,7 +11,6 @@ local ConstDef = require("app.def.outgame.ConstDef")
     @return none
 ]]
 function PropertyLayer:ctor()
-    self.UsingLayer_=nil -- 类型：UsingLayer，使用塔层
     self:initView()
 end
 
@@ -106,7 +101,6 @@ function PropertyLayer:initView()
     :align(display.RIGHT_CENTER, sprite6:getContentSize().width-20,sprite6:getContentSize().height/2-20)
     :addTo(sprite7)
     self.atkchange:setVisible(false)
-    sprite7:setTouchEnabled(false)
 --攻速
     local sprite8 = ccui.CheckBox:
     create("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_properties_default.png", nil,
@@ -253,6 +247,15 @@ function PropertyLayer:initView()
         :addTo(sprite11)
     end
 
+    --取消触摸
+    sprite6:setTouchEnabled(false)
+    sprite7:setTouchEnabled(false)
+    sprite8:setTouchEnabled(false)
+    sprite9:setTouchEnabled(false)
+    sprite10:setTouchEnabled(false)
+    sprite11:setTouchEnabled(false)
+
+    --升级改变
     if cc.UserDefault:getInstance():getBoolForKey("攻击")==true then
         self.atk:setString(self.pack:getTower():getTowerAtk())
         sprite7:setSelected(true)
@@ -294,18 +297,18 @@ function PropertyLayer:initView()
     end
 end
 
---[[--
-    传入塔数据
+-- --[[--
+--     传入塔数据
 
-    @param pack 类型：table，PackItem塔
+--     @param pack 类型：table，PackItem塔
 
-    @return none
-]]
-function PropertyLayer:setChange(a,b,c)
-    self.a=a
-    self.b=b
-    self.c=c
-end
+--     @return none
+-- ]]
+-- function PropertyLayer:setChange(a,b,c)
+--     self.a=a
+--     self.b=b
+--     self.c=c
+-- end
 
 --[[--
     传入塔数据

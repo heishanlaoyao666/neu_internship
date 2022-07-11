@@ -1,13 +1,8 @@
 --[[--
-    塔详细层
+    塔详细上层
     FrontLayer.lua
 ]]
 local FrontLayer =class("FrontLayer", require("app.ui.outgame.layer.BaseLayer"))
-local EventDef = require("app.def.EventDef")
-local EventManager = require("app.manager.EventManager")
-local OutGameData = require("app.data.outgame.OutGameData")
-local ConstDef = require("app.def.outgame.ConstDef")
-local TowerLayer = require("app.ui.outgame.layer.TowerLayer")
 --[[--
     构造函数
 
@@ -16,7 +11,6 @@ local TowerLayer = require("app.ui.outgame.layer.TowerLayer")
     @return none
 ]]
 function FrontLayer:ctor()
-    self.UsingLayer_=nil -- 类型：UsingLayer，使用塔层
     self:initView()
 end
 

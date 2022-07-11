@@ -66,6 +66,8 @@ function MainScene:initScene()
     audio.loadFile("sounds/buy_paid_item.OGG", function() end)--购买付费商品
     audio.loadFile("sounds/open_box.OGG", function() end)--打开宝箱
     audio.loadFile("sounds/get_item.OGG", function() end)--获得物品
+    audio.loadFile("sounds/player_match.OGG", function() end)--匹配
+    audio.loadFile("sounds/tower_level_up.OGG", function() end)--塔升级
 
     if cc.UserDefault:getInstance():getBoolForKey("游戏外音乐") then
         audio.loadFile("sounds/lobby_bgm_120bpm.OGG", function()--大厅背景音乐
@@ -76,6 +78,9 @@ function MainScene:initScene()
             audio.stopBGM("sounds/lobby_bgm_120bpm.OGG")
         end)
     end
+
+    --初始化当前阵容塔能否触控
+    cc.UserDefault:getInstance():setIntegerForKey("available",2)
 end
 
 function MainScene:update(dt)

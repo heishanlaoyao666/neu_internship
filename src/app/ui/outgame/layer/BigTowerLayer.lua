@@ -11,7 +11,7 @@ local BigTowerLayer =class("BigTowerLayer",require("app.ui.outgame.layer.BaseLay
     @return none
 ]]
 function BigTowerLayer:ctor()
-    self.UsingLayer_=nil -- 类型：UsingLayer，使用塔层
+    BigTowerLayer.super.ctor(self)
     self:initView()
 end
 
@@ -38,7 +38,6 @@ function BigTowerLayer:initView()
     self.bigtower:setAnchorPoint(0.5,0.5)
     self.bigtower:setPosition(display.cx, display.cy)
     self.container_:addChild(self.bigtower)
-    --BigTowerLayer:setUpgrade()
 end
 
 --[[--

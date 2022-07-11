@@ -14,6 +14,7 @@ local EventManager = require("app.manager.EventManager")
     @return none
 ]]
 function BuyLayer:ctor()
+    BuyLayer.super.ctor(self)
 
     self:initView()
 end
@@ -89,7 +90,7 @@ function BuyLayer:initView()
             if 2 == eventType then -- touch end
                 self:removeFromParent(true)
                 if cc.UserDefault:getInstance():getBoolForKey("音效") then
-                    audio.playEffect("sounds/ui_btn_close.OGG",false)
+                    audio.playEffect("sounds/buy_paid_item.OGG",false)
                 end
                 if OutGameData:getGold()<buyprice then
                     EventManager:doEvent(EventDef.ID.POPUPWINDOW,2)
@@ -100,11 +101,6 @@ function BuyLayer:initView()
                     EventManager:doEvent(EventDef.ID.KNAPSACK_CHANGE)
                     EventManager:doEvent(EventDef.ID.GOODS_CHANGE,i)
                 end
-                -- OutGameData:setGold(-buyprice)
-                -- EventManager:doEvent(EventDef.ID.GAMEDATA_CHANGE)
-                -- OutGameData:choosePacks(buytower,buynum)
-                -- EventManager:doEvent(EventDef.ID.KNAPSACK_CHANGE)
-                -- EventManager:doEvent(EventDef.ID.GOODS_CHANGE,i)
             end
         end
     )
@@ -134,13 +130,13 @@ function BuyLayer:initView()
     :align(display.CENTER_BOTTOM, sprite5:getContentSize().width/2,23)
     :addTo(sprite5)
 
-        -- 屏蔽点击
-        self:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event) 
-            if event.name == "began" then
-                return true
-            end
-        end)
-        self:setTouchEnabled(true)
+    -- -- 屏蔽点击
+    -- self:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event) 
+    --     if event.name == "began" then
+    --         return true
+    --     end
+    -- end)
+    -- self:setTouchEnabled(true)
 end
 
 

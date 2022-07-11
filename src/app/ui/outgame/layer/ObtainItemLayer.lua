@@ -88,7 +88,7 @@ function ObtainItemLayer:initView()
             if 2 == eventType then -- touch end
                 --ConfirmationLayer:new():addTo(self)
                 if cc.UserDefault:getInstance():getBoolForKey("音效") then
-                    audio.playEffect("sounds/ui_btn_close.OGG",false)
+                    audio.playEffect("sounds/open_box.OGG",false)
                 end
                 if diamondprice<=OutGameData:getDiamond() then
                     EventManager:doEvent(EventDef.ID.COMFIRMATION)

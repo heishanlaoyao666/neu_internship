@@ -14,6 +14,7 @@ local EventManager = require("app.manager.EventManager")
     @return none
 ]]
 function ConfirmationLayer:ctor()
+    ConfirmationLayer.super.ctor(self)
 
     self:initView()
 end
@@ -66,7 +67,7 @@ function ConfirmationLayer:initView()
             if 2 == eventType then -- touch end
                 self:removeFromParent(true)
                 if cc.UserDefault:getInstance():getBoolForKey("音效") then
-                    audio.playEffect("sounds/ui_btn_close.OGG",false)
+                    audio.playEffect("sounds/ui_btn_click.OGG",false)
                 end
             end
         end

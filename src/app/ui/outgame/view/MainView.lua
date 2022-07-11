@@ -10,18 +10,16 @@ local BottomInfoLayer = require("app.ui.outgame.layer.BottomInfoLayer")
 local EventDef = require("app.def.EventDef")
 local EventManager = require("app.manager.EventManager")
 local KnapsackLayer = require("app.ui.outgame.layer.KnapsackLayer")
-local IntensifiesLayer = require("app.ui.outgame.layer.IntensifiesLayer")
---local ShopLayer = require("app.ui.outgame.layer.ShopLayer")
-local ShopView = require("app.ui.outgame.view.ShopView")
-local BattleView = require("app.ui.outgame.view.BattleView")
---local BattleLayer = require("app.ui.outgame.layer.BattleLayer")
+local IntensifiesView = require("app.ui.outgame.view.IntensifiesView")
+local ShopLayer = require("app.ui.outgame.layer.ShopLayer")
+local BattleLayer = require("app.ui.outgame.layer.BattleLayer")
 local BuyLayer = require("app.ui.outgame.layer.BuyLayer")
 local ObtainItemLayer = require("app.ui.outgame.layer.ObtainItemLayer")
 local ConfirmationLayer = require("app.ui.outgame.layer.ConfirmationLayer")
 local SettingLayer = require("app.ui.outgame.layer.SettingLayer")
 local PopupWindowLayer = require("app.ui.outgame.layer.PopupWindowLayer")
 local MatchLayer = require("app.ui.outgame.layer.MatchLayer")
-local UsingLayer = require("app.ui.outgame.layer.UsingLayer")
+local UsingView = require("app.ui.outgame.view.UsingView")
 --local AnimLayer = require("app.ui.outgame.layer.AnimLayer")
 --[[--
     构造函数
@@ -32,22 +30,24 @@ local UsingLayer = require("app.ui.outgame.layer.UsingLayer")
 ]]
 function MainView:ctor()
     self.topInfoLayer_ = nil -- 类型：TopInfoLayer，顶部信息层
-    self.bottomInfoLayer_ = nil -- 类型：BottomInfoLayer，底部信息层
+    self.bottomInfoLayer_1 = nil -- 类型：BottomInfoLayer，商店界面底部信息层
+    self.bottomInfoLayer_2 = nil -- 类型：BottomInfoLayer，战斗界面底部信息层
+    self.bottomInfoLayer_3 = nil -- 类型：BottomInfoLayer，图鉴界面底部信息层
     self.knapsackLayer_ = nil -- 类型：KnapsackLayer，背包层
-    --self.shopLayer_=nil -- 类型：ShopLayer，商店层
-    self.shopView_=nil -- 类型：ShopView，商店层
-    --self.battleLayer_=nil -- 类型：BattleLayer，战斗层
-    self.battleView_=nil -- 类型：BattleView，战斗层
-    --self.matchLayer_ = nil -- 类型：MatchLayer，匹配层
+    self.shoplayer_=nil -- 类型：ShopLayer，商店层
+    self.battleLayer_=nil -- 类型：BattleLayer，战斗层
     self.buyLayer_=nil -- 类型：BuyLayer，购买层
     self.obtainItemLayer_=nil -- 类型：ObtainItemLayer，开宝箱层
     self.confirmationLayer_=nil -- 类型：ConfirmationLayer，获取宝箱物品层
     self.settingLayer_=nil -- 类型：SettingLayer，设置层
     self.PopupWindowLayer_=nil -- 类型：PopupWindowLayer，确认退出层
     self.matchLayer_=nil -- 类型：MatchLayer，匹配层
-    self.usingLayer_=nil -- 类型：UsingLayer，使用塔层
+    self.usingView_=nil -- 类型：UsingLayer，使用塔层
     --self.animLayer_=nil -- 类型：AnimLayer，动画层
 
+    self.container_ = nil -- 类型：Layout，战斗界面控件容器
+    self.container_1 = nil -- 类型：Layout，商店界面控件容器
+    self.container_2 = nil -- 类型：Layout，图鉴界面控件容器
     self:initView()
 
     self:registerScriptHandler(function(event)
@@ -78,8 +78,8 @@ function MainView:initView()
         self.container_:setContentSize(display.width, height)
         self.container_:setPosition(0, 0)
 
-        self.battleView_=BattleView.new()
-        self.container_:addChild(self.battleView_)
+        self.battleLayer_=BattleLayer.new()
+        self.container_:addChild(self.battleLayer_)
     end
 
     do
@@ -88,8 +88,8 @@ function MainView:initView()
         self.container_1:setContentSize(display.width, height)
         self.container_1:setPosition(0, 0)
 
-        self.shopView_=ShopView.new()
-        self.container_1:addChild(self.shopView_)
+        self.shoplayer_=ShopLayer.new()
+        self.container_1:addChild(self.shoplayer_)
 
     end
 
@@ -174,31 +174,37 @@ end
     @return none
 ]]
 function MainView:onEnter()
+    --头像改变
     EventManager:regListener(EventDef.ID.PORTRAIT_CHANGE, self, function(filename)
         self.topInfoLayer_:setSprite1(filename)
     end)
+    --顶部信息更改
     EventManager:regListener(EventDef.ID.GAMEDATA_CHANGE, self, function()
         self.topInfoLayer_:setData()
     end)
+    --背包改变
     EventManager:regListener(EventDef.ID.KNAPSACK_CHANGE, self, function()
         self.knapsackLayer_:removeFromParent(true)
         self.knapsackLayer_=KnapsackLayer.new()
         self.container_2:addChild(self.knapsackLayer_)
     end)
     EventManager:regListener(EventDef.ID.INTENSIFIES, self, function(pack)
-        IntensifiesLayer:setTower(pack)
-        IntensifiesLayer:new():addTo(self)
+        IntensifiesView:setTower(pack)
+        IntensifiesView:new():addTo(self)
     end)
+    --购买商品
     EventManager:regListener(EventDef.ID.BUY, self, function()
         self.buyLayer_=BuyLayer.new()
         self:addChild(self.buyLayer_)
     end)
+    --
     EventManager:regListener(EventDef.ID.OBTAINITEM, self, function()
         self.obtainItemLayer_=ObtainItemLayer:new():addTo(self)
     end)
     EventManager:regListener(EventDef.ID.COMFIRMATION, self, function()
         self.confirmationLayer_=ConfirmationLayer:new():addTo(self)
     end)
+    --设置菜单
     EventManager:regListener(EventDef.ID.SETTING, self, function()
         self.settingLayer_=SettingLayer:new():addTo(self)
     end)
@@ -206,25 +212,27 @@ function MainView:onEnter()
         PopupWindowLayer:setIndex(index)
         self.PopupWindowLayer_=PopupWindowLayer:new():addTo(self)
     end)
+    --匹配
     EventManager:regListener(EventDef.ID.MATCH, self, function()
         self.matchLayer_=MatchLayer:new():addTo(self)
     end)
+    --使用
     EventManager:regListener(EventDef.ID.USING, self, function(pack)
-        --self.knapsackLayer_:removeFromParent(true)
-        UsingLayer:setTower(pack)
-        self.usingLayer_=UsingLayer:new():addTo(self.container_2)
+        UsingView:setTower(pack)
+        self.usingView_=UsingView:new():addTo(self.container_2)
     end)
+    --战斗层
     EventManager:regListener(EventDef.ID.BATTLE, self, function(pack)
-        self.battleView_:removeFromParent(true)
-        self.battleView_=BattleView.new()
-        self.container_:addChild(self.battleView_)
+        self.battleLayer_:removeFromParent(true)
+        self.battleLayer_=BattleLayer.new()
+        self.container_:addChild(self.battleLayer_)
     end)
     -- EventManager:regListener(EventDef.ID.FREE, self, function()
     --     print("free")
     --     --audio.playEffect("sounds/shipDestroyEffect.ogg", false)
-    --     local spine = sp.SkeletonAnimation:createWithJsonFile("artcontent/animation/outgame/getcard/cards.json",
-    --                 "artcontent/animation/outgame/getcard/cards.atlas")
-    --     spine:setAnimation(0, "cards", false)
+    --     local spine = sp.SkeletonAnimation:createWithJsonFile("artcontent/animation/outgame/rank/rankmap.json",
+    --                 "artcontent/animation/outgame/rank/rankmap.atlas")
+    --     spine:setAnimation(0, "rankmap", false)
     --     spine:performWithDelay(function()
     --         spine:removeFromParent()
     --     end, 1)

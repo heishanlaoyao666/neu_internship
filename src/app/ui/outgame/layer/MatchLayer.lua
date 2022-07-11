@@ -66,6 +66,9 @@ function MatchLayer:initView()
     button:addTouchEventListener(function(sender, eventType)
         -- ccui.TouchEventType
         if 2 == eventType then -- touch end
+            if cc.UserDefault:getInstance():getBoolForKey("音效") then
+                audio.playEffect("sounds/ui_btn_close.OGG",false)
+            end
             self:removeFromParent(true)
         end
     end)

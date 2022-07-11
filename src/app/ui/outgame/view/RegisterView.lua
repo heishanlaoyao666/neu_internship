@@ -67,6 +67,9 @@ function RegisterView:initView()
     local btn = ccui.Button:create("artcontent/register/register.png","artcontent/register/register2.png")
     btn:addTouchEventListener(function(sender, eventType)
         if 2 == eventType then
+            if cc.UserDefault:getInstance():getBoolForKey("音效") then
+                audio.playEffect("sounds/ui_btn_click.OGG",false)
+            end
             account = tostring(accountEditbox:getText())
             password = tostring(passwordEditbox:getText())
             if password == "" or account == "" then

@@ -24,7 +24,6 @@ end
     @return none
 ]]
 function BottomInfoLayer:initView()
-    --cc.UserDefault:getInstance():setIntegerForKey("bottom",2)
     local width, height = display.width, 80
     self.container_ = ccui.Layout:create()
     --self.container_:setBackGroundColor(cc.c3b(200, 0, 0))

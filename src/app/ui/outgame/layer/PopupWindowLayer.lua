@@ -67,7 +67,7 @@ function PopupWindowLayer:initView()
                     self:removeFromParent(true)
                 end
                 if cc.UserDefault:getInstance():getBoolForKey("音效") then
-                    audio.playEffect("sounds/ui_btn_close.OGG",false)
+                    audio.playEffect("sounds/ui_btn_click.OGG",false)
                 end
             end
         end
