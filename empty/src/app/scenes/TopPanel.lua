@@ -1,31 +1,41 @@
+----编写人员：孙靖博
+----修订人员：郑蕾
+----最后修改日期：7/11 20：57
+
 local TopPanel = {}
-local Headdata = require("app/data/Headdata")
 local KnapsackData = require("app.data.KnapsackData")
 local SettingMusic = require("src/app/scenes/SettingMusic")
-local GeneralView = require("app.scenes.HallView.common.GeneralView")
 local Towerdata = require("app/data/Towerdata")
 local TowerDef  = require("app.def.TowerDef")
 
+--更新金币数量
 function TopPanel:setCoinString(str)
-    if coinlabel then
-        coinlabel:setString(str)
+    if self.coinLabel then
+        self.coinLabel:setString(str)
     end
 end
+
+--更新钻石数量
 function TopPanel:setDiamondsString(str)
-    if diamondlabel then
-        diamondlabel:setString(str)
+    if self.diamondLabel then
+        self.diamondLabel:setString(str)
     end
 end
+
+--更新奖杯数量
 function TopPanel:setCupsString(str)
-    if trophylabel then
-        trophylabel:setString(str)
+    if self.cupLabel then
+        self.cupLabel:setString(str)
     end
 end
+
+--更新名称
 function TopPanel:setWordString(str)
-    if wordicon then
-        wordicon:setString(str)
+    if self.nameLabel then
+        self.nameLabel:setString(str)
     end
 end
+
 
 
 --[[
@@ -38,50 +48,19 @@ function TopPanel:createMiddleTopPanel(layer)
     infoLayer:setAnchorPoint(0,0)
     infoLayer:setPosition(0,0)
     infoLayer:addTo(layer)
+    --顶部背景
+    local TopPanelBg=ccui.ImageView:create("ui/hall/Prompt text/bg-topPanel.png")
+    TopPanelBg:setAnchorPoint(0,1)
+    TopPanelBg:pos(0,height)
+    TopPanelBg:addTo(infoLayer)
 
-    --奖杯数
-    local cupNum = KnapsackData:getCups()
-    trophylabel=cc.Label:createWithTTF(cupNum,"ui/font/fzbiaozjw.ttf",30)
-    trophylabel:setScale(1)
-    trophylabel:setColor(cc.c3b(255,128,0))
-    trophylabel:setAnchorPoint(0,1)
-    trophylabel:pos(0+200,height-70)
-    trophylabel:addTo(layer)
-
-    --金币数
-    --local coinNum = Currency.getGoldCoin()
-    local coinNum = KnapsackData:getGoldCoin()
-    coinlabel=cc.Label:createWithTTF(coinNum,"ui/font/fzbiaozjw.ttf",30)
-    coinlabel:setScale(1)
-    coinlabel:setAnchorPoint(0,1)
-    coinlabel:pos(0+480,height-25)
-    coinlabel:addTo(layer)
-
-    --钻石数
-    local diamondNum = KnapsackData:getDiamonds()
-    diamondlabel=cc.Label:createWithTTF(diamondNum,"ui/font/fzbiaozjw.ttf",30)
-    diamondlabel:setScale(1)
-    diamondlabel:setAnchorPoint(0,1)
-    diamondlabel:pos(0+480,height-75)
-    diamondlabel:addTo(layer)
-
-
-    --小背景
-    local bgicon=ccui.ImageView:create("ui/hall/Prompt text/bg-topPanel.png")
-    bgicon:setScale(1)
-    bgicon:setAnchorPoint(0,1)
-    bgicon:pos(0,height)
-    bgicon:addTo(infoLayer)
-
-    --第二背景（黑色）
-    local bg2icon=ccui.ImageView:create("ui/hall/Prompt text/bg-name.png")
-    bg2icon:setScale(1)
-    bg2icon:setAnchorPoint(0,1)
-    bg2icon:pos(0+100,height-20)
-    bg2icon:addTo(infoLayer)
-
-    --头像
-
+    --玩家名称背景框
+    local playerInfoBg=ccui.ImageView:create("ui/hall/Prompt text/bg-name.png")
+    playerInfoBg:setScale(1)
+    playerInfoBg:setAnchorPoint(0,1)
+    playerInfoBg:pos(100,height-20)
+    playerInfoBg:addTo(infoLayer)
+    --头像按钮
     local headBtn=ccui.Button:create(
             "ui/hall/Prompt text/Default_Avatar.png",
             "",
@@ -91,85 +70,101 @@ function TopPanel:createMiddleTopPanel(layer)
     headBtn:setAnchorPoint(0,1)
     headBtn:pos(0+10,height-10)
     headBtn:addTo(infoLayer)
-
     headBtn:addTouchEventListener(function(sender, eventType)
         if 2 == eventType then
-            self:createlayerPanel(layer)
+            --更换头像
+            self:replaceHeadIcon(layer)
         end
     end)
-    head = "ui/hall/Prompt text/Default_Avatar.png"
-    headBg=ccui.ImageView:create(head)
-    headBg:setScale(1)
-    headBg:setAnchorPoint(0,1)
-    headBg:pos(0+8,height-10)
-    headBg:addTo(infoLayer)
-
+    --头像文件
+    self.head = "ui/hall/Prompt text/Default_Avatar.png"
+    --头像区域
+    self.headBg=ccui.ImageView:create(self.head)
+    self.headBg:setAnchorPoint(0,1)
+    self.headBg:pos(8,height-10)
+    self.headBg:addTo(infoLayer)
     --名字
-    local namelabel=cc.Label:createWithTTF("黑山老妖04","ui/font/fzbiaozjw.ttf",30)
-    namelabel:setScale(1)
-    namelabel:setAnchorPoint(0,1)
-    namelabel:pos(0+150,height-25)
-    namelabel:addTo(infoLayer)
-    --小奖杯
-    local trophyicon=ccui.ImageView:create("ui/hall/Prompt text/trophy.png")
-    trophyicon:setScale(1)
-    trophyicon:setAnchorPoint(0,1)
-    trophyicon:pos(0+150,height-70)
-    trophyicon:addTo(infoLayer)
+    local nameLabel=cc.Label:createWithTTF("黑山老妖04","ui/font/fzbiaozjw.ttf",30)
+    nameLabel:setScale(1)
+    nameLabel:setAnchorPoint(0,1)
+    nameLabel:pos(150,height-25)
+    nameLabel:addTo(infoLayer)
+    --奖杯图标
+    local cupIcon=ccui.ImageView:create("ui/hall/Prompt text/trophy.png")
+    cupIcon:setScale(1)
+    cupIcon:setAnchorPoint(0,1)
+    cupIcon:pos(0+150,height-70)
+    cupIcon:addTo(infoLayer)
 
+    --金币数量背景
+    local goldNumBg=ccui.ImageView:create("ui/hall/Prompt text/bg-Base-diamonds &amp; gold coins.png")
+    goldNumBg:setAnchorPoint(0,1)
+    goldNumBg:pos(0+450,height-25)
+    goldNumBg:addTo(infoLayer)
+    --金币图标
+    local coinIcon=ccui.ImageView:create("ui/hall/Prompt text/Gold-coin.png")
+    coinIcon:setScale(1)
+    coinIcon:setAnchorPoint(0,1)
+    coinIcon:pos(0+430,height-20)
+    coinIcon:addTo(infoLayer)
 
+    --钻石数量背景
+    local diamondNumBg=ccui.ImageView:create("ui/hall/Prompt text/bg-Base-diamonds &amp; gold coins.png")
+    diamondNumBg:setAnchorPoint(0,1)
+    diamondNumBg:pos(450,height-75)
+    diamondNumBg:addTo(infoLayer)
+    --钻石图标
+    local diamondIcon=ccui.ImageView:create("ui/hall/Prompt text/Diamonds.png")
+    diamondIcon:setScale(1)
+    diamondIcon:setAnchorPoint(0,1)
+    diamondIcon:pos(430,height-70)
+    diamondIcon:addTo(infoLayer)
 
-    --两个小背景
-    local bg3icon=ccui.ImageView:create("ui/hall/Prompt text/bg-Base-diamonds &amp; gold coins.png")
-    bg3icon:setScale(1)
-    bg3icon:setAnchorPoint(0,1)
-    bg3icon:pos(0+450,height-25)
-    bg3icon:addTo(infoLayer)
-
-    local bg4icon=ccui.ImageView:create("ui/hall/Prompt text/bg-Base-diamonds &amp; gold coins.png")
-    bg4icon:setScale(1)
-    bg4icon:setAnchorPoint(0,1)
-    bg4icon:pos(0+450,height-75)
-    bg4icon:addTo(infoLayer)
-
-    --金币
-    local coinicon=ccui.ImageView:create("ui/hall/Prompt text/Gold-coin.png")
-    coinicon:setScale(1)
-    coinicon:setAnchorPoint(0,1)
-    coinicon:pos(0+430,height-20)
-    coinicon:addTo(infoLayer)
-
-    --钻石
-    local diamondicon=ccui.ImageView:create("ui/hall/Prompt text/Diamonds.png")
-    diamondicon:setScale(1)
-    diamondicon:setAnchorPoint(0,1)
-    diamondicon:pos(0+430,height-70)
-    diamondicon:addTo(infoLayer)
-
+    --奖杯数
+    local cupNum = KnapsackData:getCups()
+    self.cupLabel=cc.Label:createWithTTF(cupNum,"ui/font/fzbiaozjw.ttf",30)
+    self.cupLabel:setScale(1)
+    self.cupLabel:setColor(cc.c3b(255,128,0))
+    self.cupLabel:setAnchorPoint(0,1)
+    self.cupLabel:pos(0+200,height-70)
+    self.cupLabel:addTo(layer)
+    --金币数
+    local coinNum = KnapsackData:getGoldCoin()
+    self.coinLabel=cc.Label:createWithTTF(coinNum,"ui/font/fzbiaozjw.ttf",30)
+    self.coinLabel:setScale(1)
+    self.coinLabel:setAnchorPoint(0,1)
+    self.coinLabel:pos(0+480,height-25)
+    self.coinLabel:addTo(layer)
+    --钻石数
+    local diamondNum = KnapsackData:getDiamonds()
+    self.diamondLabel=cc.Label:createWithTTF(diamondNum,"ui/font/fzbiaozjw.ttf",30)
+    self.diamondLabel:setScale(1)
+    self.diamondLabel:setAnchorPoint(0,1)
+    self.diamondLabel:pos(0+480,height-75)
+    self.diamondLabel:addTo(layer)
 
     --设置按钮
-
-    local settingBtn = ccui.Button:create(
+    local menuBtn = ccui.Button:create(
             "ui/hall/Prompt text/button-menu.png",
             "",
             "ui/hall/Prompt text/button-menu.png"
     )
-    settingBtn:setScale(1)
-    settingBtn:setAnchorPoint(0,1)
-    settingBtn:pos(0+630,height-35)
-    settingBtn:addTo(infoLayer)
-
-    settingBtn:addTouchEventListener(function(sender, eventType)
+    menuBtn:setAnchorPoint(0,1)
+    menuBtn:pos(630,height-35)
+    menuBtn:addTo(infoLayer)
+    menuBtn:addTouchEventListener(function(sender, eventType)
         if 2 == eventType then
-            self:createSettingLayerPanel(layer)
+            --打开设置面板
+            self:menuPopLayer(layer)
         end
     end)
 
 end
 
---右上角黄色按钮二级页面
-function TopPanel:createSettingLayerPanel(layer)
-
+--[[
+    函数用途：菜单弹窗
+    --]]
+function TopPanel:menuPopLayer(layer)
     local width ,height = display.width,display.height
     local grayLayer = ccui.Layout:create()
     grayLayer:setBackGroundColor(cc.c4b(0,0,0,128))
@@ -181,14 +176,12 @@ function TopPanel:createSettingLayerPanel(layer)
     grayLayer:setTouchEnabled(true)
     grayLayer:addTo(layer)
 
-
     --菜单弹窗
     local menuLayer=ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - menu_bar/bg-menu.png")
     menuLayer:setScale(1)
     menuLayer:setAnchorPoint(0,1)
-    menuLayer:pos(0+350,height-40)
+    menuLayer:pos(350,height-40)
     menuLayer:addTo(grayLayer)
-
 
     --公告按钮
     local announceBtn = ccui.Button:create(
@@ -225,7 +218,6 @@ function TopPanel:createSettingLayerPanel(layer)
         end
     end)
     emailBtn:addTo(menuLayer)
-
     --邮箱图标
     local emailIcon =ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - menu_bar/icon-email.png")
     emailIcon:setPosition(cc.p(55, 35))
@@ -282,16 +274,17 @@ function TopPanel:createSettingLayerPanel(layer)
     settingTitle:setPosition(cc.p(155, 35))
     settingTitle:addTo(settingBtn)
 
-
 end
---二级弹窗：设置界面
+
+--[[
+    函数用途：设置弹窗
+    --]]
 function TopPanel:settingLayer(grayLayer)
     --弹窗背景
     local popUpBg=ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - setting pop-up_window/bg-Popup.png")
     popUpBg:setAnchorPoint(0.5,0.5)
     popUpBg:pos(display.cx,display.cy)
     popUpBg:addTo(grayLayer)
-
     --关闭按钮
     local closeBtn=ccui.Button:create(
             "ui/hall/Prompt text/secondary_interface - setting pop-up_window/button-close.png",
@@ -507,133 +500,111 @@ function TopPanel:exitPopLayer(grayLayer)
     confirmButton:addTo(generalBg)
 end
 
---选择头像二级界面
-function TopPanel:createlayerPanel(layer)
 
+--[[
+    函数用途：替换头像二级界面
+    --]]
+function TopPanel:replaceHeadIcon(layer)
+
+    --灰色背景层
     local width ,height = display.width,display.height
-    local HeadLayer = ccui.Layout:create()
-    HeadLayer:setBackGroundColor(cc.c4b(0,0,0,128))
-    HeadLayer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
-    HeadLayer:setBackGroundColorOpacity(128)--设置透明度
-    HeadLayer:setContentSize(width, height)
-    HeadLayer:pos(width*0.5, height *0.5)
-    HeadLayer:setAnchorPoint(0.5, 0.5)
-    HeadLayer:addTo(layer)
+    local grayLayer = ccui.Layout:create()
+    grayLayer:setBackGroundColor(cc.c4b(0,0,0,128))
+    grayLayer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
+    grayLayer:setBackGroundColorOpacity(128)--设置透明度
+    grayLayer:setContentSize(width, height)
+    grayLayer:pos(width*0.5, height *0.5)
+    grayLayer:setAnchorPoint(0.5, 0.5)
+    grayLayer:addTo(layer)
 
-    --ui/hall/Prompt text/secondary_interface - avatar_selection_pop-up/bg-popup.png
-    --选择头像
-    local headselection=ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - avatar_selection_pop-up/bg-popup.png")
-    headselection:setScale(1)
-    headselection:setAnchorPoint(0,1)
-    headselection:pos(0+50,height-110)
-    headselection:addTo(HeadLayer)
+    --选择头像弹窗背景层
+    local popUpLayer=ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - avatar_selection_pop-up/bg-popup.png")
+    popUpLayer:setAnchorPoint(0.5,0.5)
+    popUpLayer:pos(display.cx,display.top-600)
+    popUpLayer:addTo(grayLayer)
 
-
-    --叉掉
+    --关闭按钮
     local deleteBtn=ccui.Button:create(
             "ui/hall/Prompt text/secondary_interface - avatar_selection_pop-up/button-close.png",
             "",
             "ui/hall/Prompt text/secondary_interface - avatar_selection_pop-up/button-close.png"
     )
-    deleteBtn:setScale(1)
-    deleteBtn:setAnchorPoint(0,1)
-    deleteBtn:pos(0+600,height-125)
-    deleteBtn:addTo(HeadLayer)
-
+    deleteBtn:setAnchorPoint(0.5,0.5)
+    deleteBtn:pos(580,1010)
+    deleteBtn:addTo(popUpLayer)
     deleteBtn:addTouchEventListener(function(sender, eventType)
         if 2 == eventType then
-            --一系列操作（清空缓存）
-
-            -- local newScene=import("app/scenes/MainScene"):new()
-            -- display.replaceScene(newScene)
-            -- cc.Director:getInstance():popScene()
-            HeadLayer:setVisible(false)--隐藏二级弹窗
-            -- layer:setTouchEnabled(true)
-            HeadLayer:setTouchEnabled(false)
+            grayLayer:setVisible(false)--隐藏二级弹窗
         end
     end)
 
-    --头像和文字
-    
-    headicon =ccui.ImageView:create(head)
-    headicon:setScale(1)
-    headicon:setAnchorPoint(0,1)
-    headicon:pos(0+150,height-250)
-    headicon:addTo(HeadLayer)
-
-    word = ""
-    wordicon =cc.Label:createWithTTF(word,"ui/font/fzbiaozjw.ttf",30)
-    wordicon:setScale(1)
-    wordicon:setAnchorPoint(0,1)
-    wordicon:pos(0+290,height-250)
-    wordicon:addTo(HeadLayer)
-
-
-
-
+    --头像
+    self.headIcon =ccui.ImageView:create(self.head)
+    self.headIcon:setScale(1)
+    self.headIcon:setAnchorPoint(0,1)
+    self.headIcon:pos(90,950)
+    self.headIcon:addTo(popUpLayer)
+    --头像名称
+    self.name = "初始头像"
+    self.nameLabel =cc.Label:createWithTTF(self.name,"ui/font/fzbiaozjw.ttf",30)
+    self.nameLabel:setAnchorPoint(0,1)
+    self.nameLabel:pos(220,950)
+    self.nameLabel:addTo(popUpLayer)
     --介绍
-    local infoicon=ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - avatar_selection_pop-up/Prompt_text.png")
-    infoicon:setScale(1)
-    infoicon:setAnchorPoint(0,1)
-    infoicon:pos(0+280,height-300)
-    infoicon:addTo(HeadLayer)
-
-    --bg-slider
-    local evergeticon=ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - avatar_selection_pop-up/bg-slider.png")
-    evergeticon:setScale(1)
-    evergeticon:setAnchorPoint(0,1)
-    evergeticon:pos(0+65,height-410)
-    evergeticon:addTo(HeadLayer)
-
-    --已获得
-    local evergeticon=ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - avatar_selection_pop-up/Split_line-obtained.png")
-    evergeticon:setScale(1)
-    evergeticon:setAnchorPoint(0,1)
-    evergeticon:pos(0+90,height-420)
-    evergeticon:addTo(HeadLayer)
+    local infoText=ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - avatar_selection_pop-up/Prompt_text.png")
+    infoText:setScale(1)
+    infoText:setAnchorPoint(0,1)
+    infoText:pos(220,900)
+    infoText:addTo(popUpLayer)
 
 
-    --未获得
-    local nevergeticon=ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - avatar_selection_pop-up/Split_line-not_obtained.png")
-    nevergeticon:setScale(1)
-    nevergeticon:setAnchorPoint(0,1)
-    nevergeticon:pos(0+90,height-820)
-    nevergeticon:addTo(HeadLayer)
+    --头像替换区背景
+    local bg=ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - avatar_selection_pop-up/bg-slider.png")
+    bg:setAnchorPoint(0,1)
+    bg:pos(15,800)
+    bg:addTo(popUpLayer)
+    --listView翻页
+    local listView = ccui.ListView:create()
+    listView:setContentSize(598,634)
+    listView:setPosition(0,0)
+    listView:setAnchorPoint(0, 0)
+    listView:setDirection(1)--垂直方向
+    listView:setItemsMargin(10)--间距
+    listView:setBounceEnabled(true)--滑动惯性
+    listView:addTo(bg)
 
-    --确认
+    --已获得层级
+    local slideLayer = ccui.Layout:create()
+    --slideLayer:setBackGroundColorOpacity(180)--设置为透明
+    --slideLayer:setBackGroundColorType(1)
+    slideLayer:setAnchorPoint(0, 1)
+    slideLayer:setPosition(cc.p(0, 0))
+    slideLayer:setContentSize(598, 900)
+    slideLayer:addTo(listView)
+    --已获得标题
+    local getTitle=ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - avatar_selection_pop-up/Split_line-obtained.png")
+    getTitle:setAnchorPoint(0,0)
+    getTitle:pos(20,840)
+    getTitle:addTo(slideLayer)
+
+
+    --确认按钮
     local confirmBtn=ccui.Button:create(
             "ui/hall/Prompt text/secondary_interface - avatar_selection_pop-up/button-confirm.png",
             "",
             "ui/hall/Prompt text/secondary_interface - avatar_selection_pop-up/button-confirm.png"
     )
-    confirmBtn:setScale(1)
-    confirmBtn:setAnchorPoint(0,1)
-    confirmBtn:pos(0+230,height-1055)
-    confirmBtn:addTo(HeadLayer)
-
+    confirmBtn:setAnchorPoint(0,0)
+    confirmBtn:pos(180,30)
+    confirmBtn:addTo(popUpLayer)
     confirmBtn:addTouchEventListener(function(sender, eventType)
         if 2 == eventType then
-
-            --一系列操作（确认缓存文件，并清空缓存）
-
-            -- local newScene=import("app/scenes/MainScene"):new()
-            -- display.replaceScene(newScene)
-            -- cc.Director:getInstance():popScene()
-            headBg:loadTexture(head)
-            HeadLayer:setVisible(false)--隐藏二级弹窗
-            -- layer:setTouchEnabled(true)
-            HeadLayer:setTouchEnabled(false)
+            self.headBg:loadTexture(self.head)
+            grayLayer:setVisible(false)--隐藏二级弹窗
         end
     end)
 
-    -- print(Headdata.OBTAINED.HEAD01)
-    -- print(Headdata.OBTAINED2[2])
-
-    -- self:createItem(HeadLayer,Headdata.OBTAINED2[1],0,0)
-    -- self:createItem(HeadLayer,Headdata.OBTAINED2[2],110,0)
-    -- self:createItem(HeadLayer,Headdata.OBTAINED2[3],220,0)
-    -- self:createItem(HeadLayer,Headdata.OBTAINED2[4],330,0)
-    -- self:createItem(HeadLayer,Headdata.OBTAINED2[5],0,-150)
+    --将头像分类
     local towerdataobtained = {}
     local towerdatanotobtained = {}
     for i = 1, 20, 1 do
@@ -643,73 +614,74 @@ function TopPanel:createlayerPanel(layer)
             table.insert(towerdatanotobtained,i)
         end
     end
-    
-    
-    local a = 0
-    local b = 0
+
+    --排列已解锁的头像
+    local offsetX = 0
+    local offsetY = 0
+    local finalY = display.top-530
     for key, value in pairs(towerdataobtained) do
-
-        self:createItem(HeadLayer,Towerdata.OBTAINED[value],a,b)
-        a=a+110
+        self:createGetHead(slideLayer,Towerdata.OBTAINED[value],offsetX,offsetY)
+        offsetX = offsetX+130
         if key%4 ==0 then
-            a = 0
-            b = b-115
+            offsetX = 0
+            finalY = finalY + offsetY
+            offsetY = offsetY-120
         end
     end
 
-    local c = 0
-    local d = 0
+    --如果已解锁数量不是4的倍数那未获得部分需要往下移动一行
+    if #towerdataobtained%4 ~=0 then
+    finalY = finalY-250
+    end
+
+    --未获得标题
+    local notGetTitle=ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - avatar_selection_pop-up/Split_line-not_obtained.png")
+    notGetTitle:setAnchorPoint(0,0)
+    notGetTitle:pos(20,finalY)
+    notGetTitle:addTo(slideLayer)
+
+    --排列未解锁的头像
+    offsetX = 0
+    local originY = finalY-100
+    offsetY = 0
     for key, value in pairs(towerdatanotobtained) do
-
-        self:createItem2(HeadLayer,Towerdata.NOTOBTAINED[value],c,d)
-        c=c+110
+        self:createNotGetHead(slideLayer,Towerdata.NOTOBTAINED[value],offsetX,offsetY,originY)
+        offsetX=offsetX+130
         if key%4 ==0 then
-            c = 0
-            d = d-115
+            offsetX = 0
+            offsetY = offsetY-120
         end
     end
-
-    -- 屏蔽点击
-    HeadLayer:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
-        if event.name == "began" then
-            return true
-        end
-    end)
-    HeadLayer:setTouchEnabled(true)
-
 
 end
 
-function TopPanel:createItem(layer,path,offsetX,offsetY)--层级、图片路径、偏移量
+--[[
+    函数用途：排列已解锁的头像
+    --]]
+function TopPanel:createGetHead(layer,path,offsetX,offsetY)--层级、图片路径、偏移量
     --按钮：解锁头像
     local ItemButton = ccui.Button:create(path, path, path)
-    ItemButton:setPosition(cc.p(200+offsetX, display.top-530+offsetY))
+    ItemButton:setPosition(cc.p(105+offsetX, display.top-530+offsetY))
     ItemButton:addTouchEventListener(function(sender,eventType)--点击事件
         if eventType == ccui.TouchEventType.ended then
-            head = path
-            --headBg:setString(head)
-            --headBg:loadTexture(head)
-            headicon:loadTexture(head)
+            self.head = path
+            self.headIcon:loadTexture(self.head)
             local i =tonumber(string.sub(path,-6,-5))
-            --TowerDef.TABLE[i].NAME
             TopPanel:setWordString(TowerDef.TABLE[i].NAME)
-            print("buy")
-            --获取path找到图片的名字传回文件
-
-            --后续读文件修改头像
         end
     end)
     ItemButton:addTo(layer)
-
 end
 
-function TopPanel:createItem2(layer,path,offsetX,offsetY)--层级、图片路径、碎片数量、价格、偏移量
+--[[
+    函数用途：排列未解锁的头像
+    --]]
+function TopPanel:createNotGetHead(layer,path,offsetX,offsetY,originY)--层级、图片路径、碎片数量、价格、偏移量
     --按钮：未解锁头像
     local ItemButton = ccui.Button:create(path, path, path)
-    ItemButton:setPosition(cc.p(200+offsetX, display.top-930+offsetY))
+    ItemButton:setPosition(cc.p(105+offsetX, originY+offsetY))
     ItemButton:addTouchEventListener(function(sender,eventType)--点击事件
         if eventType == ccui.TouchEventType.ended then
-            print("buy")
         end
     end)
     ItemButton:addTo(layer)

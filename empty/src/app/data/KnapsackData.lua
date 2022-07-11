@@ -106,7 +106,7 @@ function KnapsackData:Login()
         end
         local msg = {
             type = MsgDef.MSG_TYPE_REQ.LOGIN,
-            loginname = "22334",
+            loginname = "44356",
         }
         MsgController:sendMsg(msg)
         isLogin=true
@@ -238,7 +238,7 @@ function KnapsackData:sendData()
     if MsgController:isConnect() then
         local msg = {
             type = MsgDef.MSG_TYPE_REQ.UPDATE_DATA,
-            loginname = "22334",
+            loginname = "44356",
             gold=self.goldcoin_,
             diamond=self.diamonds_,
             cup=self.cups_
