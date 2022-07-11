@@ -673,11 +673,23 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
     type5icon:setScale(1)
     type5icon:setPosition(cc.p(90, 240))
     type5icon:addTo(popLayer)
-    local type5attri = ccui.ImageView:create("ui/hall/Atlas/Secondaryinterface_towerinfo/text_info/firsttransformationtime.png")
+    local skillpng
+    if TowerDef.TABLE[chartnum].SKILLS[1]==nil then
+        skillpng = nil
+    else
+        skillpng = TowerDef.SKILLPNG[tonumber(TowerDef.TABLE[chartnum].SKILLS[1].ID)]
+    end
+    local type5attri = ccui.ImageView:create(skillpng)
     type5attri:setScale(1)
     type5attri:setPosition(cc.p(170, 260))
     type5attri:addTo(popLayer)
-    local type5label=cc.Label:createWithTTF("6s","ui/font/fzzdhjw.ttf",26)
+    local skilllabel
+    if skillpng ==nil then
+        skilllabel = "         --"
+    else
+        skilllabel = TowerDef.TABLE[chartnum].SKILLS[1].VALUE
+    end
+    local type5label=cc.Label:createWithTTF(skilllabel,"ui/font/fzzdhjw.ttf",26)
     type5label:setScale(1)
     type5label:setColor(cc.c3b(255, 255, 255))
     type5label:setAnchorPoint(0,1)
@@ -690,11 +702,23 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
     type6icon:setScale(1)
     type6icon:setPosition(cc.p(400, 240))
     type6icon:addTo(popLayer)
-    local type6attri = ccui.ImageView:create("ui/hall/Atlas/Secondaryinterface_towerinfo/text_info/secondtransformationtime.png")
+    local skillpng2
+    if TowerDef.TABLE[chartnum].SKILLS[2]==nil then
+        skillpng2 = nil
+    else
+        skillpng2 = TowerDef.SKILLPNG[tonumber(TowerDef.TABLE[chartnum].SKILLS[2].ID)]
+    end
+    local type6attri = ccui.ImageView:create(skillpng2)
     type6attri:setScale(1)
     type6attri:setPosition(cc.p(490, 260))
     type6attri:addTo(popLayer)
-    local type6label=cc.Label:createWithTTF("4s","ui/font/fzzdhjw.ttf",26)
+    local skilllabel2
+    if skillpng2 ==nil then
+        skilllabel2 = "         --"
+    else
+        skilllabel2 = TowerDef.TABLE[chartnum].SKILLS[2].VALUE
+    end
+    local type6label=cc.Label:createWithTTF(skilllabel2,"ui/font/fzzdhjw.ttf",26)
     type6label:setScale(1)
     type6label:setColor(cc.c3b(255, 255, 255))
     type6label:setAnchorPoint(0,1)
@@ -712,7 +736,7 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
     upgradeButton:setPosition(cc.p(320, 110))
     upgradeButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
         if eventType == ccui.TouchEventType.began then
-
+--满级条件加入消除bug-----
             updatelabel=cc.Label:createWithTTF("+"..TowerDef.TABLE[chartnum].ATK_UPGRADE,"ui/font/fzzdhjw.ttf",26)
             updatelabel:setScale(1)
             updatelabel:setColor(cc.c3b(255, 255, 255))
@@ -721,6 +745,35 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
             updatelabel:enableOutline(cc.c4b(20, 20, 66, 255),2)
             updatelabel:addTo(popLayer)
 
+            if TowerDef.TABLE[chartnum].FIRECD ~= 0 then
+                updatefirecdlabel=cc.Label:createWithTTF("+"..TowerDef.TABLE[chartnum].FIRECD,"ui/font/fzzdhjw.ttf",26)
+                updatefirecdlabel:setScale(1)
+                updatefirecdlabel:setColor(cc.c3b(255, 255, 255))
+                updatefirecdlabel:setAnchorPoint(0,1)
+                updatefirecdlabel:pos(0+185,350)
+                updatefirecdlabel:enableOutline(cc.c4b(20, 20, 66, 255),2)
+                updatefirecdlabel:addTo(popLayer)
+            end
+
+            if skillpng ~= nil and TowerDef.TABLE[chartnum].SKILLS[1].VALUE_UPGRADE ~= 0 then
+                updateskill1label=cc.Label:createWithTTF("+"..TowerDef.TABLE[chartnum].FIRECD,"ui/font/fzzdhjw.ttf",26)
+                updateskill1label:setScale(1)
+                updateskill1label:setColor(cc.c3b(255, 255, 255))
+                updateskill1label:setAnchorPoint(0,1)
+                updateskill1label:pos(0+185,240)
+                updateskill1label:enableOutline(cc.c4b(20, 20, 66, 255),2)
+                updateskill1label:addTo(popLayer)
+            end
+            
+            if skillpng2 ~= nil and TowerDef.TABLE[chartnum].SKILLS[2].VALUE_UPGRADE ~= 0 then
+                updateskill2label=cc.Label:createWithTTF("+"..TowerDef.TABLE[chartnum].FIRECD,"ui/font/fzzdhjw.ttf",26)
+                updateskill2label:setScale(1)
+                updateskill2label:setColor(cc.c3b(255, 255, 255))
+                updateskill2label:setAnchorPoint(0,1)
+                updateskill2label:pos(0+495,240)
+                updateskill2label:enableOutline(cc.c4b(20, 20, 66, 255),2)
+                updateskill2label:addTo(popLayer)
+            end
 
 
 
@@ -750,6 +803,9 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
             Atlas:setCOINString(KnapsackData:getupgradecoin(chartnum))
 
             updatelabel:setVisible(false)
+            updatefirecdlabel:setVisible(false)
+            updateskill1label:setVisible(false)
+            updateskill2label:setVisible(false)
 
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
@@ -757,6 +813,9 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
         elseif eventType == ccui.TouchEventType.canceled then
 
             updatelabel:setVisible(false)
+            updatefirecdlabel:setVisible(false)
+            updateskill1label:setVisible(false)
+            updateskill2label:setVisible(false)
 
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)

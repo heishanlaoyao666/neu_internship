@@ -96,6 +96,20 @@ TowerDef.SKILLNAME ={
     [TowerDef.SKILL.SKILL_CONTINUED]="技能持续时间",
     [TowerDef.SKILL.SKILL_START]="技能发动时间",
 }
+TowerDef.SKILLPNG = {
+    [TowerDef.SKILL.EXTRA_DAMAGE]="ui/hall/Atlas/Secondaryinterface_towerinfo/text_info/additiondamage.png",
+    [TowerDef.SKILL.FRIST_TRANS]="ui/hall/Atlas/Secondaryinterface_towerinfo/text_info/firsttransformationtime.png",
+    [TowerDef.SKILL.SECOND_TRANS]="ui/hall/Atlas/Secondaryinterface_towerinfo/text_info/secondtransformationtime.png",
+    [TowerDef.SKILL.ATTACK_SPEED_BONUS]="ui/hall/Atlas/Secondaryinterface_towerinfo/text_info/speedup.png",
+    [TowerDef.SKILL.ATTACK_POWER_BONUS]="ui/hall/Atlas/Secondaryinterface_towerinfo/text_info/pro_title_5_4.png",
+    [TowerDef.SKILL.ATTACK_DEATH]="ui/hall/Atlas/Secondaryinterface_towerinfo/text_info/probabilityofdeathbyattack.png",
+    [TowerDef.SKILL.ENEMY_SPEED]="ui/hall/Atlas/Secondaryinterface_towerinfo/text_info/speedeffect.png",
+    [TowerDef.SKILL.GROWTH_TIME]="ui/hall/Atlas/Secondaryinterface_towerinfo/text_info/growtime.png",
+    [TowerDef.SKILL.INCREASE_DAMAGE]="ui/hall/Atlas/Secondaryinterface_towerinfo/text_info/increasedamage_effect.png",
+    [TowerDef.SKILL.SKILL_DECELERATE]="ui/hall/Atlas/Secondaryinterface_towerinfo/text_info/skillslowdowneffect.png",
+    [TowerDef.SKILL.SKILL_CONTINUED]="ui/hall/Atlas/Secondaryinterface_towerinfo/text_info/skilldurationtime.png",
+    [TowerDef.SKILL.SKILL_START]="ui/hall/Atlas/Secondaryinterface_towerinfo/text_info/skillstarttime.png",
+}
 TowerDef.TABLE = {
     [1] ={
         RARITY = TowerDef.RARITY.NORMAL,
