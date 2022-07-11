@@ -360,6 +360,11 @@ function KnapsackData:getatk(id)
     return TowerDef.TABLE[id].ATK + (towerData[id].level_-initlevel[id])*TowerDef.TABLE[id].ATK_UPGRADE
 end
 
+function KnapsackData:getFirecd(id)
+    print(towerData[id].level_)
+    return TowerDef.TABLE[id].FIRECD +(towerData[id].level_ -initlevel[id])*TowerDef.TABLE[id].FIRECD_UPGRADE
+end
+
 
 
 function KnapsackData:getupgradecoin(id)

@@ -14,8 +14,14 @@ end
 function Atlas:setATKString(str)
     type2label:setString(str)
 end
+function Atlas:setFirecdString(str)
+    type3label:setString(str)
+end
 function Atlas:setCOINString(str)
     coin_label:setString(str)
+end
+function Atlas:setSpeed1String(str)
+    speed1:setString(str)
 end
 
 function Atlas:slide(layer)
@@ -643,7 +649,8 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
     type3attri:setScale(1)
     type3attri:setPosition(cc.p(130, 370))
     type3attri:addTo(popLayer)
-    local type3label=cc.Label:createWithTTF(speed.."s","ui/font/fzzdhjw.ttf",26)
+    speed1 =KnapsackData:getFirecd(chartnum)
+    type3label=cc.Label:createWithTTF(Atlas:setSpeed1String(speed1).."s","ui/font/fzzdhjw.ttf",26)
     type3label:setScale(1)
     type3label:setColor(cc.c3b(255, 255, 255))
     type3label:setAnchorPoint(0,1)
@@ -801,6 +808,7 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
             KnapsackData:uplevel(chartnum)            
             Atlas:setATKString(KnapsackData:getatk(chartnum))
             Atlas:setCOINString(KnapsackData:getupgradecoin(chartnum))
+            Atlas:setSpeed1String(KnapsackData:getFirecd(chartnum))
 
             updatelabel:setVisible(false)
             updatefirecdlabel:setVisible(false)
