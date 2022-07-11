@@ -10,7 +10,8 @@ local PictorialCardComp = class("PictorialCardComp", require("app.ui.layer.BaseU
 local ConstDef = require("app.def.ConstDef")
 local DialogManager = require("app.manager.DialogManager")
 local TowerDetailDialog = require("app.ui.layer.lobby.pictorial.dialog.TowerDetailDialog")
-
+local EventManager = require("app.manager.EventManager")
+local EventDef = require("app.def.EventDef")
 --[[--
     构造函数
 
@@ -23,6 +24,10 @@ function PictorialCardComp:ctor(card, isObtain)
 
     self.container_ = nil -- 全局容器
     self.isObtain_ = isObtain
+
+    self.processBarFG_ = nil
+    self.levelIcon_ = nil
+    self.pieceNumText_ = nil
 
     self:initParam(card)
     self:initView()
@@ -41,12 +46,12 @@ function PictorialCardComp:initParam(card)
     self.card_ = card
 
     -- 一级界面所需参数
-    self.rarityBG_ = card:getRarityBG() -- 稀有度背景
-    self.typeImg_ = card:getTypeImg() -- 塔类型角标
-    self.spriteImg_ = card:getSmallSpriteImg() -- 塔的小图
-    self.levelImg_ = card:getLevelImg() -- 卡片等级
-    self.totalPieceNum_ = card:getNum() -- 拥有卡牌碎片数量
-    self.updatePieceNum_ = card:getRequireCardNum() -- 升级所需卡牌数量
+    self.rarityBG_ = self.card_:getRarityBG() -- 稀有度背景
+    self.typeImg_ = self.card_:getTypeImg() -- 塔类型角标
+    self.spriteImg_ = self.card_:getSmallSpriteImg() -- 塔的小图
+    self.levelImg_ = self.card_:getLevelImg() -- 卡片等级
+    self.totalPieceNum_ = self.card_:getNum() -- 拥有卡牌碎片数量
+    self.updatePieceNum_ = self.card_:getRequireCardNum() -- 升级所需卡牌数量
 
 end
 
@@ -84,36 +89,38 @@ function PictorialCardComp:initView()
     processBarBG:setPosition(0.5*width, 0.15*height)
     self.container_:addChild(processBarBG)
 
-    -- 碎片数量进度条
-    local processBar = ccui.ImageView:create("image/lobby/pictorial/towerlist/progressbar_own_number.png")
-    processBar:setPosition(0.5*width, 0.15*height)
-    self.container_:addChild(processBar)
+    -- 碎片数量进度条前景
+    self.processBarFG_ = ccui.ImageView:create("image/lobby/pictorial/towerlist/progressbar_own_number.png")
+    self.processBarFG_:setAnchorPoint(0, 0.5)
+    self.processBarFG_:setPosition(0.1*width, 0.15*height)
+    local scale = self.totalPieceNum_ / self.updatePieceNum_
+    self.processBarFG_:setScale(scale<=1 and scale or 1, 1)
+    self.container_:addChild(self.processBarFG_)
 
     -- 碎片数量文字
     local text = string.format("%d/%d", self.totalPieceNum_, self.updatePieceNum_)
-    local pieceNumText = ccui.Text:create(text, "font/fzbiaozjw.ttf", 24)
-    pieceNumText:enableOutline(cc.c4b(0, 0, 0, 255), 3) -- 描边
-    pieceNumText:setTextColor(cc.c4b(165, 237, 255, 255))
-    pieceNumText:setPosition(0.5*width, 0.15*height)
-    self.container_:addChild(pieceNumText)
+    self.pieceNumText_ = ccui.Text:create(text, "font/fzbiaozjw.ttf", 24)
+    self.pieceNumText_:enableOutline(cc.c4b(0, 0, 0, 255), 3) -- 描边
+    self.pieceNumText_:setTextColor(cc.c4b(165, 237, 255, 255))
+    self.pieceNumText_:setPosition(0.5*width, 0.15*height)
+    self.container_:addChild(self.pieceNumText_)
 
     -- 等级
-    local level = ccui.ImageView:create(self.levelImg_)
-    level:setPosition(0.5*width, 0.3*height)
-    self.container_:addChild(level)
-
-    self.container_:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
+    self.levelIcon_ = ccui.ImageView:create(self.levelImg_)
+    self.levelIcon_:setPosition(0.5*width, 0.3*height)
+    self.container_:addChild(self.levelIcon_)
+    self.container_:addTouchEventListener(function(sender, event)
 
         -- 如果已经获得卡牌则赋予点击响应事件
         if self.isObtain_ then
-            if event.name == "began" then
+            if event == 0 then
                 -- 放大事件
                 local ac1 = cc.ScaleTo:create(0.1, 1.1)
                 local ac2 = cc.ScaleTo:create(0.1, 1)
                 local action = cc.Sequence:create(ac1, ac2)
                 self.container_:runAction(action)
                 return true
-            else
+            elseif event == 2 then
                 local dialog = TowerDetailDialog.new(self.card_)
                 DialogManager:showDialog(dialog)
                 return true
@@ -123,6 +130,52 @@ function PictorialCardComp:initView()
     end)
     self.container_:setTouchEnabled(true)
 
+end
+
+--[[--
+    onEnter
+
+    @param none
+
+    @return none
+]]
+function PictorialCardComp:onEnter()
+    EventManager:regListener(EventDef.ID.CARD_UPGRADE, self, function()
+        self:update()
+    end)
+    EventManager:regListener(EventDef.ID.CARD_PURCHASE, self, function()
+        self:update()
+    end)
+    EventManager:regListener(EventDef.ID.BOX_PURCHASE, self, function()
+        self:update()
+    end)
+end
+
+--[[--
+    onExit
+
+    @param none
+
+    @return none
+]]
+function PictorialCardComp:onExit()
+    EventManager:unRegListener(EventDef.ID.CARD_UPGRADE, self)
+    EventManager:unRegListener(EventDef.ID.CARD_PURCHASE, self)
+    EventManager:unRegListener(EventDef.ID.BOX_PURCHASE, self)
+end
+
+--[[--
+    界面刷新
+
+    @param none
+
+    @return none
+]]
+function PictorialCardComp:update()
+    self.pieceNumText_:setString(string.format("%d/%d", self.card_:getNum(), self.card_:getRequireCardNum()))
+    self.levelIcon_:loadTexture(self.card_:getLevelImg())
+    local scale = self.card_:getNum()/self.card_:getRequireCardNum()
+    self.processBarFG_:setScale(scale<=1 and scale or 1, 1)
 end
 
 return PictorialCardComp

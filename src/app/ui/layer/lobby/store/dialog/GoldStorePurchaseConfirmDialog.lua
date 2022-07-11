@@ -7,7 +7,9 @@
     检查：张昊煜
 ]]
 local GoldStorePurchaseConfirmDialog = class("GoldStorePurchaseConfirmDialog", require("app.ui.layer.BaseLayer"))
-
+local EventManager = require("app.manager.EventManager")
+local EventDef = require("app.def.EventDef")
+local PlayerData = require("app.data.PlayerData")
 local eventDispatcher = cc.Director:getInstance():getEventDispatcher()
 
 --[[--
@@ -20,7 +22,7 @@ local eventDispatcher = cc.Director:getInstance():getEventDispatcher()
 
     @return none
 ]]
-function GoldStorePurchaseConfirmDialog:ctor(id, pieceNum, cost, bg)
+function GoldStorePurchaseConfirmDialog:ctor(id, pieceNum, cost, bg, tag)
     GoldStorePurchaseConfirmDialog.super.ctor(self)
 
     self.container_ = nil -- 全局容器
@@ -29,6 +31,7 @@ function GoldStorePurchaseConfirmDialog:ctor(id, pieceNum, cost, bg)
     self.pieceNum_ = pieceNum
     self.cost_ = cost
     self.bg_ = bg
+    self.tag_ = tag
 
     self:initView()
     self:hideView()
@@ -100,6 +103,15 @@ function GoldStorePurchaseConfirmDialog:initView()
             return true
         else
             -- 执行对应的操作
+            local state = PlayerData:purchaseCard(self.id_, self.pieceNum_, self.cost_)
+            if state == 0 then
+                EventManager:doEvent(EventDef.ID.CARD_PURCHASE, self.tag_)
+
+                print("Purchase success!")
+            else
+                print("Gold is not enough!")
+            end
+
             self:hideView()
         end
     end)

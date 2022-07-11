@@ -9,6 +9,8 @@
 local CollectionComp = class("CollectionComp", require("app.ui.layer.BaseUILayout"))
 local PictorialCardComp = require("app.ui.layer.lobby.pictorial.component.component.PictorialCardComp")
 local ConstDef = require("app.def.ConstDef")
+local EventManager = require("app.manager.EventManager")
+local EventDef = require("app.def.EventDef")
 local PlayerData = require("app.data.PlayerData")
 
 --[[--
@@ -21,15 +23,26 @@ local PlayerData = require("app.data.PlayerData")
 function CollectionComp:ctor()
     CollectionComp.super.ctor(self)
 
-    self.container_ = nil
+    self.mainListView_ = nil
+    self.obtainContainer_ = nil
+    self.notObtainContainer_ = nil
 
+    self:initParam()
+    self:initView()
+end
+
+--[[--
+    参数初始化
+
+    @param none
+
+    @return none
+]]
+function CollectionComp:initParam()
     -- 已获得卡组
     self.obtainedCardGroup_ = PlayerData:getObtainedCardGroup()
-
     -- 未获得卡组
     self.notObtainCardGroup_ = PlayerData:getNotObtainCardGroup()
-
-    self:initView()
 end
 
 --[[--
@@ -44,8 +57,7 @@ function CollectionComp:initView()
     self.mainListView_ = ccui.ListView:create()
     self.mainListView_:setContentSize(ConstDef.WINDOW_SIZE.COLLECTION_VIEW.WIDTH,
             ConstDef.WINDOW_SIZE.COLLECTION_VIEW.HEIGHT)
-    self.mainListView_:setBackGroundColor(cc.c4b(255, 255, 255, 255))
-    self.mainListView_:setBackGroundColorType(1)
+
     self.mainListView_:setAnchorPoint(0, 0)
     self.mainListView_:setDirection(1)
     self.mainListView_:setPosition(0, 0.8*ConstDef.WINDOW_SIZE.DOWNBAR.HEIGHT)
@@ -64,19 +76,18 @@ function CollectionComp:initView()
     local rowNum = math.ceil(listLen / 4) -- 行数
     local cardWidth, cardHeight = ConstDef.CARD_SIZE.TYPE_2.WIDTH, ConstDef.CARD_SIZE.TYPE_2.HEIGHT -- 卡片大小
 
-    local obtainContainer = ccui.Layout:create()
-    obtainContainer:setContentSize(display.width,
+    self.obtainContainer_ = ccui.Layout:create()
+    self.obtainContainer_:setContentSize(display.width,
             1.2*rowNum*cardHeight)
-    self.mainListView_:pushBackCustomItem(obtainContainer)
+    self.mainListView_:pushBackCustomItem(self.obtainContainer_)
 
     for i = 1, listLen do
         local card = PictorialCardComp.new(self.obtainedCardGroup_[i], true)
         card:setPosition((1+(i-1)%4-0.25)*cardWidth,
-        (rowNum-math.floor((i-1)/4))*cardHeight)
+                (rowNum-math.floor((i-1)/4))*cardHeight-0.2*cardHeight)
 
-        obtainContainer:addChild(card)
+        self.obtainContainer_:addChild(card)
     end
-
 
     -- 未收集牌匾
     local unCollectedTablet = ccui.ImageView:create("image/lobby/pictorial/towerlist/line_not_collected.png")
@@ -90,18 +101,97 @@ function CollectionComp:initView()
     listLen = #self.notObtainCardGroup_ -- 未获得卡牌数量
     rowNum = math.ceil(listLen / 4) -- 行数
 
-    local notObtainContainer = ccui.Layout:create()
-    notObtainContainer:setContentSize(display.width,
+    self.notObtainContainer_ = ccui.Layout:create()
+    self.notObtainContainer_:setContentSize(display.width,
             1.2* rowNum *ConstDef.CARD_SIZE.TYPE_2.HEIGHT)
-    self.mainListView_:pushBackCustomItem(notObtainContainer)
+    self.mainListView_:pushBackCustomItem(self.notObtainContainer_)
 
     for i = 1, listLen do
         local card = PictorialCardComp.new(self.notObtainCardGroup_[i], false)
         card:setPosition((1+(i-1)%4-0.25)*cardWidth,
-                (rowNum-math.floor((i-1)/4))*cardHeight)
+                (rowNum-math.floor((i-1)/4))*cardHeight-0.2*cardHeight)
 
-        notObtainContainer:addChild(card)
+        self.notObtainContainer_:addChild(card)
     end
+
+end
+
+--[[--
+    onEnter
+
+    @param none
+
+    @return none
+]]
+function CollectionComp:onEnter()
+    EventManager:regListener(EventDef.ID.CARD_PURCHASE, self, function()
+        self:update()
+    end)
+    EventManager:regListener(EventDef.ID.BOX_PURCHASE, self, function()
+        self:update()
+    end)
+end
+
+--[[--
+    onExit
+
+    @param none
+
+    @return none
+]]
+function CollectionComp:onExit()
+    EventManager:unRegListener(EventDef.ID.CARD_PURCHASE, self)
+    EventManager:unRegListener(EventDef.ID.BOX_PURCHASE, self)
+end
+
+--[[--
+    界面刷新
+
+    @param none
+
+    @return none
+]]
+function CollectionComp:update()
+
+    self:initParam()
+    -- 已收集卡牌列表
+    local listLen = #self.obtainedCardGroup_ -- 已获得卡牌数量
+    local rowNum = math.ceil(listLen / 4) -- 行数
+    local cardWidth, cardHeight = ConstDef.CARD_SIZE.TYPE_2.WIDTH, ConstDef.CARD_SIZE.TYPE_2.HEIGHT -- 卡片大小
+
+    self.obtainContainer_ = ccui.Layout:create()
+    self.obtainContainer_:setContentSize(display.width,
+            1.2*rowNum*cardHeight)
+
+    for i = 1, listLen do
+        local card = PictorialCardComp.new(self.obtainedCardGroup_[i], true)
+        card:setPosition((1+(i-1)%4-0.25)*cardWidth,
+                (rowNum-math.floor((i-1)/4))*cardHeight-0.2*cardHeight)
+
+        self.obtainContainer_:addChild(card)
+    end
+
+    self.mainListView_:removeItem(1)
+    self.mainListView_:insertCustomItem(self.obtainContainer_, 1)
+
+    -- 未收集卡牌列表
+    listLen = #self.notObtainCardGroup_ -- 未获得卡牌数量
+    rowNum = math.ceil(listLen / 4) -- 行数
+
+    self.notObtainContainer_ = ccui.Layout:create()
+    self.notObtainContainer_:setContentSize(display.width,
+            1.2* rowNum *ConstDef.CARD_SIZE.TYPE_2.HEIGHT)
+
+    for i = 1, listLen do
+        local card = PictorialCardComp.new(self.notObtainCardGroup_[i], false)
+        card:setPosition((1+(i-1)%4-0.25)*cardWidth,
+                (rowNum-math.floor((i-1)/4))*cardHeight-0.2*cardHeight)
+
+        self.notObtainContainer_:addChild(card)
+    end
+
+    self.mainListView_:removeItem(3)
+    self.mainListView_:insertCustomItem(self.notObtainContainer_, 3)
 
 end
 

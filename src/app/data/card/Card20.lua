@@ -26,7 +26,7 @@ end
     @return none
 ]]
 function Card20:init()
-
+    Card20.super:init()
     -- 基本信息
     self.id_ = CardInfoDef.CARD_ID.CARD_20
     self.name_ = CardInfoDef.CARD_ID.CARD_20
@@ -50,6 +50,9 @@ function Card20:init()
     self.skillOneEnhancedDelta_ = 0.5
     self.skillTwo_ = "技能发动时间"
     self.skillTwoValue_ = 10
+
+    -- 初始化等级
+    self:initLevel()
 
 end
 

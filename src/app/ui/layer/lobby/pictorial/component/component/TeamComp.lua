@@ -8,21 +8,29 @@
 ]]
 local TeamComp = class("TeamComp", require("app.ui.layer.BaseLayer"))
 local ConstDef = require("app.def.ConstDef")
-
+local LobbyData = require("app.data.LobbyData")
+local PlayerData = require("app.data.PlayerData")
+local EventManager = require("app.manager.EventManager")
+local EventDef = require("app.def.EventDef")
+local TeamCardComp = require("app.ui.layer.lobby.pictorial.component.component.component.TeamCardComp")
 
 --[[--
     构造函数
 
-    @param none
+    @param index 当前阵容索引
 
     @return none
 ]]
-function TeamComp:ctor(cardGroup)
+function TeamComp:ctor(index)
     TeamComp.super.ctor(self)
 
     self.container_ = nil
     self.teamListView_ = nil
-    self.cardGroup_ = cardGroup
+
+    self.index_ = index
+
+
+    self.cardGroup_ = PlayerData:getCurrentCardGroup(index)
 
     self:initView()
 end
@@ -53,24 +61,41 @@ function TeamComp:initView()
 
     for i = 1, 5 do
 
-        local width, height = 1.2*ConstDef.CARD_SIZE.TYPE_1.WIDTH, ConstDef.CARD_SIZE.TYPE_1.HEIGHT
+        local teamCard = TeamCardComp.new(self.cardGroup_[i])
+        self.teamListView_:pushBackCustomItem(teamCard)
 
-        local itemLayer = ccui.Layout:create()
-        itemLayer:setContentSize(width, height)
+        teamCard:addTouchEventListener(function(sender, event)
+            if LobbyData:getCurSelectedTower() then
+                if event == 0 then
+                    -- 放大事件
+                    local ac1 = cc.ScaleTo:create(0.1, 1.1)
+                    local ac2 = cc.ScaleTo:create(0.1, 1)
+                    local action = cc.Sequence:create(ac1, ac2)
+                    teamCard:runAction(action)
+                    return true
+                elseif event == 2 then
+                    local card = LobbyData:getCurSelectedTower()
 
-        local card = ccui.ImageView:create(self.cardGroup_[i]:getSmallSpriteImg())
-        card:setPosition(width * 0.5, height * 0.6)
-        itemLayer:addChild(card)
+                    -- 判断卡牌是否出现在卡组中
+                    for i = 1, 5 do
+                        if card:getId() == self.cardGroup_[i]:getId() then
+                            print("重复")
+                            return false
+                        end
+                    end
 
-        local level = ccui.ImageView:create(self.cardGroup_[i]:getLevelImg())
-        level:setPosition(width * 0.5, height * 0.1)
-        itemLayer:addChild(level)
+                    PlayerData:modifyCurrentCardGroup(self.index_, i, card)
+                    teamCard = TeamCardComp.new(card)
+                    self.teamListView_:removeItem(i-1)
+                    self.teamListView_:insertCustomItem(teamCard, i-1)
+                    EventManager:doEvent(EventDef.ID.CARD_SWITCH)
+                    return true
+                end
 
-        local attr = ccui.ImageView:create(self.cardGroup_[i]:getTypeImg())
-        attr:setPosition(width * 0.8, height * 0.9)
-        itemLayer:addChild(attr)
+            end
+        end)
+        teamCard:setTouchEnabled(true)
 
-        self.teamListView_:pushBackCustomItem(itemLayer)
     end
 end
 

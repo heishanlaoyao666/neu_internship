@@ -8,9 +8,9 @@
 ]]
 local BoxOpenObtainDialog = class("BoxOpenObtainDialog", require("app.ui.layer.BaseUILayout"))
 local BoxObtainCardComp = require("app.ui.layer.lobby.store.component.component.BoxObtainCardComp")
+local StoreData = require("app.data.StoreData")
+local PlayerData = require("app.data.PlayerData")
 local eventDispatcher = cc.Director:getInstance():getEventDispatcher()
-
-local Card1 = require("app.data.card.Card1")
 
 --[[--
     构造函数
@@ -24,14 +24,26 @@ local Card1 = require("app.data.card.Card1")
 
     @return none
 ]]
-function BoxOpenObtainDialog:ctor()
+function BoxOpenObtainDialog:ctor(boxCards)
     BoxOpenObtainDialog.super.ctor(self)
 
     self.container_ = nil -- 全局容器
 
-
+    self:initParam(boxCards)
     self:initView()
     self:hideView()
+end
+
+--[[--
+    界面初始化
+
+    @param none
+
+    @return none
+]]
+function BoxOpenObtainDialog:initParam(boxCards)
+    self.gold_ = boxCards.gold
+    self.cards_ = boxCards.cards
 end
 
 --[[--
@@ -68,21 +80,23 @@ function BoxOpenObtainDialog:initView()
     goldIcon:setPosition(0.45*dialogWidth, -0.12*dialogHeight)
     dialog:addChild(goldIcon)
 
-    local goldNum = ccui.Text:create(1000, "font/fzbiaozjw.ttf", 30)
+    local goldNum = ccui.Text:create(self.gold_, "font/fzbiaozjw.ttf", 30)
     goldNum:setTextColor(cc.c4b(255, 255, 255, 255))
     goldNum:enableOutline(cc.c4b(20, 20, 66, 255), 2) -- 描边
     goldNum:setPosition(0.55*dialogWidth, -0.12*dialogHeight)
     dialog:addChild(goldNum)
 
     -- 卡牌
-    local card1 = BoxObtainCardComp.new(Card1.new(), 10)
-    card1:setScale(0.9)
-    card1:setPosition(100, 100)
-    dialog:addChild(card1)
+    local length = #self.cards_
+    local rowNum = math.ceil(length/4)
 
-
-
-
+    for i = 1, length do
+        local card = BoxObtainCardComp.new(PlayerData:getCardById(self.cards_[i].cardId), self.cards_[i].pieceNum)
+        card:setScale(0.9)
+        card:setAnchorPoint(0.5, 0.5)
+        card:setPosition(0.2*dialogWidth+((i-1)%4)*dialogWidth/5, 0.5*dialogHeight-(math.floor((i-1)/4))*dialogHeight/(1.5*rowNum))
+        dialog:addChild(card)
+    end
 
     -- 确认按钮
     local confirmBtn = ccui.Button:create("image/lobby/general/boxobtain/confirm_btn.png")

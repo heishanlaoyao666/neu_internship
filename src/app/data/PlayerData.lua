@@ -9,6 +9,7 @@
 
 local PlayerData = {}
 local PlayerDef = require("src.app.def.PlayerDef")
+local CardInfoDef = require("app.def.CardInfoDef")
 
 local Card1 = require("src.app.data.card.Card1") 
 local Card2 = require("src.app.data.card.Card2") 
@@ -38,8 +39,6 @@ local Card = {
     Card16,Card17,Card18,Card19,Card20,
 }
 
-local RequestManager = {}
-
 local name_ = "none" -- 类型string ，名字 默认值
 local id_ = "000000" -- 类型string ，账号 默认值
 local integral_ = 0 -- 类型number ，积分 默认值
@@ -48,9 +47,8 @@ local gold_ = 0 -- 类型number，金币 默认值
 local diamond_ = 0 -- 类型number，钻石 默认值
 local ladderAward_ = {} -- 类型table，天梯奖励领取情况
 
-local cardGroup_ = {} -- 类型card，玩家拥有的卡组 默认值
+local cardGroup_ = {} -- 类型card，所有卡牌 默认值
 local fightGroup_ = {} -- 类型card，玩家出战用的卡组 默认值
-
 local currentGroupOne_ = {} -- 当前阵容1
 local currentGroupTwo_ = {} -- 当前阵容2
 local currentGroupThree_ = {} -- 当前阵容3
@@ -222,37 +220,50 @@ function  PlayerData:getIfGot(index)
 end
 
 --[[--
-   获取卡牌
+   通过卡牌ID获取卡牌
 
-   @param 卡牌的id  CardDef.CARD_Id
+   @param 卡牌的id
 
    @return card 卡牌
 ]]
-function  PlayerData:getCard(id)
-   return cardGroup_[id]
+function  PlayerData:getCardById(id)
+    for i = 1, #cardGroup_ do
+        if cardGroup_[i]:getId() == id then
+            return cardGroup_[i]
+        end
+    end
+   return nil
 end
 
 --[[--
-   获取卡牌组
+   通过卡牌稀有度获取卡牌
 
-   @param 
+   @param 卡牌的稀有度
 
    @return cards 卡牌组
 ]]
-function  PlayerData:getAllCard()
+function  PlayerData:getCardsByRarity(rarity)
+    local temp = {}
+    for i = 1, #cardGroup_ do
+        if cardGroup_[i]:getRarity() == rarity then
+            table.insert(temp, cardGroup_[i])
+        end
+    end
+    return temp
+end
+
+--[[--
+   获取所有卡牌
+
+   @param 
+
+   @return cards 所有卡牌
+]]
+function  PlayerData:getAllCards()
     return cardGroup_
  end
 
---[[--
-    设置战斗卡牌
 
-    @param cardNameGroup  CardDef.CARD_Id的表 例如{"card","card","card","card","card"}
-
-    @return none
-]]
-function  PlayerData:setFightCardGroup(cards)
-    fightGroup_ = cards
-end
 
 --[[--
     获取所有已获得卡牌
@@ -266,7 +277,7 @@ function  PlayerData:getObtainedCardGroup()
     local obtainedCardGroup = {}
 
     for i=1, #cardGroup_ do
-        if cardGroup_[i]:getNum() > 0 then -- 如果拥有碎片数量大于0
+        if cardGroup_[i]:ifCardObtained() then
             table.insert(obtainedCardGroup, cardGroup_[i])
         end
     end
@@ -286,7 +297,7 @@ function  PlayerData:getNotObtainCardGroup()
     local notObtainCardGroup = {}
 
     for i=1, #cardGroup_ do
-        if cardGroup_[i]:getNum() == 0 then -- 如果拥有碎片数量等于0
+        if not cardGroup_[i]:ifCardObtained() then
             table.insert(notObtainCardGroup, cardGroup_[i])
         end
     end
@@ -295,91 +306,196 @@ function  PlayerData:getNotObtainCardGroup()
 end
 
 --[[--
-   获取战斗卡牌信息
-
-   @param n number 第几个
-
-   @return card 
-]]
-function  PlayerData:getCardFromFightCardGroup(n)
-    return fightGroup_[n]
-end
-
---[[--
-   获取战斗卡牌信息
+   获取战斗卡牌组
 
    @param none
 
-   @return cardGroup 
+   @return cardGroup
 ]]
 function  PlayerData:getFightCardGroup()
     return fightGroup_
 end
 
 --[[--
-   获取当前阵容1
+    设置战斗卡牌组
 
-   @param none
+    @param cardNameGroup  CardDef.CARD_Id的表 例如{"card","card","card","card","card"}
 
-   @return cards
+    @return none
 ]]
-function  PlayerData:getCurrentCardGroupOne()
-    return currentGroupOne_
+function  PlayerData:setFightCardGroup(cards)
+    fightGroup_ = cards
 end
 
 --[[--
-   设置当前阵容1
+   获取当前第index个阵容
 
+   @param index
+
+   @return cards
+]]
+function  PlayerData:getCurrentCardGroup(index)
+    if index == 1 then
+        return currentGroupOne_
+    elseif index == 2 then
+        return currentGroupTwo_
+    elseif index == 3 then
+        return currentGroupThree_
+    end
+end
+
+--[[--
+   设置当前第index个阵容
+
+   @param index
    @param cards
 
    @return none
 ]]
-function  PlayerData:setCurrentCardGroupOne(cards)
-    currentGroupOne_ = cards
+function  PlayerData:setCurrentCardGroup(index, cards)
+    if index == 1 then
+        currentGroupOne_ = cards
+    elseif index == 2 then
+        currentGroupTwo_ = cards
+    elseif index == 3 then
+        currentGroupThree_ = cards
+    end
 end
 
 --[[--
-   获取当前阵容2
+   修改第index个阵容的第no张卡牌
 
-   @param none
+   @param index
+   @param no
+   @param card
 
    @return cards
 ]]
-function  PlayerData:getCurrentCardGroupTwo()
-    return currentGroupTwo_
+function  PlayerData:modifyCurrentCardGroup(index, no, card)
+    if index == 1 then
+        currentGroupOne_[no] = card
+    elseif index == 2 then
+        currentGroupTwo_[no] = card
+    elseif index == 3 then
+        currentGroupThree_[no] = card
+    end
+end
+
+--- 计算逻辑
+--[[--
+   卡牌升级
+
+   @param id number 卡牌ID
+
+   @return number 状态码
+
+   0 - success
+   1 - fail - 卡牌不足
+   2 - fail - 金币不足
+   3 - fail - 卡牌和金币均不足
+]]
+function  PlayerData:upgradeCard(id)
+    local card = self:getCardById(id)
+    if card:getRequireCardNum() <= card:getNum() and
+            card:getRequireGoldNum() <= gold_ then
+        card:setNum(card:getNum() - card:getRequireCardNum())
+        gold_ = gold_ - card:getRequireGoldNum()
+        card:setLevel(card:getLevel()+1)
+        return 0
+    elseif card:getRequireGoldNum() <= gold_ then
+        return 1 -- 卡牌不足
+    elseif card:getRequireCardNum() <= card:getNum() then
+        return 2 -- 金币不足
+    else
+        return 3 -- 卡牌与金币均不足
+    end
 end
 
 --[[--
-   设置当前阵容2
+   购买卡牌
 
-   @param cards
+   @param id number 卡牌ID
+   @param pieceNum 碎片数量
+   @param cost 花费
+
+   @return number 状态码
+
+   0 - success
+   1 - fail - 金币不足
+]]
+function  PlayerData:purchaseCard(id, pieceNum, cost)
+    local card = self:getCardById(id)
+    if cost <= gold_ then
+        card:setNum(card:getNum() + pieceNum)
+        gold_ = gold_ - cost
+        return 0
+    else
+        return 1 -- 金币不足
+    end
+end
+
+--[[--
+   购买宝箱
+
+   @param cost 钻石花费
+   @param boxCards
+   boxCards = {
+       gold = 1000,
+       cards = {
+           {
+               cardId = 1,
+               pieceNum = 100
+           },
+           {
+               ...
+           }
+       }
+   }
+
+   @return number 状态码
+
+   0 - success
+   1 - fail - 钻石不足
+]]
+function  PlayerData:purchaseBox(cost, boxCards)
+
+
+    if cost <= diamond_ then
+        local gold = boxCards.gold
+        local cards = boxCards.cards
+
+        for i = 1, #cards do
+            local card = self:getCardById(cards[i].cardId)
+            card:setNum(card:getNum()+cards[i].pieceNum)
+        end
+        gold_ = gold_ + gold
+        diamond_ = diamond_ - cost
+        return 0
+    else
+        return 1 -- 钻石不足
+    end
+end
+
+--[[--
+   领取金币
+
+   @param num
 
    @return none
 ]]
-function  PlayerData:setCurrentCardGroupTwo(cards)
-    currentGroupTwo_ = cards
+function  PlayerData:obtainGold(num)
+    gold_ = gold_ + num
 end
 
 --[[--
-   获取当前阵容3
+   领取钻石
 
-   @param none
-
-   @return cards
-]]
-function  PlayerData:getCurrentCardGroupThree()
-    return currentGroupThree_
-end
-
---[[--
-   设置当前阵容3
-
-   @param cards
+   @param num
 
    @return none
 ]]
-function  PlayerData:setCurrentCardGroupThree(cards)
-    currentGroupThree_ = cards
+function  PlayerData:obtainDiamond(num)
+    diamond_ = diamond_ + num
 end
 
 --[[
@@ -392,7 +508,7 @@ end
 ]]
 function PlayerData:initCard()
     print("began init card")
-    for i = 1, 10 do
+    for i = 1, 10 do -- 已收集
         local card = Card[i].new(0,0)
         card:setNum(50)--从服务器获取
         card:setLevel(9)--从服务器获取
@@ -400,45 +516,18 @@ function PlayerData:initCard()
         cardGroup_[i] = card
     end
 
-    for i = 11, 20 do
+    for i = 11, 20 do -- 未收集
         local card = Card[i].new(0,0)
-        card:setNum(0)--从服务器获取
-        card:setLevel(1)--从服务器获取
-        card:setIntensify(0)--从服务器获取
         cardGroup_[i] = card
     end
 
     for i = 1, 5 do
-        local card = Card[i].new(0,0)
-        card:setNum(50)--从服务器获取
-        card:setLevel(9)--从服务器获取
-        card:setIntensify(0)--从服务器获取
-        fightGroup_[i] = card
+        currentGroupOne_[i] = cardGroup_[i]
+        currentGroupTwo_[i] = cardGroup_[i]
+        currentGroupThree_[i] = cardGroup_[i]
     end
 
-    for i = 1, 5 do
-        local card = Card[i].new(0,0)
-        card:setNum(50)--从服务器获取
-        card:setLevel(9)--从服务器获取
-        card:setIntensify(0)--从服务器获取
-        currentGroupOne_[i] = card
-    end
-
-    for i = 6, 10 do
-        local card = Card[i].new(0,0)
-        card:setNum(50)--从服务器获取
-        card:setLevel(9)--从服务器获取
-        card:setIntensify(0)--从服务器获取
-        currentGroupTwo_[i-5] = card
-    end
-
-    for i = 11, 15 do
-        local card = Card[i].new(0,0)
-        card:setNum(50)--从服务器获取
-        card:setLevel(9)--从服务器获取
-        card:setIntensify(0)--从服务器获取
-        currentGroupThree_[i-10] = card
-    end
+    fightGroup_ = currentGroupOne_
 
     print("end init card")
 end
@@ -452,13 +541,12 @@ end
     @return none
 ]]
 function PlayerData:initPlayerData()
-    name_ = "player"--从服务器获取
+    name_ = "Harry"--从服务器获取
     id_ = "000001" --从服务器获取
-    integral_ = 1000 --从服务器获取
+    integral_ = 325 --从服务器获取
     headPortrait_ = "???" --从服务器获取
-    gold_ = 10 --从服务器获取
-    diamond_ = 10 --从服务器获取
-    integral_ = 325
+    gold_ = 123456 --从服务器获取
+    diamond_ = 8888 --从服务器获取
 
     for i = 1, 10 do --初始化天梯奖励
         ladderAward_[i] = false

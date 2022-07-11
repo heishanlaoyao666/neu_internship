@@ -12,56 +12,60 @@ local ReplaceCardDialog = require("app.ui.layer.lobby.pictorial.dialog.dialog.Re
 local DialogManager = require("app.manager.DialogManager")
 local EventManager = require("app.manager.EventManager")
 local EventDef = require("app.def.EventDef")
+local PlayerData = require("app.data.PlayerData")
+local CardAttrComp = require("app.ui.layer.lobby.pictorial.component.component.component.CardAttrComp")
 local eventDispatcher = cc.Director:getInstance():getEventDispatcher()
 
 --[[--
     构造函数
 
-    @param cost 类型：number，花费
-    @param boxSprite 类型：string，宝箱精灵图片
-    @param normalPieceNum 类型：number，普通卡碎片数量
-    @param rarePieceNum 类型：number，稀有卡碎片数量
-    @param epicPieceNum 类型：number，史诗卡碎片数量
-    @param legendPieceNum 类型：number，传奇卡碎片数量
+    @param card 类型：card，卡片
 
     @return none
 ]]
 function TowerDetailDialog:ctor(card)
     TowerDetailDialog.super.ctor(self)
 
+    self.cardAttrComp_ = nil
+
     self.container_ = nil -- 全局容器
-    self.card_ = card
+    self.processBarFG_ = nil
+    self.levelIcon_ = nil
+    self.pieceNumText_ = nil
+    self.goldText_ = nil
 
-    -- 卡片栏
-    self.rarityBG_ = card:getRarityBG() -- 稀有度背景
-    self.typeImg_ = card:getTypeImg() -- 塔类型角标
-    self.spriteImg_ = card:getSmallSpriteImg() -- 塔的小图
-    self.levelImg_ = card:getLevelImg() -- 卡片等级
-    self.totalPieceNum_ = card:getNum() -- 拥有卡牌碎片数量
-    self.updatePieceNum_ = card:getRequireCardNum() -- 升级所需卡牌数量
-
-    -- 基本信息栏
-    self.name_ = card:getName()
-    self.rarityTextImg_ = card:getRarityTextImg()
-    self.intro_ = card:getIntro()
-
-    -- 技能栏
-    self.typeTextImg_ = card:getTypeTextImg()
-    self.type_ = card:getType()
-    self.atkTextImg_ = card:getAtkTextImg()
-    self.atk_ = card:getAtk()
-    self.fireCdTextImg_ = card:getFireCdTextImg()
-    self.fireCd_ = card:getFireCd()
-    self.targetTextImg_ = card:getTargetTextImg()
-    self.target_ = card:getTarget()
-    self.skillOneTextImg_ = card:getSkillOneTextImg()
-    self.skillOneValue_ = card:getSkillOneValue()
-    self.skillTwoTextImg_ = card:getSkillTwoTextImg()
-    self.skillTwoValue_ = card:getSkillTwoValue()
-
-
+    self:initParam(card)
     self:initView()
     self:hideView()
+end
+
+
+--[[--
+    参数初始化
+
+    @param none
+
+    @return none
+]]
+function TowerDetailDialog:initParam(card)
+    self.card_ = card
+    -- 卡片栏
+    self.rarityBG_ = self.card_:getRarityBG() -- 稀有度背景
+    self.typeImg_ = self.card_:getTypeImg() -- 塔类型角标
+    self.spriteImg_ = self.card_:getSmallSpriteImg() -- 塔的小图
+    self.levelImg_ = self.card_:getLevelImg() -- 卡片等级
+    self.totalPieceNum_ = self.card_:getNum() -- 拥有卡牌碎片数量
+    self.updatePieceNum_ = self.card_:getRequireCardNum() -- 升级所需卡牌数量
+
+    -- 基本信息栏
+    self.id_ = self.card_:getId()
+    self.name_ = self.card_:getName()
+    self.rarityTextImg_ = self.card_:getRarityTextImg()
+    self.intro_ = self.card_:getIntro()
+
+    -- 功能栏
+    self.cost_ = self.card_:getRequireGoldNum()
+
 end
 
 --[[--
@@ -129,23 +133,25 @@ function TowerDetailDialog:initView()
     processBarBG:setPosition(0.5*cardWidth, 0.15*cardHeight)
     cardContainer:addChild(processBarBG)
 
-    -- 碎片数量进度条
-    local processBar = ccui.ImageView:create("image/lobby/pictorial/towerlist/progressbar_own_number.png")
-    processBar:setPosition(0.5*cardWidth, 0.15*cardHeight)
-    cardContainer:addChild(processBar)
+    -- 碎片数量进度条前景
+    self.processBarFG_ = ccui.ImageView:create("image/lobby/pictorial/towerlist/progressbar_own_number.png")
+    self.processBarFG_:setPosition(0.5*cardWidth, 0.15*cardHeight)
+    local scale = self.totalPieceNum_ / self.updatePieceNum_
+    self.processBarFG_:setScale(scale<=1 and scale or 1)
+    cardContainer:addChild(self.processBarFG_)
 
     -- 碎片数量文字
     local text = string.format("%d/%d", self.totalPieceNum_, self.updatePieceNum_)
-    local pieceNumText = ccui.Text:create(text, "font/fzbiaozjw.ttf", 24)
-    pieceNumText:enableOutline(cc.c4b(0, 0, 0, 255), 3) -- 描边
-    pieceNumText:setTextColor(cc.c4b(165, 237, 255, 255))
-    pieceNumText:setPosition(0.5*cardWidth, 0.15*cardHeight)
-    cardContainer:addChild(pieceNumText)
+    self.pieceNumText_ = ccui.Text:create(text, "font/fzbiaozjw.ttf", 24)
+    self.pieceNumText_:enableOutline(cc.c4b(0, 0, 0, 255), 3) -- 描边
+    self.pieceNumText_:setTextColor(cc.c4b(165, 237, 255, 255))
+    self.pieceNumText_:setPosition(0.5*cardWidth, 0.15*cardHeight)
+    cardContainer:addChild(self.pieceNumText_)
 
     -- 等级
-    local level = ccui.ImageView:create(self.levelImg_)
-    level:setPosition(0.5*cardWidth, 0.3*cardHeight)
-    cardContainer:addChild(level)
+    self.levelIcon_ = ccui.ImageView:create(self.levelImg_)
+    self.levelIcon_:setPosition(0.5*cardWidth, 0.3*cardHeight)
+    cardContainer:addChild(self.levelIcon_)
 
 
     --- 信息栏
@@ -194,154 +200,26 @@ function TowerDetailDialog:initView()
     dialog:addChild(introText)
 
     --- 属性栏
-
-    -- 类型
-    local typeAttr = ccui.Layout:create()
-    typeAttr:setBackGroundImage("image/lobby/pictorial/towerdetail/default_attr_bg.png")
-    local attrWidth, attrHeight = typeAttr:getBackGroundImageTextureSize().width, typeAttr:getBackGroundImageTextureSize().height
-    typeAttr:setContentSize(attrWidth, attrHeight)
-    typeAttr:setAnchorPoint(0.5, 0.5)
-    typeAttr:setPosition(0.25*dialogWidth, 0.575*dialogHeight)
-    dialog:addChild(typeAttr)
-
-    local typeIcon = ccui.ImageView:create("image/lobby/pictorial/towerdetail/attr/type_icon.png")
-    typeIcon:setPosition(0.2*attrWidth, 0.5*attrHeight)
-    typeAttr:addChild(typeIcon)
-
-    local typeTitle = ccui.ImageView:create(self.typeTextImg_)
-    typeTitle:setAnchorPoint(0, 0.5)
-    typeTitle:setPosition(0.3*attrWidth, 0.75*attrHeight)
-    typeAttr:addChild(typeTitle)
-
-
-    -- 攻击力
-    local atkAttr = ccui.Layout:create()
-    atkAttr:setBackGroundImage("image/lobby/pictorial/towerdetail/default_attr_bg.png")
-    atkAttr:setContentSize(attrWidth, attrHeight)
-    atkAttr:setAnchorPoint(0.5, 0.5)
-    atkAttr:setPosition(0.75*dialogWidth, 0.575*dialogHeight)
-    dialog:addChild(atkAttr)
-
-    local atkIcon = ccui.ImageView:create("image/lobby/pictorial/towerdetail/attr/attack_icon.png")
-    atkIcon:setPosition(0.2*attrWidth, 0.5*attrHeight)
-    atkAttr:addChild(atkIcon)
-
-    local atkTitle = ccui.ImageView:create(self.atkTextImg_)
-    atkTitle:setAnchorPoint(0, 0.5)
-    atkTitle:setPosition(0.3*attrWidth, 0.75*attrHeight)
-    atkAttr:addChild(atkTitle)
-
-    local atkText = ccui.Text:create(self.atk_, "font/fzzdhjw.ttf", 26)
-    atkText:setTextColor(cc.c4b(165, 237, 255, 255))
-    atkText:enableOutline(cc.c4b(20, 20, 66, 255), 2) -- 描边
-    atkText:setAnchorPoint(0, 0.5)
-    atkText:setPosition(0.3*attrWidth, 0.3*attrHeight)
-    atkAttr:addChild(atkText)
-
-    -- 攻速
-    local asAttr = ccui.Layout:create()
-    asAttr:setBackGroundImage("image/lobby/pictorial/towerdetail/default_attr_bg.png")
-    asAttr:setContentSize(attrWidth, attrHeight)
-    asAttr:setAnchorPoint(0.5, 0.5)
-    asAttr:setPosition(0.25*dialogWidth, 0.4375*dialogHeight)
-    dialog:addChild(asAttr)
-
-    local asIcon = ccui.ImageView:create("image/lobby/pictorial/towerdetail/attr/attack_speed_icon.png")
-    asIcon:setPosition(0.2*attrWidth, 0.5*attrHeight)
-    asAttr:addChild(asIcon)
-
-    local asTitle = ccui.ImageView:create(self.fireCdTextImg_)
-    asTitle:setAnchorPoint(0, 0.5)
-    asTitle:setPosition(0.3*attrWidth, 0.75*attrHeight)
-    asAttr:addChild(asTitle)
-
-    local asText = ccui.Text:create(self.fireCd_, "font/fzzdhjw.ttf", 26)
-    asText:setTextColor(cc.c4b(165, 237, 255, 255))
-    asText:enableOutline(cc.c4b(20, 20, 66, 255), 2) -- 描边
-    asText:setAnchorPoint(0, 0.5)
-    asText:setPosition(0.3*attrWidth, 0.3*attrHeight)
-    asAttr:addChild(asText)
-
-    -- 目标
-    local targetAttr = ccui.Layout:create()
-    targetAttr:setBackGroundImage("image/lobby/pictorial/towerdetail/default_attr_bg.png")
-    targetAttr:setContentSize(attrWidth, attrHeight)
-    targetAttr:setAnchorPoint(0.5, 0.5)
-    targetAttr:setPosition(0.75*dialogWidth, 0.4375*dialogHeight)
-    dialog:addChild(targetAttr)
-
-    local targetIcon = ccui.ImageView:create("image/lobby/pictorial/towerdetail/attr/target_icon.png")
-    targetIcon:setPosition(0.2*attrWidth, 0.5*attrHeight)
-    targetAttr:addChild(targetIcon)
-
-    local targetTitle = ccui.ImageView:create(self.targetTextImg_)
-    targetTitle:setAnchorPoint(0, 0.5)
-    targetTitle:setPosition(0.3*attrWidth, 0.75*attrHeight)
-    targetAttr:addChild(targetTitle)
-
-    local targetText = ccui.Text:create(self.target_, "font/fzzdhjw.ttf", 26)
-    targetText:setTextColor(cc.c4b(165, 237, 255, 255))
-    targetText:enableOutline(cc.c4b(20, 20, 66, 255), 2) -- 描边
-    targetText:setAnchorPoint(0, 0.5)
-    targetText:setPosition(0.3*attrWidth, 0.3*attrHeight)
-    targetAttr:addChild(targetText)
-
-    -- 技能1
-    local skillOneAttr = ccui.Layout:create()
-    skillOneAttr:setBackGroundImage("image/lobby/pictorial/towerdetail/default_attr_bg.png")
-    skillOneAttr:setContentSize(attrWidth, attrHeight)
-    skillOneAttr:setAnchorPoint(0.5, 0.5)
-    skillOneAttr:setPosition(0.25*dialogWidth, 0.3*dialogHeight)
-    dialog:addChild(skillOneAttr)
-
-    local skillOneIcon = ccui.ImageView:create("image/lobby/pictorial/towerdetail/attr/skill_one_icon.png")
-    skillOneIcon:setPosition(0.2*attrWidth, 0.5*attrHeight)
-    skillOneAttr:addChild(skillOneIcon)
-
-    local skillOneTitle = ccui.ImageView:create(self.skillOneTextImg_)
-    skillOneTitle:setAnchorPoint(0, 0.5)
-    skillOneTitle:setPosition(0.3*attrWidth, 0.75*attrHeight)
-    skillOneAttr:addChild(skillOneTitle)
-
-    local skillOneText = ccui.Text:create(self.skillOneValue_, "font/fzzdhjw.ttf", 26)
-    skillOneText:setTextColor(cc.c4b(165, 237, 255, 255))
-    skillOneText:enableOutline(cc.c4b(20, 20, 66, 255), 2) -- 描边
-    skillOneText:setAnchorPoint(0, 0.5)
-    skillOneText:setPosition(0.3*attrWidth, 0.3*attrHeight)
-    skillOneAttr:addChild(skillOneText)
-
-    -- 技能2
-    local skillTwoAttr = ccui.Layout:create()
-    skillTwoAttr:setBackGroundImage("image/lobby/pictorial/towerdetail/default_attr_bg.png")
-    skillTwoAttr:setContentSize(attrWidth, attrHeight)
-    skillTwoAttr:setAnchorPoint(0.5, 0.5)
-    skillTwoAttr:setPosition(0.75*dialogWidth, 0.3*dialogHeight)
-    dialog:addChild(skillTwoAttr)
-
-    local skillTwoIcon = ccui.ImageView:create("image/lobby/pictorial/towerdetail/attr/skill_two_icon.png")
-    skillTwoIcon:setPosition(0.2*attrWidth, 0.5*attrHeight)
-    skillTwoAttr:addChild(skillTwoIcon)
-
-    local skillTwoTitle = ccui.ImageView:create(self.skillTwoTextImg_)
-    skillTwoTitle:setAnchorPoint(0, 0.5)
-    skillTwoTitle:setPosition(0.3*attrWidth, 0.75*attrHeight)
-    skillTwoAttr:addChild(skillTwoTitle)
-
-    local skillTwoText = ccui.Text:create(self.skillTwoValue_, "font/fzzdhjw.ttf", 26)
-    skillTwoText:setTextColor(cc.c4b(165, 237, 255, 255))
-    skillTwoText:enableOutline(cc.c4b(20, 20, 66, 255), 2) -- 描边
-    skillTwoText:setAnchorPoint(0, 0.5)
-    skillTwoText:setPosition(0.3*attrWidth, 0.3*attrHeight)
-    skillTwoAttr:addChild(skillTwoText)
+    self.cardAttrComp_ = CardAttrComp.new(self.card_)
+    self.cardAttrComp_:setPosition(0.5*display.width, 0.35*display.height)
+    self.container_:addChild(self.cardAttrComp_)
 
 
     --- 按钮栏
 
     -- 强化
-    local enforceBtn = ccui.Button:create("image/lobby/pictorial/towerdetail/enforce_btn.png")
-    enforceBtn:setAnchorPoint(0, 0.5)
-    enforceBtn:setPosition(0.1*display.width, 0.12*display.height)
-    self.container_:addChild(enforceBtn)
+    local enhanceBtn = ccui.Button:create("image/lobby/pictorial/towerdetail/enhance_btn.png")
+    enhanceBtn:setAnchorPoint(0, 0.5)
+    enhanceBtn:setPosition(0.1*display.width, 0.12*display.height)
+    enhanceBtn:addTouchEventListener(function(touch, event)
+        print(event)
+        if event == 0 then
+            EventManager:doEvent(EventDef.ID.CARD_ENFORCE_SHOW)
+        elseif event == 2 or event == 3 then
+            EventManager:doEvent(EventDef.ID.CARD_ENFORCE_HIDE)
+        end
+    end)
+    self.container_:addChild(enhanceBtn)
 
     -- 升级
     local upgradeBtn = ccui.Layout:create()
@@ -359,7 +237,20 @@ function TowerDetailDialog:initView()
             upgradeBtn:runAction(action)
             return true
         else
+            local state = PlayerData:upgradeCard(self.id_)
 
+            print(state)
+
+            if state == 0 then -- 判断逻辑
+                print("升级成功")
+                EventManager:doEvent(EventDef.ID.CARD_UPGRADE)
+            elseif state == 1 then -- 卡牌不足
+                print("卡牌不足")
+            elseif state == 2 then -- 金币不足
+                print("金币不足")
+            else -- 卡牌和金币均不足
+                print("卡牌和金币均不足")
+            end
         end
     end)
     upgradeBtn:setTouchEnabled(true)
@@ -370,12 +261,12 @@ function TowerDetailDialog:initView()
     goldIcon:setPosition(0.3*btnWidth, 0.22*btnHeight)
     upgradeBtn:addChild(goldIcon)
 
-    local goldText = ccui.Text:create(1000, "font/fzbiaozjw.ttf", 24)
-    goldText:enableOutline(cc.c4b(0, 0, 0, 255), 2) -- 2像素纯黑色描边
-    goldText:setTextColor(cc.c4b(255, 255, 255, 255))
-    goldText:setPosition(0.4*btnWidth, 0.22*btnHeight)
-    goldText:setAnchorPoint(0, 0.5)
-    upgradeBtn:addChild(goldText)
+    self.goldText_ = ccui.Text:create(self.cost_, "font/fzbiaozjw.ttf", 24)
+    self.goldText_:enableOutline(cc.c4b(0, 0, 0, 255), 2) -- 2像素纯黑色描边
+    self.goldText_:setTextColor(cc.c4b(255, 255, 255, 255))
+    self.goldText_:setPosition(0.4*btnWidth, 0.22*btnHeight)
+    self.goldText_:setAnchorPoint(0, 0.5)
+    upgradeBtn:addChild(self.goldText_)
 
 
     -- 使用
@@ -427,7 +318,7 @@ function TowerDetailDialog:initView()
                     nodeSize.width, nodeSize.height)
 
             if not cc.rectContainsPoint(rect, touchPosition) then -- 点击黑色遮罩关闭弹窗
-                self:hideView()
+
             end
 
             return true
@@ -437,7 +328,54 @@ function TowerDetailDialog:initView()
 
     eventDispatcher:addEventListenerWithSceneGraphPriority(self.listener_, self)
 
-
 end
+
+--[[--
+    onEnter
+
+    @param none
+
+    @return none
+]]
+function TowerDetailDialog:onEnter()
+    EventManager:regListener(EventDef.ID.CARD_UPGRADE, self, function()
+        self:update()
+    end)
+    EventManager:regListener(EventDef.ID.CARD_PURCHASE, self, function()
+        self:update()
+    end)
+    EventManager:regListener(EventDef.ID.BOX_PURCHASE, self, function()
+        self:update()
+    end)
+end
+
+--[[--
+    onExit
+
+    @param none
+
+    @return none
+]]
+function TowerDetailDialog:onExit()
+    EventManager:unRegListener(EventDef.ID.CARD_UPGRADE, self)
+    EventManager:unRegListener(EventDef.ID.CARD_PURCHASE, self)
+    EventManager:unRegListener(EventDef.ID.BOX_PURCHASE, self)
+end
+
+--[[--
+    界面刷新
+
+    @param none
+
+    @return none
+]]
+function TowerDetailDialog:update()
+    self.goldText_:setString(self.card_:getRequireGoldNum())
+    self.pieceNumText_:setString(string.format("%d/%d", self.card_:getNum(), self.card_:getRequireCardNum()))
+    self.levelIcon_:loadTexture(self.card_:getLevelImg())
+    local scale = self.card_:getNum()/self.card_:getRequireCardNum()
+    self.processBarFG_:setScale(scale<=1 and scale or 1)
+end
+
 
 return TowerDetailDialog

@@ -22,7 +22,7 @@ local PlayerData = require("app.data.PlayerData")
 function TestScene:ctor()
 
     PlayerData:initCard()
-    print(varDump(PlayerData:getAllCard()))
+    print(varDump(PlayerData:getAllCards()))
     print("Hello ")
 
 end

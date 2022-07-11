@@ -6,5 +6,7 @@ function __G__TRACKBACK__(errorMessage)
     print("----------------------------------------")
 end
 
+require("LuaPanda").start("127.0.0.1",8818)
+
 package.path = package.path .. ";src/?.lua;src/framework/protobuf/?.lua"
 require("app.MyApp").new():run()

@@ -10,7 +10,7 @@ local DiamondStoreComp = class("DiamondStoreComp", require("app.ui.layer.BaseUIL
 local ConstDef = require("app.def.ConstDef")
 local DialogManager = require("app.manager.DialogManager")
 local BoxOpenConfirmDialog = require("app.ui.layer.lobby.store.dialog.BoxOpenConfirmDialog")
-
+local StoreData = require("app.data.StoreData")
 --[[--
     构造函数
 
@@ -82,17 +82,17 @@ function DiamondStoreComp:initView()
     self.normalBox_:addChild(normalBoxText)
     self.container_:addChild(self.normalBox_)
 
-    self.normalBox_:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
-        if event.name == "began" then
+    self.normalBox_:addTouchEventListener(function(sender, event)
+        if event == 0 then
             -- 放大事件
             local ac1 = cc.ScaleTo:create(0.1, 1.1)
             local ac2 = cc.ScaleTo:create(0.1, 1)
             local action = cc.Sequence:create(ac1, ac2)
             self.normalBox_:runAction(action)
-
-            local dialog = BoxOpenConfirmDialog.new(20, "image/lobby/store/diamond/legend_box.png", 100,100,10,10)
+            return true
+        elseif event == 2 then
+            local dialog = BoxOpenConfirmDialog.new(150, "image/lobby/store/diamond/normal_box.png", StoreData:getNormalBox())
             DialogManager:showDialog(dialog)
-
             return true
         end
     end)
@@ -120,17 +120,17 @@ function DiamondStoreComp:initView()
     self.rareBox_:addChild(rareBoxText)
     self.container_:addChild(self.rareBox_)
 
-    self.rareBox_:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
-        if event.name == "began" then
+    self.rareBox_:addTouchEventListener(function(sender, event)
+        if event == 0 then
             -- 放大事件
             local ac1 = cc.ScaleTo:create(0.1, 1.1)
             local ac2 = cc.ScaleTo:create(0.1, 1)
             local action = cc.Sequence:create(ac1, ac2)
             self.rareBox_:runAction(action)
-
-            local dialog = BoxOpenConfirmDialog.new(20, "image/lobby/store/diamond/legend_box.png", 100,100,10,10)
+            return true
+        elseif event == 2 then
+            local dialog = BoxOpenConfirmDialog.new(250, "image/lobby/store/diamond/rare_box.png", StoreData:getRareBox())
             DialogManager:showDialog(dialog)
-
             return true
         end
     end)
@@ -158,17 +158,17 @@ function DiamondStoreComp:initView()
     self.epicBox_:addChild(epicBoxText)
     self.container_:addChild(self.epicBox_)
 
-    self.epicBox_:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
-        if event.name == "began" then
+    self.epicBox_:addTouchEventListener(function(sender, event)
+        if event == 0 then
             -- 放大事件
             local ac1 = cc.ScaleTo:create(0.1, 1.1)
             local ac2 = cc.ScaleTo:create(0.1, 1)
             local action = cc.Sequence:create(ac1, ac2)
             self.epicBox_:runAction(action)
-
-            local dialog = BoxOpenConfirmDialog.new(20, "image/lobby/store/diamond/legend_box.png", 100,100,10,10)
+            return true
+        elseif event == 2 then
+            local dialog = BoxOpenConfirmDialog.new(750, "image/lobby/store/diamond/epic_box.png", StoreData:getEpicBox())
             DialogManager:showDialog(dialog)
-
             return true
         end
     end)
@@ -198,19 +198,18 @@ function DiamondStoreComp:initView()
     self.legendBox_:addChild(legendBoxText)
     self.container_:addChild(self.legendBox_)
 
-    self.legendBox_:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
-        if event.name == "began" then
+    self.legendBox_:addTouchEventListener(function(sender, event)
+        if event == 0 then
             -- 放大事件
             local ac1 = cc.ScaleTo:create(0.1, 1.1)
             local ac2 = cc.ScaleTo:create(0.1, 1)
             local action = cc.Sequence:create(ac1, ac2)
             self.legendBox_:runAction(action)
 
-            --cost, boxSprite, normalPieceNum, rarePieceNum, epicPieceNum, legendPieceNum
-            local dialog = BoxOpenConfirmDialog.new(20, "image/lobby/store/diamond/legend_box.png", 100,100,10,10)
-            DialogManager:showDialog(dialog)
-
             return true
+        elseif event == 2 then
+            local dialog = BoxOpenConfirmDialog.new(2500, "image/lobby/store/diamond/legend_box.png", StoreData:getLegendBox())
+            DialogManager:showDialog(dialog)
         end
     end)
     self.legendBox_:setTouchEnabled(true)

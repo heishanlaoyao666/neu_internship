@@ -9,6 +9,7 @@
 local GoldStoreComp = class("GoldStoreComp", require("app.ui.layer.BaseUILayout"))
 local GoldStoreCardComp = require("app.ui.layer.lobby.store.component.component.GoldStoreCardComp")
 local ConstDef = require("app.def.ConstDef")
+local StoreData = require("app.data.StoreData")
 
 --[[--
     构造函数
@@ -22,10 +23,20 @@ function GoldStoreComp:ctor()
 
     self.container_ = nil
 
-    self.remainingTime_ = "23:59" -- 预留数据接口
-
-
+    self:initParam()
     self:initView()
+end
+
+--[[--
+    参数初始化
+
+    @param none
+
+    @return none
+]]
+function GoldStoreComp:initParam()
+    self.remainingTime_ = "23:59" -- 预留数据接口
+    self.cards_ = StoreData:getGoldStoreCards()
 end
 
 --[[--
@@ -70,45 +81,29 @@ function GoldStoreComp:initView()
     refreshTime:addChild(refreshTimeText)
     self.container_:addChild(refreshTime)
 
-    -- 卡牌
-    local cardArray = {
-        card_1 = "image/lobby/store/gold/free_bg.png",
-        card_2 = "image/tower/sprite/medium/tower_1.png",
-        card_3 = "image/tower/sprite/medium/tower_2.png",
-        card_4 = "image/tower/sprite/medium/tower_3.png",
-        card_5 = "image/tower/sprite/medium/tower_4.png",
-        card_6 = "image/tower/sprite/medium/tower_5.png",
-    }
-    local cardId = {
-        card_1 = "none",
-        card_2 = "001",
-        card_3 = "002",
-        card_4 = "003",
-        card_5 = "004",
-        card_6 = "005",
-    }
 
-    local card_1 = GoldStoreCardComp.new(cardId.card_1, cardArray.card_1, 1)
+
+    local card_1 = GoldStoreCardComp.new(self.cards_[1], 1)
     self.container_:addChild(card_1)
     card_1:setPosition(0.2*ConstDef.WINDOW_SIZE.GOLD_STORE.WIDTH, 0.70*ConstDef.WINDOW_SIZE.GOLD_STORE.HEIGHT)
 
-    local card_2 = GoldStoreCardComp.new(cardId.card_2, cardArray.card_2, 3)
+    local card_2 = GoldStoreCardComp.new(self.cards_[2], 2)
     self.container_:addChild(card_2)
     card_2:setPosition(0.5*ConstDef.WINDOW_SIZE.GOLD_STORE.WIDTH, 0.70*ConstDef.WINDOW_SIZE.GOLD_STORE.HEIGHT)
 
-    local card_3 = GoldStoreCardComp.new(cardId.card_3, cardArray.card_3, 3)
+    local card_3 = GoldStoreCardComp.new(self.cards_[3], 3)
     self.container_:addChild(card_3)
     card_3:setPosition(0.8*ConstDef.WINDOW_SIZE.GOLD_STORE.WIDTH, 0.70*ConstDef.WINDOW_SIZE.GOLD_STORE.HEIGHT)
 
-    local card_4 = GoldStoreCardComp.new(cardId.card_4, cardArray.card_4, 3)
+    local card_4 = GoldStoreCardComp.new(self.cards_[4], 4)
     self.container_:addChild(card_4)
     card_4:setPosition(0.2*ConstDef.WINDOW_SIZE.GOLD_STORE.WIDTH, 0.3*ConstDef.WINDOW_SIZE.GOLD_STORE.HEIGHT)
 
-    local card_5 = GoldStoreCardComp.new(cardId.card_5, cardArray.card_5, 4)
+    local card_5 = GoldStoreCardComp.new(self.cards_[5], 5)
     self.container_:addChild(card_5)
     card_5:setPosition(0.5*ConstDef.WINDOW_SIZE.GOLD_STORE.WIDTH, 0.3*ConstDef.WINDOW_SIZE.GOLD_STORE.HEIGHT)
 
-    local card_6 = GoldStoreCardComp.new(cardId.card_6, cardArray.card_6, 5)
+    local card_6 = GoldStoreCardComp.new(self.cards_[6], 6)
     self.container_:addChild(card_6)
     card_6:setPosition(0.8*ConstDef.WINDOW_SIZE.GOLD_STORE.WIDTH, 0.3*ConstDef.WINDOW_SIZE.GOLD_STORE.HEIGHT)
 

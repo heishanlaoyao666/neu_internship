@@ -9,6 +9,9 @@
 local BoxOpenConfirmDialog = class("BoxOpenConfirmDialog", require("app.ui.layer.BaseUILayout"))
 local DialogManager = require("app.manager.DialogManager")
 local BoxOpenObtainDialog = require("app.ui.layer.lobby.store.dialog.dialog.BoxOpenObtainDialog")
+local PlayerData = require("app.data.PlayerData")
+local EventDef = require("app.def.EventDef")
+local EventManager = require("app.manager.EventManager")
 local eventDispatcher = cc.Director:getInstance():getEventDispatcher()
 
 --[[--
@@ -16,24 +19,25 @@ local eventDispatcher = cc.Director:getInstance():getEventDispatcher()
 
     @param cost 类型：number，花费
     @param boxSprite 类型：string，宝箱精灵图片
-    @param normalPieceNum 类型：number，普通卡碎片数量
-    @param rarePieceNum 类型：number，稀有卡碎片数量
-    @param epicPieceNum 类型：number，史诗卡碎片数量
-    @param legendPieceNum 类型：number，传奇卡碎片数量
+    @param boxCards 类型：boxCard，宝箱内容
+    @param tag 类型：number，宝箱标识符(只在天梯中有用)
 
     @return none
 ]]
-function BoxOpenConfirmDialog:ctor(cost, boxSprite, normalPieceNum, rarePieceNum, epicPieceNum, legendPieceNum)
+function BoxOpenConfirmDialog:ctor(cost, boxSprite, boxCards, tag)
     BoxOpenConfirmDialog.super.ctor(self)
 
     self.container_ = nil -- 全局容器
 
+    self.boxCards_ = boxCards
+    self.gold_ = boxCards.gold
     self.cost_ = cost
     self.boxSprite_ = boxSprite
-    self.normalPieceNum_ = normalPieceNum
-    self.rarePieceNum_ = rarePieceNum
-    self.epicPieceNum_ = epicPieceNum
-    self.legendPieceNum_ = legendPieceNum
+    self.normalPieceNum_ = boxCards.pieceNum.normal
+    self.rarePieceNum_ = boxCards.pieceNum.rare
+    self.epicPieceNum_ = boxCards.pieceNum.epic
+    self.legendPieceNum_ = boxCards.pieceNum.legend
+    self.tag_ = tag
 
     self:initView()
     self:hideView()
@@ -84,7 +88,7 @@ function BoxOpenConfirmDialog:initView()
     goldIcon:setPosition(0.2*dialogWidth, 0.55*dialogHeight)
     dialog:addChild(goldIcon)
 
-    local goldNum = ccui.Text:create(self.cost_, "font/fzbiaozjw.ttf", 24)
+    local goldNum = ccui.Text:create(self.gold_, "font/fzbiaozjw.ttf", 24)
     goldNum:setTextColor(cc.c4b(165, 237, 255, 255))
     goldNum:enableOutline(cc.c4b(0, 0, 0, 255), 1) -- 描边
     goldNum:setPosition(0.2*dialogWidth, 0.38*dialogHeight)
@@ -167,6 +171,7 @@ function BoxOpenConfirmDialog:initView()
     local openBtn = ccui.Button:create("image/lobby/general/boxconfirm/open_btn.png")
     openBtn:setPosition(0.5*dialogWidth, -0.05*dialogHeight)
     openBtn:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
+
         if event.name == "began" then
             -- 放大事件
             local ac1 = cc.ScaleTo:create(0.1, 1.1)
@@ -175,8 +180,16 @@ function BoxOpenConfirmDialog:initView()
             openBtn:runAction(action)
             return true
         else
-            local dialog = BoxOpenObtainDialog.new()
-            DialogManager:showDialog(dialog)
+            local state = PlayerData:purchaseBox(self.cost_, self.boxCards_)
+            if state == 0 then
+                local dialog = BoxOpenObtainDialog.new(self.boxCards_)
+                -- doEvent与showDialog的顺序影响self.tag_
+                EventManager:doEvent(EventDef.ID.BOX_PURCHASE, self.tag_)
+                DialogManager:showDialog(dialog)
+                print("Purchase success!")
+            else
+                print("Diamond is not enough!")
+            end
         end
     end)
     openBtn:setTouchEnabled(true)

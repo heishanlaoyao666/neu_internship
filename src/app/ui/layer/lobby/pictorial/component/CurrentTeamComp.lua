@@ -9,7 +9,6 @@
 local CurrentTeamComp = class("CurrentTeamComp", require("app.ui.layer.BaseUILayout"))
 local ConstDef = require("app.def.ConstDef")
 local TeamComp = require("app.ui.layer.lobby.pictorial.component.component.TeamComp")
-local PlayerData = require("app.data.PlayerData")
 
 --[[--
     构造函数
@@ -24,9 +23,9 @@ function CurrentTeamComp:ctor(bg, type)
 
     self.container_ = nil -- 全局容器
 
-    self.team_1_ = PlayerData:getCurrentCardGroupOne()
-    self.team_2_ = PlayerData:getCurrentCardGroupTwo()
-    self.team_3_ = PlayerData:getCurrentCardGroupThree()
+    self.team_1_ = nil
+    self.team_2_ = nil
+    self.team_3_ = nil
 
     self:initView()
 end
@@ -184,19 +183,19 @@ function CurrentTeamComp:initView()
 
 
     -- 队伍列表组件
-    self.team_1_ = TeamComp.new(self.team_1_)
+    self.team_1_ = TeamComp.new(1)
     self.team_1_:setScale(0.92)
     self.team_1_:setPosition(0, -0.5*height)
     self.container_:addChild(self.team_1_)
     self.team_1_:setVisible(true) -- 默认显示阵容1
 
-    self.team_2_ = TeamComp.new(self.team_2_)
+    self.team_2_ = TeamComp.new(2)
     self.team_2_:setScale(0.92)
     self.team_2_:setPosition(0, -0.5*height)
     self.container_:addChild(self.team_2_)
     self.team_2_:setVisible(false)
 
-    self.team_3_ = TeamComp.new(self.team_3_)
+    self.team_3_ = TeamComp.new(3)
     self.team_3_:setScale(0.92)
     self.team_3_:setPosition(0, -0.5*height)
     self.container_:addChild(self.team_3_)

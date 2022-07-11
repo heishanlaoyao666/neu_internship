@@ -53,7 +53,7 @@ function SpriteLayer:initView()
     self.container_:addChild(self.ladderComp_)
 
     -- 当前队伍展示
-    self.teamComp_ = TeamComp.new(PlayerData:getFightCardGroup())
+    self.teamComp_ = TeamComp.new(1)
     self.container_:addChild(self.teamComp_)
 
 

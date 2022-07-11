@@ -95,11 +95,11 @@ CardInfoDef.CARD_RAR = {
     类型编号
 ]]
 CardInfoDef.CARD_TYPE = {
-    ATTACK = 5,
-    INTERFERE = 6,
-    ASSIST= 7,
-    CONTROL = 8,
-    CALL = 9
+    ATTACK = 1,
+    INTERFERE = 2,
+    ASSIST= 3,
+    CONTROL = 4,
+    CALL = 5
 }
 
 --[[

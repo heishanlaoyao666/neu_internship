@@ -18,6 +18,8 @@ local DownBar = require("app.ui.view.lobby.DownBar")
 local EventManager = require("app.manager.EventManager")
 local EventDef = require("app.def.EventDef")
 local ConstDef = require("app.def.ConstDef")
+local LobbyData = require("app.data.LobbyData")
+
 
 --[[--
     构造函数
@@ -27,6 +29,11 @@ local ConstDef = require("app.def.ConstDef")
     @return none
 ]]
 function LobbyScene:ctor()
+
+    -- 初始化数据
+    self.lobbyData_ = nil
+
+    -- 初始化界面
 
     self.indexView_ = IndexView.new() -- 类型：PlayView，主游戏界面
     self.indexView_:setVisible(true)
@@ -66,6 +73,9 @@ end
     @return none
 ]]
 function LobbyScene:onEnter()
+    -- 大厅临时状态信息
+    self.lobbyData_ = LobbyData:init()
+
     -- 大厅视图切换事件
     EventManager:regListener(EventDef.ID.LOBBY_VIEW_SWITCH, self, function(code)
         if code == ConstDef.LOBBY_VIEW_CODE.STORE then -- 商店
@@ -92,6 +102,9 @@ end
     @return none
 ]]
 function LobbyScene:onExit()
+
+    self.lobbyData_ = nil
+
     EventManager:unRegListener(EventDef.ID.LOBBY_VIEW_SWITCH, self)
 end
 

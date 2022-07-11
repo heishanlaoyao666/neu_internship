@@ -31,7 +31,7 @@ end
 --[[--
     取消注册
 
-    @param evnetId 类型：number，事件id
+    @param eventId 类型：number，事件id
     @param target 类型：Any，监听对象
 
     @return none

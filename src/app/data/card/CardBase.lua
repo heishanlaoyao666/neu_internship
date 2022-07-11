@@ -22,8 +22,8 @@ function CardBase:ctor(x, y)
     self.id_ = "" -- 塔编号
     self.name_ = "" -- 塔名称
     self.num_ = 0 -- 碎片数量
-    self.level_ = 0 -- 塔的等级
-    self.intensify_ = 0 -- 塔的强化等级
+    self.level_ = 1 -- 塔的等级
+    self.intensify_ = 1 -- 塔的强化等级
     self.type_ = "" -- 塔类型
     self.rarity_ = "" -- 塔的稀有度
     self.intro_ = "" -- 塔的介绍
@@ -55,6 +55,24 @@ end
     @return none
 ]]
 function CardBase:init()
+
+end
+
+--[[
+    初始化等级
+    @param none
+    @return none
+]]
+function CardBase:initLevel()
+    if self.rarity_ == CardInfoDef.CARD_RAR.NORMAL then
+        self.level_ = 1
+    elseif self.rarity_ == CardInfoDef.CARD_RAR.RARE then
+        self.level_ = 3
+    elseif self.rarity_ == CardInfoDef.CARD_RAR.EPIC then
+        self.level_ = 5
+    elseif self.rarity_ == CardInfoDef.CARD_RAR.LEGEND then
+        self.level_ = 9
+    end
 end
 
 --- 塔基本信息相关函数
@@ -209,6 +227,15 @@ end
 ]]
 function CardBase:getSmallGreySpriteImg()
     return self.imgDef_.SPRITE_3
+end
+
+--[[
+    获取塔的商店中图
+    @param none
+    @return string
+]]
+function CardBase:getMediumSpriteImg()
+    return self.imgDef_.SPRITE_4
 end
 
 --[[
@@ -444,43 +471,85 @@ end
     @return number
 ]]
 function CardBase:getRequireGoldNum()
-    if self:getRar() == CardInfoDef.CARD_RAR.NORMAL then
+    if self:getRarity() == CardInfoDef.CARD_RAR.NORMAL then
         return CardInfoDef.CARD_UPLEVEL_GOLD.NORMAL[self.level_+1]
-    elseif self:getRar() == CardInfoDef.CARD_RAR.RARE then
+    elseif self:getRarity() == CardInfoDef.CARD_RAR.RARE then
         return CardInfoDef.CARD_UPLEVEL_GOLD.RARE[self.level_+1]
-    elseif self:getRar() == CardInfoDef.CARD_RAR.LEGEND then
+    elseif self:getRarity() == CardInfoDef.CARD_RAR.LEGEND then
         return CardInfoDef.CARD_UPLEVEL_GOLD.LEGEND[self.level_+1]
-    elseif self:getRar() == CardInfoDef.CARD_RAR.EPIC then
+    elseif self:getRarity() == CardInfoDef.CARD_RAR.EPIC then
         return CardInfoDef.CARD_UPLEVEL_GOLD.EPIC[self.level_+1]
     end
     return 0
 end
 
 --[[
-    计算塔的最终攻击力
+    计算塔的目前攻击力
     @param none
     @return none
 ]]
-function CardBase:getFinalAck()
-    return self.atk_ + (self.level_-1)*self:getAtkUpgradedDelta() + self.intensify_*self:getAtkEnhancedDelta()
+function CardBase:getCurAtk()
+    if self.atk_ and self:getAtkUpgradedDelta() then
+        return self.atk_ + (self.level_-1)*self:getAtkUpgradedDelta()
+    elseif self.atk_ then
+        return self.atk_
+    else
+        return nil
+    end
+
 end
 
 --[[
-    计算塔的最终攻速
+    计算塔的目前攻速
     @param none
     @return none
 ]]
-function CardBase:getFinalFireCd()
-    return self.fireCd_ + (self.level_-1)*self:getFireCdUpgradedDelta()
+function CardBase:getCurFireCd()
+    if self.fireCd_ and self:getFireCdUpgradedDelta() then
+        return self.fireCd_ + (self.level_-1)*self:getFireCdUpgradedDelta()
+    elseif self.fireCd_ then
+        return self.fireCd_
+    else
+        return nil
+    end
 end
 
 --[[
-    计算塔的最终一技能参数
+    计算塔的目前一技能参数
     @param none
     @return none
 ]]
-function CardBase:getFinalSkillOneValue()
-    return self.skillOneValue_ + (self.level_-1)*self:getSkillOneUpgradedDelta() + self.intensify_*self:getSkillOneEnhancedDelta()
+function CardBase:getCurSkillOneValue()
+    if self.skillOneValue_ and self:getSkillOneUpgradedDelta() then
+        return self.skillOneValue_ + (self.level_-1)*self:getSkillOneUpgradedDelta()
+    elseif self.skillOneValue_ then
+        return self.skillOneValue_
+    else
+        return nil
+    end
+    return nil
+end
+
+--[[--
+   判断卡牌是否已经获得
+
+   @param card
+
+   @return boolean
+]]
+function  CardBase:ifCardObtained()
+    if self:getNum() == 0 then
+        if self:getRarity() == CardInfoDef.CARD_RAR.NORMAL and self:getLevel() == 1 then
+            return false
+        elseif self:getRarity() == CardInfoDef.CARD_RAR.RARE and self:getLevel() == 3 then
+            return false
+        elseif self:getRarity() == CardInfoDef.CARD_RAR.EPIC and self:getLevel() == 5 then
+            return false
+        elseif self:getRarity() == CardInfoDef.CARD_RAR.LEGEND and self:getLevel() == 9 then
+            return false
+        end
+    end
+    return true
 end
 
 return CardBase

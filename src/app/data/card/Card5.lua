@@ -26,7 +26,7 @@ end
     @return none
 ]]
 function Card5:init()
-
+    Card5.super:init()
     -- 基本信息
     self.id_ = CardInfoDef.CARD_ID.CARD_5
     self.name_ = CardInfoDef.CARD_ID.CARD_5
@@ -50,6 +50,9 @@ function Card5:init()
     self.skillOneEnhancedDelta_ = nil
     self.skillTwo_ = "二次变身时间"
     self.skillTwoValue_ = 4
+
+    -- 初始化等级
+    self:initLevel()
 
 end
 

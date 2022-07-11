@@ -11,6 +11,7 @@ local ConstDef = require("app.def.ConstDef")
 local PlayerData = require("app.data.PlayerData")
 local EventManager = require("app.manager.EventManager")
 local EventDef = require("app.def.EventDef")
+local LobbyData = require("app.data.LobbyData")
 local eventDispatcher = cc.Director:getInstance():getEventDispatcher()
 
 
@@ -27,7 +28,19 @@ function ReplaceCardDialog:ctor(card)
     self.container_ = nil
     self.card_ = card
 
+    self:initData()
     self:initView()
+end
+
+--[[--
+    数据初始化
+
+    @param none
+
+    @return none
+]]
+function ReplaceCardDialog:initData()
+    LobbyData:setCurSelectedTower(self.card_)
 end
 
 --[[--
@@ -55,6 +68,7 @@ function ReplaceCardDialog:initView()
     dialog:setPosition(display.width/2, display.height/4)
     self.container_:addChild(dialog)
 
+    -- 取消按钮
     local cancelBtn = ccui.Button:create("image/lobby/pictorial/towerusing/cancel_btn.png")
     cancelBtn:setAnchorPoint(0.5, 0.5)
     cancelBtn:setPosition(0.5*dialogWidth, 0.15*dialogHeight)
@@ -62,6 +76,7 @@ function ReplaceCardDialog:initView()
             function()
                 self:hideView()
                 EventManager:doEvent(EventDef.ID.COLLECTION_VIEW_SHOW)
+                LobbyData:setCurSelectedTower(nil)
             end
     )
     dialog:addChild(cancelBtn)
@@ -90,14 +105,55 @@ function ReplaceCardDialog:initView()
 
     self.listener_ = cc.EventListenerTouchOneByOne:create()
     self.listener_:registerScriptHandler(function(touch, event)
-        --if self.isListening_ then
-        --    return true
-        --end
-        return true -- 不屏蔽后层事件
+        if self.isListening_ then
+            local touchPosition = touch:getLocation()
+            local x = display.width/2
+            local y = display.height/2
+            local nodeSize = ConstDef.WINDOW_SIZE.MAIN
+
+            local rect = cc.rect(x - nodeSize.WIDTH/2, y - nodeSize.HEIGHT/2,
+                    nodeSize.WIDTH, nodeSize.HEIGHT)
+
+            if cc.rectContainsPoint(rect, touchPosition) then
+                print(123)
+                return false
+            end
+
+            return true
+        end
+        return false
     end, cc.Handler.EVENT_TOUCH_BEGAN)
 
     eventDispatcher:addEventListenerWithSceneGraphPriority(self.listener_, self)
 
+end
+
+--[[--
+    节点进入
+
+    @param none
+
+    @return none
+]]
+function ReplaceCardDialog:onEnter()
+
+    -- 卡牌切换事件
+    EventManager:regListener(EventDef.ID.CARD_SWITCH, self, function(code)
+        self:hideView()
+        EventManager:doEvent(EventDef.ID.COLLECTION_VIEW_SHOW)
+        LobbyData:setCurSelectedTower(nil)
+    end)
+end
+
+--[[--
+    节点退出
+
+    @param none
+
+    @return none
+]]
+function ReplaceCardDialog:onExit()
+    EventManager:unRegListener(EventDef.ID.CARD_SWITCH, self)
 end
 
 return ReplaceCardDialog

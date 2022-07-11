@@ -78,6 +78,15 @@ local ConstDef = {
         }
     },
 
+    DIALOG_SIZE = { -- 弹窗大小
+        TOWER_DETAIL = {
+            ATTR = {
+                WIDTH = 665,
+                HEIGHT = 812
+            }
+        }
+    },
+
     TAB_SIZE = {
         UNSELECTED = { -- 未选中Tab
             HEIGHT = 115,

@@ -42,8 +42,6 @@ function BoxObtainCardComp:initView()
     -- Card组件
     self.container_ = ccui.Layout:create()
     self.container_:setAnchorPoint(0.5, 0.5)
-    self.container_:setBackGroundColor(cc.c4b(255,255,255,255))
-    self.container_:setBackGroundColorType(1)
     self.container_:setContentSize(width, height)
     self:addChild(self.container_)
 
