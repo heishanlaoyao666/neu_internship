@@ -1,13 +1,13 @@
 local GoldPurchaseView = {}
 local KnapsackData = require("app.data.KnapsackData")
-local TopPanel = require("app.scenes.TopPanel")
+local GeneralView = require("app.scenes.HallView.common.GeneralView")
 --[[
     函数用途：二级界面-金币商店购买确认弹窗
     参数：层，图片路径，碎片数量，金额，所属商品
 --]]
-function GoldPurchaseView:goldPurchasePanel(layer,path,fragNum,price,ItemButton)
+function GoldPurchaseView:goldPurchasePanel(goldLayer,ShopLayer,path,fragNum,price,ItemButton)
     --灰色背景
-    local grayLayer = self:grayLayer(layer)
+    local grayLayer = self:grayLayer(ShopLayer)
 
     --图片：弹窗背景
     local popLayer = ccui.ImageView:create("ui/hall/shop/SecondaryInterface-Goldcoin_store_purchase_confirmation_pop-up/bg-pop-up.png")
@@ -31,15 +31,34 @@ function GoldPurchaseView:goldPurchasePanel(layer,path,fragNum,price,ItemButton)
     --print(id)
 
     --确认按钮
-    self:confirmButton(layer,grayLayer,popLayer,price,ItemButton,fragNum,id)
+    self:confirmButton(goldLayer,grayLayer,popLayer,price,ItemButton,fragNum,id)
     --关闭按钮
-    self:closeButton(layer,grayLayer,popLayer)
+    self:closeButton(ShopLayer,grayLayer,popLayer)
 end
+
+--[[
+    函数用途：创建灰色背景
+    参数：层
+    --]]
+function GoldPurchaseView:grayLayer(ShopLayer)--参数：层
+    local width ,height = display.width,display.height
+    local grayLayer = ccui.Layout:create()
+    grayLayer:setBackGroundColor(cc.c4b(0,0,0,128))
+    grayLayer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
+    grayLayer:setBackGroundColorOpacity(128)--设置透明度
+    grayLayer:setContentSize(width, height)
+    grayLayer:pos(width/2, height/2+140)
+    grayLayer:setAnchorPoint(0.5, 0.5)
+    grayLayer:addTo(ShopLayer)
+    grayLayer:setTouchEnabled(true)--屏蔽一级界面
+    return grayLayer
+end
+
 --[[
     函数用途：添加商品售罄遮罩
     参数：层，商品坐标x,y
     --]]
-function GoldPurchaseView:ItemShade(layer,x,y)
+function GoldPurchaseView:ItemShade(goldLayer,x,y)
     local shade = ccui.Layout:create()
     shade:setBackGroundColor(cc.c4b(0,0,0,128))
     shade:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
@@ -48,37 +67,15 @@ function GoldPurchaseView:ItemShade(layer,x,y)
     shade:setPosition(cc.p(x, y))
     shade:setContentSize(156, 194)
     shade:setTouchEnabled(true)
-    shade:addTo(layer)
+    shade:addTo(goldLayer)
 end
 
---[[
-    函数用途：创建灰色背景
-    参数：层
-    --]]
-function GoldPurchaseView:grayLayer(layer)--参数：层
-    local width ,height = display.width,display.height
-    local grayLayer = ccui.Layout:create()
-    grayLayer:setBackGroundColor(cc.c4b(0,0,0,128))
-    grayLayer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
-    grayLayer:setBackGroundColorOpacity(128)--设置透明度
-    grayLayer:setContentSize(width, height)
-    --随着滑动的位置而改变
-    if layer:getPositionY() == 0 then
-        grayLayer:pos(width/2, height/2+140)
-    else
-        grayLayer:pos(width/2, height/2-370+140)
-    end
-    grayLayer:setAnchorPoint(0.5, 0.5)
-    grayLayer:addTo(layer)
-    grayLayer:setTouchEnabled(true)--屏蔽一级界面
-    return grayLayer
-end
 
 --[[
     函数用途：确认按钮
     参数：层，灰色背景，弹窗背景层，金额，所属商品,碎片数量,卡牌ID
     --]]
-function GoldPurchaseView:confirmButton(layer,grayLayer,popLayer,price,ItemButton,fragNum,id)
+function GoldPurchaseView:confirmButton(goldLayer,grayLayer,popLayer,price,ItemButton,fragNum,id)
     --按钮：确认按钮
     local confirmButton = ccui.Button:create(
             "ui/hall/shop/SecondaryInterface-Goldcoin_store_purchase_confirmation_pop-up/Button-purchase.png",
@@ -102,7 +99,7 @@ function GoldPurchaseView:confirmButton(layer,grayLayer,popLayer,price,ItemButto
                 print("购买后卡牌ID为"..id.."的碎片数量为"..KnapsackData:getTowerFragment_(id))
 
                 --售罄遮罩
-                self:ItemShade(layer,ItemButton:getPositionX(),ItemButton:getPositionY())
+                self:ItemShade(goldLayer,ItemButton:getPositionX(),ItemButton:getPositionY())
 
                 --卡牌解锁
                 if KnapsackData:getTowerUnlock_(id) then--卡牌已解锁
@@ -111,9 +108,13 @@ function GoldPurchaseView:confirmButton(layer,grayLayer,popLayer,price,ItemButto
                     KnapsackData:unlockTower(id)
                     print("解锁卡牌成功！")
                 end
+
+                grayLayer:setVisible(false)
+            else--金币不足
+                popLayer:setVisible(false)
+                GeneralView:popUpLayer(grayLayer,"Gold")
             end
             KnapsackData:sendData()
-            grayLayer:setVisible(false)
         elseif eventType == ccui.TouchEventType.canceled then
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
@@ -137,7 +138,7 @@ end
     函数用途：关闭弹窗按钮
     参数：层，灰色背景，弹窗背景层
     --]]
-function GoldPurchaseView:closeButton(layer,grayLayer,popLayer)
+function GoldPurchaseView:closeButton(ShopLayer,grayLayer,popLayer)
     local closeButton = ccui.Button:create(
             "ui/hall/shop/SecondaryInterface-Goldcoin_store_purchase_confirmation_pop-up/Button-off.png",
             "ui/hall/shop/SecondaryInterface-Goldcoin_store_purchase_confirmation_pop-up/Button-off.png",
@@ -153,7 +154,7 @@ function GoldPurchaseView:closeButton(layer,grayLayer,popLayer)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
             grayLayer:setVisible(false)--隐藏二级弹窗
-            layer:setTouchEnabled(true)
+            ShopLayer:setTouchEnabled(true)
         elseif eventType == ccui.TouchEventType.canceled then
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)

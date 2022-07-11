@@ -1,17 +1,17 @@
 local TreasureChestOpenView = {}
 local KnapsackData = require("app.data.KnapsackData")
-local TopPanel = require("app.scenes.TopPanel")
 local TreasureChestOpenObtainView = require("app.scenes.HallView.common.TreasureChestOpenObtainView")
+local GeneralView = require("app.scenes.HallView.common.GeneralView")
 
 --[[
     函数用途：二级弹窗-宝箱开启确认弹窗
     参数：层，顶部宝箱图片路径，宝箱类型图片路径
     ，普通卡数量，稀有卡数量，史诗卡数量，传奇卡数量，获得金币数量，宝箱花费钻石数量
     --]]
-function TreasureChestOpenView:treasureChestOpenConfirmPanel(layer,treasurePath,treasureType
+function TreasureChestOpenView:treasureChestOpenConfirmPanel(ShopLayer,treasurePath,treasureType
 ,nCardNum,rCardNum,eCardNum,lCardNum,coinNum,price)
     --创建灰色背景
-    local grayLayer = self:grayLayer(layer)
+    local grayLayer = self:grayLayer(ShopLayer)
 
     --图片：弹窗背景
     local popLayer = ccui.ImageView:create("ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/bg-pop-up.png")
@@ -39,10 +39,10 @@ function TreasureChestOpenView:treasureChestOpenConfirmPanel(layer,treasurePath,
     self:fragmentInTreasure(popLayer,nCardNum,rCardNum,eCardNum,lCardNum)
 
     --宝箱开启按钮
-    self:openButton(layer,grayLayer,popLayer,coinNum,price,treasureChestType)
+    self:openButton(ShopLayer,grayLayer,popLayer,coinNum,price,treasureChestType)
 
     --弹窗关闭按钮
-    self:closeButton(layer,grayLayer,popLayer)
+    self:closeButton(ShopLayer,grayLayer,popLayer)
 
 end
 
@@ -50,21 +50,16 @@ end
     函数用途：创建灰色背景
     参数：层
     --]]
-function TreasureChestOpenView:grayLayer(layer)--参数：层
+function TreasureChestOpenView:grayLayer(ShopLayer)--参数：层
     local width ,height = display.width,display.height
     local grayLayer = ccui.Layout:create()
     grayLayer:setBackGroundColor(cc.c4b(0,0,0,128))
     grayLayer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
     grayLayer:setBackGroundColorOpacity(128)--设置透明度
     grayLayer:setContentSize(width, height)
-    --随着滑动的位置而改变
-    if layer:getPositionY() == 0 then
-        grayLayer:pos(width/2, height/2+140)
-    else
-        grayLayer:pos(width/2, height/2-370+140)
-    end
+    grayLayer:pos(width/2, height/2+140)
     grayLayer:setAnchorPoint(0.5, 0.5)
-    grayLayer:addTo(layer)
+    grayLayer:addTo(ShopLayer)
     grayLayer:setTouchEnabled(true)--屏蔽一级界面
     return grayLayer
 end
@@ -94,7 +89,7 @@ end
     函数用途：宝箱开启按钮
     参数：层，灰色背景层，弹窗层，可获得的金币数量，消耗的钻石数量
     --]]
-function TreasureChestOpenView:openButton(layer,grayLayer,popLayer,coinNum,price,treasureChestType)
+function TreasureChestOpenView:openButton(ShopLayer,grayLayer,popLayer,coinNum,price,treasureChestType)
     local openButton = ccui.Button:create(
             "ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Button - on.png",
             "ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Button - on.png",
@@ -114,10 +109,13 @@ function TreasureChestOpenView:openButton(layer,grayLayer,popLayer,coinNum,price
 
                 KnapsackData:setGoldCoin(coinNum)--金币数量增加
 
-                TreasureChestOpenObtainView:obtainFromTreasurePanel(layer,treasureChestType,coinNum)--宝箱获得物品弹窗
+                TreasureChestOpenObtainView:obtainFromTreasurePanel(ShopLayer,treasureChestType,coinNum)--宝箱获得物品弹窗
+                grayLayer:setVisible(false)
+            else--钻石不够
+                popLayer:setVisible(false)
+                GeneralView:popUpLayer(grayLayer,"Diamond")
             end
             KnapsackData:sendData()
-            grayLayer:setVisible(false)--隐藏二级弹窗
         elseif eventType == ccui.TouchEventType.canceled then
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
@@ -131,7 +129,7 @@ end
     函数用途：关闭窗口按钮
     参数：层，灰色背景层，弹窗层
     --]]
-function TreasureChestOpenView:closeButton(layer,grayLayer,popLayer)
+function TreasureChestOpenView:closeButton(ShopLayer,grayLayer,popLayer)
     local closeButton = ccui.Button:create(
             "ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Button - off.png",
             "ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Button - off.png",
@@ -147,7 +145,7 @@ function TreasureChestOpenView:closeButton(layer,grayLayer,popLayer)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
             grayLayer:setVisible(false)--隐藏二级弹窗
-            layer:setTouchEnabled(true)
+            ShopLayer:setTouchEnabled(true)
         elseif eventType == ccui.TouchEventType.canceled then
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)

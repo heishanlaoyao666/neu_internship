@@ -40,6 +40,7 @@ function MainScene:ctor()
         menu:createBottomTab(layer,pageView)--底部按钮导航栏
         TopPanel:createMiddleTopPanel(layer)--顶部信息栏
     end)
+
     KnapsackData:Login()
 end
 
@@ -62,7 +63,7 @@ function MainScene:sliderView(layer1,layer2,layer3)
         -- 翻页时
         if event==ccui.PageViewEventType.turning then
             -- getCurrentPageIndex() 获取当前翻到的页码 打印
-            print("当前页码是"..pageView:getCurPageIndex() + 1)
+            --print("当前页码是"..pageView:getCurPageIndex() + 1)
         end
     end
     pageView:addEventListener(PageViewCallBack)

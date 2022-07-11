@@ -12,25 +12,48 @@ end
 function Shop:ShopPanel()
     --层：整个商店
     local ShopLayer = ccui.Layout:create()
-    ShopLayer:setBackGroundColorOpacity(180)--设置为透明
+    --ShopLayer:setBackGroundColorOpacity(180)--设置为透明
     --ShopLayer:setBackGroundColorType(1)
     ShopLayer:setAnchorPoint(0, 0)
     ShopLayer:setPosition(cc.p(0, display.top))
     ShopLayer:setContentSize(720, 1280)
-    --添加滑动事件
-    self:slide(ShopLayer)
-
     --图片：商店背景图
     local Bg = ccui.ImageView:create("ui/hall/shop/bg-StoreInterface.png")
     Bg:setAnchorPoint(0.5, 0.5)
     Bg:setPosition(display.cx,display.cy)
     Bg:addTo(ShopLayer)
 
+    --listView翻页
+    local listView = ccui.ListView:create()
+    listView:setContentSize(720,1030)
+    listView:setPosition(0,display.top)
+    listView:setAnchorPoint(0, 1)
+    listView:setDirection(1)--垂直方向
+    listView:setItemsMargin(10)--间距
+    listView:setBounceEnabled(true)--滑动惯性
+    listView:addTo(ShopLayer)
+    --添加金币商店与钻石商店进listView
+    self:GoldStore(listView,ShopLayer)
+    self:diamondStore(listView,ShopLayer)
+    return ShopLayer
+end
+
+function Shop:GoldStore(listView,ShopLayer)
+    math.randomseed(os.time())
+    --金币商店层
+    local goldLayer = ccui.Layout:create()
+    --goldLayer:setBackGroundColorOpacity(180)--设置为透明
+    --goldLayer:setBackGroundColorType(1)
+    goldLayer:setAnchorPoint(0, 1)
+    goldLayer:setPosition(cc.p(0, 0))
+    goldLayer:setContentSize(720, 640)
+    goldLayer:addTo(listView)
+
     --图片：金币商店标题背景条
     local goldTitleBg = ccui.ImageView:create("ui/hall/shop/Goldcoin-shop/bg-title_block.png")
     goldTitleBg:setAnchorPoint(0, 1)
-    goldTitleBg:setPosition(cc.p(0, display.top-50))
-    goldTitleBg:addTo(ShopLayer)
+    goldTitleBg:setPosition(cc.p(0, display.top-690))
+    goldTitleBg:addTo(goldLayer)
     --图片：金币商店
     local goldStoreText = ccui.ImageView:create("ui/hall/shop/Goldcoin-shop/Title - gold_coin_store.png")
     goldStoreText:setAnchorPoint(0.5, 0.5)
@@ -39,8 +62,8 @@ function Shop:ShopPanel()
 
     --图片：刷新背景条
     local refreshBg = ccui.ImageView:create("ui/hall/shop/Goldcoin-shop/bg-remaining_refresh_time.png")
-    refreshBg:setPosition(cc.p(display.cx, display.top-160))
-    refreshBg:addTo(ShopLayer)
+    refreshBg:setPosition(cc.p(display.cx, display.top-800))
+    refreshBg:addTo(goldLayer)
     --图片：商店刷新剩余时间
     local refreshText = ccui.ImageView:create("ui/hall/shop/Goldcoin-shop/Prompt-refresh_time_remaining.png")--文字：商店刷新剩余时间
     refreshText:setAnchorPoint(0.5, 0.5)
@@ -55,64 +78,77 @@ function Shop:ShopPanel()
     refreshLabel:addTo(refreshBg)
 
     --免费商品
-    self:freeItem(ShopLayer)
+    self:freeItem(goldLayer)
 
     --金币商店商品排列
-    math.randomseed(os.time())
-    --银色框360
+    --普通卡
     local silverArray = {"01","04","07","09","18","20"}
     local offsetX = 0
     for i = 1,2 do
         local index = math.random(1, #silverArray)
         print(index)
-        self:createGoldItem(ShopLayer,"ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..silverArray[index]..".png"
+        self:createGoldItem(goldLayer,ShopLayer,"ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..silverArray[index]..".png"
         ,36,360,offsetX,0)
         offsetX = offsetX+210
     end
 
     local silverIndex = math.random(1, #silverArray)
     print(silverIndex)
-    self:createGoldItem(ShopLayer,"ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..silverArray[silverIndex]..".png"
+    self:createGoldItem(goldLayer,ShopLayer,"ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..silverArray[silverIndex]..".png"
     ,36,360,-220,-220)
 
-    --蓝色框600
+    --稀有卡
     local blueArray = {"03","10","14","15"}
     local blueIndex = math.random(1, #blueArray)
     print(blueIndex)
-    self:createGoldItem(ShopLayer,"ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..blueArray[blueIndex]..".png"
+    self:createGoldItem(goldLayer,ShopLayer,"ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..blueArray[blueIndex]..".png"
     ,6,600,0,-220)
 
-    --紫色框1000
+    --史诗卡
     local purpleArray = {"02","08","11","12","16","17"}
     local purpleIndex = math.random(1, #purpleArray)
     print(purpleIndex)
-    self:createGoldItem(ShopLayer,"ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..purpleArray[purpleIndex]..".png"
+    self:createGoldItem(goldLayer,ShopLayer,"ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..purpleArray[purpleIndex]..".png"
     ,1,1000,210,-220)
+end
 
-    --***************************钻石商店****************************************
+function Shop:diamondStore(listView,ShopLayer)
+    --钻石商店层
+    local diamondLayer = ccui.Layout:create()
+    --diamondLayer:setBackGroundColorOpacity(180)--设置为透明
+    --diamondLayer:setBackGroundColorType(1)
+    diamondLayer:setAnchorPoint(0, 1)
+    diamondLayer:setPosition(cc.p(0, display.top))
+    diamondLayer:setContentSize(720, 800)
+    diamondLayer:addTo(listView)
     --图片：钻石商店标题背景条
     local diamondTitleBg = ccui.ImageView:create("ui/hall/shop/Diamond-shop/bg-title.png")
     diamondTitleBg:setAnchorPoint(0, 1)
-    diamondTitleBg:setPosition(cc.p(0, display.top-660))
-    diamondTitleBg:addTo(ShopLayer)
+    diamondTitleBg:setPosition(cc.p(0, display.top-500))
+    diamondTitleBg:addTo(diamondLayer)
     --图片：钻石商店
     local diamondStoreText = ccui.ImageView:create("ui/hall/shop/Diamond-shop/Title-diamond_store.png")
     diamondStoreText:setAnchorPoint(0.5, 0.5)
     diamondStoreText:addTo(diamondTitleBg)
     diamondStoreText:setPosition(cc.p(display.cx,35))
 
-    self:createDiamondItem(ShopLayer,"ui/hall/shop/Diamond-shop/bg-normal.png","ui/hall/shop/Diamond-shop/TreasureChest - normal.png"
+    self:createDiamondItem(ShopLayer,diamondLayer,"ui/hall/shop/Diamond-shop/bg-normal.png","ui/hall/shop/Diamond-shop/TreasureChest - normal.png"
+    , "ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Title - common treasure chest.png"
     , "150",0,0,"X38","X7","X1","X0","+285")
-    self:createDiamondItem(ShopLayer,"ui/hall/shop/Diamond-shop/bg-rare.png","ui/hall/shop/Diamond-shop/TreasureChest - RARE.png"
+
+    self:createDiamondItem(ShopLayer,diamondLayer,"ui/hall/shop/Diamond-shop/bg-rare.png","ui/hall/shop/Diamond-shop/TreasureChest - RARE.png"
+    , "ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Title - rare treasure chest.png"
     ,"250",230,0,"X74","X14","X2","X0","+456")
-    self:createDiamondItem(ShopLayer,"ui/hall/shop/Diamond-shop/bg-epic.png","ui/hall/shop/Diamond-shop/TreasureChest - Epic.png"
+
+    self:createDiamondItem(ShopLayer,diamondLayer,"ui/hall/shop/Diamond-shop/bg-epic.png","ui/hall/shop/Diamond-shop/TreasureChest - Epic.png"
+    , "ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Title - Epic chest.png"
     ,"750",460,0,"X139","X36","X7","X0~1","+1280")
-    self:createDiamondItem(ShopLayer,"ui/hall/shop/Diamond-shop/bg-legend.png","ui/hall/shop/Diamond-shop/TreasureChest - Legend.png"
+
+    self:createDiamondItem(ShopLayer,diamondLayer,"ui/hall/shop/Diamond-shop/bg-legend.png","ui/hall/shop/Diamond-shop/TreasureChest - Legend.png"
+    , "ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Title - legendary treasure chest.png"
     ,"2500",230,-320,"X187","X51","X21","X1","+3040")
 
-    return ShopLayer
 end
-
 --[[
     函数用途：购买免费商品
     --]]
@@ -122,7 +158,7 @@ function Shop:freeItem(ShopLayer)
             "ui/hall/shop/Goldcoin-shop/bg-free_items.png",
             "ui/hall/shop/Goldcoin-shop/bg-free_items.png"
     )
-    freeItemButton:setPosition(cc.p(150, display.top-310))
+    freeItemButton:setPosition(cc.p(150, display.top-950))
     freeItemButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
         if eventType == ccui.TouchEventType.began then
             local scale = cc.ScaleTo:create(1,0.9)
@@ -160,65 +196,6 @@ function Shop:freeItem(ShopLayer)
     freeIcon:setPosition(cc.p(78, 25))
     freeIcon:addTo(freeItemButton)
 end
---[[
-    函数用途：滑动商店触摸事件
-    参数：层
-    --]]
-function Shop:slide(layer)
-    local listener = cc.EventListenerTouchOneByOne:create()--单点触摸
-    local function onTouchBegan(touch, event)
-        str = "null"
-        local target = event:getCurrentTarget()
-        local size = target:getContentSize()
-        local rect = cc.rect(0, 0, size.width, size.height)
-        local p = touch:getLocation()
-        p = target:convertTouchToNodeSpace(touch)
-        if cc.rectContainsPoint(rect, p) then
-            return true
-        end
-        return false
-    end
-
-    local function onTouchMoved(touch, event)
-        local location = touch:getStartLocationInView()
-        local y1 = location["y"] or 0
-        local location2 = touch:getLocationInView()
-        local y2 = location2["y"] or 0
-        if y2-y1>50 then
-            --print(layer:getPositionY())
-            if layer:getPositionY() ~= 0 then--边缘内滑动
-                str = "down"
-            end
-        elseif y1-y2>50 then
-            if layer:getPositionY() ~=370 then--边缘内滑动
-                str = "up"
-            end
-        end
-    end
-    local function onTouchEnded(touch, event)
-        if str == "down" then
-            self:slideShop(layer,-370)
-            print(str)
-        elseif str == "up" then
-            self:slideShop(layer,370)
-            print(str)
-        end
-    end
-
-    listener:registerScriptHandler(onTouchBegan,cc.Handler.EVENT_TOUCH_BEGAN )
-    listener:registerScriptHandler(onTouchMoved,cc.Handler.EVENT_TOUCH_MOVED )
-    listener:registerScriptHandler(onTouchEnded,cc.Handler.EVENT_TOUCH_ENDED )
-    cc.Director:getInstance():getEventDispatcher():addEventListenerWithSceneGraphPriority(listener, layer)
-end
-
---[[
-    函数用途：滑动动作
-    参数：层，移动距离
-    --]]
-function Shop:slideShop(layer,distance)
-    local moveAction = cc.MoveBy:create(0.5,cc.p(0,distance))
-    layer:runAction(moveAction)
-end
 
 --[[
     函数用途：添加商品售罄遮罩
@@ -240,10 +217,10 @@ end
     函数用途：金币商店商品的展示:
     参数：层，商品图片路径，碎片数量，商品价格，位置偏移的X,Y
     --]]
-function Shop:createGoldItem(layer,path,fragNum,price,offsetX,offsetY)
+function Shop:createGoldItem(goldLayer,ShopLayer,path,fragNum,price,offsetX,offsetY)
     --按钮：商品
     local ItemButton = ccui.Button:create(path, path, path)
-    ItemButton:setPosition(cc.p(370+offsetX, display.top-310+offsetY))
+    ItemButton:setPosition(cc.p(370+offsetX, display.top-950+offsetY))
     ItemButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
         if eventType == ccui.TouchEventType.began then
             local scale = cc.ScaleTo:create(1,0.9)
@@ -251,7 +228,7 @@ function Shop:createGoldItem(layer,path,fragNum,price,offsetX,offsetY)
             sender:runAction(ease_elastic)
 
         elseif eventType == ccui.TouchEventType.ended then
-            GoldPurchaseView:goldPurchasePanel(layer,path,fragNum,price,ItemButton)
+            GoldPurchaseView:goldPurchasePanel(goldLayer,ShopLayer,path,fragNum,price,ItemButton)
             --self:goldPurchasePanel(layer,path,fragNum,price,ItemButton)
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
@@ -263,7 +240,7 @@ function Shop:createGoldItem(layer,path,fragNum,price,offsetX,offsetY)
             sender:runAction(ease_elastic)
         end
     end)
-    ItemButton:addTo(layer)
+    ItemButton:addTo(goldLayer)
 
     --图片：碎片数量背景
     local fragmentBg =ccui.ImageView:create("ui/hall/shop/Goldcoin-shop/bg-fragment_number.png")
@@ -292,11 +269,11 @@ end
     参数：层，宝箱背景图路径，宝箱图标路径，宝箱类型路径，宝箱价格，位置的偏移X,Y
     ，普通卡数量，稀有卡数量，史诗卡数量，传说卡数量，可获得金币数量
     --]]
-function Shop:createDiamondItem(layer,bgPath,treasurePath,price,offsetX,offsetY
+function Shop:createDiamondItem(ShopLayer,layer,bgPath,treasurePath,treasureType,price,offsetX,offsetY
 ,nCardNum,rCardNum,eCardNum,lCardNum,coinNum)
     --按钮：商品
     local ItemButton = ccui.Button:create(bgPath, bgPath, bgPath)
-    ItemButton:setPosition(cc.p(130+offsetX, display.top-900+offsetY))
+    ItemButton:setPosition(cc.p(130+offsetX, display.top-750+offsetY))
     ItemButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
         if eventType == ccui.TouchEventType.began then
             local scale = cc.ScaleTo:create(1,0.9)
@@ -304,7 +281,7 @@ function Shop:createDiamondItem(layer,bgPath,treasurePath,price,offsetX,offsetY
             sender:runAction(ease_elastic)
 
         elseif eventType == ccui.TouchEventType.ended then
-            TreasureChestOpenView:treasureChestOpenConfirmPanel(layer,treasurePath,treasureType
+            TreasureChestOpenView:treasureChestOpenConfirmPanel(ShopLayer,treasurePath,treasureType
             ,nCardNum,rCardNum,eCardNum,lCardNum,coinNum,price)
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
