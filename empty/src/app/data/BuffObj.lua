@@ -7,7 +7,7 @@ local BuffDef = require("app.def.BuffDef")
 --[[--
     初始化数据
 
-    @param none
+    @param id --类型:buffid
 
     @return none
 ]]
@@ -42,11 +42,23 @@ end
 --[[--
     设置buff的层数
 
+    @param none
+    @return runtime_
+]]
+function BuffObj:getRunTime()
+    return self.runTime_
+end
+--[[--
+    设置buff的层数
+
     @param stack
     @return none
 ]]
 function BuffObj:setStack(stack)
     self.stack_=self.stack_+stack
+    if self.stack_> self.maxStack_ then
+        self.stack_=self.maxStack_
+    end
     if self.stack_<= 0 then
         BuffObj:destroy()
     end
@@ -90,13 +102,13 @@ function BuffObj:setRunTime(dt)
         return flag
     end
     self.runTime_=self.runTime_+dt
-    if self.runTime_>=self.time_ and self.permanent_==false then
-        flag = true
-        return flag 
-    end
     if self.runTime_>=self.tickTime_ then
         self.runTime_=self.runTime_+self.tickTime_
         self:onTick()
+    end
+    if self.runTime_>=self.time_ and self.permanent_==false then
+        flag = true
+        return flag
     end
     return flag
 end

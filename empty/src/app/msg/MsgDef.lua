@@ -14,7 +14,13 @@ MsgDef.MSG_TYPE_REQ = {
 	LOGIN       =    5,
 
     UPDATE_DATA = 6,
+	GAMEMATCH = 7,
+	CANCELMATCH = 8,
+
 	CREATEGAME   =    500,
+	--游戏消息定义
+	TOWERCOMPOSE= 10,
+	TOWERUPGRADE = 11,
 }
 
 -- 响应消息
@@ -26,6 +32,9 @@ MsgDef.MSG_TYPE_ACK = {
 	LOGIN       =    0x80000 + 5,
 
     UPDATE_DATA =    0x80000 + 6,
+	GAMEMATCH   =    0x80000 + 7,
+	CANCELMATCH =    0x80000 + 8,
+	CREATEGAME  =    0x80000 + 500,
 }
 
 return MsgDef

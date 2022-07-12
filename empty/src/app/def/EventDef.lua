@@ -25,6 +25,8 @@ EventDef.ID = {
     GAMESTATE_CHANGE = 666, -- 游戏状态变化
 
     KNAPSACK_LOGIN = 5088, --背包系统登陆
+
+    CREATE_GAME = 50885,--游戏创建
 }
 
 return EventDef

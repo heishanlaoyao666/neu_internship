@@ -191,7 +191,12 @@ TowerDef.TABLE = {
         ATK_ENHANCE = 100,
         --技能相关
         SKILLS = {
-            
+            [1] = {
+                ID = TowerDef.SKILL.EXTRA_DAMAGE,
+                VALUE = 50,
+                VALUE_UPGRADE = 4,
+                VALUE_ENHANCE = 40,
+            },
         },
     },
     [5] ={

@@ -207,31 +207,39 @@ ConstDef.BUFF={
 ConstDef.TARGET ={
     [ConstDef.GAME_TAG.UP] = {
         MAXID = 3,
+        LENGTH= 360*2+600,
+        [0] ={
+            MOVEX = 1,
+            MOVEY = 1,
+            X = 660,
+            Y = 1160,
+        },
         [1] ={
             MOVEX = 0,
             MOVEY = -1,
-            X = 100,
-            Y = 400,
+            X = 660,
+            Y = 800,
         },
         [2] ={
             MOVEX = -1,
             MOVEY = 0,
-            X = 600,
-            Y = 400,
+            X = 60,
+            Y = 800,
         },
         [3] ={
             MOVEX = 0,
             MOVEY = 1,
-            X = 100,
-            Y = 100,
+            X = 60,
+            Y = 1160,
         },
     },
     [ConstDef.GAME_TAG.DOWN] ={
         MAXID = 3,
+        LENGTH= 460*2+600,
         [0] ={
             MOVEX = 1,
             MOVEY = 1,
-            X = 70,
+            X = 60,
             Y = 140,
         },
         [1] ={
@@ -243,13 +251,13 @@ ConstDef.TARGET ={
         [2] ={
             MOVEX = 1,
             MOVEY = 0,
-            X = 650,
+            X = 660,
             Y = 600,
         },
         [3] ={
             MOVEX = 0,
             MOVEY = -1,
-            X = 650,
+            X = 660,
             Y = 140,
         },
     },

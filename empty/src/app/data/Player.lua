@@ -22,6 +22,7 @@ local sp_cost = 10 --生成塔需要的cost
 function Player:ctor()
     self.towers={} --二维数组
     self.tag_ = 0 --玩家所在半区标签
+    self.name_=""
     for i = 1,3 do
         self.towers[i]={}
         for j = 1,5 do
@@ -38,12 +39,41 @@ end
     @return none
 ]]
 function Player:init(array,tag)
+    self.life=3
     sp = 100
     tower_array=array
     self.tag_=tag
     EventManager:regListener(EventDef.ID.INIT_BULLET, self, function(tower)
         self:bulletCreate(tower)
     end)
+end
+--[[--
+    设置玩家名字
+
+    @param name: 类型：string,玩家名字
+    @return none
+]]
+function Player:setName(name)
+    self.name_=name
+end
+--[[--
+    获取玩家名字
+
+    @param none
+    @return self.name_
+]]
+function Player:getName()
+    return self.name_
+end
+--[[--
+    获取玩家生命
+
+    @param none
+
+    @return sp_cost
+]]
+function Player:getLife()
+    return self.life
 end
 --[[--
     获取生成点数cost
@@ -185,7 +215,7 @@ function Player:createTowerEnd(id,level,grade,x,y)
     --为塔添加buff
     for i = 1, #TowerDef.BUFF[id].TOWER do
         local data = TowerDef.BUFF[id].TOWER[i]
-        local value = TowerDef.TABLE[id].SKILLS[1]
+        local value = TowerDef.TABLE[id].SKILLS[i]
         tower:addBuff(BuffTable:addBuffInfo(
             nil,
             tower,
@@ -236,7 +266,6 @@ function Player:createMonster(life,givesp,tag)
 
     if tag ~= ConstDef.MONSTER_TAG.NORMAL and tag~=ConstDef.MONSTER_TAG.SPEED and tag~=ConstDef.MONSTER_TAG.PLUS then
         local newlife = 0
-        print(#monsters_)
         for i = 1, #monsters_ do
             newlife=newlife+monsters_[i]:getLife()
             monsters_[i]:destory()

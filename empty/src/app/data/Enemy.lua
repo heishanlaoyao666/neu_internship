@@ -94,17 +94,19 @@ end
 --[[--
     设置目标
 
-    @param target 类型 table 
+    @param target 类型 table
 
     @return none
 ]]
 function Enemy:setTarget(target)
     Target = target
-    if self.target_id == 0 then
-        self.x_ =Target[self.target_id].X
-        self.y_ =Target[self.target_id].Y
-        self.target_id = 1
-    end
+    self.speed_ = Target.LENGTH/36
+    self.x_ =Target[self.target_id].X
+    self.y_ =Target[self.target_id].Y
+    self.target_id = 1
+    -- if self.target_id == 0 then
+        
+    -- end
 end
 --[[--
     改变生命
@@ -171,7 +173,7 @@ function Enemy:update(dt)
         self.x_=Target[self.target_id].X or self.x_
         end
     else
-        if  (Target[self.target_id].MOVEY == 1 and self.y_>=Target[self.target_id].Y) or (Target[self.target_id].MOVEY == -1 and self.y_<=Target[self.target_id].Y) then
+        if (Target[self.target_id].MOVEY == 1 and self.y_>=Target[self.target_id].Y) or (Target[self.target_id].MOVEY == -1 and self.y_<=Target[self.target_id].Y) then
         self.target_id=self.target_id+1
         if self.target_id>Target.MAXID then
             return

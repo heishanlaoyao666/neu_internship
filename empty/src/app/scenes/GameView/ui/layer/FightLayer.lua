@@ -238,6 +238,7 @@ end
 ]]
 function FightLayer:onTouchEnded(x, y)
     GameData:moveToEnd(x, y)
+    moveTower:getParent()
     moveTower:setLocalZOrder(10)
 end
 --[[--

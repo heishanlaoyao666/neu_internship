@@ -17,6 +17,7 @@ local initlevel = {}
 local a = {}
 
 local isLogin = false --类型:boolen,是否已经注册
+local isMatch = false --类型:是否正在匹配
 local co = nil --类型:function,携程判断
 --[[--
     初始化数据
@@ -30,7 +31,8 @@ function KnapsackData:init()
     self.goldcoin_ = 0
     self.diamonds_ = 0
     self.cups_ = 0
-
+    math.randomseed(tostring(os.time()):reverse():sub(1,7))
+    self.name_ = "50885"..math.random(100)
     for i = 1, 20 do
         towerData[i]={}
         towerData[i].unlock_=false --塔是否解锁
@@ -89,7 +91,20 @@ function KnapsackData:init()
                 end
             end
         end
+        if msg["type"] == MsgDef.MSG_TYPE_ACK.STARTGAME then
+            EventManager:doEvent(EventDef.ID.CREATE_GAME,msg)
+        end
     end)
+end
+--[[--
+    背包获取用户名
+
+    @param none
+
+    @return none
+]]
+function KnapsackData:getName()
+    return self.name_
 end
 --[[--
     背包注册
@@ -106,7 +121,7 @@ function KnapsackData:Login()
         end
         local msg = {
             type = MsgDef.MSG_TYPE_REQ.LOGIN,
-            loginname = "44356",
+            loginname = self.name_,
         }
         MsgController:sendMsg(msg)
         isLogin=true
@@ -236,22 +251,36 @@ end
 function KnapsackData:sendData()
     --全部数据向服务器推送
     if MsgController:isConnect() then
-        local msg = {
-            type = MsgDef.MSG_TYPE_REQ.UPDATE_DATA,
-            loginname = "44356",
-            gold=self.goldcoin_,
-            diamond=self.diamonds_,
-            cup=self.cups_
-        }
-        msg.towerData={}
-        for i = 1, 20 do
-            msg.towerData[i]={}
-            msg.towerData[i].unlock=towerData[i].unlock_
-            msg.towerData[i].fragment=towerData[i].fragment_ --塔持有的碎片
-            msg.towerData[i].level=towerData[i].level_  --塔当前等级
-        end
+        local msg = self:getDataTable()
+        msg.type=MsgDef.MSG_TYPE_REQ.UPDATE_DATA
+ 
         MsgController:sendMsg(msg)
     end
+end
+--[[--
+    --背包数据变成表
+
+    @param none
+
+    @return none
+]]
+function KnapsackData:getDataTable()
+    local table = {
+        loginname = self.name_,
+        gold=self.goldcoin_,
+        diamond=self.diamonds_,
+        cup=self.cups_
+    }
+    --塔数据
+    table.towerData={}
+    for i = 1, 20 do
+        table.towerData[i]={}
+        table.towerData[i].unlock=towerData[i].unlock_
+        table.towerData[i].fragment=towerData[i].fragment_ --塔持有的碎片
+        table.towerData[i].level=towerData[i].level_  --塔当前等级
+    end
+    --塔阵容数据
+    return table
 end
 --[[--
     获取金币数
@@ -390,6 +419,31 @@ function KnapsackData:update(dt)
     if co~=nil then
         coroutine.resume(co,MsgController:isConnect())
     end
+end
+--[[--
+    匹配消息发送
+
+    @param none
+
+    @return none
+]]
+function KnapsackData:gameMatch()
+    local msg = {
+        type = MsgDef.MSG_TYPE_REQ.GAMEMATCH,
+        loginname = self.name_,
+    }
+    isMatch=true
+    MsgController:sendMsg(msg)
+end
+--[[--
+    获取是否匹配中
+
+    @param none
+
+    @return isMatach
+]]
+function KnapsackData:getMatch()
+    return isMatch
 end
 -- function KnapsackData:setatk(id)
 --     TowerDef.TABLE[id].ATK = TowerDef.TABLE[id].ATK+TowerDef.TABLE[id].ATK_UPGRADE

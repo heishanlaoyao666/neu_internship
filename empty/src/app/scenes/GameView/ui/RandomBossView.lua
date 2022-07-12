@@ -137,7 +137,7 @@ function RandomBossView:update(dt)
                 minId=sprite.id_
             end
         end
-        GameData:setGameOpposite(minId)
+        GameData:setGameBoss(minId)
         EventManager:doEvent(EventDef.ID.OPPOSITE_SELECT,ConstDef.BOSS[minId].ID)
         self.bossSprites_= nil
         --self:hideView()

@@ -6,9 +6,9 @@ local GameData = {}
 
 local ConstDef = require("app/def/ConstDef.lua")
 local EventDef = require("app/def/EventDef.lua")
-local TowerDef = require("app/def/TowerDef.lua")
 local EventManager = require("app/manager/EventManager.lua")
 local Player = require("app/data/Player.lua")
+local KnapsackData = require("app.data.KnapsackData")
 
 local DamageInfo =require("app/data/DamageInfo.lua")
 
@@ -31,8 +31,7 @@ local moveTower = {
 ]]
 function GameData:init()
     self.sp_ = 0 -- 类型：number，sp点数
-    self.opposite_ = ConstDef.GAME_TYPE.NULL --类型：number,游戏对手
-
+    self.opposite_ = Player.new() --类型：player,游戏对手
     self.player_=Player.new()
 
     self.monster_tick_ = 0 --类型：number,怪物生成tick
@@ -41,6 +40,7 @@ function GameData:init()
     self.monster_tick_=0
     self.monset_stage_=0 --怪物生成次数
 
+    self.game_boss_ = ConstDef.GAME_TYPE.NULL
     self.game_time_=0
     self.game_stage_ = 0
 
@@ -48,6 +48,28 @@ function GameData:init()
         damages_[#damages_+1] = damage
         --audio.playEffect("sounds/fireEffect.ogg", false)
     end)
+end
+--[[--
+    玩家初始化
+
+    @param msg--类型 table,服务器消息
+
+    @return none
+]]
+function GameData:playerInit(msg)
+    if msg["data1"]["nick"]==KnapsackData:getName() then
+        print("是本家"..msg["data1"]["nick"])
+        self:setTowerArray(msg["data1"]["towerArray"], ConstDef.GAME_TAG.DOWN)
+        self:setTowerArray(msg["data2"]["towerArray"], ConstDef.GAME_TAG.UP)
+        self.player_:setName(msg["data1"]["nick"])
+        self.opposite_:setName(msg["data2"]["nick"])
+    else
+        print("不是本家"..msg["data1"]["nick"])
+        self:setTowerArray(msg["data1"]["towerArray"], ConstDef.GAME_TAG.UP)
+        self:setTowerArray(msg["data2"]["towerArray"], ConstDef.GAME_TAG.DOWN)
+        self.player_:setName(msg["data2"]["nick"])
+        self.opposite_:setName(msg["data1"]["nick"])
+    end
 end
 --[[--
     设置塔阵容
@@ -62,12 +84,21 @@ function GameData:setTowerArray(table,tag)
         local tower_table={}
         for i = 1, 5 do
             tower_table[i]={}
-            tower_table[i].id_=table[i].tower_id_
-            tower_table[i].level_=table[i].tower_level_
+            tower_table[i].id_=table[i].id
+            tower_table[i].level_=table[i].level
             tower_table[i].grade_=1
         end
         self.player_:init(tower_table,tag)
-        print("初始化了么")
+    end
+    if tag == ConstDef.GAME_TAG.UP then
+        local tower_table={}
+        for i = 1, 5 do
+            tower_table[i]={}
+            tower_table[i].id_=table[i].id
+            tower_table[i].level_=table[i].level
+            tower_table[i].grade_=1
+        end
+        self.opposite_:init(tower_table,tag)
     end
 end
 --[[--
@@ -80,6 +111,8 @@ end
 function GameData:getTowerArray(tag)
     if tag ==ConstDef.GAME_TAG.DOWN then
         return self.player_:getTowerArray()
+    else
+        return self.opposite_:getTowerArray()
     end
 end
 --[[--
@@ -90,8 +123,7 @@ end
     @return none
 ]]
 function GameData:GameOver()
-    
-    
+
 end
 
 --[[--
@@ -195,11 +227,9 @@ function GameData:moveToEnd(x, y)
     pos_x= math.ceil(pos_x)
     pos_y = math.ceil(pos_y)
     local move_tower = self.player_:getTowers()[pos_y][pos_x]
-    print(pos_x.." "..pos_y)
     if move_tower and move_tower~=moveTower.tower then
         --进行合成
         if move_tower:getID() ==  moveTower.tower:getID() and  move_tower:getGrade()==moveTower.tower:getGrade() then
-            print("能合成么")
             self.player_:composeTower(move_tower,moveTower.tower)
             -- move_tower:destory()
             -- self.player_:getTowers()[pos_y][pos_x]=moveTower.tower
@@ -245,6 +275,26 @@ function GameData:setGameOpposite(opposite)
     self.opposite_ =opposite
 end
 --[[--
+    设置游戏boss
+
+    @param boss
+
+    @return none
+]]
+function GameData:setGameBoss(boss)
+    self.game_boss_=boss
+end
+--[[--
+    设置游戏boss
+
+    @param nome
+
+    @return self.game_boss_
+]]
+function GameData:getGameBoss(boss)
+    return self.game_boss_
+end
+--[[--
     帧刷新
 
     @param dt 类型：number，帧间隔，单位秒
@@ -262,17 +312,20 @@ function GameData:update(dt)
         --精英怪物
         if self.monset_stage_%4 == 0 then
             self.player_:createMonster(5*stage_.LIFE*(self.monset_stage_+1),stage_.SP,ConstDef.MONSTER_TAG.PLUS)
+            --self.opposite_:createMonster(5*stage_.LIFE*(self.monset_stage_+1),stage_.SP,ConstDef.MONSTER_TAG.PLUS)
         end
         self.monster_tick_=self.monster_tick_-stage_.TICK
         for i = 1, stage_.NUMBER do
             self.player_:createMonster(stage_.LIFE*self.monset_stage_,stage_.SP,ConstDef.MONSTER_TAG.NORMAL)
         end
+        --self.opposite_:createMonster(stage_.LIFE*self.monset_stage_,stage_.SP,ConstDef.MONSTER_TAG.NORMAL)
     end
     self.monster_tick_=self.monster_tick_+dt 
     self.game_time_=self.game_time_+dt
     if self.game_time_>=stage_.TIME then
         if stage_.BOSS then
-            self.player_:createMonster(self.game_stage_*50000,stage_.SP,self.opposite_)
+            self.player_:createMonster(self.game_stage_*50000,stage_.SP,self.game_boss_)
+            self.opposite_:createMonster(self.game_stage_*50000,stage_.SP,self.game_boss_)
             print("boss生成")
         end
         print("阶段转换")
@@ -282,6 +335,7 @@ function GameData:update(dt)
     -- self:shoot(dt)
     -- self:createEnemyPlane(dt)
     self.player_:update(dt)
+    self.opposite_:update(dt)
     for i = 1, #damages_ do
         damages_[i]:update(dt)
     end

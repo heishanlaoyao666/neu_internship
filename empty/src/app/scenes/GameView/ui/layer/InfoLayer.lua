@@ -11,6 +11,7 @@ local EventDef     = require("app/def/EventDef.lua")
 local TowerDef     = require("app.def.TowerDef")
 
 local player = nil
+local opposite = nil
 --本地函数定义
 local timeChange
 --[[--
@@ -44,6 +45,7 @@ end
 ]]
 function InfoLayer:initView()
     player= GameData:getPlayer()
+    opposite=GameData:getGameOpposite()
     local width, height = display.width, display.height
     self.container_ = ccui.Layout:create()
     --self.container_:setBackGroundColor(cc.c3b(200, 0, 0))
@@ -119,6 +121,15 @@ function InfoLayer:initView()
         move_x=move_x+110
         self.container_:addChild(towerBtn)
     end
+    --敌方塔阵容
+    move_x = 200
+    for i = 1, 5 do
+        local towerBtn = self:upTowerInfo(i)
+        towerBtn:setScale(0.7)
+        towerBtn:setPosition(50+move_x,1160)
+        move_x=move_x+75
+        self.container_:addChild(towerBtn)
+    end
     --剩余时间
     --BOSS初始化
     if GameData:getGameState() == ConstDef.GAME_STATE.INIT then
@@ -127,7 +138,7 @@ function InfoLayer:initView()
         self:addChild(self.randomBossView)
     end
     --开始初始化
-    self:Initdate("111","222",10,3,120)
+    self:initData(player:getName(),opposite:getName(),3,3,120)
 end
 --[[--
     BOSS按钮创建
@@ -137,10 +148,10 @@ end
 ]]
 function InfoLayer:BossBtnCreate()
     --boss按钮创建
-    
-    local opposite_type =GameData:getGameOpposite()
-    if opposite_type~=ConstDef.GAME_TYPE.NET then
-        local bossBtn = ccui.Button:create("ui/battle/Battle interface/Button-Boss/boss-"..tonumber(opposite_type)..".png")
+
+    local boss_type =GameData:getGameBoss()
+    if boss_type~=ConstDef.GAME_TYPE.NULL then
+        local bossBtn = ccui.Button:create("ui/battle/Battle interface/Button-Boss/boss-"..tonumber(boss_type)..".png")
         bossBtn:setAnchorPoint(0.5, 0.5)
         bossBtn:setPosition(220, 720)
         bossBtn:addTo(self)
@@ -165,7 +176,7 @@ end
 
     @return none
 ]]
-function InfoLayer:Initdate(myname,oppositename,mylife,oppositelife,time)
+function InfoLayer:initData(myname,oppositename,mylife,oppositelife,time)
     self.mynameLabel_:setString(tostring(myname))
     self.oppositenameLabel_:setString(tostring(oppositename))
     --我方生命值
@@ -211,7 +222,6 @@ end
 function InfoLayer:towerInfo(i)
     --类型:table 塔信息 .id_(塔id) .level_(塔等级) .grade_(塔强化等级)
     local tower=player:getTowerArray()[i]
-    print("创建"..i..tower.id_)
     local towerBtn=ccui.Button:create(string.format("ui/battle/Battle interface/Tower/tower_%u.png",tower.id_))
     towerBtn:setAnchorPoint(0.5, 0)
     towerBtn:addTouchEventListener(function(sender, eventType)
@@ -222,7 +232,6 @@ function InfoLayer:towerInfo(i)
             towerBtn.spLaber:setString(player:getTowerGradeCost(i))
         end
     end)
-    print(towerBtn)
     --强化等级信息
     towerBtn.img=display.newSprite(string.format("ui/battle/Battle interface/Grade/LV.%u.png",tower.grade_))
     towerBtn.img:setAnchorPoint(0.5,1)
@@ -239,6 +248,32 @@ function InfoLayer:towerInfo(i)
     towerBtn.spLaber:setAnchorPoint(0, 0)
     towerBtn.spLaber:setPosition(40, 5)
     towerBtn:addChild(towerBtn.spLaber)
+    --角标
+    local res = "ui/battle/Battle interface/Angle sign-Tower_type/TowerType-"
+    local as_tt= display.newSprite(string.format(res..TowerDef.TABLE[tower.id_].TYPE..".png"))
+
+    as_tt:setAnchorPoint(0.5,0.5)
+    as_tt:setPosition(75,80)
+    towerBtn:addChild(as_tt)
+
+    return towerBtn
+end
+--[[--
+    创建一个对手towerInfo
+    @param i 类型:number 塔阵容的第i个
+
+    @return btn
+]]
+function InfoLayer:upTowerInfo(i)
+    --类型:table 塔信息 .id_(塔id) .level_(塔等级) .grade_(塔强化等级)
+    local tower=opposite:getTowerArray()[i]
+    local towerBtn=ccui.Button:create(string.format("ui/battle/Battle interface/Tower/tower_%u.png",tower.id_))
+    towerBtn:setAnchorPoint(0.5, 0)
+    towerBtn:addTouchEventListener(function(sender, eventType)
+        if eventType == 2 then
+            EventManager:doEvent(EventDef.ID.VIEW_OPEN,ConstDef.GAME_VIEW.OPPOSITETOWER,tower.id_)
+        end
+    end)
     --角标
     local res = "ui/battle/Battle interface/Angle sign-Tower_type/TowerType-"
     local as_tt= display.newSprite(string.format(res..TowerDef.TABLE[tower.id_].TYPE..".png"))

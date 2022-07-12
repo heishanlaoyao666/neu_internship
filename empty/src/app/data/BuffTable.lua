@@ -116,7 +116,7 @@ function SpeedUp(buff,target)
 end
 function FireCdUp(buff,target)
     if buff:getRunTime()>=buff:getValue() then
-        target:setBuffFireCd(target:getFrieCD())
+        target:setBuffFireCd(target:getFireCD())
     end
 end
 function CriticalRateUp(buff,target)
@@ -135,13 +135,13 @@ function FireCdUp149(buff,target)
         end
     end
     if sum >= 1 then
-        target:setBuffFireCd(target:getFrieCD()*0.3)
+        target:setBuffFireCd(target:getFireCD()*0.3)
     end
     if sum >= 4 then
-        target:setBuffFireCd(target:getFrieCD()*0.3)
+        target:setBuffFireCd(target:getFireCD()*0.3)
     end
     if sum >= 9 then
-        target:setBuffFireCd(target:getFrieCD()*0.3)
+        target:setBuffFireCd(target:getFireCD()*0.3)
     end
 end
 function FireCdUpForAttack(buff,tower)
