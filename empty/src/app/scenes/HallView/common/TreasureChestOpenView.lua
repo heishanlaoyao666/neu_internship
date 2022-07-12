@@ -1,3 +1,7 @@
+----内容：宝箱开启确认弹窗
+----编写人员：郑蕾
+---修订人员：郑蕾
+---最后修改日期：7/12
 local TreasureChestOpenView = {}
 local KnapsackData = require("app.data.KnapsackData")
 local TreasureChestOpenObtainView = require("app.scenes.HallView.common.TreasureChestOpenObtainView")
@@ -97,19 +101,17 @@ function TreasureChestOpenView:openButton(ShopLayer,grayLayer,popLayer,coinNum,p
     openButton:setPosition(cc.p(300, 0))
     openButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
         if eventType == ccui.TouchEventType.began then
-            local scale = cc.ScaleTo:create(1,0.9)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
+            --按钮放缩
+            self:setButtonScale(1,0.9,sender)
         elseif eventType == ccui.TouchEventType.ended then
-            local scale = cc.ScaleTo:create(1,1)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
+            --按钮放缩
+            self:setButtonScale(1,1,sender)
             --条件允许情况下：获得金币，扣除钻石
             if KnapsackData:setDiamonds(-price) then--钻石充足时
-
-                KnapsackData:setGoldCoin(coinNum)--金币数量增加
-
-                TreasureChestOpenObtainView:obtainFromTreasurePanel(ShopLayer,treasureChestType,coinNum)--宝箱获得物品弹窗
+                --金币数量增加
+                KnapsackData:setGoldCoin(coinNum)
+                --宝箱获得物品弹窗
+                TreasureChestOpenObtainView:obtainFromTreasurePanel(ShopLayer,treasureChestType,coinNum)
                 grayLayer:setVisible(false)
             else--钻石不够
                 popLayer:setVisible(false)
@@ -117,9 +119,8 @@ function TreasureChestOpenView:openButton(ShopLayer,grayLayer,popLayer,coinNum,p
             end
             KnapsackData:sendData()
         elseif eventType == ccui.TouchEventType.canceled then
-            local scale = cc.ScaleTo:create(1,1)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
+            --按钮放缩
+            self:setButtonScale(1,1,sender)
         end
     end)
     openButton:addTo(popLayer)
@@ -137,19 +138,17 @@ function TreasureChestOpenView:closeButton(ShopLayer,grayLayer,popLayer)
     closeButton:setPosition(cc.p(570, 330))
     closeButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
         if eventType == ccui.TouchEventType.began then
-            local scale = cc.ScaleTo:create(1,0.9)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
+            --按钮放缩
+            self:setButtonScale(1,0.9,sender)
         elseif eventType == ccui.TouchEventType.ended then
-            local scale = cc.ScaleTo:create(1,1)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
-            grayLayer:setVisible(false)--隐藏二级弹窗
+            --按钮放缩
+            self:setButtonScale(1,1,sender)
+            --隐藏二级弹窗
+            grayLayer:setVisible(false)
             ShopLayer:setTouchEnabled(true)
         elseif eventType == ccui.TouchEventType.canceled then
-            local scale = cc.ScaleTo:create(1,1)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
+            --按钮放缩
+            self:setButtonScale(1,1,sender)
         end
     end)
     closeButton:addTo(popLayer)
@@ -244,4 +243,14 @@ function TreasureChestOpenView:fragmentInTreasure(layer,nCardNum,rCardNum,eCardN
         legendNum:addTo(layer)
     end
 end
+
+--[[
+    函数用途：按钮放缩特效
+    --]]
+function TreasureChestOpenView:setButtonScale(X,Y,sender)
+    local scale = cc.ScaleTo:create(X,Y)
+    local ease_elastic = cc.EaseElasticOut:create(scale)
+    sender:runAction(ease_elastic)
+end
+
 return TreasureChestOpenView

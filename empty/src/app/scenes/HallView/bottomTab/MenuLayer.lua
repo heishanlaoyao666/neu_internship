@@ -1,3 +1,7 @@
+----内容：底部按钮栏
+----编写人员：孙靖博、郑蕾
+---修订人员：郑蕾
+---最后修改日期：7/12
 local MenuLayer = class("MenuLayer")
 
 function MenuLayer:createBottomTab(layer,pageView)
@@ -7,8 +11,11 @@ function MenuLayer:createBottomTab(layer,pageView)
     menuLayer:setAnchorPoint(0,0)
     menuLayer:setPosition(0,0)
     menuLayer:addTo(layer)
+    --未选择
     self:unselectedLayer(menuLayer)
+    --已选择
     self:selectedLayer(menuLayer)
+    --点击事件
     self:clickEvent(pageView)
 end
 
