@@ -55,7 +55,6 @@ end
 ]]
 
 function OutGameData:initTower()
-    print("initTower()")
     local tower_1 = Tower.new(1, 1, 1, "tower_1", "使被攻击目标得到“灼烧”状态。灼烧：造成两次额外伤害。",
     "前方", 20, 3, 10, 0.8, 0.01, "额外伤害",4,20, 3, 20, nil,nil,nil)
     local tower_2 = Tower.new(2, 3, 1, "tower_2", "使星级数个怪物受到伤害。",

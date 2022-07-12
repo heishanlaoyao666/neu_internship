@@ -11,17 +11,21 @@ local EventManager = require("app.manager.EventManager")
 --[[--
     构造函数
 
+    @parm index_x 类型：number，位置x
+    @parm index_y 类型：number，位置y
     @parm health，类型：number，生命
     @parm type, 类型：number, 区分小怪与精英怪
 
     @return none
 ]]
-function Monster:ctor(health, type)
-   Monster.super.ctor(self, 70, 220,
-   ConstDef.MONSTER_SIZE[type].WIDTH, ConstDef.MONSTER_SIZE[type].HEIGHT)
+function Monster:ctor(index_x, index_y, health, type)
 
-   self.health_ = health
-   self.speed_ = ConstDef.MONSTER_SPEED
+    Monster.super.ctor(self, index_x, index_y,
+    ConstDef.MONSTER_SIZE[type].WIDTH, ConstDef.MONSTER_SIZE[type].HEIGHT)
+
+    self.health_ = health
+    self.fullHealth_ = health
+    self.speed_ = ConstDef.MONSTER_SPEED
 
     if type == 1 then
         EventManager:doEvent(EventDef.ID.CREATE_MONSTER, self)
@@ -50,6 +54,17 @@ function Monster:ctor(health, type)
 
     self.burningTimes = 0 -- 灼烧次数
 
+end
+
+--[[--
+    获取最初的血量
+
+    @parm none
+
+    @return number
+]]
+function Monster:getFullhealth()
+    return self.fullHealth_
 end
 
 --[[--
@@ -152,7 +167,7 @@ function Monster:hurt(n)
 end
 
 --[[--
-    怪物se销毁
+    怪物销毁
 
     @param none
 
@@ -171,16 +186,20 @@ end
     @return none
 ]]
 function Monster:update(dt)
-    if self:getY() <= ConstDef.MONSTER_TOP and self:getX() <= ConstDef.MONSTER_LEFT then
+    --我方
+    if self:getY() <= ConstDef.MONSTER_TOP and self:getX() <= ConstDef.MONSTER_LEFT and self:getY() < 700 then
         self:setY(self:getY() + dt * self.speed_)
-    end
-
-    if self:getY() >= ConstDef.MONSTER_TOP and self:getX() <= ConstDef.MONSTER_RIGHT then
+    elseif self:getY() >= ConstDef.MONSTER_TOP and self:getX() <= ConstDef.MONSTER_RIGHT and self:getY() < 700 then
         self:setX(self:getX() + dt * self.speed_)
-    end
-
-    if self:getY() >= ConstDef.MONSTER_BOTTOM and self:getX() >= ConstDef.MONSTER_RIGHT then
+    elseif self:getY() >= ConstDef.MONSTER_BOTTOM and self:getX() >= ConstDef.MONSTER_RIGHT and self:getY() < 700 then
         self:setY(self:getY() - dt * self.speed_)
+    --敌方
+    elseif self:getY() >= ConstDef.ENEMY_MONSTER_BOTTOM and self:getX() >= ConstDef.ENEMY_MONSTER_RIGHT then
+        self:setY(self:getY() - dt * self.speed_)
+    elseif self:getY() <= ConstDef.ENEMY_MONSTER_BOTTOM and self:getX() >= ConstDef.ENEMY_MONSTER_LEFT then
+        self:setX(self:getX() - dt * self.speed_)
+    elseif self:getY() <= ConstDef.ENEMY_MONSTER_TOP and self:getX() <= ConstDef.ENEMY_MONSTER_LEFT then
+        self:setY(self:getY() + dt * self.speed_)
     end
 
     --状态执行

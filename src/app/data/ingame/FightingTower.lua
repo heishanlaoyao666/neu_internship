@@ -64,7 +64,11 @@ end
     @return none
 ]]
 function FightingTower:setFireCd(n)
-    self.fireCd_ = 1 * (1 - n)
+    if n == 0 then
+        self.fireCd_ = 1 -- 重置攻速
+    else
+        self.fireCd_ = self.fireCd_ * (1 - n)
+    end
 end
 
 --[[--
@@ -86,11 +90,8 @@ end
     @return number
 ]]
 function FightingTower:updateTime(dt)
-    if dt == 11 then
-        self.dt = self.dt - 11
-    end
     self.dt_ = self.dt_ + dt
-    return self.dt
+    return self.dt_
 end
 
 
@@ -161,7 +162,16 @@ function FightingTower:starUp()
     self.star_ = self.star_ + 1
 end
 
+--[[--
+    塔降星
 
+    @parm none
+
+    @return none
+]]
+function FightingTower:starDown()
+    self.star_ = self.star_ - 1
+end
 
 --[[--
     塔销毁

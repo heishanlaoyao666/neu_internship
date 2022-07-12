@@ -8,7 +8,7 @@ end)
 
 local FightingBGLayer = require("app.ui.ingame.layer.FightingBGLayer")
 local FightingInfoLayer = require("app.ui.ingame.layer.FightInfoLayer")
-local FightingLayer = require("app.ui.ingame.layer.FightingLayer")
+local MyFightingLayer = require("app.ui.ingame.layer.MyFightingLayer")
 
 --[[--
     构造函数
@@ -20,7 +20,7 @@ local FightingLayer = require("app.ui.ingame.layer.FightingLayer")
 function FightingView:ctor()
     self.bgLayer_ = nil -- 加载背景层
     self.infoLayer_ = nil -- 加载信息层
-    self.fightingLayer_ = nil -- 加载战斗层
+    self.myFightingLayer_ = nil -- 加载战斗层
 
     self:initView()
 end
@@ -39,8 +39,9 @@ function FightingView:initView()
     self.infoLayer_ = FightingInfoLayer.new()
     self:addChild(self.infoLayer_)
 
-    self.fightingLayer_ = FightingLayer.new()
-    self:addChild(self.fightingLayer_)
+    self.myFightingLayer_ = MyFightingLayer.new()
+    self:addChild(self.myFightingLayer_)
+
 end
 
 --[[--
@@ -52,7 +53,7 @@ end
 ]]
 function FightingView:update(dt)
     self.infoLayer_:update(dt)
-    self.fightingLayer_:update(dt)
+    self.myFightingLayer_:update(dt)
 end
 
 return FightingView

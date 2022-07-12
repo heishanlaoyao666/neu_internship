@@ -159,12 +159,12 @@ end
 --[[--
     强化后塔的攻击力改变
 
-    @parm none
+    @parm n 类型：number，攻击力加成
 
     @return none
 ]]
-function Tower:atkEnhance()
-    if self.atkEnhance_ ~= nil then
+function Tower:atkEnhance(n)
+    if self.atkEnhance_ ~= nil and n == nil then
         self.towerAtk_ = self.towerAtk_ + self.atkEnhance_
     end
 end

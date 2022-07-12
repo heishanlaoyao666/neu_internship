@@ -25,11 +25,25 @@ local ConstDef = {
     --敌人速度
     MONSTER_SPEED = 100,
 
-    --敌人生成路线边界
+    --我方敌人生成位置
+    MONSTER_INDEX_X = 70,
+    MONSTER_INDEX_Y = 220,
+
+    --我方敌人生成路线边界
     MONSTER_LEFT = 70,
     MONSTER_RIGHT = 650,
     MONSTER_TOP = 620,
     MONSTER_BOTTOM = 220,
+
+    --敌方敌人生成位置
+    ENEMY_MONSTER_INDEX_X = 650,
+    ENEMY_MONSTER_INDEX_Y = 1100,
+
+    --敌方敌人生成路线边界
+    ENEMY_MONSTER_LEFT = 70,
+    ENEMY_MONSTER_RIGHT = 650,
+    ENEMY_MONSTER_TOP = 1100,
+    ENEMY_MONSTER_BOTTOM = 770,
 
     --子弹大小
     BULLET_SIZE = {

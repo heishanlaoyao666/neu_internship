@@ -135,9 +135,13 @@ end
     @return none
 ]]
 function FightingInfoLayer:updatePoint()
-    local point = GameData:getMyPoint()
-    if point < 3 then
-        myPoint_[point + 1]:loadTexture("artcontent/battle(ongame)/battle_interface/hp_empty.png")
+    local myPoint = GameData:getMyPoint()
+    local enemyPoint = GameData:getEnemyPoint()
+    if myPoint < 3 then
+        myPoint_[myPoint + 1]:loadTexture("artcontent/battle(ongame)/battle_interface/hp_empty.png")
+    end
+    if enemyPoint < 3 then
+        enemyPoint_[enemyPoint + 1]:loadTexture("artcontent/battle(ongame)/battle_interface/hp_empty.png")
     end
 end
 

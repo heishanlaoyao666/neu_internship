@@ -14,6 +14,8 @@ local EventManager = require("app.manager.EventManager")
     @return none
 ]]
 function CurrentTowerLayer:ctor()
+    CurrentTowerLayer.super.ctor(self)
+
     self:initView()
 end
 

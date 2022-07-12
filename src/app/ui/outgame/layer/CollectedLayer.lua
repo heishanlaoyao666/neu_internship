@@ -1,5 +1,6 @@
 --[[--
     已收集层
+    暂未使用
     CollectedLayer.lua
 ]]
 local CollectedLayer = class("CollectedLayer", require("app.ui.outgame.layer.BaseLayer"))

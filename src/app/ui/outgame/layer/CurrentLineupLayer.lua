@@ -3,7 +3,6 @@
     CurrentLineupLayer.lua
 ]]
 local CurrentLineupLayer = class("CurrentLineupLayer", require("app.ui.outgame.layer.BaseLayer"))
-local OutGameData = require("app.data.outgame.OutGameData")
 local EventDef = require("app.def.EventDef")
 local EventManager = require("app.manager.EventManager")
 local CurrentTowerLayer = require("app.ui.outgame.layer.CurrentTowerLayer")
@@ -15,6 +14,8 @@ local CurrentTowerLayer = require("app.ui.outgame.layer.CurrentTowerLayer")
     @return none
 ]]
 function CurrentLineupLayer:ctor()
+    CurrentLineupLayer.super.ctor(self)
+
     self:initView()
 end
 

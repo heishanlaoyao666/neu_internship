@@ -4,8 +4,6 @@
 ]]
 local TipsLayer = class("TipsLayer", require("app.ui.outgame.layer.BaseLayer"))
 local OutGameData = require("app.data.outgame.OutGameData")
-local EventDef = require("app.def.EventDef")
-local EventManager = require("app.manager.EventManager")
 --[[--
     构造函数
 
