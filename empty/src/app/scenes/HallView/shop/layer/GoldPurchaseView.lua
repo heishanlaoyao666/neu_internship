@@ -9,7 +9,7 @@ local GeneralView = require("app.scenes.HallView.common.GeneralView")
     函数用途：二级界面-金币商店购买确认弹窗
     参数：层，图片路径，碎片数量，金额，所属商品
 --]]
-function GoldPurchaseView:goldPurchasePanel(goldLayer,ShopLayer,path,fragNum,price,ItemButton)
+function GoldPurchaseView:goldPurchasePanel(goldLayer,ShopLayer,index,fragNum,price,shade,ItemButton)
     --灰色背景
     local grayLayer = self:grayLayer(ShopLayer)
 
@@ -19,6 +19,7 @@ function GoldPurchaseView:goldPurchasePanel(goldLayer,ShopLayer,path,fragNum,pri
     popLayer:setAnchorPoint(0.5, 0.5)
     popLayer:addTo(grayLayer)
     --图片：商品图
+    local path = "ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..index..".png"
     local ItemBg =ccui.ImageView:create(path)
     ItemBg:setScale(0.8,0.8)
     ItemBg:setPosition(cc.p(display.cx-90, 185))
@@ -35,7 +36,7 @@ function GoldPurchaseView:goldPurchasePanel(goldLayer,ShopLayer,path,fragNum,pri
     --print(id)
 
     --确认按钮
-    self:confirmButton(goldLayer,grayLayer,popLayer,price,ItemButton,fragNum,id)
+    self:confirmButton(goldLayer,grayLayer,popLayer,price,shade,fragNum,id,ItemButton)
     --关闭按钮
     self:closeButton(ShopLayer,grayLayer,popLayer)
 end
@@ -59,27 +60,10 @@ function GoldPurchaseView:grayLayer(ShopLayer)--参数：层
 end
 
 --[[
-    函数用途：添加商品售罄遮罩
-    参数：层，商品坐标x,y
-    --]]
-function GoldPurchaseView:ItemShade(goldLayer,x,y)
-    local shade = ccui.Layout:create()
-    shade:setBackGroundColor(cc.c4b(0,0,0,128))
-    shade:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
-    shade:setBackGroundColorOpacity(128)--设置透明度
-    shade:setAnchorPoint(0.5,0.5)
-    shade:setPosition(cc.p(x, y))
-    shade:setContentSize(156, 194)
-    shade:setTouchEnabled(true)
-    shade:addTo(goldLayer)
-end
-
-
---[[
     函数用途：确认按钮
     参数：层，灰色背景，弹窗背景层，金额，所属商品,碎片数量,卡牌ID
     --]]
-function GoldPurchaseView:confirmButton(goldLayer,grayLayer,popLayer,price,ItemButton,fragNum,id)
+function GoldPurchaseView:confirmButton(goldLayer,grayLayer,popLayer,price,shade,fragNum,id,ItemButton)
     --按钮：确认按钮
     local confirmButton = ccui.Button:create(
             "ui/hall/shop/SecondaryInterface-Goldcoin_store_purchase_confirmation_pop-up/Button-purchase.png",
@@ -103,8 +87,9 @@ function GoldPurchaseView:confirmButton(goldLayer,grayLayer,popLayer,price,ItemB
                 print("购买后卡牌ID为"..id.."的碎片数量为"..KnapsackData:getTowerFragment_(id))
 
                 --售罄遮罩
-                self:ItemShade(goldLayer,ItemButton:getPositionX(),ItemButton:getPositionY())
+                shade:setVisible(true)
 
+                ItemButton:setTouchEnabled(false)
                 --卡牌解锁
                 if KnapsackData:getTowerUnlock_(id) then--卡牌已解锁
                     print("卡牌已解锁")

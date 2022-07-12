@@ -16,6 +16,8 @@ local towerArray = {} --类型:table, key 阵容顺序(12345),value:tower_id_(�
 local initlevel = {}
 local a = {}
 
+local Shopdata = require("app.data.Shopdata")
+
 local isLogin = false --类型:boolen,是否已经注册
 local co = nil --类型:function,携程判断
 --[[--
@@ -49,6 +51,11 @@ function KnapsackData:init()
             towerArray[i][j].tower_id_ = j
             towerArray[i][j].tower_level_ = TowerDef.LEVEL.START_LEVEL[TowerDef.TABLE[j].RARITY]
         end
+    end
+
+    for i = 1,6 do
+        Shopdata.ITEM[i].SOLD_OUT = false
+        Shopdata.ITEM[i].ID = 01
     end
 
     --初始化msg控制器的监听
@@ -334,6 +341,58 @@ function KnapsackData:setCups(number)
     self.cups=self.cups + number
     --向服务器推送数据
 end
+
+--[[--
+    获取商品ID
+
+    @param i 商品编号
+
+    @return none
+]]
+function KnapsackData:getSoldOutState(i)
+    --向服务器拿数据
+    return Shopdata.ITEM[i].ID
+end
+--[[--
+    更改商品ID
+
+    @param i,state 商品编号，id
+
+    @return none
+]]
+function KnapsackData:setSoldOutState(i,id)
+    Shopdata.ITEM[i].ID = id
+    --向服务器推送数据
+end
+
+
+--[[--
+    获取商品出售状态
+
+    @param i 商品编号
+
+    @return none
+]]
+function KnapsackData:getSoldOutState(i)
+    --向服务器拿数据
+    return Shopdata.ITEM[i].SOLD_OUT
+end
+--[[--
+    更改商品出售状态
+
+    @param i,state 商品编号，状态
+
+    @return none
+]]
+function KnapsackData:setSoldOutState(i,state)
+    Shopdata.ITEM[i].SOLD_OUT = state
+    --向服务器推送数据
+end
+
+
+
+
+
 
 
 --[[--

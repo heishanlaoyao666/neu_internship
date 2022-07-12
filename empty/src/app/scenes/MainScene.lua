@@ -1,7 +1,6 @@
 local MainScene = class("MainScene", function()
     return display.newScene("MainScene")
 end)
-score = 200
 local TopPanel = require("app.scenes.TopPanel")
 local Shop = require("app.scenes.HallView.shop.Shop")
 local Atlas = require("app.scenes.Atlas")
@@ -10,6 +9,7 @@ local KnapsackData = require("app.data.KnapsackData")
 local MenuLayer = require("app.scenes.HallView.bottomTab.MenuLayer")
 local EventManager = require("app/manager/EventManager.lua")
 local EventDef = require("app/def/EventDef.lua")
+local Shopdata = require("app.data.Shopdata")
 
 function MainScene:ctor()
     KnapsackData:init()
@@ -151,5 +151,6 @@ function MainScene:update(dt)
     KnapsackData:update(dt)
     TopPanel:setDiamondsString(KnapsackData:getDiamonds())
     TopPanel:setCoinString(KnapsackData:getGoldCoin())
+    Shop:refresh()
 end
 return MainScene

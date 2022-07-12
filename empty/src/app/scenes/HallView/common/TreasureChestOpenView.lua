@@ -247,7 +247,7 @@ end
 --[[
     函数用途：按钮放缩特效
     --]]
-function GeneralView:setButtonScale(X,Y,sender)
+function TreasureChestOpenView:setButtonScale(X,Y,sender)
     local scale = cc.ScaleTo:create(X,Y)
     local ease_elastic = cc.EaseElasticOut:create(scale)
     sender:runAction(ease_elastic)
