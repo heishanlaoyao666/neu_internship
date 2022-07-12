@@ -1068,7 +1068,119 @@ function Atlas:createTroopPanel(layer)
     trooplabel:pos(0+200,height-70)
     trooplabel:addTo(layer)
 
+    -- local pageview = ccui.PageView:create()
+    -- pageview:addTo(layer)
+    -- pageview:setContentSize(layer:getContentSize().width, 150)
+    -- pageview:setTouchEnabled(false)
+    -- pageview:setAnchorPoint(0, 0)
+    -- pageview:setPosition(layer:getContentSize().width * 0.025, layer:getContentSize().height * 0.05)
+
+
+    --self:createPageviewPanel2(layer):setVisible(false)
+    --三个按钮
+    local selectBtn1 = ccui.Button:create(
+            "ui/hall/Atlas/Subinterface_currentsquad/icon_unselectes.png",
+            "ui/hall/Atlas/Subinterface_currentsquad/icon_selected.png",
+            "ui/hall/Atlas/Subinterface_currentsquad/icon_unselectes.png"
+    )
+    selectBtn1:setAnchorPoint(0,1)
+    selectBtn1:pos(400,height-70)
+    selectBtn1:addTo(layer)
+    selectBtn1:addTouchEventListener(function(sender, eventType)
+        if 2 == eventType then
+            --打开设置面板
+            self:createPageviewPanel1(layer)
+        end
+    end)
+    local one=ccui.ImageView:create("ui/hall/Atlas/Subinterface_currentsquad/number_1.png")
+    one:setScale(1)
+    --one:setAnchorPoint(0.5,0.5)
+    one:pos(17,20)
+    one:addTo(selectBtn1)
+
+
+    local selectBtn2 = ccui.Button:create(
+            "ui/hall/Atlas/Subinterface_currentsquad/icon_unselectes.png",
+            "ui/hall/Atlas/Subinterface_currentsquad/icon_selected.png",
+            "ui/hall/Atlas/Subinterface_currentsquad/icon_unselectes.png"
+    )
+    selectBtn2:setAnchorPoint(0,1)
+    selectBtn2:pos(450,height-70)
+    selectBtn2:addTo(layer)
+    selectBtn2:addTouchEventListener(function(sender, eventType)
+        if 2 == eventType then
+            --打开设置面板
+            self:createPageviewPanel2(layer)
+        end
+    end)
+    local two=ccui.ImageView:create("ui/hall/Atlas/Subinterface_currentsquad/number_2.png")
+    two:setScale(1)
+    --two:setAnchorPoint(0.5,0.5)
+    two:pos(17,20)
+    two:addTo(selectBtn2)
+
+
+    local selectBtn3 = ccui.Button:create(
+        "ui/hall/Atlas/Subinterface_currentsquad/icon_unselectes.png",
+        "ui/hall/Atlas/Subinterface_currentsquad/icon_selected.png",
+        "ui/hall/Atlas/Subinterface_currentsquad/icon_unselectes.png"
+    )
+    selectBtn3:setAnchorPoint(0,1)
+    selectBtn3:pos(500,height-70)
+    selectBtn3:addTo(layer)
+    selectBtn3:addTouchEventListener(function(sender, eventType)
+        if 2 == eventType then
+            --打开设置面板
+            self:createPageviewPanel3(layer)
+        end
+    end)
+    local three=ccui.ImageView:create("ui/hall/Atlas/Subinterface_currentsquad/number_3.png")
+    three:setScale(1)
+    --three:setAnchorPoint(0.5,0.5)
+    three:pos(17,20)
+    three:addTo(selectBtn3)
+
+
+    -- self:createTroopItem(layer,"ui/hall/common/Tower-Icon/01.png"
+    -- ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_disturb.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.13.png",0,0)
+    -- self:createTroopItem(layer,"ui/hall/common/Tower-Icon/06.png"
+    -- ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.12.png",130,0)
+    -- self:createTroopItem(layer,"ui/hall/common/Tower-Icon/08.png"
+    -- ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.11.png",130+130,0)
+    -- self:createTroopItem(layer,"ui/hall/common/Tower-Icon/09.png"
+    -- ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",130*3,0)
+    -- self:createTroopItem(layer,"ui/hall/common/Tower-Icon/07.png"
+    -- ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.9.png",130*4,0)
+
+end
+
+function Atlas:createPageviewPanel1(layer)
     self:createTroopItem(layer,"ui/hall/common/Tower-Icon/01.png"
+    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_disturb.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.13.png",0,0)
+    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/06.png"
+    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.12.png",130,0)
+    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/08.png"
+    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.11.png",130+130,0)
+    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/09.png"
+    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",130*3,0)
+    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/07.png"
+    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.9.png",130*4,0)
+end
+function Atlas:createPageviewPanel2(layer)
+    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/02.png"
+    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_disturb.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.13.png",0,0)
+    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/06.png"
+    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.12.png",130,0)
+    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/08.png"
+    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.11.png",130+130,0)
+    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/09.png"
+    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",130*3,0)
+    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/07.png"
+    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.9.png",130*4,0)
+end
+function Atlas:createPageviewPanel3(layer)
+     
+    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/03.png"
     ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_disturb.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.13.png",0,0)
     self:createTroopItem(layer,"ui/hall/common/Tower-Icon/06.png"
     ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.12.png",130,0)
