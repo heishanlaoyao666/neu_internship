@@ -21,7 +21,7 @@ function Atlas:setCOINString(str)
     coin_label:setString(str)
 end
 function Atlas:setSpeed1String(str)
-    speed1:setString(str)
+    type3label:setString(str)
 end
 
 function Atlas:slide(layer)
@@ -79,23 +79,32 @@ end
 --收集层
 function Atlas:createCollectionPanel()
     local width,height = display.width,display.top
+    local collectLayer = ccui.Layout:create()
+    collectLayer:setBackGroundColorOpacity(180)--设置为透明
+    --collectLayer:setBackGroundColorType(1)
+    collectLayer:setAnchorPoint(0, 0)
+    collectLayer:setPosition(0, display.top)
+    --阵容层
+    self:createTroopPanel(collectLayer)
+
+    --listView翻页
+    local listView = ccui.ListView:create()
+    listView:setContentSize(720,1000)
+    listView:setPosition(0,-80)
+    listView:setAnchorPoint(0, 0)
+    listView:setDirection(1)--垂直方向
+    listView:setItemsMargin(40)--间距
+    listView:setBounceEnabled(true)--滑动惯性
+    listView:addTo(collectLayer)
+
+    local width,height = display.width,display.top
     local AtlasLayer = ccui.Layout:create()
     AtlasLayer:setBackGroundColorOpacity(180)--设置为透明
-    --AtlasLayer:setBackGroundColorType(1)
+    AtlasLayer:setBackGroundColorType(1)
     AtlasLayer:setAnchorPoint(0, 0)
     AtlasLayer:setPosition(0, display.top)
-
-
-
-
-    AtlasLayer:setContentSize(720, 1280)
-    self:slide(AtlasLayer)
-
-    --图片：背景图
-    local Bg = ccui.ImageView:create("ui/hall/battle/bg-battle_interface.png")
-    Bg:setAnchorPoint(0.5, 0.5)
-    Bg:setPosition(display.cx,display.cy)
-    Bg:addTo(AtlasLayer)
+    AtlasLayer:setContentSize(720, 2000)
+    AtlasLayer:addTo(listView)
 
     --暴击伤害提示信息
     local criticaldamageback=ccui.ImageView:create("ui/hall/Atlas/Subinterface_info/bottomchart_info.png")
@@ -157,18 +166,18 @@ function Atlas:createCollectionPanel()
             table.insert(towerdatanotobtained,i)
         end
     end
---     print("12345")
--- for key, value in pairs(towerdataobtained) do
---     -- body
---     print("输出"..towerdataobtained[key])
--- end
--- for key, value in pairs(towerdatanotobtained) do
---     -- body
---     print("输出2"..towerdatanotobtained[key])
--- end
---     print("67890")
+    --     print("12345")
+    -- for key, value in pairs(towerdataobtained) do
+    --     -- body
+    --     print("输出"..towerdataobtained[key])
+    -- end
+    -- for key, value in pairs(towerdatanotobtained) do
+    --     -- body
+    --     print("输出2"..towerdatanotobtained[key])
+    -- end
+    --     print("67890")
 
---已收集塔按钮
+    --已收集塔按钮
     local a = 0
     local b = -450
     for key, value in pairs(towerdataobtained) do
@@ -227,7 +236,7 @@ function Atlas:createCollectionPanel()
     end
 
 
---未收集塔按钮
+    --未收集塔按钮
 
 
     local c = 0
@@ -349,8 +358,7 @@ function Atlas:createCollectionPanel()
     notcollectedimage:pos(0,height-1200+120)
     notcollectedimage:addTo(AtlasLayer)
 
-    self:createTroopPanel(AtlasLayer)
-    return AtlasLayer
+    return collectLayer
 
 end
 
@@ -650,7 +658,7 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
     type3attri:setPosition(cc.p(130, 370))
     type3attri:addTo(popLayer)
     speed1 =KnapsackData:getFirecd(chartnum)
-    type3label=cc.Label:createWithTTF(Atlas:setSpeed1String(speed1).."s","ui/font/fzzdhjw.ttf",26)
+    type3label=cc.Label:createWithTTF(speed1.."s","ui/font/fzzdhjw.ttf",26)
     type3label:setScale(1)
     type3label:setColor(cc.c3b(255, 255, 255))
     type3label:setAnchorPoint(0,1)
@@ -743,7 +751,7 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
     upgradeButton:setPosition(cc.p(320, 110))
     upgradeButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
         if eventType == ccui.TouchEventType.began then
---满级条件加入消除bug-----
+            --满级条件加入消除bug-----
             updatelabel=cc.Label:createWithTTF("+"..TowerDef.TABLE[chartnum].ATK_UPGRADE,"ui/font/fzzdhjw.ttf",26)
             updatelabel:setScale(1)
             updatelabel:setColor(cc.c3b(255, 255, 255))
@@ -771,7 +779,7 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
                 updateskill1label:enableOutline(cc.c4b(20, 20, 66, 255),2)
                 updateskill1label:addTo(popLayer)
             end
-            
+
             if skillpng2 ~= nil and TowerDef.TABLE[chartnum].SKILLS[2].VALUE_UPGRADE ~= 0 then
                 updateskill2label=cc.Label:createWithTTF("+"..TowerDef.TABLE[chartnum].FIRECD,"ui/font/fzzdhjw.ttf",26)
                 updateskill2label:setScale(1)
@@ -788,24 +796,24 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
         elseif eventType == ccui.TouchEventType.ended then
-            
+
             local SettingMusic = require("app/scenes/SettingMusic")
-			local MusicOn = SettingMusic:isMusic1()
-			print(MusicOn)
-			if MusicOn == true then
-				local audio = require("framework.audio")
-				audio.loadFile(Music.ATLAS[1], function ()
-					audio.playEffect(Music.ATLAS[1])
-				end)
-			else
-				local audio = require("framework.audio")
-				audio.loadFile(Music.ATLAS[1], function ()
-					audio.stopEffect()
-				end)
-			end
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.ATLAS[1], function ()
+                    audio.playEffect(Music.ATLAS[1])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.ATLAS[1], function ()
+                    audio.stopEffect()
+                end)
+            end
 
 
-            KnapsackData:uplevel(chartnum)            
+            KnapsackData:uplevel(chartnum)
             Atlas:setATKString(KnapsackData:getatk(chartnum))
             Atlas:setCOINString(KnapsackData:getupgradecoin(chartnum))
             Atlas:setSpeed1String(KnapsackData:getFirecd(chartnum))
@@ -839,7 +847,7 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
     coin_icon:setScale(1)
     coin_icon:setPosition(cc.p(50, 30))
     coin_icon:addTo(upgradeButton)
-    
+
     local coinnum
     if rarity == 1 then
         coinnum = 5

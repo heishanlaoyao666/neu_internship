@@ -1,6 +1,9 @@
+----内容：商店界面
+----编写人员：郑蕾
+---修订人员：郑蕾
+---最后修改日期：7/12
 local Shop = class("Shop")
 local KnapsackData = require("app.data.KnapsackData")
-local TopPanel = require("app.scenes.TopPanel")
 local GoldPurchaseView = require("app.scenes.HallView.shop.layer.GoldPurchaseView")
 local TreasureChestOpenView = require("app.scenes.HallView.common.TreasureChestOpenView")
 function Shop:ctor()
@@ -38,6 +41,9 @@ function Shop:ShopPanel()
     return ShopLayer
 end
 
+--[[
+    函数用途：金币商店的创建
+    --]]
 function Shop:GoldStore(listView,ShopLayer)
     math.randomseed(os.time())
     --金币商店层
@@ -112,43 +118,6 @@ function Shop:GoldStore(listView,ShopLayer)
     ,1,1000,210,-220)
 end
 
-function Shop:diamondStore(listView,ShopLayer)
-    --钻石商店层
-    local diamondLayer = ccui.Layout:create()
-    --diamondLayer:setBackGroundColorOpacity(180)--设置为透明
-    --diamondLayer:setBackGroundColorType(1)
-    diamondLayer:setAnchorPoint(0, 1)
-    diamondLayer:setPosition(cc.p(0, display.top))
-    diamondLayer:setContentSize(720, 800)
-    diamondLayer:addTo(listView)
-    --图片：钻石商店标题背景条
-    local diamondTitleBg = ccui.ImageView:create("ui/hall/shop/Diamond-shop/bg-title.png")
-    diamondTitleBg:setAnchorPoint(0, 1)
-    diamondTitleBg:setPosition(cc.p(0, display.top-500))
-    diamondTitleBg:addTo(diamondLayer)
-    --图片：钻石商店
-    local diamondStoreText = ccui.ImageView:create("ui/hall/shop/Diamond-shop/Title-diamond_store.png")
-    diamondStoreText:setAnchorPoint(0.5, 0.5)
-    diamondStoreText:addTo(diamondTitleBg)
-    diamondStoreText:setPosition(cc.p(display.cx,35))
-
-    self:createDiamondItem(ShopLayer,diamondLayer,"ui/hall/shop/Diamond-shop/bg-normal.png","ui/hall/shop/Diamond-shop/TreasureChest - normal.png"
-    , "ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Title - common treasure chest.png"
-    , "150",0,0,"X38","X7","X1","X0","+285")
-
-    self:createDiamondItem(ShopLayer,diamondLayer,"ui/hall/shop/Diamond-shop/bg-rare.png","ui/hall/shop/Diamond-shop/TreasureChest - RARE.png"
-    , "ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Title - rare treasure chest.png"
-    ,"250",230,0,"X74","X14","X2","X0","+456")
-
-    self:createDiamondItem(ShopLayer,diamondLayer,"ui/hall/shop/Diamond-shop/bg-epic.png","ui/hall/shop/Diamond-shop/TreasureChest - Epic.png"
-    , "ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Title - Epic chest.png"
-    ,"750",460,0,"X139","X36","X7","X0~1","+1280")
-
-    self:createDiamondItem(ShopLayer,diamondLayer,"ui/hall/shop/Diamond-shop/bg-legend.png","ui/hall/shop/Diamond-shop/TreasureChest - Legend.png"
-    , "ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Title - legendary treasure chest.png"
-    ,"2500",230,-320,"X187","X51","X21","X1","+3040")
-
-end
 --[[
     函数用途：购买免费商品
     --]]
@@ -195,22 +164,6 @@ function Shop:freeItem(ShopLayer)
     local freeIcon =ccui.ImageView:create("ui/hall/shop/Goldcoin-shop/PriceIcon-free.png")
     freeIcon:setPosition(cc.p(78, 25))
     freeIcon:addTo(freeItemButton)
-end
-
---[[
-    函数用途：添加商品售罄遮罩
-    参数：层，商品坐标x,y
-    --]]
-function Shop:ItemShade(layer,x,y)
-    local shade = ccui.Layout:create()
-    shade:setBackGroundColor(cc.c4b(0,0,0,128))
-    shade:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
-    shade:setBackGroundColorOpacity(128)--设置透明度
-    shade:setAnchorPoint(0.5,0.5)
-    shade:setPosition(cc.p(x, y))
-    shade:setContentSize(156, 194)
-    shade:setTouchEnabled(true)
-    shade:addTo(layer)
 end
 
 --[[
@@ -265,6 +218,47 @@ function Shop:createGoldItem(goldLayer,ShopLayer,path,fragNum,price,offsetX,offs
 end
 
 --[[
+    函数用途：钻石商店的创建
+    --]]
+function Shop:diamondStore(listView,ShopLayer)
+    --钻石商店层
+    local diamondLayer = ccui.Layout:create()
+    --diamondLayer:setBackGroundColorOpacity(180)--设置为透明
+    --diamondLayer:setBackGroundColorType(1)
+    diamondLayer:setAnchorPoint(0, 1)
+    diamondLayer:setPosition(cc.p(0, display.top))
+    diamondLayer:setContentSize(720, 800)
+    diamondLayer:addTo(listView)
+    --图片：钻石商店标题背景条
+    local diamondTitleBg = ccui.ImageView:create("ui/hall/shop/Diamond-shop/bg-title.png")
+    diamondTitleBg:setAnchorPoint(0, 1)
+    diamondTitleBg:setPosition(cc.p(0, display.top-500))
+    diamondTitleBg:addTo(diamondLayer)
+    --图片：钻石商店
+    local diamondStoreText = ccui.ImageView:create("ui/hall/shop/Diamond-shop/Title-diamond_store.png")
+    diamondStoreText:setAnchorPoint(0.5, 0.5)
+    diamondStoreText:addTo(diamondTitleBg)
+    diamondStoreText:setPosition(cc.p(display.cx,35))
+
+    self:createDiamondItem(ShopLayer,diamondLayer,"ui/hall/shop/Diamond-shop/bg-normal.png","ui/hall/shop/Diamond-shop/TreasureChest - normal.png"
+    , "ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Title - common treasure chest.png"
+    , "150",0,0,"X38","X7","X1","X0","+285")
+
+    self:createDiamondItem(ShopLayer,diamondLayer,"ui/hall/shop/Diamond-shop/bg-rare.png","ui/hall/shop/Diamond-shop/TreasureChest - RARE.png"
+    , "ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Title - rare treasure chest.png"
+    ,"250",230,0,"X74","X14","X2","X0","+456")
+
+    self:createDiamondItem(ShopLayer,diamondLayer,"ui/hall/shop/Diamond-shop/bg-epic.png","ui/hall/shop/Diamond-shop/TreasureChest - Epic.png"
+    , "ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Title - Epic chest.png"
+    ,"750",460,0,"X139","X36","X7","X0~1","+1280")
+
+    self:createDiamondItem(ShopLayer,diamondLayer,"ui/hall/shop/Diamond-shop/bg-legend.png","ui/hall/shop/Diamond-shop/TreasureChest - Legend.png"
+    , "ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Title - legendary treasure chest.png"
+    ,"2500",230,-320,"X187","X51","X21","X1","+3040")
+
+end
+
+--[[
     函数用途：钻石商店商品的展示:
     参数：层，宝箱背景图路径，宝箱图标路径，宝箱类型路径，宝箱价格，位置的偏移X,Y
     ，普通卡数量，稀有卡数量，史诗卡数量，传说卡数量，可获得金币数量
@@ -312,6 +306,21 @@ function Shop:createDiamondItem(ShopLayer,layer,bgPath,treasurePath,treasureType
     priceNum:addTo(ItemButton)
 end
 
+--[[
+    函数用途：添加商品售罄遮罩
+    参数：层，商品坐标x,y
+    --]]
+function Shop:ItemShade(layer,x,y)
+    local shade = ccui.Layout:create()
+    shade:setBackGroundColor(cc.c4b(0,0,0,128))
+    shade:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
+    shade:setBackGroundColorOpacity(128)--设置透明度
+    shade:setAnchorPoint(0.5,0.5)
+    shade:setPosition(cc.p(x, y))
+    shade:setContentSize(156, 194)
+    shade:setTouchEnabled(true)
+    shade:addTo(layer)
+end
 
 
 return Shop

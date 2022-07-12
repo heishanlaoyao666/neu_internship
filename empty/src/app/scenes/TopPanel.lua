@@ -1,4 +1,5 @@
-----编写人员：孙靖博
+----内容：顶部信息栏
+----编写人员：孙靖博、郑蕾
 ----修订人员：郑蕾
 ----最后修改日期：7/11 20：57
 
@@ -7,35 +8,6 @@ local KnapsackData = require("app.data.KnapsackData")
 local SettingMusic = require("src/app/scenes/SettingMusic")
 local Towerdata = require("app/data/Towerdata")
 local TowerDef  = require("app.def.TowerDef")
-
---更新金币数量
-function TopPanel:setCoinString(str)
-    if self.coinLabel then
-        self.coinLabel:setString(str)
-    end
-end
-
---更新钻石数量
-function TopPanel:setDiamondsString(str)
-    if self.diamondLabel then
-        self.diamondLabel:setString(str)
-    end
-end
-
---更新奖杯数量
-function TopPanel:setCupsString(str)
-    if self.cupLabel then
-        self.cupLabel:setString(str)
-    end
-end
-
---更新名称
-function TopPanel:setWordString(str)
-    if self.nameLabel then
-        self.nameLabel:setString(str)
-    end
-end
-
 
 
 --[[
@@ -159,6 +131,34 @@ function TopPanel:createMiddleTopPanel(layer)
         end
     end)
 
+end
+
+--更新金币数量
+function TopPanel:setCoinString(str)
+    if self.coinLabel then
+        self.coinLabel:setString(str)
+    end
+end
+
+--更新钻石数量
+function TopPanel:setDiamondsString(str)
+    if self.diamondLabel then
+        self.diamondLabel:setString(str)
+    end
+end
+
+--更新奖杯数量
+function TopPanel:setCupsString(str)
+    if self.cupLabel then
+        self.cupLabel:setString(str)
+    end
+end
+
+--更新名称
+function TopPanel:setWordString(str)
+    if self.nameLabel then
+        self.nameLabel:setString(str)
+    end
 end
 
 --[[
@@ -618,7 +618,7 @@ function TopPanel:replaceHeadIcon(layer)
     --排列已解锁的头像
     local offsetX = 0
     local offsetY = 0
-    local finalY = display.top-530
+    local finalY = display.top-300
     for key, value in pairs(towerdataobtained) do
         self:createGetHead(slideLayer,Towerdata.OBTAINED[value],offsetX,offsetY)
         offsetX = offsetX+130
@@ -629,11 +629,6 @@ function TopPanel:replaceHeadIcon(layer)
         end
     end
 
-    --如果已解锁数量不是4的倍数那未获得部分需要往下移动一行
-    if #towerdataobtained%4 ~=0 then
-    finalY = finalY-250
-    end
-
     --未获得标题
     local notGetTitle=ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - avatar_selection_pop-up/Split_line-not_obtained.png")
     notGetTitle:setAnchorPoint(0,0)
@@ -641,9 +636,9 @@ function TopPanel:replaceHeadIcon(layer)
     notGetTitle:addTo(slideLayer)
 
     --排列未解锁的头像
-    offsetX = 0
+    local offsetX = 0
     local originY = finalY-100
-    offsetY = 0
+    local offsetY = 0
     for key, value in pairs(towerdatanotobtained) do
         self:createNotGetHead(slideLayer,Towerdata.NOTOBTAINED[value],offsetX,offsetY,originY)
         offsetX=offsetX+130

@@ -345,10 +345,10 @@ end
 ]]
 function KnapsackData:uplevel(id)
     -- print("aaaaa"..towerData[id].level_)
-    
+
     if towerData[id].level_<13 then
         towerData[id].level_ = towerData[id].level_+1
-    else 
+    else
         a[id] = 0
         updatelabel:setVisible(false)
     end

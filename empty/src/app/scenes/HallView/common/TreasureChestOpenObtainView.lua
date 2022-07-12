@@ -1,3 +1,7 @@
+----内容：二级界面-宝箱开启获得物品弹窗
+----编写人员：郑蕾
+---修订人员：郑蕾
+---最后修改日期：7/12
 local TreasureChestOpenObtainView = {}
 local KnapsackData = require("app.data.KnapsackData")
 --[[

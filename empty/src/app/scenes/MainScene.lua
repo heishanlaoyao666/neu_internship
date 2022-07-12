@@ -80,7 +80,6 @@ function MainScene:createBg()
     bgLayer:setAnchorPoint(0.5,0.5)
     bgLayer:setPosition(width*0.5,height*0.5)
     bgLayer:addTo(self)
-
 end
 
 

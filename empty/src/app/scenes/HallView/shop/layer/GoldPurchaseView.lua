@@ -1,3 +1,7 @@
+----内容：二级界面 - 金币商店购买确认弹窗
+----编写人员：郑蕾
+---修订人员：郑蕾
+---最后修改日期：7/12
 local GoldPurchaseView = {}
 local KnapsackData = require("app.data.KnapsackData")
 local GeneralView = require("app.scenes.HallView.common.GeneralView")
