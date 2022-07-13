@@ -80,7 +80,7 @@ function KnapsackData:init()
                     towerArray[i][j].tower_level_ = msg["towerArray"][i][j]["level"]
                 end
             end
-            
+            Shopdata:initItem(msg["shopData"])
             EventManager:doEvent(EventDef.ID.KNAPSACK_LOGIN)
         end
         if msg["type"] == MsgDef.MSG_TYPE_ACK.UPDATE_DATA then
@@ -101,6 +101,12 @@ function KnapsackData:init()
         end
         if msg["type"] == MsgDef.MSG_TYPE_ACK.STARTGAME then
             EventManager:doEvent(EventDef.ID.CREATE_GAME,msg)
+        end
+        if msg["type"] == MsgDef.MSG_TYPE_ACK.SHOPDATA then
+            Shopdata:initItem(msg["shopData"])
+        end
+        if msg["type"] == MsgDef.MSG_TYPE_ACK.SHOPREFRESH then
+            Shopdata:initItem(msg["shopData"])
         end
     end)
 end
@@ -261,7 +267,6 @@ function KnapsackData:sendData()
     if MsgController:isConnect() then
         local msg = self:getDataTable()
         msg.type=MsgDef.MSG_TYPE_REQ.UPDATE_DATA
- 
         MsgController:sendMsg(msg)
     end
 end
@@ -417,6 +422,33 @@ end
 function KnapsackData:setSoldOutState(i,state)
     Shopdata.ITEM[i].SOLD_OUT = state
     --向服务器推送数据
+    if MsgController:isConnect() then
+        local msg={
+            loginname = self.name_,
+            i_=i,
+            SOLD_OUT=state
+        }
+        msg.type=MsgDef.MSG_TYPE_REQ.SHOPDATA
+        MsgController:sendMsg(msg)
+    end
+end
+--[[--
+    让服务器更新商店
+
+    @param i,state 商品编号，状态
+
+    @return none
+]]
+function KnapsackData:shopRefresh()
+    --向服务器推送数据
+    if MsgController:isConnect() then
+        local msg={
+            loginname = self.name_,
+        }
+        msg.type=MsgDef.MSG_TYPE_REQ.SHOPREFRESH
+        MsgController:sendMsg(msg)
+    end
+
 end
 
 
