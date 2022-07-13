@@ -1,7 +1,9 @@
 --[[--
-    LadderDef.lua
+    Ladderdata.lua
     天梯数据文件
 ]]
+local Ladderdata = {}
+
 local Path = {
     --宝箱1
     NORMAL = "ui/hall/shop/Diamond-shop/TreasureChest - normal.png",
@@ -17,7 +19,8 @@ local Path = {
     LEGEND_CARD2 = "ui/hall/battle/rank/group92.png",
 
 }
-local LadderDef = {
+
+Ladderdata.ITEM = {
 --1：宝箱，2：金币，3：钻石，4：卡牌1，5：卡牌2
     {
         TYPE = 1,
@@ -141,4 +144,4 @@ local LadderDef = {
 
 
 
-return LadderDef
+return Ladderdata

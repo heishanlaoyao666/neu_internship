@@ -12,40 +12,6 @@ function Shop:ctor()
 end
 
 --[[
-    函数用途：定点时间刷新
-    --]]
-function Shop:refresh()
-    local time = os.date("%X")--"%H:%M:%S"
-    if time =="00:00:00" then
-        --清除遮罩
-        for i = 1,6 do
-            Shopdata.ITEM[i].SOLD_OUT = false
-        end
-        --更新卡牌
-        Shopdata.ITEM[2].ID = Shopdata:randomId(1)
-        item2:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..Shopdata.ITEM[2].ID..".png")
-        print(Shopdata.ITEM[2].ID)
-
-        Shopdata.ITEM[3].ID = Shopdata:randomId(1)
-        item3:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..Shopdata.ITEM[3].ID..".png")
-        print(Shopdata.ITEM[3].ID)
-
-        Shopdata.ITEM[4].ID = Shopdata:randomId(1)
-        item4:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..Shopdata.ITEM[4].ID..".png")
-        print(Shopdata.ITEM[4].ID)
-
-        Shopdata.ITEM[5].ID = Shopdata:randomId(2)
-        item5:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..Shopdata.ITEM[5].ID..".png")
-        print(Shopdata.ITEM[5].ID)
-
-        Shopdata.ITEM[6].ID = Shopdata:randomId(3)
-        print(Shopdata.ITEM[6].ID)
-        item6:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..Shopdata.ITEM[6].ID..".png")
-
-    end
-end
-
---[[
     函数用途：商店一级页面的展示
     --]]
 function Shop:ShopPanel()
