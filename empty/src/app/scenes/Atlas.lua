@@ -80,6 +80,9 @@ function Atlas:createCollectionPanel()
     criticaldamagelabel:pos(340,90)
     criticaldamagelabel:addTo(criticaldamageback)
 
+
+
+
     --标题：已收集
     local collectedimage=ccui.ImageView:create("ui/hall/Atlas/Subinterface_towerlist/splitline_collected.png")
     collectedimage:setScale(1)
@@ -140,7 +143,7 @@ function Atlas:createCollectionPanel()
             towertypestring ="summoner"
         end
 
-        self:createCollectedItem(AtlasLayer,
+        self:createCollectedItem(AtlasLayer,collectLayer,
                 "ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-"..raritystring..".png",
                 TowerString,
                 "ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_"..towertypestring..".png",
@@ -184,7 +187,7 @@ function Atlas:createCollectionPanel()
             towertypestring ="summoner"
         end
 
-        self:createCollectedItem(AtlasLayer,
+        self:createCollectedItem(AtlasLayer,collectLayer,
                 "ui/hall/Atlas/Subinterface_towerlist/bottomchart-tower-notgain.png",
                 TowerString,
                 "ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_"..towertypestring..".png",
@@ -203,7 +206,7 @@ end
 
 
 --创建卡牌
-function Atlas:createCollectedItem(layer,path,bg,towertype,rank,offsetX,offsetY)--层级、稀有度背景、图片路径、塔种类、等级、偏移量
+function Atlas:createCollectedItem(AtlasLayer,collectLayer,path,bg,towertype,rank,offsetX,offsetY)--层级、稀有度背景、图片路径、塔种类、等级、偏移量
 
     --按钮：商品1
     local ItemButton = ccui.Button:create(path, path, path)
@@ -215,7 +218,8 @@ function Atlas:createCollectedItem(layer,path,bg,towertype,rank,offsetX,offsetY)
             sender:runAction(ease_elastic)
 
         elseif eventType == ccui.TouchEventType.ended then
-            self:towerinfoPanel(layer,path,bg,towertype,rank)
+            self:towerinfoPanel(collectLayer,path,bg,towertype,rank)
+
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
@@ -226,7 +230,7 @@ function Atlas:createCollectedItem(layer,path,bg,towertype,rank,offsetX,offsetY)
             sender:runAction(ease_elastic)
         end
     end)
-    ItemButton:addTo(layer)
+    ItemButton:addTo(AtlasLayer)
     --塔
     local towerbg = ccui.ImageView:create(bg)
     towerbg:setPosition(cc.p(80,145))
@@ -279,21 +283,21 @@ function Atlas:createCollectedItem(layer,path,bg,towertype,rank,offsetX,offsetY)
 end
 
 --二级页面（使用）
-function Atlas:towerusingPanel(layer,bg)
+function Atlas:towerusingPanel(collectLayer,bg)
     local width ,height = display.width,display.height
     --层：灰色背景
     local towerusingLayer = ccui.Layout:create()
-    towerusingLayer:setBackGroundColor(cc.c4b(0,0,0,128))
-    towerusingLayer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
-    towerusingLayer:setBackGroundColorOpacity(128)--设置透明度
+    --towerusingLayer:setBackGroundColor(cc.c4b(0,0,0,128))
+    --towerusingLayer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
+    towerusingLayer:setBackGroundColorOpacity(180)--设置透明度
     towerusingLayer:setContentSize(width, height)
     towerusingLayer:pos(width*0.5, height *0.5)
     towerusingLayer:setAnchorPoint(0.5, 0.5)
-    towerusingLayer:addTo(layer)
-    towerusingLayer:setTouchEnabled(true)--屏蔽一级界面
+    towerusingLayer:addTo(collectLayer)
+    --towerusingLayer:setTouchEnabled(true)--屏蔽一级界面
 
     local pop2Layer = ccui.ImageView:create("ui/hall/Atlas/Secondaryinterface_towerusing/group119.png")
-    pop2Layer:pos(display.cx,display.cy-300)
+    pop2Layer:pos(display.cx,display.cy)
     pop2Layer:setAnchorPoint(0.5,0.5)
     pop2Layer:addTo(towerusingLayer)
 
@@ -318,7 +322,7 @@ function Atlas:towerusingPanel(layer,bg)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
             towerusingLayer:setVisible(false)--隐藏二级弹窗
-            layer:setTouchEnabled(true)
+            collectLayer:setTouchEnabled(true)
         elseif eventType == ccui.TouchEventType.canceled then
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
@@ -332,7 +336,7 @@ end
 
 
 --二级页面（卡牌升级替换等）
-function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，图片路径，塔类型，卡等级
+function Atlas:towerinfoPanel(collectLayer,path,bg,towertype,rank)--稀有度背景，图片路径，塔类型，卡等级
     local width ,height = display.width,display.height
     --层：灰色背景
     local towerinfoLayer = ccui.Layout:create()
@@ -340,17 +344,9 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
     towerinfoLayer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
     towerinfoLayer:setBackGroundColorOpacity(128)--设置透明度
     towerinfoLayer:setContentSize(width, height)
-
-    --随着滑动的位置而改变
-    if layer:getPositionY() == 0 then
-        towerinfoLayer:pos(width/2, height/2)
-    else
-        towerinfoLayer:pos(width/2, height/2-370)
-    end
-
-    --towerinfoLayer:pos(width*0.5, height *0.5)
+    towerinfoLayer:pos(width/2, height/2)
     towerinfoLayer:setAnchorPoint(0.5, 0.5)
-    towerinfoLayer:addTo(layer)
+    towerinfoLayer:addTo(collectLayer)
     --towerinfoLayer:setTouchEnabled(true)--屏蔽一级界面
 
 
@@ -820,7 +816,9 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
         elseif eventType == ccui.TouchEventType.ended then
-            self:towerusingPanel(layer,bg)
+            towerinfoLayer:setVisible(false)
+            self:towerusingPanel(collectLayer,bg)
+
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
@@ -878,7 +876,7 @@ function Atlas:towerinfoPanel(layer,path,bg,towertype,rank)--稀有度背景，�
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
             towerinfoLayer:setVisible(false)--隐藏二级弹窗
-            layer:setTouchEnabled(true)
+            collectLayer:setTouchEnabled(true)
         elseif eventType == ccui.TouchEventType.canceled then
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
