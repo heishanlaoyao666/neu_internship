@@ -1,7 +1,7 @@
 ----内容：二级界面 - 金币商店购买确认弹窗
 ----编写人员：郑蕾
 ---修订人员：郑蕾
----最后修改日期：7/12
+---最后修改日期：7/13
 local GoldPurchaseView = {}
 local KnapsackData = require("app.data.KnapsackData")
 local GeneralView = require("app.scenes.HallView.common.GeneralView")
@@ -9,7 +9,7 @@ local GeneralView = require("app.scenes.HallView.common.GeneralView")
     函数用途：二级界面-金币商店购买确认弹窗
     参数：层，图片路径，碎片数量，金额，所属商品
 --]]
-function GoldPurchaseView:goldPurchasePanel(goldLayer,ShopLayer,index,fragNum,price,shade,ItemButton)
+function GoldPurchaseView:goldPurchasePanel(ShopLayer,index,fragNum,price,shade,ItemButton,i)
     --灰色背景
     local grayLayer = self:grayLayer(ShopLayer)
 
@@ -33,10 +33,9 @@ function GoldPurchaseView:goldPurchasePanel(goldLayer,ShopLayer,index,fragNum,pr
 
     --获取卡牌ID
     local id = tonumber(string.sub(path,57,-5))
-    --print(id)
 
     --确认按钮
-    self:confirmButton(goldLayer,grayLayer,popLayer,price,shade,fragNum,id,ItemButton)
+    self:confirmButton(grayLayer,popLayer,price,shade,fragNum,id,ItemButton,i)
     --关闭按钮
     self:closeButton(ShopLayer,grayLayer,popLayer)
 end
@@ -63,7 +62,7 @@ end
     函数用途：确认按钮
     参数：层，灰色背景，弹窗背景层，金额，所属商品,碎片数量,卡牌ID
     --]]
-function GoldPurchaseView:confirmButton(goldLayer,grayLayer,popLayer,price,shade,fragNum,id,ItemButton)
+function GoldPurchaseView:confirmButton(grayLayer,popLayer,price,shade,fragNum,id,ItemButton,i)
     --按钮：确认按钮
     local confirmButton = ccui.Button:create(
             "ui/hall/shop/SecondaryInterface-Goldcoin_store_purchase_confirmation_pop-up/Button-purchase.png",
@@ -87,7 +86,9 @@ function GoldPurchaseView:confirmButton(goldLayer,grayLayer,popLayer,price,shade
                 print("购买后卡牌ID为"..id.."的碎片数量为"..KnapsackData:getTowerFragment_(id))
 
                 --售罄遮罩
-                shade:setVisible(true)
+                KnapsackData:setSoldOutState(i,true)
+                shade:setVisible(KnapsackData:getSoldOutState(i))
+
 
                 ItemButton:setTouchEnabled(false)
                 --卡牌解锁

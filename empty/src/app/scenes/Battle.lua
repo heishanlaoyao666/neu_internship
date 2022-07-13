@@ -4,7 +4,7 @@
 ---最后修改日期：7/12
 local Battle = class("Battle")
 local KnapsackData = require("app.data.KnapsackData")
-local LadderDef = require("app.def.LadderDef")
+local Ladderdata = require("app.data.Ladderdata")
 local TreasureChestOpenObtainView = require("app.scenes.HallView.common.TreasureChestOpenObtainView")
 function Battle:ctor()
     self.cups = KnapsackData:getCups()
@@ -147,7 +147,7 @@ end
     --]]
 function Battle:itemCreate(battleLayer,i,bg,icon,listView,num)
     --获取宝箱类型
-    local treasureChestType = string.sub(LadderDef[i].ICON,43,-5)
+    local treasureChestType = string.sub(Ladderdata.ITEM[i].ICON,43,-5)
     --奖励层级
     local itemLayer = ccui.Layout:create()
     itemLayer:setBackGroundColorOpacity(180)--设置为透明
@@ -252,22 +252,22 @@ end
     函数用途：识别奖励类型
     --]]
 function Battle:awardType(statusBg,i)
-    if LadderDef[i].TYPE == 1 then--宝箱
-        local treasure = ccui.ImageView:create(LadderDef[i].ICON)
+    if Ladderdata.ITEM[i].TYPE == 1 then--宝箱
+        local treasure = ccui.ImageView:create(Ladderdata.ITEM[i].ICON)
         treasure:setScale(0.8,0.8)
         treasure:pos(80, 80)
         treasure:setAnchorPoint(0.5, 0.5)
         treasure:addTo(statusBg)
-    elseif LadderDef[i].TYPE == 2 or 3 then--钻石或者金币
-        local currency = ccui.ImageView:create(LadderDef[i].ICON)
+    elseif Ladderdata.ITEM[i].TYPE == 2 or 3 then--钻石或者金币
+        local currency = ccui.ImageView:create(Ladderdata.ITEM[i].ICON)
         currency:pos(80, 95)
         currency:setAnchorPoint(0.5, 0.5)
         currency:addTo(statusBg)
-        local currencyText = ccui.Text:create(LadderDef[i].TEXT, "ui/font/fzbiaozjw.ttf", 30)
+        local currencyText = ccui.Text:create(Ladderdata.ITEM[i].TEXT, "ui/font/fzbiaozjw.ttf", 30)
         currencyText:setPosition(80,45)
         currencyText:addTo(statusBg)
-    elseif LadderDef[i].TYPE == 4 or 5  then--卡牌
-        local card = ccui.ImageView:create(LadderDef[i].ICON)
+    elseif Ladderdata.ITEM[i].TYPE == 4 or 5  then--卡牌
+        local card = ccui.ImageView:create(Ladderdata.ITEM[i].ICON)
         card:pos(80, 80)
         card:setAnchorPoint(0.5, 0.5)
         card:addTo(statusBg)

@@ -155,7 +155,7 @@ function TreasureChestOpenView:closeButton(ShopLayer,grayLayer,popLayer)
 end
 
 --[[
-    函数用途：展示宝箱开启后所能获得的物品
+    函数用途：展示宝箱开启后可能获得的物品
     参数：层，普通卡数量，稀有卡数量，史诗卡数量，传说卡数量
     --]]
 function TreasureChestOpenView:fragmentInTreasure(layer,nCardNum,rCardNum,eCardNum,lCardNum)

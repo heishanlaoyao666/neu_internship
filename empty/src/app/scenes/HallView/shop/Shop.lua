@@ -1,47 +1,14 @@
 ----内容：商店界面
 ----编写人员：郑蕾
 ---修订人员：郑蕾
----最后修改日期：7/12
+---最后修改日期：7/13
 local Shop = class("Shop")
 local KnapsackData = require("app.data.KnapsackData")
 local GoldPurchaseView = require("app.scenes.HallView.shop.layer.GoldPurchaseView")
 local TreasureChestOpenView = require("app.scenes.HallView.common.TreasureChestOpenView")
 local Shopdata = require("app.data.Shopdata")
 function Shop:ctor()
-    Shopdata:initID()
-end
-
---[[
-    函数用途：定点时间刷新
-    --]]
-function Shop:refresh()
-    local time = os.date("%X")--"%H:%M:%S"
-    if time =="00:00:00" then
-        --清除遮罩
-
-        --更新卡牌
-
-        Shopdata.ITEM[2].ID = Shopdata:randomId(1)
-        item2:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..Shopdata.ITEM[2].ID..".png")
-        print(Shopdata.ITEM[2].ID)
-
-        Shopdata.ITEM[3].ID = Shopdata:randomId(1)
-        item3:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..Shopdata.ITEM[3].ID..".png")
-        print(Shopdata.ITEM[3].ID)
-
-        Shopdata.ITEM[4].ID = Shopdata:randomId(1)
-        item4:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..Shopdata.ITEM[4].ID..".png")
-        print(Shopdata.ITEM[4].ID)
-
-        Shopdata.ITEM[5].ID = Shopdata:randomId(2)
-        item5:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..Shopdata.ITEM[5].ID..".png")
-        print(Shopdata.ITEM[5].ID)
-
-        Shopdata.ITEM[6].ID = Shopdata:randomId(3)
-        print(Shopdata.ITEM[6].ID)
-        item6:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..Shopdata.ITEM[6].ID..".png")
-
-    end
+    Shopdata:initID()--初始化商店碎片
 end
 
 --[[
@@ -123,19 +90,19 @@ function Shop:GoldStore(listView,ShopLayer)
     --金币商店商品排列
     local offsetX = 0
     item2 = self:createGoldItem(goldLayer,ShopLayer,Shopdata.ITEM[2].ID,Shopdata.ITEM[2].FRAGMENT_NUM,Shopdata.ITEM[2].PRICE,Shopdata.ITEM[2].SOLD_OUT,
-            offsetX,0)
+            offsetX,0,2)
     offsetX = offsetX+210
     item3 = self:createGoldItem(goldLayer,ShopLayer,Shopdata.ITEM[3].ID,Shopdata.ITEM[3].FRAGMENT_NUM,Shopdata.ITEM[3].PRICE,Shopdata.ITEM[3].SOLD_OUT,
-            offsetX,0)
+            offsetX,0,3)
     offsetX = -210
     item4 = self:createGoldItem(goldLayer,ShopLayer,Shopdata.ITEM[4].ID,Shopdata.ITEM[4].FRAGMENT_NUM,Shopdata.ITEM[4].PRICE,Shopdata.ITEM[4].SOLD_OUT,
-            offsetX,-220)
+            offsetX,-220,4)
     offsetX = offsetX+210
     item5 = self:createGoldItem(goldLayer,ShopLayer,Shopdata.ITEM[5].ID,Shopdata.ITEM[5].FRAGMENT_NUM,Shopdata.ITEM[5].PRICE,Shopdata.ITEM[5].SOLD_OUT,
-            offsetX,-220)
+            offsetX,-220,5)
     offsetX = offsetX+210
     item6 = self:createGoldItem(goldLayer,ShopLayer,Shopdata.ITEM[6].ID,Shopdata.ITEM[6].FRAGMENT_NUM,Shopdata.ITEM[6].PRICE,Shopdata.ITEM[6].SOLD_OUT,
-            offsetX,-220)
+            offsetX,-220,6)
 end
 
 --[[
@@ -208,7 +175,7 @@ end
     函数用途：金币商店商品的展示:
     参数：层，商品图片路径，碎片数量，商品价格，位置偏移的X,Y
     --]]
-function Shop:createGoldItem(goldLayer,ShopLayer,index,fragNum,price,soldOutState,offsetX,offsetY)
+function Shop:createGoldItem(goldLayer,ShopLayer,index,fragNum,price,soldOutState,offsetX,offsetY,i)
     local path = "ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..index..".png"
     --按钮：商品
     local ItemButton = ccui.ImageView:create(path)
@@ -255,7 +222,7 @@ function Shop:createGoldItem(goldLayer,ShopLayer,index,fragNum,price,soldOutStat
             sender:runAction(ease_elastic)
 
         elseif eventType == ccui.TouchEventType.ended then
-            GoldPurchaseView:goldPurchasePanel(goldLayer, ShopLayer, index, fragNum, price, shade,ItemButton)
+            GoldPurchaseView:goldPurchasePanel(ShopLayer, index, fragNum, price, shade,ItemButton,i)
             --self:goldPurchasePanel(layer,path,fragNum,price,ItemButton)
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)

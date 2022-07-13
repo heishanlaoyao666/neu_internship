@@ -379,7 +379,7 @@ end
 
     @return none
 ]]
-function KnapsackData:getSoldOutState(i)
+function KnapsackData:getITEM_ID(i)
     --向服务器拿数据
     return Shopdata.ITEM[i].ID
 end
@@ -390,7 +390,7 @@ end
 
     @return none
 ]]
-function KnapsackData:setSoldOutState(i,id)
+function KnapsackData:setITEM_ID(i,id)
     Shopdata.ITEM[i].ID = id
     --向服务器推送数据
 end

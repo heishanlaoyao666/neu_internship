@@ -579,30 +579,15 @@ function TopPanel:replaceHeadIcon(layer)
     --slideLayer:setBackGroundColorType(1)
     slideLayer:setAnchorPoint(0, 1)
     slideLayer:setPosition(cc.p(0, 0))
-    slideLayer:setContentSize(598, 900)
+    slideLayer:setContentSize(598, 1000)
     slideLayer:addTo(listView)
+
+
     --已获得标题
     local getTitle=ccui.ImageView:create("ui/hall/Prompt text/secondary_interface - avatar_selection_pop-up/Split_line-obtained.png")
     getTitle:setAnchorPoint(0,0)
-    getTitle:pos(20,840)
+    getTitle:pos(20,940)
     getTitle:addTo(slideLayer)
-
-
-    --确认按钮
-    local confirmBtn=ccui.Button:create(
-            "ui/hall/Prompt text/secondary_interface - avatar_selection_pop-up/button-confirm.png",
-            "",
-            "ui/hall/Prompt text/secondary_interface - avatar_selection_pop-up/button-confirm.png"
-    )
-    confirmBtn:setAnchorPoint(0,0)
-    confirmBtn:pos(180,30)
-    confirmBtn:addTo(popUpLayer)
-    confirmBtn:addTouchEventListener(function(sender, eventType)
-        if 2 == eventType then
-            self.headBg:loadTexture(self.head)
-            grayLayer:setVisible(false)--隐藏二级弹窗
-        end
-    end)
 
     --将头像分类
     local towerdataobtained = {}
@@ -618,15 +603,20 @@ function TopPanel:replaceHeadIcon(layer)
     --排列已解锁的头像
     local offsetX = 0
     local offsetY = 0
-    local finalY = display.top-300
+    local finalY = display.top-400
+    print(finalY)
     for key, value in pairs(towerdataobtained) do
         self:createGetHead(slideLayer,Towerdata.OBTAINED[value],offsetX,offsetY)
         offsetX = offsetX+130
         if key%4 ==0 then
             offsetX = 0
-            finalY = finalY + offsetY
+            finalY = finalY + offsetY-10
             offsetY = offsetY-120
         end
+    end
+    --如果已解锁数量不是4的倍数那未获得部分需要往下移动一行
+    if #towerdataobtained%4 ~=0 then
+        finalY = finalY-250
     end
 
     --未获得标题
@@ -648,6 +638,22 @@ function TopPanel:replaceHeadIcon(layer)
         end
     end
 
+
+    --确认按钮
+    local confirmBtn=ccui.Button:create(
+            "ui/hall/Prompt text/secondary_interface - avatar_selection_pop-up/button-confirm.png",
+            "",
+            "ui/hall/Prompt text/secondary_interface - avatar_selection_pop-up/button-confirm.png"
+    )
+    confirmBtn:setAnchorPoint(0,0)
+    confirmBtn:pos(180,30)
+    confirmBtn:addTo(popUpLayer)
+    confirmBtn:addTouchEventListener(function(sender, eventType)
+        if 2 == eventType then
+            self.headBg:loadTexture(self.head)
+            grayLayer:setVisible(false)--隐藏二级弹窗
+        end
+    end)
 end
 
 --[[
@@ -656,7 +662,7 @@ end
 function TopPanel:createGetHead(layer,path,offsetX,offsetY)--层级、图片路径、偏移量
     --按钮：解锁头像
     local ItemButton = ccui.Button:create(path, path, path)
-    ItemButton:setPosition(cc.p(105+offsetX, display.top-530+offsetY))
+    ItemButton:setPosition(cc.p(105+offsetX, display.top-430+offsetY))
     ItemButton:addTouchEventListener(function(sender,eventType)--点击事件
         if eventType == ccui.TouchEventType.ended then
             self.head = path
