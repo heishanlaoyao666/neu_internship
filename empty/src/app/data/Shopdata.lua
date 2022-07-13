@@ -1,4 +1,5 @@
 local Shopdata = {}
+
 --[[
     函数用途：随机获得ID
     --]]
@@ -23,6 +24,7 @@ end
     函数用途：初始化ID
     --]]
 function Shopdata:initID()
+    --向服务器发消息
     math.randomseed(os.time())
     Shopdata.ITEM[2].ID = Shopdata:randomId(1)
 
@@ -81,5 +83,24 @@ Shopdata.ITEM = {
     }
 
 }
+--[[--
+    --商店数据变成表
 
+    @param none
+
+    @return none
+]]
+function Shopdata:getDataTable()
+    local table = {
+        loginname = KnapsackData:getName(),
+    }
+    table.shopData={}
+    for i = 1, 6 do
+        table.shopData[i]={}
+        table.shopData[i].ID=self.ITEM[i].ID --商品id
+        table.shopData[i].SOLD_OUT=self.ITEM[i].SOLD_OUT_ --是否购买
+    end
+    --塔阵容数据
+    return table
+end
 return Shopdata
