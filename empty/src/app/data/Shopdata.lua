@@ -29,29 +29,13 @@ function Shopdata:initItem(shopData)
         Shopdata.ITEM[i].SOLD_OUT = shopData[i]["SOLD_OUT"]
     end
 end
---[[
-    函数用途：初始化ID
-    --]]
-function Shopdata:initID()
-    --向服务器发消息
-    math.randomseed(os.time())
-    Shopdata.ITEM[2].ID = Shopdata:randomId(1)
-
-    Shopdata.ITEM[3].ID = Shopdata:randomId(1)
-
-    Shopdata.ITEM[4].ID = Shopdata:randomId(1)
-
-    Shopdata.ITEM[5].ID = Shopdata:randomId(2)
-
-    Shopdata.ITEM[6].ID = Shopdata:randomId(3)
-end
 
 --[[
     函数用途：定点时间刷新
     --]]
 function Shopdata:refresh()
     local time = os.date("%X")--"%H:%M:%S"
-    if time =="14:44:00" then
+    if time =="16:41:00" then
         --清除遮罩
         for i = 1,6 do
             Shopdata.ITEM[i].SOLD_OUT = false
