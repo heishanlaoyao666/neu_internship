@@ -20,8 +20,11 @@ end
 function Atlas:setCOINString(str)
     coin_label:setString(str)
 end
-function Atlas:setSpeed1String(str)
-    type3label:setString(str)
+function Atlas:setSkill1String(str)
+    type5label:setString(str)
+end
+function Atlas:setSkill2String(str)
+    type6label:setString(str)
 end
 
 --收集层
@@ -569,8 +572,7 @@ function Atlas:towerinfoPanel(collectLayer,path,bg,towertype,rank)--稀有度背
     type3attri:setScale(1)
     type3attri:setPosition(cc.p(130, 370))
     type3attri:addTo(popLayer)
-    speed1 =KnapsackData:getFirecd(chartnum)
-    type3label=cc.Label:createWithTTF(speed1.."s","ui/font/fzzdhjw.ttf",26)
+    type3label=cc.Label:createWithTTF(KnapsackData:getFirecd(chartnum).."s","ui/font/fzzdhjw.ttf",26)
     type3label:setScale(1)
     type3label:setColor(cc.c3b(255, 255, 255))
     type3label:setAnchorPoint(0,1)
@@ -616,7 +618,7 @@ function Atlas:towerinfoPanel(collectLayer,path,bg,towertype,rank)--稀有度背
     else
         skilllabel = TowerDef.TABLE[chartnum].SKILLS[1].VALUE
     end
-    local type5label=cc.Label:createWithTTF(skilllabel,"ui/font/fzzdhjw.ttf",26)
+    type5label=cc.Label:createWithTTF(skilllabel,"ui/font/fzzdhjw.ttf",26)
     type5label:setScale(1)
     type5label:setColor(cc.c3b(255, 255, 255))
     type5label:setAnchorPoint(0,1)
@@ -645,7 +647,7 @@ function Atlas:towerinfoPanel(collectLayer,path,bg,towertype,rank)--稀有度背
     else
         skilllabel2 = TowerDef.TABLE[chartnum].SKILLS[2].VALUE
     end
-    local type6label=cc.Label:createWithTTF(skilllabel2,"ui/font/fzzdhjw.ttf",26)
+    type6label=cc.Label:createWithTTF(skilllabel2,"ui/font/fzzdhjw.ttf",26)
     type6label:setScale(1)
     type6label:setColor(cc.c3b(255, 255, 255))
     type6label:setAnchorPoint(0,1)
@@ -673,7 +675,7 @@ function Atlas:towerinfoPanel(collectLayer,path,bg,towertype,rank)--稀有度背
             updatelabel:addTo(popLayer)
 
             if TowerDef.TABLE[chartnum].FIRECD ~= 0 then
-                updatefirecdlabel=cc.Label:createWithTTF("+"..TowerDef.TABLE[chartnum].FIRECD,"ui/font/fzzdhjw.ttf",26)
+                updatefirecdlabel=cc.Label:createWithTTF("+"..TowerDef.TABLE[chartnum].FIRECD_UPGRADE,"ui/font/fzzdhjw.ttf",26)
                 updatefirecdlabel:setScale(1)
                 updatefirecdlabel:setColor(cc.c3b(255, 255, 255))
                 updatefirecdlabel:setAnchorPoint(0,1)
@@ -683,7 +685,7 @@ function Atlas:towerinfoPanel(collectLayer,path,bg,towertype,rank)--稀有度背
             end
 
             if skillpng ~= nil and TowerDef.TABLE[chartnum].SKILLS[1].VALUE_UPGRADE ~= 0 then
-                updateskill1label=cc.Label:createWithTTF("+"..TowerDef.TABLE[chartnum].FIRECD,"ui/font/fzzdhjw.ttf",26)
+                updateskill1label=cc.Label:createWithTTF("+"..TowerDef.TABLE[chartnum].SKILLS[1].VALUE_UPGRADE,"ui/font/fzzdhjw.ttf",26)
                 updateskill1label:setScale(1)
                 updateskill1label:setColor(cc.c3b(255, 255, 255))
                 updateskill1label:setAnchorPoint(0,1)
@@ -693,7 +695,7 @@ function Atlas:towerinfoPanel(collectLayer,path,bg,towertype,rank)--稀有度背
             end
 
             if skillpng2 ~= nil and TowerDef.TABLE[chartnum].SKILLS[2].VALUE_UPGRADE ~= 0 then
-                updateskill2label=cc.Label:createWithTTF("+"..TowerDef.TABLE[chartnum].FIRECD,"ui/font/fzzdhjw.ttf",26)
+                updateskill2label=cc.Label:createWithTTF("+"..TowerDef.TABLE[chartnum].SKILLS[2].VALUE_UPGRADE,"ui/font/fzzdhjw.ttf",26)
                 updateskill2label:setScale(1)
                 updateskill2label:setColor(cc.c3b(255, 255, 255))
                 updateskill2label:setAnchorPoint(0,1)
@@ -728,7 +730,16 @@ function Atlas:towerinfoPanel(collectLayer,path,bg,towertype,rank)--稀有度背
             KnapsackData:uplevel(chartnum)
             Atlas:setATKString(KnapsackData:getatk(chartnum))
             Atlas:setCOINString(KnapsackData:getupgradecoin(chartnum))
-            Atlas:setSpeed1String(KnapsackData:getFirecd(chartnum))
+            Atlas:setFirecdString(KnapsackData:getFirecd(chartnum).."s")
+            
+
+            if skillpng ~= nil and TowerDef.TABLE[chartnum].SKILLS[1].VALUE_UPGRADE ~= 0 then
+                Atlas:setSkill1String(KnapsackData:getSkill1(chartnum))
+            end
+
+            if skillpng2 ~= nil and TowerDef.TABLE[chartnum].SKILLS[2].VALUE_UPGRADE ~= 0 then
+                Atlas:setSkill2String(KnapsackData:getSkill2(chartnum))
+            end
 
             updatelabel:setVisible(false)
             updatefirecdlabel:setVisible(false)

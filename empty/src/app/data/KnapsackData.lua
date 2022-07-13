@@ -486,6 +486,17 @@ function KnapsackData:getFirecd(id)
     return TowerDef.TABLE[id].FIRECD +(towerData[id].level_ -initlevel[id])*TowerDef.TABLE[id].FIRECD_UPGRADE
 end
 
+function KnapsackData:getSkill1(id)
+    print(towerData[id].level_)
+    return TowerDef.TABLE[id].SKILLS[1].VALUE +(towerData[id].level_ -initlevel[id])*TowerDef.TABLE[id].SKILLS[1].VALUE_UPGRADE
+end
+
+function KnapsackData:getSkill2(id)
+    print(towerData[id].level_)
+    return TowerDef.TABLE[id].SKILLS[2].VALUE +(towerData[id].level_ -initlevel[id])*TowerDef.TABLE[id].SKILLS[2].VALUE_UPGRADE
+end
+
+
 
 
 function KnapsackData:getupgradecoin(id)
