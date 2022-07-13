@@ -8,7 +8,6 @@ local GoldPurchaseView = require("app.scenes.HallView.shop.layer.GoldPurchaseVie
 local TreasureChestOpenView = require("app.scenes.HallView.common.TreasureChestOpenView")
 local Shopdata = require("app.data.Shopdata")
 function Shop:ctor()
-    Shopdata:initID()--初始化商店碎片
 end
 
 --[[
