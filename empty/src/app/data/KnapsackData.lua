@@ -448,7 +448,6 @@ function KnapsackData:shopRefresh()
         msg.type=MsgDef.MSG_TYPE_REQ.SHOPREFRESH
         MsgController:sendMsg(msg)
     end
-
 end
 
 

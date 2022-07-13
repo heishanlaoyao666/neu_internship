@@ -14,15 +14,16 @@ local Bullet = require("app/data/Bullet.lua")
 local BuffTable = require("app/data/BuffTable.lua")
 
 local EventManager = require("app/manager/EventManager.lua")
-local bullets_= {} --子弹数组
-local monsters_ = {} --敌人数组
-local tower_array = {} --塔阵容
-local sp = 0 --sp点数
-local sp_cost = 10 --生成塔需要的cost
+
 function Player:ctor()
     self.towers={} --二维数组
     self.tag_ = 0 --玩家所在半区标签
     self.name_=""
+    self.bullets_= {} --子弹数组
+    self.monsters_ = {} --敌人数组
+    self.tower_array = {} --塔阵容
+    self.sp_ = 0 --sp点数
+    self.sp_cost = 10 --生成塔需要的cost
     for i = 1,3 do
         self.towers[i]={}
         for j = 1,5 do
@@ -40,8 +41,8 @@ end
 ]]
 function Player:init(array,tag)
     self.life=3
-    sp = 100
-    tower_array=array
+    self.sp_ = 100
+    self.tower_array=array
     self.tag_=tag
     EventManager:regListener(EventDef.ID.INIT_BULLET, self, function(tower)
         self:bulletCreate(tower)
@@ -83,7 +84,7 @@ end
     @return sp_cost
 ]]
 function Player:getSpCost()
-    return sp_cost
+    return self.sp_cost
 end
 --[[--
     设置sp点数
@@ -93,8 +94,8 @@ end
     @return sp
 ]]
 function Player:setSp(sp_)
-    sp=sp+sp_
-    return sp
+    self.sp_=self.sp_+sp_
+    return self.sp_
 end
 --[[--
     获取塔数组
@@ -114,7 +115,7 @@ end
     @return tower_array
 ]]
 function Player:getTowerArray()
-    return tower_array
+    return self.tower_array
 end
 --[[--
     获取塔阵容第i个的强化所需费用
@@ -124,7 +125,7 @@ end
     @return tower_array
 ]]
 function Player:getTowerGradeCost(i)
-    return TowerDef.GRADE_COST[tower_array[i].grade_]
+    return TowerDef.GRADE_COST[self.tower_array[i].grade_]
 end
 --[[--
     获取塔阵容
@@ -134,7 +135,7 @@ end
     @return tower_array
 ]]
 function Player:getTowerGrade(i)
-    return tower_array[i].grade_
+    return self.tower_array[i].grade_
 end
 --[[--
     塔阵容某个塔强化
@@ -144,9 +145,9 @@ end
     @return none
 ]]
 function Player:upTowerGrade(i)
-    if sp >=TowerDef.GRADE_COST[tower_array[i].grade_] then
-        sp=sp-TowerDef.GRADE_COST[tower_array[i].grade_]
-        tower_array[i].grade_=tower_array[i].grade_+1
+    if self.sp_ >=TowerDef.GRADE_COST[self.tower_array[i].grade_] then
+        self.sp_=self.sp_-TowerDef.GRADE_COST[self.tower_array[i].grade_]
+        self.tower_array[i].grade_=self.tower_array[i].grade_+1
     end
 end
 --[[--
@@ -168,11 +169,11 @@ function Player:createTower()
     if sum == 15 then
         return
     end
-    if sp<sp_cost then
+    if self.sp_<self.sp_cost then
         return
     end
-    sp=sp-sp_cost
-    sp_cost=sp_cost+10
+    self.sp_=self.sp_-self.sp_cost
+    self.sp_cost=self.sp_cost+10
 
     local random = math.random(1,15)
     local x = random%5
@@ -195,7 +196,7 @@ function Player:createTower()
         end
     end
     local id=math.random(1,5)
-    self:createTowerEnd(tower_array[id].id_,tower_array[id].level_,tower_array[id].grade_,x,y)
+    self:createTowerEnd(self.tower_array[id].id_,self.tower_array[id].level_,self.tower_array[id].grade_,x,y)
 end
 
 --[[--
@@ -250,7 +251,7 @@ function Player:composeTower(tower1,tower2)
     tower1:destory()
     tower2:destory()
     local id=math.random(1,5)
-    self:createTowerEnd(tower_array[id].id_,tower_array[id].level_,tower1:getGrade()+1,x,y)
+    self:createTowerEnd(self.tower_array[id].id_,self.tower_array[id].level_,tower1:getGrade()+1,x,y)
 end
 --[[--
     怪物创建
@@ -266,9 +267,9 @@ function Player:createMonster(life,givesp,tag)
 
     if tag ~= ConstDef.MONSTER_TAG.NORMAL and tag~=ConstDef.MONSTER_TAG.SPEED and tag~=ConstDef.MONSTER_TAG.PLUS then
         local newlife = 0
-        for i = 1, #monsters_ do
-            newlife=newlife+monsters_[i]:getLife()
-            monsters_[i]:destory()
+        for i = 1, #self.monsters_ do
+            newlife=newlife+self.monsters_[i]:getLife()
+            self.monsters_[i]:destory()
         end
         monster:setLife(newlife*0.5)
     end
@@ -287,14 +288,15 @@ function Player:createMonster(life,givesp,tag)
         ))
     end
     monster:setTarget(ConstDef.TARGET[self.tag_])
-    monsters_[#monsters_+1] = monster
+    self.monsters_[#self.monsters_+1] = monster
+    print(self.tag_.." "..#self.monsters_)
 end
 function Player:update(dt)
     local destoryBullets = {}
     local destoryTowers = {}
     local destoryMonster = {}
-    for i = 1, #bullets_ do
-        local bullet =bullets_[i]
+    for i = 1, #self.bullets_ do
+        local bullet =self.bullets_[i]
         bullet:update(dt)
         if bullet:isDeath() then
             destoryBullets[#destoryBullets + 1] = bullet
@@ -310,11 +312,11 @@ function Player:update(dt)
         end
     end
 
-    for i = 1, #monsters_ do
-        monsters_[i]:update(dt)
-        if not monsters_[i]:isDeath() then
+    for i = 1, #self.monsters_ do
+        self.monsters_[i]:update(dt)
+        if not self.monsters_[i]:isDeath() then
         else
-            destoryMonster[#destoryMonster + 1] = monsters_[i]
+            destoryMonster[#destoryMonster + 1] = self.monsters_[i]
         end
     end
 
@@ -324,18 +326,18 @@ function Player:update(dt)
 
     -- 清理失效子弹
     for i = #destoryBullets, 1, -1 do
-        for j = #bullets_, 1, -1 do
-            if bullets_[j] == destoryBullets[i] then
-                table.remove(bullets_, j)
+        for j = #self.bullets_, 1, -1 do
+            if self.bullets_[j] == destoryBullets[i] then
+                table.remove(self.bullets_, j)
             end
         end
     end
 
     -- 清理失效怪物
     for i = #destoryMonster, 1, -1 do
-        for j = #monsters_, 1, -1 do
-            if monsters_[j] == destoryMonster[i] then
-                table.remove(monsters_, j)
+        for j = #self.monsters_, 1, -1 do
+            if self.monsters_[j] == destoryMonster[i] then
+                table.remove(self.monsters_, j)
             end
         end
     end
@@ -370,7 +372,7 @@ function Player:bulletCreate(tower)
     local bullet = Bullet.new(tower)
     bullet:setX(tower:getX())
     bullet:setY(tower:getY())
-    bullets_[#bullets_+1] = bullet
+    self.bullets_[#self.bullets_+1] = bullet
     --为子弹添加buff
     for i = 1, #TowerDef.BUFF[tower:getID()].BULLET do
         local data = TowerDef.BUFF[tower:getID()].BULLET[i]
@@ -388,18 +390,18 @@ function Player:bulletCreate(tower)
     end
     local monster = nil
     if tower:getMode() == TowerDef.MODE.FRIST then
-        monster=monsters_[1]
+        monster=self.monsters_[1]
     end
     if tower:getMode() == TowerDef.MODE.MAXLIFE then
-        monster=monsters_[1]
-        for i = 1, #monsters_ do
-            if monster:getLife()<monsters_[i]:getLife() then
-                monster=monsters_[i]
+        monster=self.monsters_[1]
+        for i = 1, #self.monsters_ do
+            if monster:getLife()<self.monsters_[i]:getLife() then
+                monster=self.monsters_[i]
             end
         end
     end
     if tower:getMode() == TowerDef.MODE.RANDOM then
-        monster =monsters_[math.random(1,#monsters_)]
+        monster =self.monsters_[math.random(1,#self.monsters_)]
     end
     if monster then
         bullet:setTarget(monster)
@@ -425,6 +427,6 @@ end
     @return number
 ]]
 function Player:getMonsterForBullet(bullet)
-    return monsters_
+    return self.monsters_
 end
 return Player

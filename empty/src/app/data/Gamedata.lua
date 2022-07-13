@@ -32,7 +32,7 @@ local moveTower = {
 function GameData:init()
     self.sp_ = 0 -- 类型：number，sp点数
     self.opposite_ = Player.new() --类型：player,游戏对手
-    self.player_=Player.new()
+    self.player_=Player.new() --类型：player,游戏对手
 
     self.monster_tick_ = 0 --类型：number,怪物生成tick
     -- 类型：number，游戏状态
@@ -317,6 +317,7 @@ function GameData:update(dt)
         self.monster_tick_=self.monster_tick_-stage_.TICK
         for i = 1, stage_.NUMBER do
             self.player_:createMonster(stage_.LIFE*self.monset_stage_,stage_.SP,ConstDef.MONSTER_TAG.NORMAL)
+            self.opposite_:createMonster(stage_.LIFE*self.monset_stage_,stage_.SP,ConstDef.MONSTER_TAG.NORMAL)
         end
         --self.opposite_:createMonster(stage_.LIFE*self.monset_stage_,stage_.SP,ConstDef.MONSTER_TAG.NORMAL)
     end
