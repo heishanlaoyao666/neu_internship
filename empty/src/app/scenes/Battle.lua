@@ -84,18 +84,13 @@ function Battle:moveButton(highLadderLayer)
     leftButton:setPosition(cc.p(30, 160))
     leftButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
         if eventType == ccui.TouchEventType.began then
-            local scale = cc.ScaleTo:create(1,0.9)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
+            self:setButtonScale(1,0.9,sender)
+
         elseif eventType == ccui.TouchEventType.ended then
-            local scale = cc.ScaleTo:create(1,1)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
+            self:setButtonScale(1,1,sender)
 
         elseif eventType == ccui.TouchEventType.canceled then
-            local scale = cc.ScaleTo:create(1,1)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
+            self:setButtonScale(1,1,sender)
         end
     end)
     leftButton:addTo(highLadderLayer)
@@ -107,17 +102,13 @@ function Battle:moveButton(highLadderLayer)
     rightButton:setPosition(cc.p(645, 160))
     rightButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
         if eventType == ccui.TouchEventType.began then
-            local scale = cc.ScaleTo:create(1,0.9)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
+            self:setButtonScale(1,0.9,sender)
+
         elseif eventType == ccui.TouchEventType.ended then
-            local scale = cc.ScaleTo:create(1,1)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
+            self:setButtonScale(1,1,sender)
+
         elseif eventType == ccui.TouchEventType.canceled then
-            local scale = cc.ScaleTo:create(1,1)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
+            self:setButtonScale(1,1,sender)
         end
     end)
     rightButton:addTo(highLadderLayer)
@@ -127,9 +118,8 @@ end
     函数用途：展示各个进度的奖励
     --]]
 function Battle:awards(battleLayer,listView)
-    local num = self.cups/50--奖励进度,最多23个
+    local num = 4--self.cups/50--奖励进度,最多23个
     print("共可领取的奖励个数为:"..num)
-
     for i = 1,num do--已达成，未领取
         local bg = "ui/hall/battle/rank/availableButNotReceive.png"
         local icon = "null"
@@ -239,14 +229,6 @@ function Battle:itemCreate(battleLayer,i,bg,icon,listView,num)
     listView:pushBackCustomItem(itemLayer)
 end
 
---[[
-    函数用途：按钮放缩特效
-    --]]
-function Battle:setButtonScale(X,Y,sender)
-        local scale = cc.ScaleTo:create(X,Y)
-    local ease_elastic = cc.EaseElasticOut:create(scale)
-    sender:runAction(ease_elastic)
-end
 
 --[[
     函数用途：识别奖励类型
@@ -301,23 +283,23 @@ end
     函数用途：根据奖励类型进行相应数据的改变
     --]]
 function Battle:drawAward(i,battleLayer,treasureChestType)
-    if LadderDef[i].TYPE == 1 then--宝箱
+    if Ladderdata.ITEM[i].TYPE == 1 then--宝箱
         --宝箱获得物品弹窗
-        TreasureChestOpenObtainView:obtainFromTreasurePanel(battleLayer,treasureChestType,LadderDef[i].TEXT)
+        TreasureChestOpenObtainView:obtainFromTreasurePanel(battleLayer,treasureChestType,Ladderdata.ITEM[i].TEXT)
         --金币数量增加
-        KnapsackData:setGoldCoin(LadderDef[i].TEXT)
-    elseif LadderDef[i].TYPE == 2 then--金币
+        KnapsackData:setGoldCoin(Ladderdata.ITEM[i].TEXT)
+    elseif Ladderdata.ITEM[i].TYPE == 2 then--金币
         --金币数量增加
-        KnapsackData:setGoldCoin(LadderDef[i].TEXT)
-    elseif LadderDef[i].TYPE == 3 then--钻石
+        KnapsackData:setGoldCoin(Ladderdata.ITEM[i].TEXT)
+    elseif Ladderdata.ITEM[i].TYPE == 3 then--钻石
         --钻石数量增加
-        KnapsackData:setDiamonds(LadderDef[i].TEXT)
-    elseif LadderDef[i].TYPE == 4 then--固定传奇卡
+        KnapsackData:setDiamonds(Ladderdata.ITEM[i].TEXT)
+    elseif Ladderdata.ITEM[i].TYPE == 4 then--固定传奇卡
         --添加碎片
         KnapsackData:setTowerFragment_(19,1)
         --卡牌解锁
         self:towerStateChange(19)
-    elseif LadderDef[i].TYPE == 5 then--抽取随机一张卡牌
+    elseif Ladderdata.ITEM[i].TYPE == 5 then--抽取随机一张卡牌
         math.randomseed(os.time())
         local legendArray = {"05","06","13","19"}
         local legendIndex = math.random(1, #legendArray)
@@ -340,5 +322,14 @@ function Battle:towerStateChange(id)
         KnapsackData:unlockTower(id)
         print("解锁卡牌成功！")
     end
+end
+
+--[[
+    函数用途：按钮放缩特效
+    --]]
+function Battle:setButtonScale(X,Y,sender)
+    local scale = cc.ScaleTo:create(X,Y)
+    local ease_elastic = cc.EaseElasticOut:create(scale)
+    sender:runAction(ease_elastic)
 end
 return Battle

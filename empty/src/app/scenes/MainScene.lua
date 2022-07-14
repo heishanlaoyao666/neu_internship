@@ -2,6 +2,7 @@ local MainScene = class("MainScene", function()
     return display.newScene("MainScene")
 end)
 local TopPanel = require("app.scenes.TopPanel")
+local BottomTab = require("app.scenes.HallView.bottomTab.MenuLayer")
 local Shop = require("app.scenes.HallView.shop.Shop")
 local Atlas = require("app.scenes.Atlas")
 local Battle = require("app.scenes.Battle")
@@ -12,6 +13,7 @@ local EventDef = require("app/def/EventDef.lua")
 local Shopdata = require("app.data.Shopdata")
 
 function MainScene:ctor()
+    self:loadingPanel()--没播放完就被替换掉了，为啥
     KnapsackData:init()
     self:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, handler(self, self.update))
     self:performWithDelay(function() 
@@ -22,7 +24,6 @@ function MainScene:ctor()
         local shop = Shop.new()
         local atlas = Atlas.new()
         local battle = Battle.new()
-        local menu = MenuLayer.new()
         local layer1 = shop:ShopPanel()
         local layer2 = battle:battlePanel()
         local layer3 = atlas:createCollectionPanel()
@@ -37,7 +38,7 @@ function MainScene:ctor()
         layer:setContentSize(720, 1280)
         layer:addTo(self)
 
-        menu:createBottomTab(layer,pageView)--底部按钮导航栏
+        BottomTab:createBottomTab(layer,pageView)--底部按钮导航栏
         TopPanel:createMiddleTopPanel(layer)--顶部信息栏
     end)
 
@@ -62,8 +63,11 @@ function MainScene:sliderView(layer1,layer2,layer3)
     local function PageViewCallBack(sender,event)
         -- 翻页时
         if event==ccui.PageViewEventType.turning then
-            -- getCurrentPageIndex() 获取当前翻到的页码 打印
             --print("当前页码是"..pageView:getCurPageIndex() + 1)
+            local index = pageView:getCurPageIndex()
+            if index == 0 then--商店状态
+                --BottomTab:shopState()
+            end
         end
     end
     pageView:addEventListener(PageViewCallBack)
@@ -72,6 +76,9 @@ function MainScene:sliderView(layer1,layer2,layer3)
     return pageView
 end
 
+--[[
+    函数用途：大厅背景图
+    --]]
 function MainScene:createBg()
     local width ,height  =display.width,display.top
     local bgLayer = ccui.Layout:create()
@@ -93,9 +100,9 @@ function MainScene:loadingPanel()
     loadPanel:setPosition(0,0)
     loadPanel:addTo(self)
 
-    display.newSprite("ui/loading/bottomchart.jpg")--加载页面_背景图
-           :pos(display.cx,display.cy)
-           :addTo(loadPanel)
+    local loadingBg = ccui.ImageView:create("ui/loading/bottomchart.jpg")--加载页面_背景图
+    loadingBg:pos(display.cx,display.cy)
+    loadingBg:addTo(loadPanel)
 
     local tips = cc.Label:createWithTTF("大厅预加载，进行中...","ui/font/fzhz.ttf",20)--文本：大厅预加载
     tips:setPosition(360,30)
@@ -103,18 +110,10 @@ function MainScene:loadingPanel()
     tips:addTo(loadPanel)
 
     local progressNum = 0--文本：加载进度
-    local progress = cc.Label:createWithTTF(progressNum,"ui/font/fzhz.ttf",20)
+    local progress = cc.Label:createWithTTF(progressNum.."%","ui/font/fzhz.ttf",20)
     progress:setPosition(650,30)
     progress:setColor(cc.c3b(255,239,117))
     progress:addTo(loadPanel)
-
-    --[[ cc.Director:getInstance():getScheduler():scheduleScriptFunc(
-             function()
-                 progressNum = progressNum+1
-                 progress:setString(progressNum)
-             end,0.1,false)--]]
-
-
 
     local barProBg = cc.Sprite:create("ui/loading/processbar_bottomchart.png")--进度条背景
     barProBg:setAnchorPoint(0,0)
@@ -131,13 +130,23 @@ function MainScene:loadingPanel()
     barPro:addTo(loadPanel)
     barPro:setPercentage(0)--起始进度为0
 
-    local loadAction = cc.ProgressFromTo:create(5,0,100)--动作：5秒内从0到100
+    local loadAction = cc.ProgressFromTo:create(5,0,57)--动作：5秒内从0到100
+    local progressScheduler= cc.Director:getInstance():getScheduler()--刷新生命计时器
+    local handler = progressScheduler:scheduleScriptFunc(
+            function()
+                if progressNum<100 then
+                    progressNum = progressNum+1
+                    progress:setString(progressNum.."%")
+                end
+            end,1/24,false)
     local callFuncAction = cc.CallFunc:create(function()--动作执行完毕回调函数
+        cc.Director:getInstance():getScheduler():unscheduleScriptEntry(handler)
         loadPanel:setVisible(false)
     end)
-    local delayTimeAction = cc.DelayTime:create(0.5)--延时0.5s
+    local delayTimeAction = cc.DelayTime:create(1)--延时0.1s
     local sequenceAction = cc.Sequence:create(loadAction,delayTimeAction,callFuncAction)
     barPro:runAction(sequenceAction)
+
 
 end
 --[[--
