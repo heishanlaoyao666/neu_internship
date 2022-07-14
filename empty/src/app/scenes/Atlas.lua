@@ -6,6 +6,7 @@ local Towerdata = require("app/data/Towerdata")
 local TowerDef = require("app/def/TowerDef")
 local KnapsackData = require("app.data.KnapsackData")
 local Music = require("app/data/Music")
+local GeneralView = require("app.scenes.HallView.common.GeneralView")
 
 
 function Atlas:ctor()
@@ -663,6 +664,30 @@ function Atlas:towerinfoPanel(collectLayer,path,bg,towertype,rank)--稀有度背
             "ui/hall/Atlas/Secondaryinterface_towerinfo/button_upgrade.png")
     -- local updatelabel
     upgradeButton:setPosition(cc.p(320, 110))
+    upgradeButton:addTo(popLayer)
+
+    local coin_icon = ccui.ImageView:create("ui/hall/Atlas/Secondaryinterface_towerinfo/icon_coin.png")
+    coin_icon:setScale(1)
+    coin_icon:setPosition(cc.p(50, 30))
+    coin_icon:addTo(upgradeButton)
+
+    local coinnum
+    if rarity == 1 then
+        coinnum = 5
+    elseif rarity ==2 then
+        coinnum = 50
+    elseif rarity ==3 then
+        coinnum = 400
+    else
+        coinnum =8000
+    end
+    coin_label=cc.Label:createWithTTF(KnapsackData:getupgradecoin(chartnum),"ui/font/fzbiaozjw.ttf",24)
+    coin_label:setScale(1)
+    coin_label:setColor(cc.c3b(255, 255, 255))
+    coin_label:setPosition(cc.p(110, 30))
+    coin_label:enableOutline(cc.c4b(0, 0, 0, 255),2)
+    coin_label:addTo(upgradeButton)
+
     upgradeButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
         if eventType == ccui.TouchEventType.began then
             --满级条件加入消除bug-----
@@ -711,6 +736,15 @@ function Atlas:towerinfoPanel(collectLayer,path,bg,towertype,rank)--稀有度背
             sender:runAction(ease_elastic)
         elseif eventType == ccui.TouchEventType.ended then
 
+            --消耗金币
+            if KnapsackData:setGoldCoin(-KnapsackData:getupgradecoin(chartnum)) then--如果金币充足
+                print("升级后金币数量为"..KnapsackData:getGoldCoin())
+            else--金币不足
+                popLayer:setVisible(false)
+                GeneralView:popUpLayer(towerinfoLayer,"CardGold")
+            end
+            KnapsackData:sendData()
+
             local SettingMusic = require("app/scenes/SettingMusic")
             local MusicOn = SettingMusic:isMusic1()
             print(MusicOn)
@@ -731,7 +765,7 @@ function Atlas:towerinfoPanel(collectLayer,path,bg,towertype,rank)--稀有度背
             Atlas:setATKString(KnapsackData:getatk(chartnum))
             Atlas:setCOINString(KnapsackData:getupgradecoin(chartnum))
             Atlas:setFirecdString(KnapsackData:getFirecd(chartnum).."s")
-            
+
 
             if skillpng ~= nil and TowerDef.TABLE[chartnum].SKILLS[1].VALUE_UPGRADE ~= 0 then
                 Atlas:setSkill1String(KnapsackData:getSkill1(chartnum))
@@ -764,30 +798,6 @@ function Atlas:towerinfoPanel(collectLayer,path,bg,towertype,rank)--稀有度背
             --Atlas:setCOINString(KnapsackData:getupgradecoin(chartnum))
         end
     end)
-    upgradeButton:addTo(popLayer)
-
-    local coin_icon = ccui.ImageView:create("ui/hall/Atlas/Secondaryinterface_towerinfo/icon_coin.png")
-    coin_icon:setScale(1)
-    coin_icon:setPosition(cc.p(50, 30))
-    coin_icon:addTo(upgradeButton)
-
-    local coinnum
-    if rarity == 1 then
-        coinnum = 5
-    elseif rarity ==2 then
-        coinnum = 50
-    elseif rarity ==3 then
-        coinnum = 400
-    else
-        coinnum =8000
-    end
-    coin_label=cc.Label:createWithTTF(KnapsackData:getupgradecoin(chartnum),"ui/font/fzbiaozjw.ttf",24)
-    coin_label:setScale(1)
-    coin_label:setColor(cc.c3b(255, 255, 255))
-    coin_label:setPosition(cc.p(110, 30))
-    coin_label:enableOutline(cc.c4b(0, 0, 0, 255),2)
-    coin_label:addTo(upgradeButton)
-
 
 
 

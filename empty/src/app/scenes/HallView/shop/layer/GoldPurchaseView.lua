@@ -88,9 +88,9 @@ function GoldPurchaseView:confirmButton(grayLayer,popLayer,price,shade,fragNum,i
                 --售罄遮罩
                 KnapsackData:setSoldOutState(i,true)
                 shade:setVisible(KnapsackData:getSoldOutState(i))
-
-
+                print("商品已售罄")
                 ItemButton:setTouchEnabled(false)
+
                 --卡牌解锁
                 if KnapsackData:getTowerUnlock_(id) then--卡牌已解锁
                     print("卡牌已解锁")

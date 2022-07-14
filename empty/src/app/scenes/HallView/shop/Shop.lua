@@ -9,7 +9,47 @@ local TreasureChestOpenView = require("app.scenes.HallView.common.TreasureChestO
 local Shopdata = require("app.data.Shopdata")
 function Shop:ctor()
 end
+--[[
+    函数用途：定点时间刷新
+    --]]
+function Shop:refresh()
+    local time = os.date("%X")--"%H:%M:%S"
+    if time =="11:18:59" then
+        --清除遮罩
+        for i = 1,6 do
+            KnapsackData:setSoldOutState(i,false)
+        end
+        --更新卡牌
+        KnapsackData:setITEM_ID(2,Shopdata:randomId(1))
+        KnapsackData:setITEM_ID(3,Shopdata:randomId(1))
+        KnapsackData:setITEM_ID(4,Shopdata:randomId(1))
+        KnapsackData:setITEM_ID(5,Shopdata:randomId(2))
+        KnapsackData:setITEM_ID(6,Shopdata:randomId(3))
 
+
+        --Shopdata.ITEM[2].ID = Shopdata:randomId(1)
+        item2:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..KnapsackData:getITEM_ID(2)..".png")
+        --print(KnapsackData:getITEM_ID(2))
+
+        --Shopdata.ITEM[3].ID = Shopdata:randomId(1)
+        item3:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..KnapsackData:getITEM_ID(3)..".png")
+        --print(KnapsackData:getITEM_ID(3))
+
+        --Shopdata.ITEM[4].ID = Shopdata:randomId(1)
+        item4:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..KnapsackData:getITEM_ID(4)..".png")
+        --print(KnapsackData:getITEM_ID(4))
+
+        --Shopdata.ITEM[5].ID = Shopdata:randomId(2)
+        item5:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..KnapsackData:getITEM_ID(5)..".png")
+        --print(KnapsackData:getITEM_ID(5))
+
+        --Shopdata.ITEM[6].ID = Shopdata:randomId(3)
+        --print(KnapsackData:getITEM_ID(6))
+        item6:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..KnapsackData:getITEM_ID(6)..".png")
+
+        KnapsackData:sendData()
+    end
+end
 --[[
     函数用途：商店一级页面的展示
     --]]
@@ -157,7 +197,10 @@ function Shop:freeItem(ShopLayer)
             --钻石数量增加100
             KnapsackData:setDiamonds(100)
             --添加售罄遮罩
-            shade:setVisible(true)
+            --售罄遮罩
+            KnapsackData:setSoldOutState(1,true)
+            shade:setVisible(KnapsackData:getSoldOutState(1))
+            print("商品已售罄")
             --商品不可点击
             freeItemButton:setTouchEnabled(false)
             --传输数据
