@@ -11,6 +11,8 @@ local MenuLayer = require("app.scenes.HallView.bottomTab.MenuLayer")
 local EventManager = require("app/manager/EventManager.lua")
 local EventDef = require("app/def/EventDef.lua")
 local Shopdata = require("app.data.Shopdata")
+local Music = require("app/data/Music")
+local SettingMusic = require("src/app/scenes/SettingMusic")
 
 function MainScene:ctor()
     self:loadingPanel()--没播放完就被替换掉了，为啥
@@ -40,6 +42,20 @@ function MainScene:ctor()
 
         BottomTab:createBottomTab(layer,pageView)--底部按钮导航栏
         TopPanel:createMiddleTopPanel(layer)--顶部信息栏
+
+        local MusicOn = SettingMusic:isMusic2()
+        print(MusicOn)
+        if MusicOn == true then
+            local audio = require("framework.audio")
+            audio.loadFile(Music.MUSIC[1], function ()
+                audio.playEffect(Music.MUSIC[1])
+            end)
+        else
+            local audio = require("framework.audio")
+            audio.loadFile(Music.MUSIC[1], function ()
+                audio.stopEffect()
+            end)
+        end
     end)
 
     KnapsackData:Login()

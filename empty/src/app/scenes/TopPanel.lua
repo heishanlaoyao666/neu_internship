@@ -338,14 +338,16 @@ function TopPanel:settingLayer(grayLayer)
         if state then
             print("1")
 
-            local isEffect = SettingMusic:setMusic1(true)
+            local isMusic = SettingMusic:setMusic1(true)
+            print(isMusic)
             print("音效开启")
 
             --音效是开启音效时候，全局变量设置为1，进入游戏界面如果全局变量1，则音效开启
         else
             print("2")
 
-            local isEffect = SettingMusic:setMusic1(false)
+            local isMusic = SettingMusic:setMusic1(false)
+            print(isMusic)
             print("音效关闭")
             --音效是关闭音效时候，全局变量设置为2，进入游戏界面如果全局变量2，则音效关闭
         end
@@ -377,6 +379,7 @@ function TopPanel:settingLayer(grayLayer)
             print("1")
 
             local isMusic = SettingMusic:setMusic2(true)
+            print(isMusic)
             print("音乐开启")
 
             --音效是开启音效时候，全局变量设置为1，进入游戏界面如果全局变量1，则音效开启
@@ -385,6 +388,7 @@ function TopPanel:settingLayer(grayLayer)
 
 
             local isMusic = SettingMusic:setMusic2(false)
+            print(isMusic)
             print("音乐关闭")
             --音效是关闭音效时候，全局变量设置为2，进入游戏界面如果全局变量2，则音效关闭
         end
@@ -417,6 +421,7 @@ function TopPanel:settingLayer(grayLayer)
             print("1")
 
             local isMusic = SettingMusic:setMusic3(true)
+            print(isMusic)
             print("技能介绍开启")
 
             --音效是开启音效时候，全局变量设置为1，进入游戏界面如果全局变量1，则音效开启
@@ -425,6 +430,7 @@ function TopPanel:settingLayer(grayLayer)
 
 
             local isMusic = SettingMusic:setMusic3(false)
+            print(isMusic)
             print("技能介绍关闭")
             --音效是关闭音效时候，全局变量设置为2，进入游戏界面如果全局变量2，则音效关闭
         end

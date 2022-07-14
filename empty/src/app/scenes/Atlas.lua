@@ -6,6 +6,7 @@ local Towerdata = require("app/data/Towerdata")
 local TowerDef = require("app/def/TowerDef")
 local KnapsackData = require("app.data.KnapsackData")
 local Music = require("app/data/Music")
+local SettingMusic = require("src/app/scenes/SettingMusic")
 local GeneralView = require("app.scenes.HallView.common.GeneralView")
 
 
@@ -222,6 +223,20 @@ function Atlas:createCollectedItem(AtlasLayer,collectLayer,path,bg,towertype,ran
             sender:runAction(ease_elastic)
 
         elseif eventType == ccui.TouchEventType.ended then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.playEffect(Music.COMMON[1])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.stopEffect()
+                end)
+            end
+            
             self:towerinfoPanel(collectLayer,path,bg,towertype,rank)
 
             local scale = cc.ScaleTo:create(1,1)
@@ -735,6 +750,13 @@ function Atlas:towerinfoPanel(collectLayer,path,bg,towertype,rank)--稀有度背
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
         elseif eventType == ccui.TouchEventType.ended then
+            --消耗碎片
+            if KnapsackData:setTowerFragment_(chartnum,-KnapsackData:getupgradefrag(chartnum)) then
+                print("升级后碎片数量为"..KnapsackData:getTowerFragment_(chartnum))
+            else--碎片不足
+                popLayer:setVisible(false)
+                GeneralView:popUpLayer(towerinfoLayer,"CardFragment")
+            end
 
             --消耗金币
             if KnapsackData:setGoldCoin(-KnapsackData:getupgradecoin(chartnum)) then--如果金币充足
@@ -745,7 +767,7 @@ function Atlas:towerinfoPanel(collectLayer,path,bg,towertype,rank)--稀有度背
             end
             KnapsackData:sendData()
 
-            local SettingMusic = require("app/scenes/SettingMusic")
+            
             local MusicOn = SettingMusic:isMusic1()
             print(MusicOn)
             if MusicOn == true then
@@ -893,6 +915,19 @@ function Atlas:towerinfoPanel(collectLayer,path,bg,towertype,rank)--稀有度背
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
         elseif eventType == ccui.TouchEventType.ended then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[2], function ()
+                    audio.playEffect(Music.COMMON[2])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[2], function ()
+                    audio.stopEffect()
+                end)
+            end
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)

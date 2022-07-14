@@ -507,6 +507,15 @@ function KnapsackData:getupgradecoin(id)
     end
 end
 
+function KnapsackData:getupgradefrag(id)
+    local num = towerData[id].level_
+    if a[id] ~=0 then
+        return TowerDef.UPLEVELFRAG2[num]
+    else
+        return "已满级"
+    end
+end
+
 function KnapsackData:getTowerData(id)
     return towerData[id]
 end
