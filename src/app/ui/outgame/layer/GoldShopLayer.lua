@@ -1,14 +1,14 @@
 --[[--
     商店层
-    GoldShopLayer.lua
+    TopInfoLayer
 ]]
-local GoldShopLayer = class("GoldShopLayer", require("app.ui.outgame.layer.BaseLayer"))
+local GoldShopLayer = class("GoldShopLayer", function()
+    return display.newLayer()
+end)
 local OutGameData = require("app.data.outgame.OutGameData")
-local EventDef = require("app.def.EventDef")
+local EventDef = require("app.def.outgame.EventDef")
 local EventManager = require("app.manager.EventManager")
 local BuyLayer = require("app.ui.outgame.layer.BuyLayer")
-local scheduler = require("framework.scheduler")
-local socket = require "socket"
 --[[--
     构造函数
 
@@ -17,7 +17,6 @@ local socket = require "socket"
     @return none
 ]]
 function GoldShopLayer:ctor()
-    GoldShopLayer.super.ctor(self)
     self.packs=OutGameData:goldShop()
 
     self:initView()
@@ -32,7 +31,6 @@ end
 ]]
 function GoldShopLayer:initView()
     local width, height = display.width, 1120
-    local now=socket.gettime()
     --商店界面
     self.container_1 = ccui.Layout:create()
     self.container_1:setContentSize(display.width, height)
@@ -40,335 +38,250 @@ function GoldShopLayer:initView()
     self.container_1:addTo(self)
 
     --金币商城
-    local basemapTitleSprite = display.newSprite("artcontent/lobby(ongame)/store/goldstore/basemap_title.png")
-    self.container_1:addChild(basemapTitleSprite)
-    basemapTitleSprite:setAnchorPoint(0.5, 1)
-    basemapTitleSprite:setPosition(width/2,height-70)
+    local spriteB1 = display.newSprite("artcontent/lobby(ongame)/store/goldstore/basemap_title.png")
+    self.container_1:addChild(spriteB1)
+    spriteB1:setAnchorPoint(0.5, 1)
+    spriteB1:setPosition(width/2,height-70)
 
-    local titleSprite = display.newSprite("artcontent/lobby(ongame)/store/goldstore/title_goldstore.png")
-    self.container_1:addChild(titleSprite)
-    titleSprite:setAnchorPoint(0.5, 1)
-    titleSprite:setPosition(width/2,height-80)
+    local spriteB2 = display.newSprite("artcontent/lobby(ongame)/store/goldstore/title_goldstore.png")
+    self.container_1:addChild(spriteB2)
+    spriteB2:setAnchorPoint(0.5, 1)
+    spriteB2:setPosition(width/2,height-80)
 
     --金币商品
     --剩余刷新时间
-    local basemapTime= display.newSprite("artcontent/lobby(ongame)/store/goldstore/basemap_remainingrefreshtime.png")
-    self.container_1:addChild(basemapTime)
-    basemapTime:setAnchorPoint(0.5, 1)
-    basemapTime:setPosition(width/2,height-150)
-    local promptSprite = display.newSprite("artcontent/lobby(ongame)/store/goldstore/prompt_refreshtimeremaining.png")
-    basemapTime:addChild(promptSprite)
-    promptSprite:setAnchorPoint(0.5, 0.5)
-    promptSprite:setPosition(basemapTime:getContentSize().width/2-50,basemapTime:getContentSize().height/2)
-    self.countDown=15*60
-    self.m=math.floor(self.countDown/60)
-    self.s=math.floor(self.countDown%60)
-    self.time=display.newTTFLabel({
-        text = "14:00",
-        size = 25,
-         color = cc.c3b(255, 215, 0)
-    })
-    :align(display.CENTER, basemapTime:getContentSize().width/2+90,basemapTime:getContentSize().height/2)
-    :addTo(basemapTime)
-    self.time:setString(self.m..":"..string.format("%02d",self.s))
+    local spriteB3 = display.newSprite("artcontent/lobby(ongame)/store/goldstore/basemap_remainingrefreshtime.png")
+    self.container_1:addChild(spriteB3)
+    spriteB3:setAnchorPoint(0.5, 1)
+    spriteB3:setPosition(width/2,height-150)
+    local spriteB36 = display.newSprite("artcontent/lobby(ongame)/store/goldstore/prompt_refreshtimeremaining.png")
+    spriteB3:addChild(spriteB36)
+    spriteB36:setAnchorPoint(0.5, 0.5)
+    spriteB36:setPosition(spriteB3:getContentSize().width/2-100,spriteB3:getContentSize().height/2)
 
-    -- local function setCountDown()
-    --     self.countDown=self.countDown-1
-    --     self.m=math.floor(self.countDown/60)
-    --     self.s=math.floor(self.countDown%60)
-    --     self.time:setString(self.m..":"..string.format("%02d",self.s))
-    --     if self.countDown<=0 then
-    --         scheduler.unscheduleGlobal(scheduler1)
-    --         EventManager:doEvent(EventDef.ID.GOLDSHOP_CHANGE)
-    --     end
-    -- end
-    -- scheduler1=scheduler.scheduleGlobal(setCountDown, 1)
     --免费商品
-    local basemapFree = ccui.Button:create("artcontent/lobby(ongame)/store/goldstore/basemap_freeitems.png")
-    self.container_1:addChild(basemapFree)
-    basemapFree:setAnchorPoint(0.5, 1)
-    basemapFree:setPosition(120,height-230)
+    local spriteB4 = ccui.Button:create("artcontent/lobby(ongame)/store/goldstore/basemap_freeitems.png")
+    self.container_1:addChild(spriteB4)
+    spriteB4:setAnchorPoint(0.5, 1)
+    spriteB4:setPosition(120,height-230)
     display.newTTFLabel({
         text = "X100",
         size = 25,
-         color = display.COLOR_WHITE
+        color = display.COLOR_WHITE
     })
-    :align(display.CENTER, basemapFree:getContentSize().width/2,basemapFree:getContentSize().height/2-30)
-    :addTo(basemapFree)
-    local diamondSprite = display.newSprite("artcontent/lobby(ongame)/store/goldstore/itemicon_diamond.png")
-    basemapFree:addChild(diamondSprite)
-    diamondSprite:setAnchorPoint(0.5, 0.5)
-    diamondSprite:setPosition(basemapFree:getContentSize().width/2,basemapFree:getContentSize().height/2+30)
-
-    local priceiconFree = display.newSprite("artcontent/lobby(ongame)/store/goldstore/priceicon_free.png")
-    basemapFree:addChild(priceiconFree)
-    priceiconFree:setAnchorPoint(0.5, 0)
-    priceiconFree:setPosition(basemapFree:getContentSize().width/2,10)
-    basemapFree:addTouchEventListener(
+    :align(display.CENTER, spriteB4:getContentSize().width/2,spriteB4:getContentSize().height/2-30)
+    :addTo(spriteB4)
+    local spriteB24 = display.newSprite("artcontent/lobby(ongame)/store/goldstore/itemicon_diamond.png")
+    spriteB4:addChild(spriteB24)
+    spriteB24:setAnchorPoint(0.5, 0.5)
+    spriteB24:setPosition(spriteB4:getContentSize().width/2,spriteB4:getContentSize().height/2+30)
+    local spriteB25 = display.
+    newSprite("artcontent/lobby(ongame)/store/goldstore/priceicon_free.png")
+    spriteB4:addChild(spriteB25)
+    spriteB25:setAnchorPoint(0.5, 0)
+    spriteB25:setPosition(spriteB4:getContentSize().width/2,10)
+    spriteB4:addTouchEventListener(
         function(sender, eventType)
             if 2 == eventType then -- touch end
                 if cc.UserDefault:getInstance():getBoolForKey("音效") then
                     audio.playEffect("sounds/get_free_item.OGG",false)
                 end
-                EventManager:doEvent(EventDef.ID.FREE)
                 OutGameData:setDiamond(100)
                 EventManager:doEvent(EventDef.ID.GAMEDATA_CHANGE)
-                basemapFree:setBright(false);
-                basemapFree:setTouchEnabled(false);
             end
         end
     )
     --五个金币商品
     local itemicon="artcontent/lobby(ongame)/store/goldstore/itemicon_tower/"
-    self.itemicon1Sprite = ccui.Button:create(itemicon..self.packs[1]:getTowerId()..".png")
-    self.container_1:addChild(self.itemicon1Sprite)
-    self.itemicon1Sprite:setAnchorPoint(0.5, 1)
-    self.itemicon1Sprite:setPosition(width/3+120,height-230)
+    local spriteB5 = ccui.Button:create(itemicon..self.packs[1]:getTowerId()..".png")
+    self.container_1:addChild(spriteB5)
+    spriteB5:setAnchorPoint(0.5, 1)
+    spriteB5:setPosition(width/3+120,height-230)
     display.newTTFLabel({
         text = "360",
         size = 25,
-         color = display.COLOR_WHITE
+        color = display.COLOR_WHITE
     })
-    :align(display.CENTER, basemapFree:getContentSize().width/2+10,30)
-    :addTo(self.itemicon1Sprite)
-    local priceicon1Sprite = display.newSprite("artcontent/lobby(ongame)/store/goldstore/priceicon_gold.png")
-    self.itemicon1Sprite:addChild(priceicon1Sprite)
-    priceicon1Sprite:setAnchorPoint(0.5, 0.5)
-    priceicon1Sprite:setPosition(basemapFree:getContentSize().width/2-30,30)
-    local basemapSprite1 = display.newSprite("artcontent/lobby(ongame)/store/goldstore/basemap_fragmentsnumber.png")
-    self.itemicon1Sprite:addChild(basemapSprite1)
-    basemapSprite1:setAnchorPoint(1, 1)
-    basemapSprite1:setPosition(basemapFree:getContentSize().width-11,basemapFree:getContentSize().height-7)
+    :align(display.CENTER, spriteB4:getContentSize().width/2+10,30)
+    :addTo(spriteB5)
+    local spriteB26 = display.newSprite("artcontent/lobby(ongame)/store/goldstore/priceicon_gold.png")
+    spriteB5:addChild(spriteB26)
+    spriteB26:setAnchorPoint(0.5, 0.5)
+    spriteB26:setPosition(spriteB4:getContentSize().width/2-30,30)
+    local spriteB31 = display.newSprite("artcontent/lobby(ongame)/store/goldstore/basemap_fragmentsnumber.png")
+    spriteB5:addChild(spriteB31)
+    spriteB31:setAnchorPoint(1, 1)
+    spriteB31:setPosition(spriteB4:getContentSize().width-11,spriteB4:getContentSize().height-7)
     display.newTTFLabel({
         text = "X36",
         size = 20,
-         color = cc.c3b(255, 215, 0)
+        color = display.COLOR_WHITE
     })
-    :align(display.RIGHT_CENTER, basemapSprite1:getContentSize().width-5,basemapSprite1:getContentSize().height/2)
-    :addTo(basemapSprite1)
-    self.itemicon1Sprite:addTouchEventListener(
+    :align(display.RIGHT_CENTER, spriteB31:getContentSize().width-5,spriteB31:getContentSize().height/2)
+    :addTo(spriteB31)
+    spriteB5:addTouchEventListener(
         function(sender, eventType)
             if 2 == eventType then -- touch end
                 if cc.UserDefault:getInstance():getBoolForKey("音效") then
                     audio.playEffect("sounds/get_paid_item.OGG",false)
                 end
-                BuyLayer:SetBuy(2,36,360,self.packs[1])
+                BuyLayer:SetBuy(36,360,self.packs[1])
                 EventManager:doEvent(EventDef.ID.BUY)
             end
         end
     )
 
-    self.itemicon2Sprite = ccui.Button:create(itemicon..self.packs[2]:getTowerId()..".png")
-    self.container_1:addChild(self.itemicon2Sprite)
-    self.itemicon2Sprite:setAnchorPoint(0.5, 1)
-    self.itemicon2Sprite:setPosition(width*2/3+120,height-230)
+    local spriteB6 = ccui.Button:create(itemicon..self.packs[2]:getTowerId()..".png")
+    self.container_1:addChild(spriteB6)
+    spriteB6:setAnchorPoint(0.5, 1)
+    spriteB6:setPosition(width*2/3+120,height-230)
     display.newTTFLabel({
         text = "360",
         size = 25,
-         color = display.COLOR_WHITE
+        color = display.COLOR_WHITE
     })
-    :align(display.CENTER, basemapFree:getContentSize().width/2+10,30)
-    :addTo(self.itemicon2Sprite)
-    local priceicon2Sprite  = display.newSprite("artcontent/lobby(ongame)/store/goldstore/priceicon_gold.png")
-    self.itemicon2Sprite:addChild(priceicon2Sprite)
-    priceicon2Sprite:setAnchorPoint(0.5, 0.5)
-    priceicon2Sprite:setPosition(basemapFree:getContentSize().width/2-30,30)
-    local basemapSprite2 = display.newSprite("artcontent/lobby(ongame)/store/goldstore/basemap_fragmentsnumber.png")
-    self.itemicon2Sprite:addChild(basemapSprite2)
-    basemapSprite2:setAnchorPoint(1, 1)
-    basemapSprite2:setPosition(basemapFree:getContentSize().width-11,basemapFree:getContentSize().height-7)
+    :align(display.CENTER, spriteB4:getContentSize().width/2+10,30)
+    :addTo(spriteB6)
+    local spriteB27 = display.newSprite("artcontent/lobby(ongame)/store/goldstore/priceicon_gold.png")
+    spriteB6:addChild(spriteB27)
+    spriteB27:setAnchorPoint(0.5, 0.5)
+    spriteB27:setPosition(spriteB4:getContentSize().width/2-30,30)
+    local spriteB32 = display.newSprite("artcontent/lobby(ongame)/store/goldstore/basemap_fragmentsnumber.png")
+    spriteB6:addChild(spriteB32)
+    spriteB32:setAnchorPoint(1, 1)
+    spriteB32:setPosition(spriteB4:getContentSize().width-11,spriteB4:getContentSize().height-7)
     display.newTTFLabel({
         text = "X36",
         size = 20,
-         color = cc.c3b(255, 215, 0)
+        color = display.COLOR_WHITE
     })
-    :align(display.RIGHT_CENTER, basemapSprite1:getContentSize().width-5,basemapSprite1:getContentSize().height/2)
-    :addTo(basemapSprite2)
-    self.itemicon2Sprite:addTouchEventListener(
+    :align(display.RIGHT_CENTER, spriteB31:getContentSize().width-5,spriteB31:getContentSize().height/2)
+    :addTo(spriteB32)
+    spriteB6:addTouchEventListener(
         function(sender, eventType)
             if 2 == eventType then -- touch end
                 if cc.UserDefault:getInstance():getBoolForKey("音效") then
                     audio.playEffect("sounds/get_paid_item.OGG",false)
                 end
-                BuyLayer:SetBuy(3,36,360,self.packs[2])
+                BuyLayer:SetBuy(36,360,self.packs[2])
                 EventManager:doEvent(EventDef.ID.BUY)
             end
         end
     )
 
-    self.itemicon3Sprite = ccui.Button:create(itemicon..self.packs[3]:getTowerId()..".png")
-    self.container_1:addChild(self.itemicon3Sprite)
-    self.itemicon3Sprite:setAnchorPoint(0.5, 1)
-    self.itemicon3Sprite:setPosition(120,height-450)
+    local spriteB7 = ccui.Button:create(itemicon..self.packs[3]:getTowerId()..".png")
+    self.container_1:addChild(spriteB7)
+    spriteB7:setAnchorPoint(0.5, 1)
+    spriteB7:setPosition(120,height-450)
     display.newTTFLabel({
         text = "360",
         size = 25,
-         color = display.COLOR_WHITE
+        color = display.COLOR_WHITE
     })
-    :align(display.CENTER, basemapFree:getContentSize().width/2+10,30)
-    :addTo(self.itemicon3Sprite)
-    local priceicon3Sprite = display.newSprite("artcontent/lobby(ongame)/store/goldstore/priceicon_gold.png")
-    self.itemicon3Sprite:addChild(priceicon3Sprite)
-    priceicon3Sprite:setAnchorPoint(0.5, 0.5)
-    priceicon3Sprite:setPosition(basemapFree:getContentSize().width/2-30,30)
-    local basemapSprite3 = display.newSprite("artcontent/lobby(ongame)/store/goldstore/basemap_fragmentsnumber.png")
-    self.itemicon3Sprite:addChild(basemapSprite3)
-    basemapSprite3:setAnchorPoint(1, 1)
-    basemapSprite3:setPosition(basemapFree:getContentSize().width-11,basemapFree:getContentSize().height-7)
+    :align(display.CENTER, spriteB4:getContentSize().width/2+10,30)
+    :addTo(spriteB7)
+    local spriteB28 = display.newSprite("artcontent/lobby(ongame)/store/goldstore/priceicon_gold.png")
+    spriteB7:addChild(spriteB28)
+    spriteB28:setAnchorPoint(0.5, 0.5)
+    spriteB28:setPosition(spriteB4:getContentSize().width/2-30,30)
+    local spriteB33 = display.newSprite("artcontent/lobby(ongame)/store/goldstore/basemap_fragmentsnumber.png")
+    spriteB7:addChild(spriteB33)
+    spriteB33:setAnchorPoint(1, 1)
+    spriteB33:setPosition(spriteB4:getContentSize().width-11,spriteB4:getContentSize().height-7)
     display.newTTFLabel({
         text = "X36",
         size = 20,
-         color = cc.c3b(255, 215, 0)
+        color = display.COLOR_WHITE
     })
-    :align(display.RIGHT_CENTER, basemapSprite1:getContentSize().width-5,basemapSprite1:getContentSize().height/2)
-    :addTo(basemapSprite3)
-    self.itemicon3Sprite:addTouchEventListener(
+    :align(display.RIGHT_CENTER, spriteB31:getContentSize().width-5,spriteB31:getContentSize().height/2)
+    :addTo(spriteB33)
+    spriteB7:addTouchEventListener(
         function(sender, eventType)
             if 2 == eventType then -- touch end
                 if cc.UserDefault:getInstance():getBoolForKey("音效") then
                     audio.playEffect("sounds/get_paid_item.OGG",false)
                 end
-                BuyLayer:SetBuy(4,36,360,self.packs[3])
+                BuyLayer:SetBuy(36,360,self.packs[3])
                 EventManager:doEvent(EventDef.ID.BUY)
             end
         end
     )
 
-    self.itemicon4Sprite = ccui.Button:create(itemicon..self.packs[4]:getTowerId()..".png")
-    self.container_1:addChild(self.itemicon4Sprite)
-    self.itemicon4Sprite:setAnchorPoint(0.5, 1)
-    self.itemicon4Sprite:setPosition(width/3+120,height-450)
+    local spriteB8 = ccui.Button:create(itemicon..self.packs[4]:getTowerId()..".png")
+    self.container_1:addChild(spriteB8)
+    spriteB8:setAnchorPoint(0.5, 1)
+    spriteB8:setPosition(width/3+120,height-450)
     display.newTTFLabel({
         text = "600",
         size = 25,
-         color = display.COLOR_WHITE
+        color = display.COLOR_WHITE
     })
-    :align(display.CENTER, basemapFree:getContentSize().width/2+10,30)
-    :addTo(self.itemicon4Sprite)
-    local priceicon4Sprite = display.newSprite("artcontent/lobby(ongame)/store/goldstore/priceicon_gold.png")
-    self.itemicon4Sprite:addChild(priceicon4Sprite)
-    priceicon4Sprite:setAnchorPoint(0.5, 0.5)
-    priceicon4Sprite:setPosition(basemapFree:getContentSize().width/2-30,30)
-    local basemapSprite4 = display.newSprite("artcontent/lobby(ongame)/store/goldstore/basemap_fragmentsnumber.png")
-    self.itemicon4Sprite:addChild(basemapSprite4)
-    basemapSprite4:setAnchorPoint(1, 1)
-    basemapSprite4:setPosition(basemapFree:getContentSize().width-11,basemapFree:getContentSize().height-7)
+    :align(display.CENTER, spriteB4:getContentSize().width/2+10,30)
+    :addTo(spriteB8)
+    local spriteB29 = display.newSprite("artcontent/lobby(ongame)/store/goldstore/priceicon_gold.png")
+    spriteB8:addChild(spriteB29)
+    spriteB29:setAnchorPoint(0.5, 0.5)
+    spriteB29:setPosition(spriteB4:getContentSize().width/2-30,30)
+    local spriteB34 = display.newSprite("artcontent/lobby(ongame)/store/goldstore/basemap_fragmentsnumber.png")
+    spriteB8:addChild(spriteB34)
+    spriteB34:setAnchorPoint(1, 1)
+    spriteB34:setPosition(spriteB4:getContentSize().width-11,spriteB4:getContentSize().height-7)
     display.newTTFLabel({
         text = "X6",
         size = 20,
-         color = cc.c3b(255, 215, 0)
+        color = display.COLOR_WHITE
     })
-    :align(display.RIGHT_CENTER, basemapSprite1:getContentSize().width-5,basemapSprite1:getContentSize().height/2)
-    :addTo(basemapSprite4)
-    self.itemicon4Sprite:addTouchEventListener(
+    :align(display.RIGHT_CENTER, spriteB31:getContentSize().width-5,spriteB31:getContentSize().height/2)
+    :addTo(spriteB34)
+    spriteB8:addTouchEventListener(
         function(sender, eventType)
             if 2 == eventType then -- touch end
                 if cc.UserDefault:getInstance():getBoolForKey("音效") then
                     audio.playEffect("sounds/get_paid_item.OGG",false)
                 end
-                BuyLayer:SetBuy(5,6,600,self.packs[4])
+                BuyLayer:SetBuy(6,600,self.packs[4])
                 EventManager:doEvent(EventDef.ID.BUY)
             end
         end
     )
 
-    self.itemicon5Sprite = ccui.Button:create(itemicon..self.packs[5]:getTowerId()..".png")
-    self.container_1:addChild(self.itemicon5Sprite)
-    self.itemicon5Sprite:setAnchorPoint(0.5, 1)
-    self.itemicon5Sprite:setPosition(width*2/3+120,height-450)
+    local spriteB9 = ccui.Button:create(itemicon..self.packs[5]:getTowerId()..".png")
+    self.container_1:addChild(spriteB9)
+    spriteB9:setAnchorPoint(0.5, 1)
+    spriteB9:setPosition(width*2/3+120,height-450)
     display.newTTFLabel({
         text = "1000",
         size = 25,
         color = display.COLOR_WHITE
     })
-    :align(display.CENTER, basemapFree:getContentSize().width/2+10,30)
-    :addTo(self.itemicon5Sprite)
-    local priceicon5Sprite = display.newSprite("artcontent/lobby(ongame)/store/goldstore/priceicon_gold.png")
-    self.itemicon5Sprite:addChild(priceicon5Sprite)
-    priceicon5Sprite:setAnchorPoint(0.5, 0.5)
-    priceicon5Sprite:setPosition(basemapFree:getContentSize().width/2-30,30)
-    local basemapSprite5 = display.newSprite("artcontent/lobby(ongame)/store/goldstore/basemap_fragmentsnumber.png")
-    self.itemicon5Sprite:addChild(basemapSprite5)
-    basemapSprite5:setAnchorPoint(1, 1)
-    basemapSprite5:setPosition(basemapFree:getContentSize().width-11,basemapFree:getContentSize().height-7)
+    :align(display.CENTER, spriteB4:getContentSize().width/2+10,30)
+    :addTo(spriteB9)
+    local spriteB30 = display.newSprite("artcontent/lobby(ongame)/store/goldstore/priceicon_gold.png")
+    spriteB9:addChild(spriteB30)
+    spriteB30:setAnchorPoint(0.5, 0.5)
+    spriteB30:setPosition(spriteB4:getContentSize().width/2-30,30)
+    local spriteB35 = display.newSprite("artcontent/lobby(ongame)/store/goldstore/basemap_fragmentsnumber.png")
+    spriteB9:addChild(spriteB35)
+    spriteB35:setAnchorPoint(1, 1)
+    spriteB35:setPosition(spriteB4:getContentSize().width-11,spriteB4:getContentSize().height-7)
     display.newTTFLabel({
         text = "X1",
         size = 20,
-        color = cc.c3b(255, 215, 0)
+        color = display.COLOR_WHITE
     })
-    :align(display.RIGHT_CENTER, basemapSprite1:getContentSize().width-5,basemapSprite1:getContentSize().height/2)
-    :addTo(basemapSprite5)
-    self.itemicon5Sprite:addTouchEventListener(
+    :align(display.RIGHT_CENTER, spriteB31:getContentSize().width-5,spriteB31:getContentSize().height/2)
+    :addTo(spriteB35)
+    spriteB9:addTouchEventListener(
         function(sender, eventType)
             if 2 == eventType then -- touch end
                 if cc.UserDefault:getInstance():getBoolForKey("音效") then
                     audio.playEffect("sounds/get_paid_item.OGG",false)
                 end
-                BuyLayer:SetBuy(6,1,1000,self.packs[5])
+                BuyLayer:SetBuy(1,1000,self.packs[5])
                 EventManager:doEvent(EventDef.ID.BUY)
             end
         end
     )
-    -- print(now)
-    local function setCountDown()
-        self.countDown=self.countDown-1
-        self.m=math.floor(self.countDown/60)
-        self.s=math.floor(self.countDown%60)
-        self.time:setString(self.m..":"..string.format("%02d",self.s))
-        if self.countDown<=0 then
-            scheduler.unscheduleGlobal(scheduler1)
-            EventManager:doEvent(EventDef.ID.GOLDSHOP_CHANGE)
-        end
-    end
-
-    local ctime=now-cc.UserDefault:getInstance():getIntegerForKey("now")
-    if ctime>=900 then
-        self.countDown=900
-    else
-        self.countDown=900-ctime
-    end
-    cc.UserDefault:getInstance():setIntegerForKey("now",now)
-
-    scheduler1=scheduler.scheduleGlobal(setCountDown, 1)
-end
---[[--
-    节点进入
-
-    @param none
-
-    @return none
-]]
-function GoldShopLayer:onEnter()
-    EventManager:regListener(EventDef.ID.GOODS_CHANGE, self, function(i)
-        print(i)
-        if i==2 then
-            self.itemicon1Sprite:setBright(false);
-            self.itemicon1Sprite:setTouchEnabled(false);
-        elseif i==3 then
-            self.itemicon2Sprite:setBright(false);
-            self.itemicon2Sprite:setTouchEnabled(false);
-        elseif i==4 then
-            self.itemicon3Sprite:setBright(false);
-            self.itemicon3Sprite:setTouchEnabled(false);
-        elseif i==5 then
-            self.itemicon4Sprite:setBright(false);
-            self.itemicon4Sprite:setTouchEnabled(false);
-        else
-            self.itemicon5Sprite:setBright(false);
-            self.itemicon5Sprite:setTouchEnabled(false);
-        end
-    end)
-end
-
---[[--
-    节点退出
-
-    @param none
-
-    @return none
-]]
-function GoldShopLayer:onExit()
-    EventManager:unRegListener(EventDef.ID.GOODS_CHANGE, self)
 end
 
 --[[--

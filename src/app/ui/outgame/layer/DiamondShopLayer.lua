@@ -1,9 +1,11 @@
 --[[--
     砖石商店层
-    DiamondShopLayer.lua
+    DiamondShopLayer
 ]]
-local DiamondShopLayer = class("DiamondShopLayer", require("app.ui.outgame.layer.BaseLayer"))
-local EventDef = require("app.def.EventDef")
+local DiamondShopLayer = class("DiamondShopLayer", function()
+    return display.newLayer()
+end)
+local EventDef = require("app.def.outgame.EventDef")
 local EventManager = require("app.manager.EventManager")
 local ObtainItemLayer = require("app.ui.outgame.layer.ObtainItemLayer")
 --[[--
@@ -33,22 +35,22 @@ function DiamondShopLayer:initView()
     self.container_1:addTo(self)
 
     --砖石商城
-    local basemapSprite = display.newSprite("artcontent/lobby(ongame)/store/diamondstore/basemap_diamondstore.png")
-    self.container_1:addChild(basemapSprite)
-    basemapSprite:setAnchorPoint(0.5, 0)
-    basemapSprite:setPosition(width/2,650)
+    local spriteB10 = display.newSprite("artcontent/lobby(ongame)/store/diamondstore/basemap_diamondstore.png")
+    self.container_1:addChild(spriteB10)
+    spriteB10:setAnchorPoint(0.5, 0)
+    spriteB10:setPosition(width/2,650)
 
-    local titleSprite = display.newSprite("artcontent/lobby(ongame)/store/diamondstore/title_diamondstore.png")
-    self.container_1:addChild(titleSprite)
-    titleSprite:setAnchorPoint(0.5, 0)
-    titleSprite:setPosition(width/2,660)
+    local spriteB11 = display.newSprite("artcontent/lobby(ongame)/store/diamondstore/title_diamondstore.png")
+    self.container_1:addChild(spriteB11)
+    spriteB11:setAnchorPoint(0.5, 0)
+    spriteB11:setPosition(width/2,660)
 
     --普通宝箱
-    local basemapNormal = ccui.Button:create("artcontent/lobby(ongame)/store/diamondstore/basemap_normal.png")
-    self.container_1:addChild(basemapNormal)
-    basemapNormal:setAnchorPoint(0.5, 0)
-    basemapNormal:setPosition(120,350)
-    basemapNormal:addTouchEventListener(
+    local spriteB12 = ccui.Button:create("artcontent/lobby(ongame)/store/diamondstore/basemap_normal.png")
+    self.container_1:addChild(spriteB12)
+    spriteB12:setAnchorPoint(0.5, 0)
+    spriteB12:setPosition(120,350)
+    spriteB12:addTouchEventListener(
         function(sender, eventType)
             if 2 == eventType then -- touch end
                 if cc.UserDefault:getInstance():getBoolForKey("音效") then
@@ -60,16 +62,16 @@ function DiamondShopLayer:initView()
         end
     )
 
-    local chestNormal = display.newSprite("artcontent/lobby(ongame)/store/diamondstore/chest_normal.png")
-    self.container_1:addChild(chestNormal)
-    chestNormal:setAnchorPoint(0.5, 0)
-    chestNormal:setPosition(120,420)
+    local spriteB13 = display.newSprite("artcontent/lobby(ongame)/store/diamondstore/chest_normal.png")
+    self.container_1:addChild(spriteB13)
+    spriteB13:setAnchorPoint(0.5, 0)
+    spriteB13:setPosition(120,420)
 
 
-    local diamondSprite1= display.newSprite("artcontent/lobby(ongame)/store/diamondstore/titile_diamond.png")
-    self.container_1:addChild(diamondSprite1)
-    diamondSprite1:setAnchorPoint(0.5, 0)
-    diamondSprite1:setPosition(90,370)
+    local spriteB14 = display.newSprite("artcontent/lobby(ongame)/store/diamondstore/titile_diamond.png")
+    self.container_1:addChild(spriteB14)
+    spriteB14:setAnchorPoint(0.5, 0)
+    spriteB14:setPosition(90,370)
     display.newTTFLabel({
         text = "150",
         size = 25,
@@ -80,11 +82,11 @@ function DiamondShopLayer:initView()
 
 
     --稀有宝箱
-    local basemapRare = ccui.Button:create("artcontent/lobby(ongame)/store/diamondstore/basemap_rare.png")
-    self.container_1:addChild(basemapRare)
-    basemapRare:setAnchorPoint(0.5, 0)
-    basemapRare:setPosition(width/3+120,350)
-    basemapRare:addTouchEventListener(
+    local spriteB15 = ccui.Button:create("artcontent/lobby(ongame)/store/diamondstore/basemap_rare.png")
+    self.container_1:addChild(spriteB15)
+    spriteB15:setAnchorPoint(0.5, 0)
+    spriteB15:setPosition(width/3+120,350)
+    spriteB15:addTouchEventListener(
         function(sender, eventType)
             if 2 == eventType then -- touch end
                 if cc.UserDefault:getInstance():getBoolForKey("音效") then
@@ -96,15 +98,15 @@ function DiamondShopLayer:initView()
         end
     )
 
-    local chestRare = display.newSprite("artcontent/lobby(ongame)/store/diamondstore/chest_rare.png")
-    self.container_1:addChild(chestRare)
-    chestRare:setAnchorPoint(0.5, 0)
-    chestRare:setPosition(width/3+120,420)
+    local spriteB16 = display.newSprite("artcontent/lobby(ongame)/store/diamondstore/chest_rare.png")
+    self.container_1:addChild(spriteB16)
+    spriteB16:setAnchorPoint(0.5, 0)
+    spriteB16:setPosition(width/3+120,420)
 
-    local diamondSprite2 = display.newSprite("artcontent/lobby(ongame)/store/diamondstore/titile_diamond.png")
-    self.container_1:addChild(diamondSprite2)
-    diamondSprite2:setAnchorPoint(0.5, 0)
-    diamondSprite2:setPosition(width/3+90,370)
+    local spriteB17 = display.newSprite("artcontent/lobby(ongame)/store/diamondstore/titile_diamond.png")
+    self.container_1:addChild(spriteB17)
+    spriteB17:setAnchorPoint(0.5, 0)
+    spriteB17:setPosition(width/3+90,370)
     display.newTTFLabel({
         text = "250",
         size = 25,
@@ -114,11 +116,11 @@ function DiamondShopLayer:initView()
     :addTo(self.container_1)
 
     --史诗宝箱
-    local basemapEpic = ccui.Button:create("artcontent/lobby(ongame)/store/diamondstore/basemap_epic.png")
-    self.container_1:addChild(basemapEpic)
-    basemapEpic:setAnchorPoint(0.5, 0)
-    basemapEpic:setPosition(width*2/3+120,350)
-    basemapEpic:addTouchEventListener(
+    local spriteB18 = ccui.Button:create("artcontent/lobby(ongame)/store/diamondstore/basemap_epic.png")
+    self.container_1:addChild(spriteB18)
+    spriteB18:setAnchorPoint(0.5, 0)
+    spriteB18:setPosition(width*2/3+120,350)
+    spriteB18:addTouchEventListener(
         function(sender, eventType)
             if 2 == eventType then -- touch end
                 if cc.UserDefault:getInstance():getBoolForKey("音效") then
@@ -130,15 +132,15 @@ function DiamondShopLayer:initView()
         end
     )
 
-    local chestEpic = display.newSprite("artcontent/lobby(ongame)/store/diamondstore/chest_epic.png")
-    self.container_1:addChild(chestEpic)
-    chestEpic:setAnchorPoint(0.5, 0)
-    chestEpic:setPosition(width*2/3+120,420)
+    local spriteB19 = display.newSprite("artcontent/lobby(ongame)/store/diamondstore/chest_epic.png")
+    self.container_1:addChild(spriteB19)
+    spriteB19:setAnchorPoint(0.5, 0)
+    spriteB19:setPosition(width*2/3+120,420)
 
-    local diamondSprite3 = display.newSprite("artcontent/lobby(ongame)/store/diamondstore/titile_diamond.png")
-    self.container_1:addChild(diamondSprite3)
-    diamondSprite3:setAnchorPoint(0.5, 0)
-    diamondSprite3:setPosition(width*2/3+90,370)
+    local spriteB20 = display.newSprite("artcontent/lobby(ongame)/store/diamondstore/titile_diamond.png")
+    self.container_1:addChild(spriteB20)
+    spriteB20:setAnchorPoint(0.5, 0)
+    spriteB20:setPosition(width*2/3+90,370)
     display.newTTFLabel({
         text = "750",
         size = 25,
@@ -148,11 +150,11 @@ function DiamondShopLayer:initView()
     :addTo(self.container_1)
 
     --传说宝箱
-    local basemapLegend = ccui.Button:create("artcontent/lobby(ongame)/store/diamondstore/basemap_legend.png")
-    self.container_1:addChild(basemapLegend)
-    basemapLegend:setAnchorPoint(0.5, 0)
-    basemapLegend:setPosition(width/3+120,30)
-    basemapLegend:addTouchEventListener(
+    local spriteB21 = ccui.Button:create("artcontent/lobby(ongame)/store/diamondstore/basemap_legend.png")
+    self.container_1:addChild(spriteB21)
+    spriteB21:setAnchorPoint(0.5, 0)
+    spriteB21:setPosition(width/3+120,30)
+    spriteB21:addTouchEventListener(
         function(sender, eventType)
             if 2 == eventType then -- touch end
                 if cc.UserDefault:getInstance():getBoolForKey("音效") then
@@ -164,15 +166,15 @@ function DiamondShopLayer:initView()
         end
     )
 
-    local chestLegend = display.newSprite("artcontent/lobby(ongame)/store/diamondstore/chest_legend.png")
-    self.container_1:addChild(chestLegend)
-    chestLegend:setAnchorPoint(0.5, 0)
-    chestLegend:setPosition(width/3+120,100)
+    local spriteB22 = display.newSprite("artcontent/lobby(ongame)/store/diamondstore/chest_legend.png")
+    self.container_1:addChild(spriteB22)
+    spriteB22:setAnchorPoint(0.5, 0)
+    spriteB22:setPosition(width/3+120,100)
 
-    local diamondSprite4 = display.newSprite("artcontent/lobby(ongame)/store/diamondstore/titile_diamond.png")
-    self.container_1:addChild(diamondSprite4)
-    diamondSprite4:setAnchorPoint(0.5, 0)
-    diamondSprite4:setPosition(width/3+90,55)
+    local spriteB23 = display.newSprite("artcontent/lobby(ongame)/store/diamondstore/titile_diamond.png")
+    self.container_1:addChild(spriteB23)
+    spriteB23:setAnchorPoint(0.5, 0)
+    spriteB23:setPosition(width/3+90,55)
     display.newTTFLabel({
         text = "2500",
         size = 25,

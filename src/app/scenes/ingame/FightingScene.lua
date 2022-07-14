@@ -34,9 +34,10 @@ end
     @return none
 ]]
 function FightingScene:update(dt)
-    GameData:update(dt)
-
-    self.fightingView_:update(dt)
+    if GameData:isPlaying() then
+        GameData:update(dt)
+        self.fightingView_:update(dt)
+    end
 end
 
 return FightingScene

@@ -34,12 +34,10 @@ function MyFightingLayer:ctor()
     self.eliteMonsterMap_ = {} -- 精英怪
     self.bossMap_ = {} -- boss
     self.lineup_ = {} -- 我的阵容
-    self.enemyLineup_ = {} -- 敌方阵容
     self.enhanceNeedSp_ = {} -- 强化所需sp
 
     self:init()
     self:myInitView()
-    self:enemyInitView()
 end
 --[[--
     用于制作测试数据
@@ -50,7 +48,6 @@ end
 ]]
 function MyFightingLayer:init()
     self.lineup_ = GameData:getMyTowers()
-    self.enemyLineup_ = GameData:getEnemyTowers()
 end
 
 --[[--
@@ -106,7 +103,7 @@ function MyFightingLayer:myInitView()
     local buildBtn = ccui.Button:create("artcontent/battle(ongame)/battle_interface/button_generate.png")
     buildBtn:addTouchEventListener(function(sender, eventType)
         if eventType == 2 then
-            GameData:creatMyTower()
+            GameData:createMyTower()
         end
     end)
     buildBtn:setPosition(display.cx, 240)
@@ -183,47 +180,6 @@ function MyFightingLayer:onTouchEnded(x, y, tower1)
         GameData:mergingFightingTower(tower1, tower2)
     end
     touchTower = nil
-end
-
---[[--
-    地方阵营
-
-    @parm none
-
-    @return none
-]]
-function MyFightingLayer:enemyInitView()
-    local index_x = 250
-    for i = 1, #self.enemyLineup_ do
-        --头像
-        local spriteRes = "artcontent/battle(ongame)/battle_interface/tower/tower_%d.png"
-        local sprite =  string.format(spriteRes, self.enemyLineup_[i]:getTowerId())
-        local towerBtn = ccui.Button:create(sprite)
-        towerBtn:setScale9Enabled(true)
-        towerBtn:setScale(0.6)
-        towerBtn:setPosition(index_x, 1160)
-        towerBtn:addTouchEventListener(function(sender, eventType)
-            if eventType == 2 then
-                print("技能介绍")
-            end
-        end)
-        towerBtn:addTo(self)
-
-        --等级
-        spriteRes = "artcontent/battle(ongame)/battle_interface/grade/LV.%d.png"
-        sprite = string.format(spriteRes, self.enemyLineup_[i]:getLevel())
-        local levelSprite = cc.Sprite:create(sprite)
-        levelSprite:setScale(0.9)
-        levelSprite:setPosition(index_x, 1120)
-        levelSprite:addTo(self)
-
-        --塔类型角标
-        local angleMarkSprite = cc.Sprite:create(angelMark[self.enemyLineup_[i]:getTowerType()])
-        angleMarkSprite:setPosition(index_x + 20, 1180)
-        angleMarkSprite:setScale(0.6)
-        angleMarkSprite:addTo(self)
-        index_x = index_x + 75
-    end
 end
 
 --[[--
