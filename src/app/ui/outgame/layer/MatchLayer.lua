@@ -1,6 +1,6 @@
 --[[--
-    信息层
-    TopInfoLayer.lua
+    匹配层
+    MatchLayer.lua
 ]]
 local MatchLayer = class("MatchLayer", require("app.ui.outgame.layer.BaseLayer"))
 
@@ -27,13 +27,13 @@ end
     @return none
 ]]
 function MatchLayer:initView()
-    local sprite0 = ccui.Button:create("artcontent/lobby(ongame)/currency/mask_popup.png")
-    self:addChild(sprite0)
-    sprite0:setAnchorPoint(0.5, 0.5)
-    sprite0:setOpacity(127)
-    sprite0:setPosition(display.cx,display.cy)
+    local maskBtn = ccui.Button:create("artcontent/lobby(ongame)/currency/mask_popup.png")
+    self:addChild(maskBtn)
+    maskBtn:setAnchorPoint(0.5, 0.5)
+    maskBtn:setOpacity(127)
+    maskBtn:setPosition(display.cx,display.cy)
 
-    sprite0:addTouchEventListener(
+    maskBtn:addTouchEventListener(
         function(sender, eventType)
             -- ccui.TouchEventType
             if 2 == eventType then -- touch end
@@ -52,31 +52,33 @@ function MatchLayer:initView()
     self.container_:setPosition(display.cx, display.cy)
 
     --底图
-    local sprite1 = display.newSprite("artcontent/lobby(ongame)/battle_interface/matching/basemap_popup.png")
-    self.container_:addChild(sprite1)
-    --sprite1:setContentSize(width, height)
-    sprite1:setAnchorPoint(0.5, 0.5)
-    sprite1:setPosition(width/2,height/2)
+    local basemapSprite = display.newSprite("artcontent/lobby(ongame)/battle_interface/matching/basemap_popup.png")
+    self.container_:addChild(basemapSprite)
+    basemapSprite:setAnchorPoint(0.5, 0.5)
+    basemapSprite:setPosition(width/2,height/2)
 
     --取消按钮
-    local button = ccui.Button:create("artcontent/lobby(ongame)/battle_interface/matching/button_cancel.png")
-    sprite1:addChild(button)
-    button:setAnchorPoint(0.5, 0.5)
-    button:setPosition(sprite1:getContentSize().width/2, sprite1:getContentSize().height/2-100)
-    button:addTouchEventListener(function(sender, eventType)
+    local cancelBtn = ccui.Button:create("artcontent/lobby(ongame)/battle_interface/matching/button_cancel.png")
+    basemapSprite:addChild(cancelBtn)
+    cancelBtn:setAnchorPoint(0.5, 0.5)
+    cancelBtn:setPosition(basemapSprite:getContentSize().width/2, basemapSprite:getContentSize().height/2-100)
+    cancelBtn:addTouchEventListener(function(sender, eventType)
         -- ccui.TouchEventType
         if 2 == eventType then -- touch end
+            if cc.UserDefault:getInstance():getBoolForKey("音效") then
+                audio.playEffect("sounds/ui_btn_close.OGG",false)
+            end
             self:removeFromParent(true)
         end
     end)
 
     --旋转
-    local sprite2 = display.newSprite("artcontent/lobby(ongame)/battle_interface/matching/group128.png")
-    sprite1:addChild(sprite2)
-    --sprite1:setContentSize(width, height)
-    sprite2:setAnchorPoint(0.5, 0.5)
-    sprite2:setPosition(sprite1:getContentSize().width/2, sprite1:getContentSize().height/2)
-    sprite2:runAction(cc.RotateBy:create(4, 720))
+    local groupSprite = display.newSprite("artcontent/lobby(ongame)/battle_interface/matching/group128.png")
+    basemapSprite:addChild(groupSprite)
+    --basemapSprite:setContentSize(width, height)
+    groupSprite:setAnchorPoint(0.5, 0.5)
+    groupSprite:setPosition(basemapSprite:getContentSize().width/2, basemapSprite:getContentSize().height/2)
+    groupSprite:runAction(cc.RotateBy:create(4, 720))
     self:performWithDelay(function()--延迟函数，延迟一秒执行()
         self:Failure()
     end, 4)

@@ -91,21 +91,21 @@ function CurrentTowerLayer:initView()
             towerbtn:setTouchEnabled(false)
         end
         --等级底图
-        local spriteD7 = display.newSprite("artcontent/lobby(ongame)/atlas_interface/current_lineup/basemap_grade.png")
-        towerbtn:addChild(spriteD7)
-        spriteD7:setAnchorPoint(0.5, 0)
-        spriteD7:setPosition(towerbtn:getContentSize().width/2,-30)
+        local basemap = display.newSprite("artcontent/lobby(ongame)/atlas_interface/current_lineup/basemap_grade.png")
+        towerbtn:addChild(basemap)
+        basemap:setAnchorPoint(0.5, 0)
+        basemap:setPosition(towerbtn:getContentSize().width/2,-30)
 
         tempfilename="artcontent/lobby(ongame)/atlas_interface/tower_list/grade/Lv.%d.png"
-        local spriteD9 = display.newSprite(string.format(tempfilename,OutGameData:getTower(table[i]):getLevel()))
-        spriteD7:addChild(spriteD9)
-        spriteD9:setAnchorPoint(0.5, 0.5)
-        spriteD9:setPosition(spriteD7:getContentSize().width/2,spriteD7:getContentSize().height/2)
+        local grade = display.newSprite(string.format(tempfilename,OutGameData:getTower(table[i]):getLevel()))
+        basemap:addChild(grade)
+        grade:setAnchorPoint(0.5, 0.5)
+        grade:setPosition(basemap:getContentSize().width/2,basemap:getContentSize().height/2)
 
-        local spriteD10 = display.newSprite(self.typefilename[OutGameData:getTower(table[i]):getTowerType()])
-        towerbtn:addChild(spriteD10)
-        spriteD10:setAnchorPoint(1, 1)
-        spriteD10:setPosition(towerbtn:getContentSize().width-20,towerbtn:getContentSize().height)
+        local towerType = display.newSprite(self.typefilename[OutGameData:getTower(table[i]):getTowerType()])
+        towerbtn:addChild(towerType)
+        towerType:setAnchorPoint(1, 1)
+        towerType:setPosition(towerbtn:getContentSize().width-20,towerbtn:getContentSize().height)
     end
 end
 

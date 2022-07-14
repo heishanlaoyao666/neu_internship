@@ -40,7 +40,7 @@ function OutGameData:init()
     self.gameState_  = ConstDef.GAME_STATE.LOAD
     self.gold = nil -- 金币数
     self.diamond = nil -- 砖石数
-    self.ratio = 200--总暴击伤害
+    self.ratio=200--总暴击伤害
 
     self:initTower()
     self:initFinance()
@@ -55,6 +55,7 @@ end
 ]]
 
 function OutGameData:initTower()
+    print("initTower()")
     local tower_1 = Tower.new(1, 1, 1, "tower_1", "使被攻击目标得到“灼烧”状态。灼烧：造成两次额外伤害。",
     "前方", 20, 3, 10, 0.8, 0.01, "额外伤害",4,20, 3, 20, nil,nil,nil)
     local tower_2 = Tower.new(2, 3, 1, "tower_2", "使星级数个怪物受到伤害。",
@@ -177,7 +178,7 @@ end
     @return none
 ]]
 function OutGameData:initFinance()
-    self.gold = 1000000
+    self.gold = 100000
     self.diamond = 100000
 end
 
@@ -534,25 +535,41 @@ end
 
     @return none
 ]]
-function OutGameData:towerLevelUp(packs, index)
-    local level = packs[index].getLevel() + 1 -- 当前塔的等级
-    local rarity = packs[index].getTower().getTowerRarity() -- 当前塔的稀有度
+function OutGameData:towerLevelUp(packs)
+    local level = packs:getTower():getLevel() + 1 -- 当前塔的等级
+    local rarity = packs:getTower():getTowerRarity() -- 当前塔的稀有度
     local needGold = ConstDef.LEVEL_UP_NEED_GOLD[level][rarity]
     local needCard = ConstDef.LEVEL_UP_NEED_CARD[level][rarity]
     if needGold > self:getGold() then
+        EventManager:doEvent(EventDef.ID.POPUPWINDOW,4)
         print("金币不足")
-        return
+        return 1
     end
-    if needCard > packs[index].getTowerNumber() then
+    if needCard > packs:getTowerNumber() then
+        EventManager:doEvent(EventDef.ID.POPUPWINDOW,5)
         print("卡片不足")
-        return
+        return 1
     end
-    packs[index].towerLevelUp()
-    packs[index].setTowerNumber(-needCard)
+    packs:setTowerNumber(-needCard)
     self:setGold(-needGold)
-    packs[index].getTower().AtkUpgrade()
-    packs[index].getTower().FireCdUpgrade()
-    packs[index].getTower().ValueUpgrade()
+    packs:getTower():levelUp()
+    if packs:getTower():getAtkUpgrade()then
+        packs:getTower():atkUpgrade()
+    end
+    if packs:getTower():getFireCdUpgrade() then
+        packs:getTower():fireCdUpgrade()
+    end
+    if packs:getTower():getValueUpgrade() then
+        packs:getTower():valueUpgrade()
+    end
+    if level==2 then
+        OutGameData:addRatio(1)
+    elseif level==3 then
+        OutGameData:addRatio(2)
+    else
+        OutGameData:addRatio(3)
+    end
+    return 2
 end
 
 --[[--

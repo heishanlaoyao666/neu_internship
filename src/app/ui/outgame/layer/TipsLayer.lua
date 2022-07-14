@@ -38,27 +38,27 @@ function TipsLayer:initView()
     -- self.container_C1:setPosition(display.cx, display.cy)
     -- self.container_C1:addTo(listViewC)
     --提示信息
-    local spriteC8 = display.newSprite("artcontent/lobby(ongame)/atlas_interface/prompt_information/basemap_tips.png")
-    self.container_2:addChild(spriteC8)
-    spriteC8:setAnchorPoint(0.5, 0)
-    spriteC8:setPosition(display.cx,30)
+    local basemap = display.newSprite("artcontent/lobby(ongame)/atlas_interface/prompt_information/basemap_tips.png")
+    self.container_2:addChild(basemap)
+    basemap:setAnchorPoint(0.5, 0)
+    basemap:setPosition(display.cx,30)
 
-    local spriteC10 = display.newSprite("artcontent/lobby(ongame)/atlas_interface/prompt_information/text_2.png")
-    spriteC8:addChild(spriteC10)
-    spriteC10:setAnchorPoint(0.5, 0.5)
-    spriteC10:setPosition(spriteC8:getContentSize().width/2-50,spriteC8:getContentSize().height/2+20)
+    local textTips2 = display.newSprite("artcontent/lobby(ongame)/atlas_interface/prompt_information/text_2.png")
+    basemap:addChild(textTips2)
+    textTips2:setAnchorPoint(0.5, 0.5)
+    textTips2:setPosition(basemap:getContentSize().width/2-50,basemap:getContentSize().height/2+20)
 
-    local spriteC11 = display.newSprite("artcontent/lobby(ongame)/atlas_interface/prompt_information/text_1.png")
-    spriteC8:addChild(spriteC11)
-    spriteC11:setAnchorPoint(0.5, 0.5)
-    spriteC11:setPosition(spriteC8:getContentSize().width/2,spriteC8:getContentSize().height/2-20)
+    local textTips1 = display.newSprite("artcontent/lobby(ongame)/atlas_interface/prompt_information/text_1.png")
+    basemap:addChild(textTips1)
+    textTips1:setAnchorPoint(0.5, 0.5)
+    textTips1:setPosition(basemap:getContentSize().width/2,basemap:getContentSize().height/2-20)
     self.ratio=display.newTTFLabel({
         text = "200%",
         size = 25,
-        color = display.COLOR_WHITE
+        color = cc.c3b(255, 215, 0)
     })
-    :align(display.LEFT_CENTER, spriteC8:getContentSize().width/2+40,spriteC8:getContentSize().height/2+20)
-    :addTo(spriteC8)
+    :align(display.LEFT_CENTER, basemap:getContentSize().width/2+40,basemap:getContentSize().height/2+20)
+    :addTo(basemap)
     self.ratio:setString(OutGameData:getRatio().."%")
 end
 

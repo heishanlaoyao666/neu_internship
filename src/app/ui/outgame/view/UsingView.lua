@@ -35,10 +35,10 @@ function UsingView:initView()
     self:addChild(self.container_)
     self.container_:setPosition(0, 0)
     --底图
-    local spriteC = display.newSprite("artcontent/lobby(ongame)/atlas_interface/basemap_guide.png")
-    self.container_:addChild(spriteC)
-    spriteC:setAnchorPoint(0.5, 0.5)
-    spriteC:setPosition(display.cx,display.cy)
+    local basemapGuide = display.newSprite("artcontent/lobby(ongame)/atlas_interface/basemap_guide.png")
+    self.container_:addChild(basemapGuide)
+    basemapGuide:setAnchorPoint(0.5, 0.5)
+    basemapGuide:setPosition(display.cx,display.cy)
 
     --当前阵容
     currentlineupid=self.pack:getTower():getTowerId()
@@ -60,45 +60,45 @@ function UsingView:initView()
     self.container_2:addTo(self.container_)
 
     --底图
-    local sprite1 = display.newSprite("artcontent/lobby(ongame)/atlas_interface/tower_use/basemap_replacetower.png")
-    self.container_2:addChild(sprite1)
-    sprite1:setAnchorPoint(0.5, 1)
-    sprite1:setPosition(display.cx,height)
+    local basemap = display.newSprite("artcontent/lobby(ongame)/atlas_interface/tower_use/basemap_replacetower.png")
+    self.container_2:addChild(basemap)
+    basemap:setAnchorPoint(0.5, 1)
+    basemap:setPosition(display.cx,height)
 
     tempfilename="artcontent/lobby(ongame)/currency/icon_tower/%02d.png"
     local tower = display.newSprite(string.format(tempfilename, self.pack:getTower():getTowerId()))
-    sprite1:addChild(tower)
+    basemap:addChild(tower)
     tower:setScale(0.9)
     tower:setAnchorPoint(0.5, 0.5)
-    tower:setPosition(sprite1:getContentSize().width/2,sprite1:getContentSize().height/2+20)
+    tower:setPosition(basemap:getContentSize().width/2,basemap:getContentSize().height/2+20)
 
     self.typefilename={"artcontent/lobby(ongame)/atlas_interface/current_lineup/towertype_tapping.png",
     "artcontent/lobby(ongame)/atlas_interface/current_lineup/towertype_disturbance.png",
     "artcontent/lobby(ongame)/atlas_interface/current_lineup/towertype_sup.png",
     "artcontent/lobby(ongame)/atlas_interface/current_lineup/towertype_control.png"}
     --等级底图
-    local spriteD7 = display.
-    newSprite("artcontent/lobby(ongame)/atlas_interface/current_lineup/basemap_grade.png")
-    tower:addChild(spriteD7)
-    spriteD7:setAnchorPoint(0.5, 0)
-    spriteD7:setPosition(tower:getContentSize().width/2,-30)
+    tempfilename="artcontent/lobby(ongame)/atlas_interface/current_lineup/basemap_grade.png"
+    local basemapGrade = display.newSprite(tempfilename)
+    tower:addChild(basemapGrade)
+    basemapGrade:setAnchorPoint(0.5, 0)
+    basemapGrade:setPosition(tower:getContentSize().width/2,-30)
 
     tempfilename="artcontent/lobby(ongame)/atlas_interface/tower_list/grade/Lv.%d.png"
-    local spriteD9 = display.newSprite(string.format(tempfilename,self.pack:getTower():getLevel()))
-    spriteD7:addChild(spriteD9)
-    spriteD9:setAnchorPoint(0.5, 0.5)
-    spriteD9:setPosition(spriteD7:getContentSize().width/2,spriteD7:getContentSize().height/2)
+    local grade = display.newSprite(string.format(tempfilename,self.pack:getTower():getLevel()))
+    basemapGrade:addChild(grade)
+    grade:setAnchorPoint(0.5, 0.5)
+    grade:setPosition(basemapGrade:getContentSize().width/2,basemapGrade:getContentSize().height/2)
 
-    local spriteD10 = display.newSprite(self.typefilename[self.pack:getTower():getTowerType()])
-    tower:addChild(spriteD10)
-    spriteD10:setAnchorPoint(1, 1)
-    spriteD10:setPosition(tower:getContentSize().width-20,tower:getContentSize().height)
+    local towerType = display.newSprite(self.typefilename[self.pack:getTower():getTowerType()])
+    tower:addChild(towerType)
+    towerType:setAnchorPoint(1, 1)
+    towerType:setPosition(tower:getContentSize().width-20,tower:getContentSize().height)
 
     --取消按钮
     local cancelbtn= ccui.Button:create("artcontent/lobby(ongame)/atlas_interface/tower_use/icon_cancel.png")
-    sprite1:addChild(cancelbtn)
+    basemap:addChild(cancelbtn)
     cancelbtn:setAnchorPoint(0.5, 0)
-    cancelbtn:setPosition(sprite1:getContentSize().width/2,40)
+    cancelbtn:setPosition(basemap:getContentSize().width/2,40)
     cancelbtn:addTouchEventListener(
         function(sender, eventType)
             -- ccui.TouchEventType
@@ -113,7 +113,7 @@ function UsingView:initView()
         end
     )
     -- 屏蔽点击
-    self:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event) 
+    self:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
         if event.name == "began" then
             return true
         end

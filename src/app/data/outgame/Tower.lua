@@ -159,12 +159,12 @@ end
 --[[--
     强化后塔的攻击力改变
 
-    @parm n 类型：number，攻击力加成
+    @parm none
 
     @return none
 ]]
-function Tower:atkEnhance(n)
-    if self.atkEnhance_ ~= nil and n == nil then
+function Tower:atkEnhance()
+    if self.atkEnhance_ ~= nil then
         self.towerAtk_ = self.towerAtk_ + self.atkEnhance_
     end
 end
@@ -178,17 +178,6 @@ end
 ]]
 function Tower:getTowerFireCd()
     return self.towerFireCd_
-end
-
---[[--
-    设置塔的攻速
-
-    @parm n 类型：number, 时间
-
-    @return none
-]]
-function Tower:setFireCd(n)
-    self.towerFireCd_ = self.towerFireCd_ - n
 end
 
 --[[--

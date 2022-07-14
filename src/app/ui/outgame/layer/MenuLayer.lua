@@ -2,10 +2,8 @@
     菜单层
     MenuLayer.lua
 ]]
-local MenuLayer = class("MenuLayer", function()
-    return display.newLayer()
-end)
-local EventDef = require("app.def.outgame.EventDef")
+local MenuLayer = class("MenuLayer", require("app.ui.outgame.layer.BaseLayer"))
+local EventDef = require("app.def..EventDef")
 local EventManager = require("app.manager.EventManager")
 
 --[[--
@@ -30,13 +28,13 @@ end
 function MenuLayer:initView()
     local tempfilename
     --遮罩
-    local sprite0 = ccui.Button:create("artcontent/lobby(ongame)/currency/mask_popup.png")
-    self:addChild(sprite0)
-    sprite0:setAnchorPoint(0.5, 0.5)
-    sprite0:setOpacity(127)
-    sprite0:setPosition(display.cx,display.cy)
+    local maskBtn = ccui.Button:create("artcontent/lobby(ongame)/currency/mask_popup.png")
+    self:addChild(maskBtn)
+    maskBtn:setAnchorPoint(0.5, 0.5)
+    maskBtn:setOpacity(127)
+    maskBtn:setPosition(display.cx,display.cy)
 
-    sprite0:addTouchEventListener(
+    maskBtn:addTouchEventListener(
         function(sender, eventType)
             -- ccui.TouchEventType
             if 2 == eventType then -- touch end
@@ -47,27 +45,27 @@ function MenuLayer:initView()
 
     local width, height = display.width, 1120
 
-    local sprite1 = display.newSprite("artcontent/lobby(ongame)/topbar_playerinformation/menu_bar/basemap_menu.png")
-    sprite1:setAnchorPoint(0.5, 0.5)
+    local basemap = display.newSprite("artcontent/lobby(ongame)/topbar_playerinformation/menu_bar/basemap_menu.png")
+    basemap:setAnchorPoint(0.5, 0.5)
 
     self.container_ = ccui.Layout:create()
     -- self.container_:setBackGroundColor(cc.c3b(200, 0, 0))
     -- self.container_:setBackGroundColorType(1)
-    self.container_:setContentSize(sprite1:getContentSize().width, sprite1:getContentSize().height)
+    self.container_:setContentSize(basemap:getContentSize().width, basemap:getContentSize().height)
     self.container_:addTo(self)
     self.container_:setAnchorPoint(1,1)
     self.container_:setPosition(display.width-100, display.height-50)
-    self.container_:addChild(sprite1)
-    sprite1:setPosition(sprite1:getContentSize().width/2, sprite1:getContentSize().height/2)
+    self.container_:addChild(basemap)
+    basemap:setPosition(basemap:getContentSize().width/2, basemap:getContentSize().height/2)
 
     --四个按钮，从下往上
     tempfilename="artcontent/lobby(ongame)/topbar_playerinformation/menu_bar/basemap_button.png"
-    local sprite2 = ccui.Button:create(tempfilename)
-    self.container_:addChild(sprite2)
-    sprite2:setAnchorPoint(0.5, 0)
-    sprite2:setPosition(sprite1:getContentSize().width/2,20)
+    local basemapBtn1 = ccui.Button:create(tempfilename)
+    self.container_:addChild(basemapBtn1)
+    basemapBtn1:setAnchorPoint(0.5, 0)
+    basemapBtn1:setPosition(basemap:getContentSize().width/2,20)
 
-    sprite2:addTouchEventListener(
+    basemapBtn1:addTouchEventListener(
         function(sender, eventType)
             -- ccui.TouchEventType
             if 2 == eventType then -- touch end
@@ -80,12 +78,12 @@ function MenuLayer:initView()
         end
     )
 
-    local sprite3 = ccui.Button:create(tempfilename)
-    self.container_:addChild(sprite3)
-    sprite3:setAnchorPoint(0.5, 0)
-    sprite3:setPosition(sprite1:getContentSize().width/2,sprite1:getContentSize().height/4+20)
+    local basemapBtn2 = ccui.Button:create(tempfilename)
+    self.container_:addChild(basemapBtn2)
+    basemapBtn2:setAnchorPoint(0.5, 0)
+    basemapBtn2:setPosition(basemap:getContentSize().width/2,basemap:getContentSize().height/4+20)
 
-    sprite3:addTouchEventListener(
+    basemapBtn2:addTouchEventListener(
         function(sender, eventType)
             -- ccui.TouchEventType
             if 2 == eventType then -- touch end
@@ -97,12 +95,12 @@ function MenuLayer:initView()
         end
     )
 
-    local sprite4 = ccui.Button:create(tempfilename)
-    self.container_:addChild(sprite4)
-    sprite4:setAnchorPoint(0.5, 0)
-    sprite4:setPosition(sprite1:getContentSize().width/2,sprite1:getContentSize().height*2/4+20)
+    local basemapBtn3 = ccui.Button:create(tempfilename)
+    self.container_:addChild(basemapBtn3)
+    basemapBtn3:setAnchorPoint(0.5, 0)
+    basemapBtn3:setPosition(basemap:getContentSize().width/2,basemap:getContentSize().height*2/4+20)
 
-    sprite4:addTouchEventListener(
+    basemapBtn3:addTouchEventListener(
         function(sender, eventType)
             -- ccui.TouchEventType
             if 2 == eventType then -- touch end
@@ -114,12 +112,12 @@ function MenuLayer:initView()
         end
     )
 
-    local sprite5 = ccui.Button:create(tempfilename)
-    self.container_:addChild(sprite5)
-    sprite5:setAnchorPoint(0.5, 0)
-    sprite5:setPosition(sprite1:getContentSize().width/2,sprite1:getContentSize().height*3/4+20)
+    local basemapBtn4 = ccui.Button:create(tempfilename)
+    self.container_:addChild(basemapBtn4)
+    basemapBtn4:setAnchorPoint(0.5, 0)
+    basemapBtn4:setPosition(basemap:getContentSize().width/2,basemap:getContentSize().height*3/4+20)
 
-    sprite5:addTouchEventListener(
+    basemapBtn4:addTouchEventListener(
         function(sender, eventType)
             -- ccui.TouchEventType
             if 2 == eventType then -- touch end
@@ -132,52 +130,52 @@ function MenuLayer:initView()
     )
 
     --设置
-    local sprite6 = display.newSprite("artcontent/lobby(ongame)/topbar_playerinformation/menu_bar/icon_sett.png")
-    sprite2:addChild(sprite6)
-    sprite6:setAnchorPoint(0.5,0.5)
-    sprite6:setPosition(sprite2:getContentSize().width/2-70, sprite2:getContentSize().height/2)
+    local setSprite = display.newSprite("artcontent/lobby(ongame)/topbar_playerinformation/menu_bar/icon_sett.png")
+    basemapBtn1:addChild(setSprite)
+    setSprite:setAnchorPoint(0.5,0.5)
+    setSprite:setPosition(basemapBtn1:getContentSize().width/2-70, basemapBtn1:getContentSize().height/2)
 
-    local sprite7 = display.newSprite("artcontent/lobby(ongame)/topbar_playerinformation/menu_bar/font_settings.png")
-    sprite2:addChild(sprite7)
-    sprite7:setAnchorPoint(0.5,0.5)
-    sprite7:setPosition(sprite2:getContentSize().width/2+20, sprite2:getContentSize().height/2)
+    local fontSet = display.newSprite("artcontent/lobby(ongame)/topbar_playerinformation/menu_bar/font_settings.png")
+    basemapBtn1:addChild(fontSet)
+    fontSet:setAnchorPoint(0.5,0.5)
+    fontSet:setPosition(basemapBtn1:getContentSize().width/2+20, basemapBtn1:getContentSize().height/2)
 
     --对战记录
     tempfilename="artcontent/lobby(ongame)/topbar_playerinformation/menu_bar/icon_battlerecord.png"
-    local sprite8 = display.newSprite(tempfilename)
-    sprite3:addChild(sprite8)
-    sprite8:setAnchorPoint(0.5,0.5)
-    sprite8:setPosition(sprite2:getContentSize().width/2-70, sprite2:getContentSize().height/2)
+    local battlerecord = display.newSprite(tempfilename)
+    basemapBtn2:addChild(battlerecord)
+    battlerecord:setAnchorPoint(0.5,0.5)
+    battlerecord:setPosition(basemapBtn1:getContentSize().width/2-70, basemapBtn1:getContentSize().height/2)
 
     tempfilename="artcontent/lobby(ongame)/topbar_playerinformation/menu_bar/text_battlerecord.png"
-    local sprite9 = display.newSprite(tempfilename)
-    sprite3:addChild(sprite9)
-    sprite9:setAnchorPoint(0.5,0.5)
-    sprite9:setPosition(sprite2:getContentSize().width/2+20, sprite2:getContentSize().height/2)
+    local textBattlerecord = display.newSprite(tempfilename)
+    basemapBtn2:addChild(textBattlerecord)
+    textBattlerecord:setAnchorPoint(0.5,0.5)
+    textBattlerecord:setPosition(basemapBtn1:getContentSize().width/2+20, basemapBtn1:getContentSize().height/2)
 
     --邮箱
-    local sprite10 = display. newSprite("artcontent/lobby(ongame)/topbar_playerinformation/menu_bar/icon_mailbox.png")
-    sprite4:addChild(sprite10)
-    sprite10:setAnchorPoint(0.5,0.5)
-    sprite10:setPosition(sprite2:getContentSize().width/2-70, sprite2:getContentSize().height/2)
+    local mailbox = display. newSprite("artcontent/lobby(ongame)/topbar_playerinformation/menu_bar/icon_mailbox.png")
+    basemapBtn3:addChild(mailbox)
+    mailbox:setAnchorPoint(0.5,0.5)
+    mailbox:setPosition(basemapBtn1:getContentSize().width/2-70, basemapBtn1:getContentSize().height/2)
 
-    local sprite11= display.newSprite("artcontent/lobby(ongame)/topbar_playerinformation/menu_bar/text_mailbox.png")
-    sprite4:addChild(sprite11)
-    sprite11:setAnchorPoint(0.5,0.5)
-    sprite11:setPosition(sprite2:getContentSize().width/2+20, sprite2:getContentSize().height/2)
+    local textMailbox= display.newSprite("artcontent/lobby(ongame)/topbar_playerinformation/menu_bar/text_mailbox.png")
+    basemapBtn3:addChild(textMailbox)
+    textMailbox:setAnchorPoint(0.5,0.5)
+    textMailbox:setPosition(basemapBtn1:getContentSize().width/2+20, basemapBtn1:getContentSize().height/2)
 
     --公告
     tempfilename="artcontent/lobby(ongame)/topbar_playerinformation/menu_bar/icon_announcement.png"
-    local sprite12 = display.newSprite(tempfilename)
-    sprite5:addChild(sprite12)
-    sprite12:setAnchorPoint(0.5,0.5)
-    sprite12:setPosition(sprite2:getContentSize().width/2-70, sprite2:getContentSize().height/2)
+    local announcement = display.newSprite(tempfilename)
+    basemapBtn4:addChild(announcement)
+    announcement:setAnchorPoint(0.5,0.5)
+    announcement:setPosition(basemapBtn1:getContentSize().width/2-70, basemapBtn1:getContentSize().height/2)
 
     tempfilename="artcontent/lobby(ongame)/topbar_playerinformation/menu_bar/font_announcements.png"
-    local sprite13 = display.newSprite(tempfilename)
-    sprite5:addChild(sprite13)
-    sprite13:setAnchorPoint(0.5,0.5)
-    sprite13:setPosition(sprite2:getContentSize().width/2+20, sprite2:getContentSize().height/2)
+    local fontAnnouncements = display.newSprite(tempfilename)
+    basemapBtn4:addChild(fontAnnouncements)
+    fontAnnouncements:setAnchorPoint(0.5,0.5)
+    fontAnnouncements:setPosition(basemapBtn1:getContentSize().width/2+20, basemapBtn1:getContentSize().height/2)
 end
 
 --[[--

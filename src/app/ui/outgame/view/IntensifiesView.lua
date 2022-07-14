@@ -39,6 +39,7 @@ function IntensifiesView:initView()
     cc.UserDefault:getInstance():setBoolForKey("攻速",false)
     cc.UserDefault:getInstance():setBoolForKey("技能",false)
     local rarity =self.pack:getTower():getTowerRarity() -- 当前塔的稀有度
+    local skill1num = self.pack:getTower():getTowerSkill1Num() --技能1
     local tempfilename
     local width, height = display.width, 1120
 
@@ -51,39 +52,39 @@ function IntensifiesView:initView()
     --静态大塔
     self.bigtowerLayer_=BigTowerLayer.new():addTo(self.container_)
     --底图
-    local sprite1=display.newSprite("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_popup.png")
-    sprite1:setAnchorPoint(0.5, 0)
-    sprite1:setPosition(width/2,30)
-    self.container_:addChild(sprite1)
+    local basemap=display.newSprite("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/basemap_popup.png")
+    basemap:setAnchorPoint(0.5, 0)
+    basemap:setPosition(width/2,30)
+    self.container_:addChild(basemap)
 
-    self.ratio=display.newTTFLabel({
+    local ratio=display.newTTFLabel({
         text = "XXX%",
         size = 22,
-        color = display.COLOR_WHITE
+        color = cc.c3b(255, 215, 0)
     })
-    :align(display.CENTER, sprite1:getContentSize().width/2-10,33)
-    :addTo(sprite1)
-    self.ratioadd=display.newTTFLabel({
+    :align(display.CENTER, basemap:getContentSize().width/2-10,33)
+    :addTo(basemap)
+    local ratioadd=display.newTTFLabel({
         text = "+X%",
         size = 22,
-        color = display.COLOR_WHITE
+        color = cc.c3b(255, 215, 0)
     })
-    :align(display.CENTER, sprite1:getContentSize().width/2+150,33)
-    :addTo(sprite1)
+    :align(display.CENTER, basemap:getContentSize().width/2+150,33)
+    :addTo(basemap)
     if self.pack:getTower():getLevel()==1 then
-        self.ratioadd:setString("+1%")
+        ratioadd:setString("+1%")
     elseif self.pack:getTower():getLevel()==2 then
-        self.ratioadd:setString("+2%")
+        ratioadd:setString("+2%")
     else
-        self.ratioadd:setString("+3%")
+        ratioadd:setString("+3%")
     end
-    self.ratio:setString(OutGameData:getRatio())
+    ratio:setString(OutGameData:getRatio())
     --x按钮
-    local sprite2= ccui.Button:create("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/button_off.png")
-    sprite1:addChild(sprite2)
-    sprite2:setAnchorPoint(1, 1)
-    sprite2:setPosition(sprite1:getContentSize().width-10, sprite1:getContentSize().height-10)
-    sprite2:addTouchEventListener(
+    local offBtn= ccui.Button:create("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/button_off.png")
+    basemap:addChild(offBtn)
+    offBtn:setAnchorPoint(1, 1)
+    offBtn:setPosition(basemap:getContentSize().width-10, basemap:getContentSize().height-10)
+    offBtn:addTouchEventListener(
         function(sender, eventType)
             -- ccui.TouchEventType
             if 2 == eventType then -- touch end
@@ -97,28 +98,39 @@ function IntensifiesView:initView()
         end
     )
     --属性类型
-    PropertyLayer.new():addTo(sprite1)
+    PropertyLayer.new():addTo(basemap)
 
-    --技能1
-    local skill1num = self.pack:getTower():getTowerSkill1Num()
-
-    self.typefilename={"towertype_tapping","towertype_disturbance","towertype_sup","towertype_control"}
-    self.basemapfilename={"basemap_tower_normal","basemap_tower_rare","basemap_tower_epic","basemap_towerlegend"}
+    --self.typefilename={"towertype_tapping","towertype_disturbance","towertype_sup","towertype_control"}
+    local basemapFilename={"basemap_tower_normal","basemap_tower_rare","basemap_tower_epic","basemap_towerlegend"}
     --塔图片
-    FrontLayer.new():addTo(sprite1)
-    local sprite26 = display.newSprite("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/"
-    ..self.basemapfilename[rarity]..".png")
-    sprite26:setAnchorPoint(0, 1)
-    sprite26:setPosition(50,sprite1:getContentSize().height-25)
-    sprite1:addChild(sprite26)
+    FrontLayer.new():addTo(basemap)
+    local towerSprite = display.newSprite("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/"
+    ..basemapFilename[rarity]..".png")
+    towerSprite:setAnchorPoint(0, 1)
+    towerSprite:setPosition(50,basemap:getContentSize().height-25)
+    basemap:addChild(towerSprite)
 
-    self.towerLayer_=TowerLayer.new():addTo(sprite26)
+    self.towerLayer_=TowerLayer.new():addTo(towerSprite)
     --升级按钮
-    local sprite3= ccui.Button:create("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/button_upgrade.png")
-    sprite1:addChild(sprite3)
-    sprite3:setAnchorPoint(0.5, 0)
-    sprite3:setPosition(sprite1:getContentSize().width/2, 60)
-    sprite3:addTouchEventListener(
+    local upgradeBtn= ccui.Button:create("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/button_upgrade.png")
+    basemap:addChild(upgradeBtn)
+    upgradeBtn:setAnchorPoint(0.5, 0)
+    upgradeBtn:setPosition(basemap:getContentSize().width/2, 60)
+
+    local glod = display.newSprite("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/icon_glod.png")
+    glod:setAnchorPoint(0.5, 0.5)
+    glod:setPosition(upgradeBtn:getContentSize().width/2-30,upgradeBtn:getContentSize().height/2-20)
+    upgradeBtn:addChild(glod)
+    goldTTF=display.newTTFLabel({
+        text = "584",
+        size = 25,
+        color = display.COLOR_WHITE
+    })
+    :align(display.LEFT_CENTER, upgradeBtn:getContentSize().width/2-10,upgradeBtn:getContentSize().height/2-20)
+    :addTo(upgradeBtn)
+    goldTTF:setString(ConstDef.LEVEL_UP_NEED_GOLD[self.pack:getTower():getLevel()+1][rarity])
+
+    upgradeBtn:addTouchEventListener(
         function(sender, eventType)
             -- ccui.TouchEventType
             if 2 == eventType then -- touch end
@@ -140,13 +152,13 @@ function IntensifiesView:initView()
                         end
 
                         if self.pack:getTower():getLevel()==1 then
-                            self.ratioadd:setString("+2%")
+                            ratioadd:setString("+2%")
                         elseif self.pack:getTower():getLevel()==2 then
-                            self.ratioadd:setString("+3%")
+                            ratioadd:setString("+3%")
                         else
-                            self.ratioadd:setString("+3%")
+                            ratioadd:setString("+3%")
                         end
-                        self.ratio:setString(OutGameData:getRatio().."%")
+                        ratio:setString(OutGameData:getRatio().."%")
                         if skill1num then
                             if self.pack:getTower():getValueUpgrade() then
                                 cc.UserDefault:getInstance():setBoolForKey("技能",true)
@@ -159,32 +171,21 @@ function IntensifiesView:initView()
                         cc.UserDefault:getInstance():setBoolForKey("攻速",false)
                         cc.UserDefault:getInstance():setBoolForKey("技能",false)
                     end
-                    self.gold:setString(ConstDef.LEVEL_UP_NEED_GOLD[self.pack:getTower():getLevel()+1][rarity])
+                    goldTTF:setString(ConstDef.LEVEL_UP_NEED_GOLD[self.pack:getTower():getLevel()+1][rarity])
                     self.towerLayer_:removeFromParent(true)
-                    self.towerLayer_=TowerLayer.new():addTo(sprite26)
-                    PropertyLayer.new():addTo(sprite1)
+                    self.towerLayer_=TowerLayer.new():addTo(towerSprite)
+                    PropertyLayer.new():addTo(basemap)
                 end
             end
         end
     )
-    local sprite24 = display.newSprite("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/icon_glod.png")
-    sprite24:setAnchorPoint(0.5, 0.5)
-    sprite24:setPosition(sprite3:getContentSize().width/2-30,sprite3:getContentSize().height/2-20)
-    sprite3:addChild(sprite24)
-    self.gold=display.newTTFLabel({
-        text = "584",
-        size = 25,
-        color = display.COLOR_WHITE
-    })
-    :align(display.LEFT_CENTER, sprite3:getContentSize().width/2-10,sprite3:getContentSize().height/2-20)
-    :addTo(sprite3)
-    self.gold:setString(ConstDef.LEVEL_UP_NEED_GOLD[self.pack:getTower():getLevel()+1][rarity])
+
     --强化按钮
-    local sprite4= ccui.Button:create("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/button_enhanced.png")
-    sprite1:addChild(sprite4)
-    sprite4:setAnchorPoint(0.5, 0)
-    sprite4:setPosition(sprite1:getContentSize().width/2-200, 60)
-    sprite4:addTouchEventListener(
+    local enhancedBtn= ccui.Button:create("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/button_enhanced.png")
+    basemap:addChild(enhancedBtn)
+    enhancedBtn:setAnchorPoint(0.5, 0)
+    enhancedBtn:setPosition(basemap:getContentSize().width/2-200, 60)
+    enhancedBtn:addTouchEventListener(
         function(sender, eventType)
             -- ccui.TouchEventType
             if 2 == eventType then -- touch end
@@ -197,11 +198,11 @@ function IntensifiesView:initView()
     )
     --使用按钮
     Intensifiespack=self.pack
-    local sprite5= ccui.Button:create("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/button_use.png")
-    sprite1:addChild(sprite5)
-    sprite5:setAnchorPoint(0.5, 0)
-    sprite5:setPosition(sprite1:getContentSize().width/2+200, 60)
-    sprite5:addTouchEventListener(
+    local useBtn= ccui.Button:create("artcontent/lobby(ongame)/atlas_interface/tower_detailpopup/button_use.png")
+    basemap:addChild(useBtn)
+    useBtn:setAnchorPoint(0.5, 0)
+    useBtn:setPosition(basemap:getContentSize().width/2+200, 60)
+    useBtn:addTouchEventListener(
         function(sender, eventType)
             -- ccui.TouchEventType
             if 2 == eventType then -- touch end
