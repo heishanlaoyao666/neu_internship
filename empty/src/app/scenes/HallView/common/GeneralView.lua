@@ -1,7 +1,7 @@
 ----内容：通用弹窗
 ----编写人员：郑蕾
 ---修订人员：郑蕾
----最后修改日期：7/12
+---最后修改日期：7/15
 local GeneralView = class("GeneralView")
 
 --[[
@@ -37,7 +37,6 @@ end
 
 --[[
     函数用途：确认按钮
-    参数：灰色背景层，弹窗层
     --]]
 function GeneralView:confirmButton(grayLayer,generalBg)
     local confirmButton = ccui.Button:create(
@@ -75,4 +74,5 @@ function GeneralView:setButtonScale(X,Y,sender)
     local ease_elastic = cc.EaseElasticOut:create(scale)
     sender:runAction(ease_elastic)
 end
+
 return GeneralView

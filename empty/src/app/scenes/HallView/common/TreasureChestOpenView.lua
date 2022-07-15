@@ -1,7 +1,7 @@
 ----内容：宝箱开启确认弹窗
 ----编写人员：郑蕾
 ---修订人员：郑蕾
----最后修改日期：7/12
+---最后修改日期：7/15
 local TreasureChestOpenView = {}
 local KnapsackData = require("app.data.KnapsackData")
 local TreasureChestOpenObtainView = require("app.scenes.HallView.common.TreasureChestOpenObtainView")
@@ -9,8 +9,6 @@ local GeneralView = require("app.scenes.HallView.common.GeneralView")
 
 --[[
     函数用途：二级弹窗-宝箱开启确认弹窗
-    参数：层，顶部宝箱图片路径，宝箱类型图片路径
-    ，普通卡数量，稀有卡数量，史诗卡数量，传奇卡数量，获得金币数量，宝箱花费钻石数量
     --]]
 function TreasureChestOpenView:treasureChestOpenConfirmPanel(ShopLayer,treasurePath,treasureType
 ,nCardNum,rCardNum,eCardNum,lCardNum,coinNum,price)
@@ -52,7 +50,6 @@ end
 
 --[[
     函数用途：创建灰色背景
-    参数：层
     --]]
 function TreasureChestOpenView:grayLayer(ShopLayer)--参数：层
     local width ,height = display.width,display.height
@@ -70,7 +67,6 @@ end
 
 --[[
     函数用途：金币的展示
-    参数：弹窗层，金币数量
     --]]
 function TreasureChestOpenView:goldCoinDisplay(popLayer,coinNum)
     --图片：金币背景
@@ -91,7 +87,6 @@ end
 
 --[[
     函数用途：宝箱开启按钮
-    参数：层，灰色背景层，弹窗层，可获得的金币数量，消耗的钻石数量
     --]]
 function TreasureChestOpenView:openButton(ShopLayer,grayLayer,popLayer,coinNum,price,treasureChestType)
     local openButton = ccui.Button:create(
@@ -128,7 +123,6 @@ end
 
 --[[
     函数用途：关闭窗口按钮
-    参数：层，灰色背景层，弹窗层
     --]]
 function TreasureChestOpenView:closeButton(ShopLayer,grayLayer,popLayer)
     local closeButton = ccui.Button:create(
@@ -156,7 +150,6 @@ end
 
 --[[
     函数用途：展示宝箱开启后可能获得的物品
-    参数：层，普通卡数量，稀有卡数量，史诗卡数量，传说卡数量
     --]]
 function TreasureChestOpenView:fragmentInTreasure(layer,nCardNum,rCardNum,eCardNum,lCardNum)
     --普通

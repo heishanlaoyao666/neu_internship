@@ -1,17 +1,22 @@
 local MainScene = class("MainScene", function()
     return display.newScene("MainScene")
 end)
-local TopPanel = require("app.scenes.TopPanel")
+
+local TopTab = require("app.scenes.HallView.topTab.TopPanel")
+local BottomTab = require("app.scenes.HallView.bottomTab.BottomTab")
 local Shop = require("app.scenes.HallView.shop.Shop")
-local Atlas = require("app.scenes.Atlas")
-local Battle = require("app.scenes.Battle")
+local Battle = require("app.scenes.HallView.battle.Battle")
+local Atlas = require("app.scenes..HallView.atlas.Atlas")
+
+local Music = require("app/data/Music")
+local SettingMusic = require("src/app/scenes/SettingMusic")
+
 local KnapsackData = require("app.data.KnapsackData")
-local MenuLayer = require("app.scenes.HallView.bottomTab.MenuLayer")
 local EventManager = require("app/manager/EventManager.lua")
 local EventDef = require("app/def/EventDef.lua")
-local Shopdata = require("app.data.Shopdata")
 
 function MainScene:ctor()
+    self:loadingPanel()--没播放完就被替换掉了，为啥
     KnapsackData:init()
     self:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, handler(self, self.update))
     self:performWithDelay(function() 
@@ -22,9 +27,8 @@ function MainScene:ctor()
         local shop = Shop.new()
         local atlas = Atlas.new()
         local battle = Battle.new()
-        local menu = MenuLayer.new()
-        local layer1 = shop:ShopPanel()
-        local layer2 = battle:battlePanel()
+        local layer1 = shop:ShopPanelCreate()
+        local layer2 = battle:battlePanelCreate()
         local layer3 = atlas:createCollectionPanel()
 
         local pageView = self:sliderView(layer1,layer2,layer3)--将商店、战斗、图鉴界面加入到翻页中
@@ -37,8 +41,22 @@ function MainScene:ctor()
         layer:setContentSize(720, 1280)
         layer:addTo(self)
 
-        menu:createBottomTab(layer,pageView)--底部按钮导航栏
-        TopPanel:createMiddleTopPanel(layer)--顶部信息栏
+        self:bottomTab(layer,pageView)--底部按钮导航栏
+        TopTab:createMiddleTopPanel(layer)--顶部信息栏
+
+        local MusicOn = SettingMusic:isMusic2()
+        print(MusicOn)
+        if MusicOn == true then
+            local audio = require("framework.audio")
+            audio.loadFile(Music.MUSIC[1], function ()
+                audio.playEffect(Music.MUSIC[1])
+            end)
+        else
+            local audio = require("framework.audio")
+            audio.loadFile(Music.MUSIC[1], function ()
+                audio.stopEffect()
+            end)
+        end
     end)
 
     KnapsackData:Login()
@@ -52,26 +70,20 @@ function MainScene:sliderView(layer1,layer2,layer3)
     local pageView = ccui.PageView:create()
     -- 设置PageView容器尺寸
     pageView:setContentSize(720, 1280)
-    pageView:setTouchEnabled(true)    -- 设置可触摸 若设置为false 则不能响应触摸事件
+    pageView:setTouchEnabled(true)
     pageView:setAnchorPoint(0.5, 0.5)
     pageView:setPosition(display.cx, display.cy-140)
     pageView:addPage(layer1)
     pageView:addPage(layer2)
     pageView:addPage(layer3)
-    -- 触摸回调
-    local function PageViewCallBack(sender,event)
-        -- 翻页时
-        if event==ccui.PageViewEventType.turning then
-            -- getCurrentPageIndex() 获取当前翻到的页码 打印
-            --print("当前页码是"..pageView:getCurPageIndex() + 1)
-        end
-    end
-    pageView:addEventListener(PageViewCallBack)
-    pageView:scrollToPage(1)
+    pageView:scrollToPage(1)--初始页面为战斗界面
     self:addChild(pageView, 0)
     return pageView
 end
 
+--[[
+    函数用途：大厅背景图
+    --]]
 function MainScene:createBg()
     local width ,height  =display.width,display.top
     local bgLayer = ccui.Layout:create()
@@ -80,6 +92,41 @@ function MainScene:createBg()
     bgLayer:setAnchorPoint(0.5,0.5)
     bgLayer:setPosition(width*0.5,height*0.5)
     bgLayer:addTo(self)
+end
+
+--[[
+    函数用途：底部按钮栏
+    --]]
+function MainScene:bottomTab(layer,pageView)
+    local bottomLayer = BottomTab:createBottomTab(layer)
+
+    --未选择
+    local shopUnselectedLayer = BottomTab:shopUnselectedLayer(bottomLayer)
+    local atlasUnselectedLayer = BottomTab:atlasUnselectedLayer(bottomLayer)
+    local battleUnselectedLayer = BottomTab:battleUnselectedLayer(bottomLayer)
+    --已选择
+    local shopSelectedLayer = BottomTab:shopSelectedLayer(bottomLayer)
+    local atlasSelectedLayer = BottomTab:atlasSelectedLayer(bottomLayer)
+    local battleSelectedLayer = BottomTab:battleSelectedLayer(bottomLayer)
+    --点击事件
+    BottomTab:clickEvent(pageView,shopUnselectedLayer,atlasUnselectedLayer,battleUnselectedLayer,
+            shopSelectedLayer,atlasSelectedLayer,battleSelectedLayer)
+
+    -- 触摸回调
+    local function PageViewCallBack(sender,event)
+        -- 翻页时
+        if event==ccui.PageViewEventType.turning then
+            local index = pageView:getCurPageIndex()--获取页码，从0开始
+            if index == 0 then--商店状态
+                BottomTab:shopState(shopSelectedLayer,atlasSelectedLayer,battleSelectedLayer)
+            elseif index == 1 then--战斗状态
+                BottomTab:battleState(shopSelectedLayer,atlasSelectedLayer,battleSelectedLayer)
+            elseif index == 2 then--图鉴状态
+                BottomTab:atlasState(shopSelectedLayer,atlasSelectedLayer,battleSelectedLayer)
+            end
+        end
+    end
+    pageView:addEventListener(PageViewCallBack)
 end
 
 
@@ -93,9 +140,9 @@ function MainScene:loadingPanel()
     loadPanel:setPosition(0,0)
     loadPanel:addTo(self)
 
-    display.newSprite("ui/loading/bottomchart.jpg")--加载页面_背景图
-           :pos(display.cx,display.cy)
-           :addTo(loadPanel)
+    local loadingBg = ccui.ImageView:create("ui/loading/bottomchart.jpg")--加载页面_背景图
+    loadingBg:pos(display.cx,display.cy)
+    loadingBg:addTo(loadPanel)
 
     local tips = cc.Label:createWithTTF("大厅预加载，进行中...","ui/font/fzhz.ttf",20)--文本：大厅预加载
     tips:setPosition(360,30)
@@ -103,18 +150,10 @@ function MainScene:loadingPanel()
     tips:addTo(loadPanel)
 
     local progressNum = 0--文本：加载进度
-    local progress = cc.Label:createWithTTF(progressNum,"ui/font/fzhz.ttf",20)
+    local progress = cc.Label:createWithTTF(progressNum.."%","ui/font/fzhz.ttf",20)
     progress:setPosition(650,30)
     progress:setColor(cc.c3b(255,239,117))
     progress:addTo(loadPanel)
-
-    --[[ cc.Director:getInstance():getScheduler():scheduleScriptFunc(
-             function()
-                 progressNum = progressNum+1
-                 progress:setString(progressNum)
-             end,0.1,false)--]]
-
-
 
     local barProBg = cc.Sprite:create("ui/loading/processbar_bottomchart.png")--进度条背景
     barProBg:setAnchorPoint(0,0)
@@ -131,13 +170,23 @@ function MainScene:loadingPanel()
     barPro:addTo(loadPanel)
     barPro:setPercentage(0)--起始进度为0
 
-    local loadAction = cc.ProgressFromTo:create(5,0,100)--动作：5秒内从0到100
+    local loadAction = cc.ProgressFromTo:create(5,0,57)--动作：5秒内从0到100
+    local progressScheduler= cc.Director:getInstance():getScheduler()--刷新生命计时器
+    local handler = progressScheduler:scheduleScriptFunc(
+            function()
+                if progressNum<100 then
+                    progressNum = progressNum+1
+                    progress:setString(progressNum.."%")
+                end
+            end,1/24,false)
     local callFuncAction = cc.CallFunc:create(function()--动作执行完毕回调函数
+        cc.Director:getInstance():getScheduler():unscheduleScriptEntry(handler)
         loadPanel:setVisible(false)
     end)
-    local delayTimeAction = cc.DelayTime:create(0.5)--延时0.5s
+    local delayTimeAction = cc.DelayTime:create(1)--延时0.1s
     local sequenceAction = cc.Sequence:create(loadAction,delayTimeAction,callFuncAction)
     barPro:runAction(sequenceAction)
+
 
 end
 --[[--
@@ -149,8 +198,8 @@ end
 ]]
 function MainScene:update(dt)
     KnapsackData:update(dt)
-    TopPanel:setDiamondsString(KnapsackData:getDiamonds())
-    TopPanel:setCoinString(KnapsackData:getGoldCoin())
-    Shopdata:refresh()
+    TopTab:setDiamondsString(KnapsackData:getDiamonds())
+    TopTab:setCoinString(KnapsackData:getGoldCoin())
+    Shop:refresh()
 end
 return MainScene

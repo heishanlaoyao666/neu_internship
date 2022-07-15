@@ -1,13 +1,12 @@
 ----内容：二级界面 - 金币商店购买确认弹窗
 ----编写人员：郑蕾
 ---修订人员：郑蕾
----最后修改日期：7/13
+---最后修改日期：7/15
 local GoldPurchaseView = {}
 local KnapsackData = require("app.data.KnapsackData")
 local GeneralView = require("app.scenes.HallView.common.GeneralView")
 --[[
     函数用途：二级界面-金币商店购买确认弹窗
-    参数：层，图片路径，碎片数量，金额，所属商品
 --]]
 function GoldPurchaseView:goldPurchasePanel(ShopLayer,index,fragNum,price,shade,ItemButton,i)
     --灰色背景
@@ -42,7 +41,6 @@ end
 
 --[[
     函数用途：创建灰色背景
-    参数：层
     --]]
 function GoldPurchaseView:grayLayer(ShopLayer)--参数：层
     local width ,height = display.width,display.height
@@ -60,7 +58,6 @@ end
 
 --[[
     函数用途：确认按钮
-    参数：层，灰色背景，弹窗背景层，金额，所属商品,碎片数量,卡牌ID
     --]]
 function GoldPurchaseView:confirmButton(grayLayer,popLayer,price,shade,fragNum,id,ItemButton,i)
     --按钮：确认按钮
@@ -71,13 +68,11 @@ function GoldPurchaseView:confirmButton(grayLayer,popLayer,price,shade,fragNum,i
     confirmButton:setPosition(cc.p(display.cx-90, 50))
     confirmButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
         if eventType == ccui.TouchEventType.began then
-            local scale = cc.ScaleTo:create(1,0.9)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
+            self:setButtonScale(1,0.9,sender)
+
         elseif eventType == ccui.TouchEventType.ended then
-            local scale = cc.ScaleTo:create(1,1)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
+            self:setButtonScale(1,1,sender)
+
             if KnapsackData:setGoldCoin(-price) then--如果金币充足
                 print("购买后金币数量为"..KnapsackData:getGoldCoin())
 
@@ -88,9 +83,9 @@ function GoldPurchaseView:confirmButton(grayLayer,popLayer,price,shade,fragNum,i
                 --售罄遮罩
                 KnapsackData:setSoldOutState(i,true)
                 shade:setVisible(KnapsackData:getSoldOutState(i))
-
-
+                print("商品已售罄")
                 ItemButton:setTouchEnabled(false)
+
                 --卡牌解锁
                 if KnapsackData:getTowerUnlock_(id) then--卡牌已解锁
                     print("卡牌已解锁")
@@ -106,9 +101,8 @@ function GoldPurchaseView:confirmButton(grayLayer,popLayer,price,shade,fragNum,i
             end
             KnapsackData:sendData()
         elseif eventType == ccui.TouchEventType.canceled then
-            local scale = cc.ScaleTo:create(1,1)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
+            self:setButtonScale(1,1,sender)
+
         end
     end)
     confirmButton:addTo(popLayer)
@@ -126,7 +120,6 @@ end
 
 --[[
     函数用途：关闭弹窗按钮
-    参数：层，灰色背景，弹窗背景层
     --]]
 function GoldPurchaseView:closeButton(ShopLayer,grayLayer,popLayer)
     local closeButton = ccui.Button:create(
@@ -136,22 +129,28 @@ function GoldPurchaseView:closeButton(ShopLayer,grayLayer,popLayer)
     closeButton:setPosition(cc.p(490, 330))
     closeButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
         if eventType == ccui.TouchEventType.began then
-            local scale = cc.ScaleTo:create(1,0.9)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
+            self:setButtonScale(1,0.9,sender)
+
         elseif eventType == ccui.TouchEventType.ended then
-            local scale = cc.ScaleTo:create(1,1)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
+            self:setButtonScale(1,1,sender)
             grayLayer:setVisible(false)--隐藏二级弹窗
             ShopLayer:setTouchEnabled(true)
+
         elseif eventType == ccui.TouchEventType.canceled then
-            local scale = cc.ScaleTo:create(1,1)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
+            self:setButtonScale(1,1,sender)
+
         end
     end)
     closeButton:addTo(popLayer)
 end
 
+
+--[[
+    函数用途：按钮放缩特效
+    --]]
+function GoldPurchaseView:setButtonScale(X,Y,sender)
+    local scale = cc.ScaleTo:create(X,Y)
+    local ease_elastic = cc.EaseElasticOut:create(scale)
+    sender:runAction(ease_elastic)
+end
 return GoldPurchaseView

@@ -6,6 +6,8 @@ local Towerdata = require("app/data/Towerdata")
 local TowerDef = require("app/def/TowerDef")
 local KnapsackData = require("app.data.KnapsackData")
 local Music = require("app/data/Music")
+local SettingMusic = require("src/app/scenes/SettingMusic")
+local GeneralView = require("app.scenes.HallView.common.GeneralView")
 
 
 function Atlas:ctor()
@@ -20,8 +22,11 @@ end
 function Atlas:setCOINString(str)
     coin_label:setString(str)
 end
-function Atlas:setSpeed1String(str)
-    type3label:setString(str)
+function Atlas:setSkill1String(str)
+    type5label:setString(str)
+end
+function Atlas:setSkill2String(str)
+    type6label:setString(str)
 end
 
 --收集层
@@ -218,6 +223,20 @@ function Atlas:createCollectedItem(AtlasLayer,collectLayer,path,bg,towertype,ran
             sender:runAction(ease_elastic)
 
         elseif eventType == ccui.TouchEventType.ended then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.playEffect(Music.COMMON[1])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.stopEffect()
+                end)
+            end
+            
             self:towerinfoPanel(collectLayer,path,bg,towertype,rank)
 
             local scale = cc.ScaleTo:create(1,1)
@@ -569,8 +588,7 @@ function Atlas:towerinfoPanel(collectLayer,path,bg,towertype,rank)--稀有度背
     type3attri:setScale(1)
     type3attri:setPosition(cc.p(130, 370))
     type3attri:addTo(popLayer)
-    speed1 =KnapsackData:getFirecd(chartnum)
-    type3label=cc.Label:createWithTTF(speed1.."s","ui/font/fzzdhjw.ttf",26)
+    type3label=cc.Label:createWithTTF(KnapsackData:getFirecd(chartnum).."s","ui/font/fzzdhjw.ttf",26)
     type3label:setScale(1)
     type3label:setColor(cc.c3b(255, 255, 255))
     type3label:setAnchorPoint(0,1)
@@ -616,7 +634,7 @@ function Atlas:towerinfoPanel(collectLayer,path,bg,towertype,rank)--稀有度背
     else
         skilllabel = TowerDef.TABLE[chartnum].SKILLS[1].VALUE
     end
-    local type5label=cc.Label:createWithTTF(skilllabel,"ui/font/fzzdhjw.ttf",26)
+    type5label=cc.Label:createWithTTF(skilllabel,"ui/font/fzzdhjw.ttf",26)
     type5label:setScale(1)
     type5label:setColor(cc.c3b(255, 255, 255))
     type5label:setAnchorPoint(0,1)
@@ -645,7 +663,7 @@ function Atlas:towerinfoPanel(collectLayer,path,bg,towertype,rank)--稀有度背
     else
         skilllabel2 = TowerDef.TABLE[chartnum].SKILLS[2].VALUE
     end
-    local type6label=cc.Label:createWithTTF(skilllabel2,"ui/font/fzzdhjw.ttf",26)
+    type6label=cc.Label:createWithTTF(skilllabel2,"ui/font/fzzdhjw.ttf",26)
     type6label:setScale(1)
     type6label:setColor(cc.c3b(255, 255, 255))
     type6label:setAnchorPoint(0,1)
@@ -661,98 +679,6 @@ function Atlas:towerinfoPanel(collectLayer,path,bg,towertype,rank)--稀有度背
             "ui/hall/Atlas/Secondaryinterface_towerinfo/button_upgrade.png")
     -- local updatelabel
     upgradeButton:setPosition(cc.p(320, 110))
-    upgradeButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
-        if eventType == ccui.TouchEventType.began then
-            --满级条件加入消除bug-----
-            updatelabel=cc.Label:createWithTTF("+"..TowerDef.TABLE[chartnum].ATK_UPGRADE,"ui/font/fzzdhjw.ttf",26)
-            updatelabel:setScale(1)
-            updatelabel:setColor(cc.c3b(255, 255, 255))
-            updatelabel:setAnchorPoint(0,1)
-            updatelabel:pos(0+495,460)
-            updatelabel:enableOutline(cc.c4b(20, 20, 66, 255),2)
-            updatelabel:addTo(popLayer)
-
-            if TowerDef.TABLE[chartnum].FIRECD ~= 0 then
-                updatefirecdlabel=cc.Label:createWithTTF("+"..TowerDef.TABLE[chartnum].FIRECD,"ui/font/fzzdhjw.ttf",26)
-                updatefirecdlabel:setScale(1)
-                updatefirecdlabel:setColor(cc.c3b(255, 255, 255))
-                updatefirecdlabel:setAnchorPoint(0,1)
-                updatefirecdlabel:pos(0+185,350)
-                updatefirecdlabel:enableOutline(cc.c4b(20, 20, 66, 255),2)
-                updatefirecdlabel:addTo(popLayer)
-            end
-
-            if skillpng ~= nil and TowerDef.TABLE[chartnum].SKILLS[1].VALUE_UPGRADE ~= 0 then
-                updateskill1label=cc.Label:createWithTTF("+"..TowerDef.TABLE[chartnum].FIRECD,"ui/font/fzzdhjw.ttf",26)
-                updateskill1label:setScale(1)
-                updateskill1label:setColor(cc.c3b(255, 255, 255))
-                updateskill1label:setAnchorPoint(0,1)
-                updateskill1label:pos(0+185,240)
-                updateskill1label:enableOutline(cc.c4b(20, 20, 66, 255),2)
-                updateskill1label:addTo(popLayer)
-            end
-
-            if skillpng2 ~= nil and TowerDef.TABLE[chartnum].SKILLS[2].VALUE_UPGRADE ~= 0 then
-                updateskill2label=cc.Label:createWithTTF("+"..TowerDef.TABLE[chartnum].FIRECD,"ui/font/fzzdhjw.ttf",26)
-                updateskill2label:setScale(1)
-                updateskill2label:setColor(cc.c3b(255, 255, 255))
-                updateskill2label:setAnchorPoint(0,1)
-                updateskill2label:pos(0+495,240)
-                updateskill2label:enableOutline(cc.c4b(20, 20, 66, 255),2)
-                updateskill2label:addTo(popLayer)
-            end
-
-
-
-            local scale = cc.ScaleTo:create(1,0.9)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
-        elseif eventType == ccui.TouchEventType.ended then
-
-            local SettingMusic = require("app/scenes/SettingMusic")
-            local MusicOn = SettingMusic:isMusic1()
-            print(MusicOn)
-            if MusicOn == true then
-                local audio = require("framework.audio")
-                audio.loadFile(Music.ATLAS[1], function ()
-                    audio.playEffect(Music.ATLAS[1])
-                end)
-            else
-                local audio = require("framework.audio")
-                audio.loadFile(Music.ATLAS[1], function ()
-                    audio.stopEffect()
-                end)
-            end
-
-
-            KnapsackData:uplevel(chartnum)
-            Atlas:setATKString(KnapsackData:getatk(chartnum))
-            Atlas:setCOINString(KnapsackData:getupgradecoin(chartnum))
-            Atlas:setSpeed1String(KnapsackData:getFirecd(chartnum))
-
-            updatelabel:setVisible(false)
-            updatefirecdlabel:setVisible(false)
-            updateskill1label:setVisible(false)
-            updateskill2label:setVisible(false)
-
-            local scale = cc.ScaleTo:create(1,1)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
-        elseif eventType == ccui.TouchEventType.canceled then
-
-            updatelabel:setVisible(false)
-            updatefirecdlabel:setVisible(false)
-            updateskill1label:setVisible(false)
-            updateskill2label:setVisible(false)
-
-            local scale = cc.ScaleTo:create(1,1)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
-
-        elseif eventType == ccui.TouchEventType.moved then
-            --Atlas:setCOINString(KnapsackData:getupgradecoin(chartnum))
-        end
-    end)
     upgradeButton:addTo(popLayer)
 
     local coin_icon = ccui.ImageView:create("ui/hall/Atlas/Secondaryinterface_towerinfo/icon_coin.png")
@@ -777,6 +703,123 @@ function Atlas:towerinfoPanel(collectLayer,path,bg,towertype,rank)--稀有度背
     coin_label:enableOutline(cc.c4b(0, 0, 0, 255),2)
     coin_label:addTo(upgradeButton)
 
+    upgradeButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
+        if eventType == ccui.TouchEventType.began then
+            --满级条件加入消除bug-----
+            updatelabel=cc.Label:createWithTTF("+"..TowerDef.TABLE[chartnum].ATK_UPGRADE,"ui/font/fzzdhjw.ttf",26)
+            updatelabel:setScale(1)
+            updatelabel:setColor(cc.c3b(255, 255, 255))
+            updatelabel:setAnchorPoint(0,1)
+            updatelabel:pos(0+495,460)
+            updatelabel:enableOutline(cc.c4b(20, 20, 66, 255),2)
+            updatelabel:addTo(popLayer)
+
+            if TowerDef.TABLE[chartnum].FIRECD ~= 0 then
+                updatefirecdlabel=cc.Label:createWithTTF("+"..TowerDef.TABLE[chartnum].FIRECD_UPGRADE,"ui/font/fzzdhjw.ttf",26)
+                updatefirecdlabel:setScale(1)
+                updatefirecdlabel:setColor(cc.c3b(255, 255, 255))
+                updatefirecdlabel:setAnchorPoint(0,1)
+                updatefirecdlabel:pos(0+185,350)
+                updatefirecdlabel:enableOutline(cc.c4b(20, 20, 66, 255),2)
+                updatefirecdlabel:addTo(popLayer)
+            end
+
+            if skillpng ~= nil and TowerDef.TABLE[chartnum].SKILLS[1].VALUE_UPGRADE ~= 0 then
+                updateskill1label=cc.Label:createWithTTF("+"..TowerDef.TABLE[chartnum].SKILLS[1].VALUE_UPGRADE,"ui/font/fzzdhjw.ttf",26)
+                updateskill1label:setScale(1)
+                updateskill1label:setColor(cc.c3b(255, 255, 255))
+                updateskill1label:setAnchorPoint(0,1)
+                updateskill1label:pos(0+185,240)
+                updateskill1label:enableOutline(cc.c4b(20, 20, 66, 255),2)
+                updateskill1label:addTo(popLayer)
+            end
+
+            if skillpng2 ~= nil and TowerDef.TABLE[chartnum].SKILLS[2].VALUE_UPGRADE ~= 0 then
+                updateskill2label=cc.Label:createWithTTF("+"..TowerDef.TABLE[chartnum].SKILLS[2].VALUE_UPGRADE,"ui/font/fzzdhjw.ttf",26)
+                updateskill2label:setScale(1)
+                updateskill2label:setColor(cc.c3b(255, 255, 255))
+                updateskill2label:setAnchorPoint(0,1)
+                updateskill2label:pos(0+495,240)
+                updateskill2label:enableOutline(cc.c4b(20, 20, 66, 255),2)
+                updateskill2label:addTo(popLayer)
+            end
+
+
+
+            local scale = cc.ScaleTo:create(1,0.9)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+        elseif eventType == ccui.TouchEventType.ended then
+            --消耗碎片
+            if KnapsackData:setTowerFragment_(chartnum,-KnapsackData:getupgradefrag(chartnum)) then
+                print("升级后碎片数量为"..KnapsackData:getTowerFragment_(chartnum))
+            else--碎片不足
+                popLayer:setVisible(false)
+                GeneralView:popUpLayer(towerinfoLayer,"CardFragment")
+            end
+
+            --消耗金币
+            if KnapsackData:setGoldCoin(-KnapsackData:getupgradecoin(chartnum)) then--如果金币充足
+                print("升级后金币数量为"..KnapsackData:getGoldCoin())
+            else--金币不足
+                popLayer:setVisible(false)
+                GeneralView:popUpLayer(towerinfoLayer,"CardGold")
+            end
+            KnapsackData:sendData()
+
+            
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.ATLAS[1], function ()
+                    audio.playEffect(Music.ATLAS[1])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.ATLAS[1], function ()
+                    audio.stopEffect()
+                end)
+            end
+
+
+            KnapsackData:uplevel(chartnum)
+            Atlas:setATKString(KnapsackData:getatk(chartnum))
+            Atlas:setCOINString(KnapsackData:getupgradecoin(chartnum))
+            Atlas:setFirecdString(KnapsackData:getFirecd(chartnum).."s")
+
+
+            if skillpng ~= nil and TowerDef.TABLE[chartnum].SKILLS[1].VALUE_UPGRADE ~= 0 then
+                Atlas:setSkill1String(KnapsackData:getSkill1(chartnum))
+            end
+
+            if skillpng2 ~= nil and TowerDef.TABLE[chartnum].SKILLS[2].VALUE_UPGRADE ~= 0 then
+                Atlas:setSkill2String(KnapsackData:getSkill2(chartnum))
+            end
+
+            updatelabel:setVisible(false)
+            updatefirecdlabel:setVisible(false)
+            updateskill1label:setVisible(false)
+            updateskill2label:setVisible(false)
+
+            local scale = cc.ScaleTo:create(1,1)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+        elseif eventType == ccui.TouchEventType.canceled then
+
+            updatelabel:setVisible(false)
+            updatefirecdlabel:setVisible(false)
+            updateskill1label:setVisible(false)
+            updateskill2label:setVisible(false)
+
+            local scale = cc.ScaleTo:create(1,1)
+            local ease_elastic = cc.EaseElasticOut:create(scale)
+            sender:runAction(ease_elastic)
+
+        elseif eventType == ccui.TouchEventType.moved then
+            --Atlas:setCOINString(KnapsackData:getupgradecoin(chartnum))
+        end
+    end)
 
 
 
@@ -872,6 +915,19 @@ function Atlas:towerinfoPanel(collectLayer,path,bg,towertype,rank)--稀有度背
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
         elseif eventType == ccui.TouchEventType.ended then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[2], function ()
+                    audio.playEffect(Music.COMMON[2])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[2], function ()
+                    audio.stopEffect()
+                end)
+            end
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
@@ -978,19 +1034,6 @@ function Atlas:createTroopPanel(layer)
     --three:setAnchorPoint(0.5,0.5)
     three:pos(17,20)
     three:addTo(selectBtn3)
-
-
-    -- self:createTroopItem(layer,"ui/hall/common/Tower-Icon/01.png"
-    -- ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_disturb.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.13.png",0,0)
-    -- self:createTroopItem(layer,"ui/hall/common/Tower-Icon/06.png"
-    -- ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.12.png",130,0)
-    -- self:createTroopItem(layer,"ui/hall/common/Tower-Icon/08.png"
-    -- ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.11.png",130+130,0)
-    -- self:createTroopItem(layer,"ui/hall/common/Tower-Icon/09.png"
-    -- ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",130*3,0)
-    -- self:createTroopItem(layer,"ui/hall/common/Tower-Icon/07.png"
-    -- ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.9.png",130*4,0)
-
 end
 
 function Atlas:createPageviewPanel1(layer)

@@ -1,19 +1,18 @@
 ----内容：二级界面-宝箱开启获得物品弹窗
 ----编写人员：郑蕾
 ---修订人员：郑蕾
----最后修改日期：7/12
+---最后修改日期：7/15
 local TreasureChestOpenObtainView = {}
 local KnapsackData = require("app.data.KnapsackData")
 --[[
     函数用途：二级界面-宝箱开启获得物品弹窗
-    参数：层，普通卡数量，稀有卡数量，史诗卡数量，传奇卡数量，可获得的金币数量
     --]]
 function TreasureChestOpenObtainView:obtainFromTreasurePanel(layer,TreasureChestType,coinNum)
     --灰色背景
     local grayLayer = self:grayLayer(layer)
     --图片：弹窗背景
     local obtainBg =ccui.ImageView:create("ui/hall/common/SecondaryInterface-Open the treasure chest to obtain the item pop-up window/bg-pop-up.png")
-    obtainBg:setPosition(cc.p(display.cx, display.cy))
+    obtainBg:setPosition(cc.p(display.cx, display.cy+140))
     obtainBg:addTo(grayLayer)
     obtainBg:setTouchEnabled(true)--屏蔽一级界面
     --金币展示
@@ -35,7 +34,6 @@ end
 
 --[[
     函数用途：创建灰色背景
-    参数：层
     --]]
 function TreasureChestOpenObtainView:grayLayer(layer)--参数：层
     local width ,height = display.width,display.height
@@ -44,12 +42,7 @@ function TreasureChestOpenObtainView:grayLayer(layer)--参数：层
     grayLayer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
     grayLayer:setBackGroundColorOpacity(128)--设置透明度
     grayLayer:setContentSize(width, height)
-    --随着滑动的位置而改变
-    if layer:getPositionY() == 0 then
-        grayLayer:pos(width/2, height/2+140)
-    else
-        grayLayer:pos(width/2, height/2-370+140)
-    end
+    grayLayer:pos(width/2, height/2)
     grayLayer:setAnchorPoint(0.5, 0.5)
     grayLayer:addTo(layer)
     grayLayer:setTouchEnabled(true)--屏蔽一级界面
@@ -58,7 +51,6 @@ end
 
 --[[
     函数用途：金币的展示
-    参数：弹窗层，金币数量
     --]]
 function TreasureChestOpenObtainView:goldCoinDisplay(obtainBg,coinNum)
     --金币获得
@@ -74,7 +66,6 @@ function TreasureChestOpenObtainView:goldCoinDisplay(obtainBg,coinNum)
 end
 --[[
     函数用途：确认按钮
-    参数：灰色背景层，弹窗背景层
     --]]
 function TreasureChestOpenObtainView:confirmButton(grayLayer,obtainBg)
     --按钮：确认按钮
@@ -118,7 +109,6 @@ end
 
 --[[
     函数用途：展示开启普通宝箱所获得的碎片
-    参数：弹窗背景层
 --]]
 function TreasureChestOpenObtainView:normalObtained(obtainBg)
     math.randomseed(os.time())
@@ -177,7 +167,6 @@ end
 
 --[[
     函数用途：展示开启稀有宝箱所获得的碎片
-    参数：弹窗背景层
 --]]
 function TreasureChestOpenObtainView:rareObtained(obtainBg)
     local nCardNum = 74--两张普通卡
@@ -234,7 +223,6 @@ end
 
 --[[
     函数用途：展示开启史诗宝箱所获得的碎片
-    参数：弹窗背景层
 --]]
 function TreasureChestOpenObtainView:epicObtained(obtainBg)
     math.randomseed(os.time())
@@ -321,7 +309,6 @@ end
 
 --[[
     函数用途：展示开启传说宝箱所获得的碎片
-    参数：弹窗背景层
 --]]
 function TreasureChestOpenObtainView:legendObtained(obtainBg)
     math.randomseed(os.time())

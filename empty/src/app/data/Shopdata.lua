@@ -1,5 +1,4 @@
 local Shopdata = {}
-
 --[[
     函数用途：随机获得ID
     --]]
@@ -19,7 +18,21 @@ function Shopdata:randomId(TYPE)
     end
 end
 
-
+--[[
+    函数用途：比较日期大小
+    --]]
+function Shopdata:compareDate(preMonth,preDay)
+    self.month = tonumber(os.date("%m"))--本次月
+    self.day = tonumber(os.date("%d"))--本次日
+    if preMonth<=self.month then
+        if preDay<self.day then
+            return true--本次的时间比上次的时间大则返回true
+        end
+    else
+        return false
+    end
+    --local times = os.date("%m/%d")
+end
 --[[
     函数用途：初始化ID
 --]]
@@ -33,36 +46,43 @@ end
 --[[
     函数用途：定点时间刷新
     --]]
-function Shopdata:refresh()
+--[[function Shopdata:refresh()
     local time = os.date("%X")--"%H:%M:%S"
-    if time =="16:41:00" then
+    if time =="18:09:00" then
         --清除遮罩
         for i = 1,6 do
-            Shopdata.ITEM[i].SOLD_OUT = false
+            KnapsackData:setSoldOutState(i,false)
         end
         --更新卡牌
-        Shopdata.ITEM[2].ID = Shopdata:randomId(1)
-        item2:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..Shopdata.ITEM[2].ID..".png")
-        print(Shopdata.ITEM[2].ID)
+        KnapsackData:setITEM_ID(2,Shopdata:randomId(1))
+        KnapsackData:setITEM_ID(3,Shopdata:randomId(1))
+        KnapsackData:setITEM_ID(4,Shopdata:randomId(1))
+        KnapsackData:setITEM_ID(5,Shopdata:randomId(2))
+        KnapsackData:setITEM_ID(6,Shopdata:randomId(3))
 
-        Shopdata.ITEM[3].ID = Shopdata:randomId(1)
-        item3:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..Shopdata.ITEM[3].ID..".png")
-        print(Shopdata.ITEM[3].ID)
 
-        Shopdata.ITEM[4].ID = Shopdata:randomId(1)
-        item4:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..Shopdata.ITEM[4].ID..".png")
-        print(Shopdata.ITEM[4].ID)
+        --Shopdata.ITEM[2].ID = Shopdata:randomId(1)
+        item2:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..KnapsackData:getITEM_ID(2)..".png")
+        print(KnapsackData:getITEM_ID(2))
 
-        Shopdata.ITEM[5].ID = Shopdata:randomId(2)
-        item5:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..Shopdata.ITEM[5].ID..".png")
-        print(Shopdata.ITEM[5].ID)
+        --Shopdata.ITEM[3].ID = Shopdata:randomId(1)
+        item3:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..KnapsackData:getITEM_ID(3)..".png")
+        print(KnapsackData:getITEM_ID(3))
 
-        Shopdata.ITEM[6].ID = Shopdata:randomId(3)
-        print(Shopdata.ITEM[6].ID)
-        item6:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..Shopdata.ITEM[6].ID..".png")
+        --Shopdata.ITEM[4].ID = Shopdata:randomId(1)
+        item4:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..KnapsackData:getITEM_ID(4)..".png")
+        print(KnapsackData:getITEM_ID(4))
+
+        --Shopdata.ITEM[5].ID = Shopdata:randomId(2)
+        item5:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..KnapsackData:getITEM_ID(5)..".png")
+        print(KnapsackData:getITEM_ID(5))
+
+        --Shopdata.ITEM[6].ID = Shopdata:randomId(3)
+        print(KnapsackData:getITEM_ID(6))
+        item6:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..KnapsackData:getITEM_ID(6)..".png")
 
     end
-end
+end--]]
 
 Shopdata.ITEM = {
     {

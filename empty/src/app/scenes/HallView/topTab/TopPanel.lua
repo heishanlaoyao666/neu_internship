@@ -1,7 +1,7 @@
 ----内容：顶部信息栏
 ----编写人员：孙靖博、郑蕾
 ----修订人员：郑蕾
-----最后修改日期：7/11 20：57
+----最后修改日期：7/15
 
 local TopPanel = {}
 local KnapsackData = require("app.data.KnapsackData")
@@ -56,10 +56,11 @@ function TopPanel:createMiddleTopPanel(layer)
     self.headBg:pos(8,height-10)
     self.headBg:addTo(infoLayer)
     --名字
-    local nameLabel=cc.Label:createWithTTF("黑山老妖04","ui/font/fzbiaozjw.ttf",30)
+    local nameLabel=cc.Label:createWithTTF("黑山老妖04","ui/font/fzbiaozjw.ttf",20)
     nameLabel:setScale(1)
     nameLabel:setAnchorPoint(0,1)
-    nameLabel:pos(150,height-25)
+    nameLabel:setColor(cc.c3b(255, 255, 255))
+    nameLabel:pos(150,height-30)
     nameLabel:addTo(infoLayer)
     --奖杯图标
     local cupIcon=ccui.ImageView:create("ui/hall/Prompt text/trophy.png")
@@ -94,25 +95,27 @@ function TopPanel:createMiddleTopPanel(layer)
 
     --奖杯数
     local cupNum = KnapsackData:getCups()
-    self.cupLabel=cc.Label:createWithTTF(cupNum,"ui/font/fzbiaozjw.ttf",30)
+    self.cupLabel=cc.Label:createWithTTF(cupNum,"ui/font/fzbiaozjw.ttf",24)
     self.cupLabel:setScale(1)
-    self.cupLabel:setColor(cc.c3b(255,128,0))
+    self.cupLabel:setColor(cc.c3b(255,206,55))
     self.cupLabel:setAnchorPoint(0,1)
-    self.cupLabel:pos(0+200,height-70)
+    self.cupLabel:pos(0+200,height-75)
     self.cupLabel:addTo(layer)
     --金币数
     local coinNum = KnapsackData:getGoldCoin()
-    self.coinLabel=cc.Label:createWithTTF(coinNum,"ui/font/fzbiaozjw.ttf",30)
+    self.coinLabel=cc.Label:createWithTTF(coinNum,"ui/font/fzbiaozjw.ttf",26)
     self.coinLabel:setScale(1)
     self.coinLabel:setAnchorPoint(0,1)
-    self.coinLabel:pos(0+480,height-25)
+    self.coinLabel:setColor(cc.c3b(255,255,255))
+    self.coinLabel:pos(0+480,height-30)
     self.coinLabel:addTo(layer)
     --钻石数
     local diamondNum = KnapsackData:getDiamonds()
-    self.diamondLabel=cc.Label:createWithTTF(diamondNum,"ui/font/fzbiaozjw.ttf",30)
+    self.diamondLabel=cc.Label:createWithTTF(diamondNum,"ui/font/fzbiaozjw.ttf",26)
     self.diamondLabel:setScale(1)
     self.diamondLabel:setAnchorPoint(0,1)
-    self.diamondLabel:pos(0+480,height-75)
+    self.diamondLabel:setColor(cc.c3b(255,255,255))
+    self.diamondLabel:pos(0+480,height-80)
     self.diamondLabel:addTo(layer)
 
     --设置按钮
@@ -193,6 +196,7 @@ function TopPanel:menuPopLayer(layer)
     announceBtn:addTouchEventListener(function(sender,eventType)--点击事件
         if eventType == ccui.TouchEventType.ended then
             --公告弹窗
+            print("功能未实现")
         end
     end)
     announceBtn:addTo(menuLayer)
@@ -215,6 +219,7 @@ function TopPanel:menuPopLayer(layer)
     emailBtn:addTouchEventListener(function(sender,eventType)--点击事件
         if eventType == ccui.TouchEventType.ended then
             --邮箱弹窗
+            print("功能未实现")
         end
     end)
     emailBtn:addTo(menuLayer)
@@ -237,6 +242,7 @@ function TopPanel:menuPopLayer(layer)
     recordBtn:addTouchEventListener(function(sender,eventType)--点击事件
         if eventType == ccui.TouchEventType.ended then
             --对战记录弹窗
+            print("功能未实现")
         end
     end)
     recordBtn:addTo(menuLayer)
@@ -338,14 +344,16 @@ function TopPanel:settingLayer(grayLayer)
         if state then
             print("1")
 
-            local isEffect = SettingMusic:setMusic1(true)
+            local isMusic = SettingMusic:setMusic1(true)
+            print(isMusic)
             print("音效开启")
 
             --音效是开启音效时候，全局变量设置为1，进入游戏界面如果全局变量1，则音效开启
         else
             print("2")
 
-            local isEffect = SettingMusic:setMusic1(false)
+            local isMusic = SettingMusic:setMusic1(false)
+            print(isMusic)
             print("音效关闭")
             --音效是关闭音效时候，全局变量设置为2，进入游戏界面如果全局变量2，则音效关闭
         end
@@ -377,6 +385,7 @@ function TopPanel:settingLayer(grayLayer)
             print("1")
 
             local isMusic = SettingMusic:setMusic2(true)
+            print(isMusic)
             print("音乐开启")
 
             --音效是开启音效时候，全局变量设置为1，进入游戏界面如果全局变量1，则音效开启
@@ -385,6 +394,7 @@ function TopPanel:settingLayer(grayLayer)
 
 
             local isMusic = SettingMusic:setMusic2(false)
+            print(isMusic)
             print("音乐关闭")
             --音效是关闭音效时候，全局变量设置为2，进入游戏界面如果全局变量2，则音效关闭
         end
@@ -417,6 +427,7 @@ function TopPanel:settingLayer(grayLayer)
             print("1")
 
             local isMusic = SettingMusic:setMusic3(true)
+            print(isMusic)
             print("技能介绍开启")
 
             --音效是开启音效时候，全局变量设置为1，进入游戏界面如果全局变量1，则音效开启
@@ -425,6 +436,7 @@ function TopPanel:settingLayer(grayLayer)
 
 
             local isMusic = SettingMusic:setMusic3(false)
+            print(isMusic)
             print("技能介绍关闭")
             --音效是关闭音效时候，全局变量设置为2，进入游戏界面如果全局变量2，则音效关闭
         end
