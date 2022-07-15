@@ -1,7 +1,7 @@
 ----内容：二级界面-宝箱开启获得物品弹窗
 ----编写人员：郑蕾
 ---修订人员：郑蕾
----最后修改日期：7/12
+---最后修改日期：7/15
 local TreasureChestOpenObtainView = {}
 local KnapsackData = require("app.data.KnapsackData")
 --[[
@@ -13,7 +13,7 @@ function TreasureChestOpenObtainView:obtainFromTreasurePanel(layer,TreasureChest
     local grayLayer = self:grayLayer(layer)
     --图片：弹窗背景
     local obtainBg =ccui.ImageView:create("ui/hall/common/SecondaryInterface-Open the treasure chest to obtain the item pop-up window/bg-pop-up.png")
-    obtainBg:setPosition(cc.p(display.cx, display.cy))
+    obtainBg:setPosition(cc.p(display.cx, display.cy+140))
     obtainBg:addTo(grayLayer)
     obtainBg:setTouchEnabled(true)--屏蔽一级界面
     --金币展示
@@ -44,12 +44,7 @@ function TreasureChestOpenObtainView:grayLayer(layer)--参数：层
     grayLayer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
     grayLayer:setBackGroundColorOpacity(128)--设置透明度
     grayLayer:setContentSize(width, height)
-    --随着滑动的位置而改变
-    if layer:getPositionY() == 0 then
-        grayLayer:pos(width/2, height/2+140)
-    else
-        grayLayer:pos(width/2, height/2-370+140)
-    end
+    grayLayer:pos(width/2, height/2)
     grayLayer:setAnchorPoint(0.5, 0.5)
     grayLayer:addTo(layer)
     grayLayer:setTouchEnabled(true)--屏蔽一级界面

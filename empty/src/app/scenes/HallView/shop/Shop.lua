@@ -1,10 +1,10 @@
 ----内容：商店界面
 ----编写人员：郑蕾
 ---修订人员：郑蕾
----最后修改日期：7/13
+---最后修改日期：7/15
 local Shop = class("Shop")
 local KnapsackData = require("app.data.KnapsackData")
-local GoldPurchaseView = require("app.scenes.HallView.shop.layer.GoldPurchaseView")
+local GoldPurchaseView = require("app.scenes.HallView.shop.GoldPurchaseView")
 local TreasureChestOpenView = require("app.scenes.HallView.common.TreasureChestOpenView")
 local Shopdata = require("app.data.Shopdata")
 function Shop:ctor()
@@ -14,7 +14,7 @@ end
     --]]
 function Shop:refresh()
     local time = os.date("%X")--"%H:%M:%S"
-    if time =="11:18:59" then
+    if time =="23:59:59" then
         --清除遮罩
         for i = 1,6 do
             KnapsackData:setSoldOutState(i,false)
@@ -26,24 +26,18 @@ function Shop:refresh()
         KnapsackData:setITEM_ID(5,Shopdata:randomId(2))
         KnapsackData:setITEM_ID(6,Shopdata:randomId(3))
 
-
-        --Shopdata.ITEM[2].ID = Shopdata:randomId(1)
         item2:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..KnapsackData:getITEM_ID(2)..".png")
         --print(KnapsackData:getITEM_ID(2))
 
-        --Shopdata.ITEM[3].ID = Shopdata:randomId(1)
         item3:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..KnapsackData:getITEM_ID(3)..".png")
         --print(KnapsackData:getITEM_ID(3))
 
-        --Shopdata.ITEM[4].ID = Shopdata:randomId(1)
         item4:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..KnapsackData:getITEM_ID(4)..".png")
         --print(KnapsackData:getITEM_ID(4))
 
-        --Shopdata.ITEM[5].ID = Shopdata:randomId(2)
         item5:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..KnapsackData:getITEM_ID(5)..".png")
         --print(KnapsackData:getITEM_ID(5))
 
-        --Shopdata.ITEM[6].ID = Shopdata:randomId(3)
         --print(KnapsackData:getITEM_ID(6))
         item6:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..KnapsackData:getITEM_ID(6)..".png")
 

@@ -1,56 +1,16 @@
-----内容：游戏外-战斗界面
-----编写人员：孙靖博、郑蕾
+----内容：游戏外-天梯
+----编写人员：郑蕾
 ---修订人员：郑蕾
----最后修改日期：7/12
-local Battle = class("Battle")
+---最后修改日期：7/15
+local Ladder = {}
 local KnapsackData = require("app.data.KnapsackData")
 local Ladderdata = require("app.data.Ladderdata")
 local TreasureChestOpenObtainView = require("app.scenes.HallView.common.TreasureChestOpenObtainView")
-function Battle:ctor()
-    self.cups = KnapsackData:getCups()
-end
-
-function Battle:battlePanel()
-    local battleLayer = ccui.Layout:create()
-    battleLayer:setBackGroundColorOpacity(180)--设置为透明
-    --battleLayer:setBackGroundColorType(1)
-    battleLayer:setAnchorPoint(0, 0)
-    battleLayer:setPosition(0, display.top)
-    battleLayer:setContentSize(720, 1280)
-    --开始游戏按钮
-    self:playGames(battleLayer)
-    --天梯
-    self:ladder(battleLayer)
-
-    return battleLayer
-end
-
---[[
-    函数用途：新游戏按钮
-    --]]
-function Battle:playGames(battleLayer)
-    local images = {
-        normal = "ui/hall/battle/Button-Battle_Mode.png",
-        pressed = "",
-        disabled = "ui/hall/battle/Button-Battle_Mode.png"
-    }
-    local NewGameBtn = ccui.Button:create(images["normal"], images["pressed"], images["disabled"])
-    NewGameBtn:setAnchorPoint(cc.p(0.5 ,0.5))
-    NewGameBtn:setPosition(cc.p(display.cx, display.cy+50))
-    NewGameBtn:setEnabled(true)
-    NewGameBtn:addTouchEventListener(function(sender, eventType)
-        if eventType == ccui.TouchEventType.ended then
-            local ABtn = import("app.scenes.GameView.GameScene"):new()
-            display.replaceScene(ABtn,"turnOffTiles",0.5)
-        end
-    end)
-    NewGameBtn:addTo(battleLayer)
-end
-
+local GeneralView = require("app.scenes.HallView.common.GeneralView")
 --[[
     函数用途：展示天梯
     --]]
-function Battle:ladder(battleLayer)
+function Ladder:ladderCreate(battleLayer)
     --层：天梯背景层
     local highLadderLayer = ccui.ImageView:create("ui/hall/battle/rank/highLadderBg.png")
     highLadderLayer:pos(display.cx, display.top-180)
@@ -75,7 +35,7 @@ end
 --[[
     函数用途：左右移动按钮
     --]]
-function Battle:moveButton(highLadderLayer)
+function Ladder:moveButton(highLadderLayer)
     --按钮：左滑
     local leftButton = ccui.Button:create(
             "ui/hall/battle/rank/slideLeft.png",
@@ -117,8 +77,8 @@ end
 --[[
     函数用途：展示各个进度的奖励
     --]]
-function Battle:awards(battleLayer,listView)
-    local num = 4--self.cups/50--奖励进度,最多23个
+function Ladder:awards(battleLayer,listView)
+    local num = self.cups/50--奖励进度,最多23个
     print("共可领取的奖励个数为:"..num)
     for i = 1,num do--已达成，未领取
         local bg = "ui/hall/battle/rank/availableButNotReceive.png"
@@ -135,7 +95,7 @@ end
 --[[
     函数用途：天梯奖励内容
     --]]
-function Battle:itemCreate(battleLayer,i,bg,icon,listView,num)
+function Ladder:itemCreate(battleLayer,i,bg,icon,listView,num)
     --获取宝箱类型
     local treasureChestType = string.sub(Ladderdata.ITEM[i].ICON,43,-5)
     --奖励层级
@@ -218,6 +178,9 @@ function Battle:itemCreate(battleLayer,i,bg,icon,listView,num)
                 statusBg:loadTexture("ui/hall/battle/rank/Available.png")
                 iconStatus:loadTexture("ui/hall/battle/rank/group 130.png")
                 statusBg:setTouchEnabled(false)
+            elseif bg == "ui/hall/battle/rank/lockedBorder.png" then --未达成未领取
+                local grayLayer = self:grayLayer(battleLayer)
+                GeneralView:popUpLayer(grayLayer,"Cup")
             end
             --传输数据
             KnapsackData:sendData()
@@ -229,11 +192,27 @@ function Battle:itemCreate(battleLayer,i,bg,icon,listView,num)
     listView:pushBackCustomItem(itemLayer)
 end
 
+--[[
+    函数用途：灰色背景
+    --]]
+function Ladder:grayLayer(battleLayer)
+    local width ,height = display.width,display.height
+    local grayLayer = ccui.Layout:create()
+    grayLayer:setBackGroundColor(cc.c4b(0,0,0,128))
+    grayLayer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
+    grayLayer:setBackGroundColorOpacity(128)--设置透明度
+    grayLayer:setContentSize(width, height)
+    grayLayer:pos(width/2, height/2+140)
+    grayLayer:setAnchorPoint(0.5, 0.5)
+    grayLayer:setTouchEnabled(true)--屏蔽一级界面
+    grayLayer:addTo(battleLayer)
+    return grayLayer
+end
 
 --[[
     函数用途：识别奖励类型
     --]]
-function Battle:awardType(statusBg,i)
+function Ladder:awardType(statusBg,i)
     if Ladderdata.ITEM[i].TYPE == 1 then--宝箱
         local treasure = ccui.ImageView:create(Ladderdata.ITEM[i].ICON)
         treasure:setScale(0.8,0.8)
@@ -259,7 +238,7 @@ end
 --[[
     函数用途：添加进度条定点截断
     --]]
-function Battle:point(itemLayer)
+function Ladder:point(itemLayer)
     --滑动条截断
     local scale = ccui.ImageView:create("ui/hall/battle/rank/scale/scale.png")
     scale:setScale(1.15,1.2)
@@ -272,7 +251,7 @@ end
 --[[
     函数用途：添加钥匙图标
     --]]
-function Battle:key(itemLayer)
+function Ladder:key(itemLayer)
     local key = ccui.ImageView:create("ui/hall/battle/rank/scale/key.png")
     key:setScale(1.2,1.2)
     key:pos(0, -50)
@@ -282,7 +261,7 @@ end
 --[[
     函数用途：根据奖励类型进行相应数据的改变
     --]]
-function Battle:drawAward(i,battleLayer,treasureChestType)
+function Ladder:drawAward(i,battleLayer,treasureChestType)
     if Ladderdata.ITEM[i].TYPE == 1 then--宝箱
         --宝箱获得物品弹窗
         TreasureChestOpenObtainView:obtainFromTreasurePanel(battleLayer,treasureChestType,Ladderdata.ITEM[i].TEXT)
@@ -314,7 +293,7 @@ end
 --[[
     函数用途：对卡的锁定状态进行操作
     --]]
-function Battle:towerStateChange(id)
+function Ladder:towerStateChange(id)
     --卡牌解锁
     if KnapsackData:getTowerUnlock_(id) then--卡牌已解锁
         print("卡牌已解锁")
@@ -327,9 +306,10 @@ end
 --[[
     函数用途：按钮放缩特效
     --]]
-function Battle:setButtonScale(X,Y,sender)
+function Ladder:setButtonScale(X,Y,sender)
     local scale = cc.ScaleTo:create(X,Y)
     local ease_elastic = cc.EaseElasticOut:create(scale)
     sender:runAction(ease_elastic)
 end
-return Battle
+
+return Ladder

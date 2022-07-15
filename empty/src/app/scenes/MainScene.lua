@@ -1,18 +1,19 @@
 local MainScene = class("MainScene", function()
     return display.newScene("MainScene")
 end)
-local TopPanel = require("app.scenes.TopPanel")
+
+local TopTab = require("app.scenes.HallView.topTab.TopPanel")
 local BottomTab = require("app.scenes.HallView.bottomTab.MenuLayer")
 local Shop = require("app.scenes.HallView.shop.Shop")
-local Atlas = require("app.scenes.Atlas")
-local Battle = require("app.scenes.Battle")
-local KnapsackData = require("app.data.KnapsackData")
-local MenuLayer = require("app.scenes.HallView.bottomTab.MenuLayer")
-local EventManager = require("app/manager/EventManager.lua")
-local EventDef = require("app/def/EventDef.lua")
-local Shopdata = require("app.data.Shopdata")
+local Battle = require("app.scenes.HallView.battle.Battle")
+local Atlas = require("app.scenes..HallView.atlas.Atlas")
+
 local Music = require("app/data/Music")
 local SettingMusic = require("src/app/scenes/SettingMusic")
+
+local KnapsackData = require("app.data.KnapsackData")
+local EventManager = require("app/manager/EventManager.lua")
+local EventDef = require("app/def/EventDef.lua")
 
 function MainScene:ctor()
     self:loadingPanel()--没播放完就被替换掉了，为啥
@@ -41,7 +42,7 @@ function MainScene:ctor()
         layer:addTo(self)
 
         BottomTab:createBottomTab(layer,pageView)--底部按钮导航栏
-        TopPanel:createMiddleTopPanel(layer)--顶部信息栏
+        TopTab:createMiddleTopPanel(layer)--顶部信息栏
 
         local MusicOn = SettingMusic:isMusic2()
         print(MusicOn)
@@ -174,8 +175,8 @@ end
 ]]
 function MainScene:update(dt)
     KnapsackData:update(dt)
-    TopPanel:setDiamondsString(KnapsackData:getDiamonds())
-    TopPanel:setCoinString(KnapsackData:getGoldCoin())
+    TopTab:setDiamondsString(KnapsackData:getDiamonds())
+    TopTab:setCoinString(KnapsackData:getGoldCoin())
     Shop:refresh()
 end
 return MainScene
