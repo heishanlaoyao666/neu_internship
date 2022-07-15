@@ -4,6 +4,8 @@
 ---最后修改日期：7/15
 local TreasureChestOpenObtainView = {}
 local KnapsackData = require("app.data.KnapsackData")
+local Music = require("app/data/Music")
+local SettingMusic = require("src/app/scenes/SettingMusic")
 --[[
     函数用途：二级界面-宝箱开启获得物品弹窗
     --]]
@@ -81,6 +83,19 @@ function TreasureChestOpenObtainView:confirmButton(grayLayer,obtainBg)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
         elseif eventType == ccui.TouchEventType.ended then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.playEffect(Music.COMMON[1])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.stopEffect()
+                end)
+            end
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)

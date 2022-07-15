@@ -5,6 +5,8 @@
 local GoldPurchaseView = {}
 local KnapsackData = require("app.data.KnapsackData")
 local GeneralView = require("app.scenes.HallView.common.GeneralView")
+local Music = require("app/data/Music")
+local SettingMusic = require("src/app/scenes/SettingMusic")
 --[[
     函数用途：二级界面-金币商店购买确认弹窗
 --]]
@@ -71,6 +73,19 @@ function GoldPurchaseView:confirmButton(grayLayer,popLayer,price,shade,fragNum,i
             self:setButtonScale(1,0.9,sender)
 
         elseif eventType == ccui.TouchEventType.ended then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.SHOP[3], function ()
+                    audio.playEffect(Music.SHOP[3])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.SHOP[3], function ()
+                    audio.stopEffect()
+                end)
+            end
             self:setButtonScale(1,1,sender)
 
             if KnapsackData:setGoldCoin(-price) then--如果金币充足
@@ -132,6 +147,19 @@ function GoldPurchaseView:closeButton(ShopLayer,grayLayer,popLayer)
             self:setButtonScale(1,0.9,sender)
 
         elseif eventType == ccui.TouchEventType.ended then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[2], function ()
+                    audio.playEffect(Music.COMMON[2])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[2], function ()
+                    audio.stopEffect()
+                end)
+            end
             self:setButtonScale(1,1,sender)
             grayLayer:setVisible(false)--隐藏二级弹窗
             ShopLayer:setTouchEnabled(true)

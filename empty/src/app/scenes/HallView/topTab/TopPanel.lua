@@ -8,6 +8,8 @@ local KnapsackData = require("app.data.KnapsackData")
 local SettingMusic = require("src/app/scenes/SettingMusic")
 local Towerdata = require("app/data/Towerdata")
 local TowerDef  = require("app.def.TowerDef")
+local Music = require("app/data/Music")
+local SettingMusic = require("src/app/scenes/SettingMusic")
 
 
 --[[
@@ -388,9 +390,41 @@ function TopPanel:settingLayer(grayLayer)
             print(isMusic)
             print("音乐开启")
 
+            local MusicOn = SettingMusic:isMusic2()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.MUSIC[1], function ()
+                    audio.playEffect(Music.MUSIC[1])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.MUSIC[1], function ()
+                    audio.stopEffect()
+                end)
+            end
+
             --音效是开启音效时候，全局变量设置为1，进入游戏界面如果全局变量1，则音效开启
         else
             print("2")
+
+            local isMusic = SettingMusic:setMusic2(false)
+            print(isMusic)
+            print("音乐关闭")
+
+            local MusicOn = SettingMusic:isMusic2()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.MUSIC[1], function ()
+                    audio.playEffect(Music.MUSIC[1])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.MUSIC[1], function ()
+                    audio.stopEffect()
+                end)
+            end
 
 
             local isMusic = SettingMusic:setMusic2(false)

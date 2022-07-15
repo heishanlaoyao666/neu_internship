@@ -7,6 +7,8 @@ local KnapsackData = require("app.data.KnapsackData")
 local GoldPurchaseView = require("app.scenes.HallView.shop.GoldPurchaseView")
 local TreasureChestOpenView = require("app.scenes.HallView.common.TreasureChestOpenView")
 local Shopdata = require("app.data.Shopdata")
+local Music = require("app/data/Music")
+local SettingMusic = require("src/app/scenes/SettingMusic")
 function Shop:ctor()
 end
 --[[
@@ -144,6 +146,7 @@ end
     函数用途：购买免费商品
     --]]
 function Shop:freeItem(goldLayer)
+
     local freeItemButton = ccui.Button:create(
             "ui/hall/shop/Goldcoin-shop/bg-free_items.png",
             "ui/hall/shop/Goldcoin-shop/bg-free_items.png",
@@ -187,6 +190,19 @@ function Shop:freeItem(goldLayer)
             sender:runAction(ease_elastic)
 
         elseif eventType == ccui.TouchEventType.ended then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.SHOP[1], function ()
+                    audio.playEffect(Music.SHOP[1])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.SHOP[1], function ()
+                    audio.stopEffect()
+                end)
+            end
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
@@ -264,6 +280,19 @@ function Shop:createGoldItem(goldLayer,ShopLayer,offsetX,offsetY,i)
             sender:runAction(ease_elastic)
 
         elseif eventType == ccui.TouchEventType.ended then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.SHOP[2], function ()
+                    audio.playEffect(Music.SHOP[2])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.SHOP[2], function ()
+                    audio.stopEffect()
+                end)
+            end
             GoldPurchaseView:goldPurchasePanel(ShopLayer, index, fragNum, price, shade,ItemButton,i)
             --self:goldPurchasePanel(layer,path,fragNum,price,ItemButton)
             local scale = cc.ScaleTo:create(1,1)
@@ -335,6 +364,19 @@ function Shop:createDiamondItem(ShopLayer,layer,bgPath,treasurePath,treasureType
             sender:runAction(ease_elastic)
 
         elseif eventType == ccui.TouchEventType.ended then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.SHOP[2], function ()
+                    audio.playEffect(Music.SHOP[2])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.SHOP[2], function ()
+                    audio.stopEffect()
+                end)
+            end
             TreasureChestOpenView:treasureChestOpenConfirmPanel(ShopLayer,treasurePath,treasureType
             ,nCardNum,rCardNum,eCardNum,lCardNum,coinNum,price)
             local scale = cc.ScaleTo:create(1,1)

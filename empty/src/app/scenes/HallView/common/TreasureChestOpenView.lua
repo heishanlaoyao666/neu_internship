@@ -6,6 +6,8 @@ local TreasureChestOpenView = {}
 local KnapsackData = require("app.data.KnapsackData")
 local TreasureChestOpenObtainView = require("app.scenes.HallView.common.TreasureChestOpenObtainView")
 local GeneralView = require("app.scenes.HallView.common.GeneralView")
+local Music = require("app/data/Music")
+local SettingMusic = require("src/app/scenes/SettingMusic")
 
 --[[
     函数用途：二级弹窗-宝箱开启确认弹窗
@@ -99,6 +101,19 @@ function TreasureChestOpenView:openButton(ShopLayer,grayLayer,popLayer,coinNum,p
             --按钮放缩
             self:setButtonScale(1,0.9,sender)
         elseif eventType == ccui.TouchEventType.ended then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.SHOP[4], function ()
+                    audio.playEffect(Music.SHOP[4])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.SHOP[4], function ()
+                    audio.stopEffect()
+                end)
+            end
             --按钮放缩
             self:setButtonScale(1,1,sender)
             --条件允许情况下：获得金币，扣除钻石
