@@ -11,6 +11,7 @@ local GeneralView = require("app.scenes.HallView.common.GeneralView")
     函数用途：展示天梯
     --]]
 function Ladder:ladderCreate(battleLayer)
+    self.cups = KnapsackData:getCups()
     --层：天梯背景层
     local highLadderLayer = ccui.ImageView:create("ui/hall/battle/rank/highLadderBg.png")
     highLadderLayer:pos(display.cx, display.top-180)

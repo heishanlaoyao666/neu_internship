@@ -9,7 +9,6 @@ local Ladderdata = require("app.data.Ladderdata")
 local TreasureChestOpenObtainView = require("app.scenes.HallView.common.TreasureChestOpenObtainView")
 local GeneralView = require("app.scenes.HallView.common.GeneralView")
 function Battle:ctor()
-    self.cups = KnapsackData:getCups()
 end
 
 function Battle:battlePanel()
