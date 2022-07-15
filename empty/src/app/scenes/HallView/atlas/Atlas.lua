@@ -337,6 +337,19 @@ function Atlas:towerusingPanel(collectLayer,bg)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
         elseif eventType == ccui.TouchEventType.ended then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.playEffect(Music.COMMON[1])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.stopEffect()
+                end)
+            end
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
@@ -836,6 +849,19 @@ function Atlas:towerinfoPanel(collectLayer,path,bg,towertype,rank)--稀有度背
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
         elseif eventType == ccui.TouchEventType.ended then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.playEffect(Music.COMMON[1])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.stopEffect()
+                end)
+            end
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
@@ -859,6 +885,19 @@ function Atlas:towerinfoPanel(collectLayer,path,bg,towertype,rank)--稀有度背
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
         elseif eventType == ccui.TouchEventType.ended then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.playEffect(Music.COMMON[1])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.stopEffect()
+                end)
+            end
             towerinfoLayer:setVisible(false)
             self:towerusingPanel(collectLayer,bg)
 
@@ -983,6 +1022,19 @@ function Atlas:createTroopPanel(layer)
     selectBtn1:addTo(layer)
     selectBtn1:addTouchEventListener(function(sender, eventType)
         if 2 == eventType then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.playEffect(Music.COMMON[1])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.stopEffect()
+                end)
+            end
             --打开设置面板
             self:createPageviewPanel1(layer)
         end
@@ -1004,6 +1056,19 @@ function Atlas:createTroopPanel(layer)
     selectBtn2:addTo(layer)
     selectBtn2:addTouchEventListener(function(sender, eventType)
         if 2 == eventType then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.playEffect(Music.COMMON[1])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.stopEffect()
+                end)
+            end
             --打开设置面板
             self:createPageviewPanel2(layer)
         end
@@ -1025,6 +1090,19 @@ function Atlas:createTroopPanel(layer)
     selectBtn3:addTo(layer)
     selectBtn3:addTouchEventListener(function(sender, eventType)
         if 2 == eventType then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.playEffect(Music.COMMON[1])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.stopEffect()
+                end)
+            end
             --打开设置面板
             self:createPageviewPanel3(layer)
         end
@@ -1089,6 +1167,19 @@ function Atlas:createTroopItem(layer,path,towertype,rank,offsetX,offsetY)--层�
             sender:runAction(ease_elastic)
 
         elseif eventType == ccui.TouchEventType.ended then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.playEffect(Music.COMMON[1])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.stopEffect()
+                end)
+            end
             --self:goldPurchasePanel(layer,path,towertype,rank)
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
