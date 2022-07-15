@@ -7,6 +7,7 @@ local KnapsackData = require("app.data.KnapsackData")
 local Ladderdata = require("app.data.Ladderdata")
 local TreasureChestOpenObtainView = require("app.scenes.HallView.common.TreasureChestOpenObtainView")
 local GeneralView = require("app.scenes.HallView.common.GeneralView")
+
 --[[
     函数用途：展示天梯
     --]]

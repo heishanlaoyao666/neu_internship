@@ -3,7 +3,7 @@ local MainScene = class("MainScene", function()
 end)
 
 local TopTab = require("app.scenes.HallView.topTab.TopPanel")
-local BottomTab = require("app.scenes.HallView.bottomTab.MenuLayer")
+local BottomTab = require("app.scenes.HallView.bottomTab.BottomTab")
 local Shop = require("app.scenes.HallView.shop.Shop")
 local Battle = require("app.scenes.HallView.battle.Battle")
 local Atlas = require("app.scenes..HallView.atlas.Atlas")
@@ -27,8 +27,8 @@ function MainScene:ctor()
         local shop = Shop.new()
         local atlas = Atlas.new()
         local battle = Battle.new()
-        local layer1 = shop:ShopPanel()
-        local layer2 = battle:battlePanel()
+        local layer1 = shop:ShopPanelCreate()
+        local layer2 = battle:battlePanelCreate()
         local layer3 = atlas:createCollectionPanel()
 
         local pageView = self:sliderView(layer1,layer2,layer3)--将商店、战斗、图鉴界面加入到翻页中
@@ -41,7 +41,7 @@ function MainScene:ctor()
         layer:setContentSize(720, 1280)
         layer:addTo(self)
 
-        BottomTab:createBottomTab(layer,pageView)--底部按钮导航栏
+        self:bottomTab(layer,pageView)--底部按钮导航栏
         TopTab:createMiddleTopPanel(layer)--顶部信息栏
 
         local MusicOn = SettingMusic:isMusic2()
@@ -70,25 +70,13 @@ function MainScene:sliderView(layer1,layer2,layer3)
     local pageView = ccui.PageView:create()
     -- 设置PageView容器尺寸
     pageView:setContentSize(720, 1280)
-    pageView:setTouchEnabled(true)    -- 设置可触摸 若设置为false 则不能响应触摸事件
+    pageView:setTouchEnabled(true)
     pageView:setAnchorPoint(0.5, 0.5)
     pageView:setPosition(display.cx, display.cy-140)
     pageView:addPage(layer1)
     pageView:addPage(layer2)
     pageView:addPage(layer3)
-    -- 触摸回调
-    local function PageViewCallBack(sender,event)
-        -- 翻页时
-        if event==ccui.PageViewEventType.turning then
-            --print("当前页码是"..pageView:getCurPageIndex() + 1)
-            local index = pageView:getCurPageIndex()
-            if index == 0 then--商店状态
-                --BottomTab:shopState()
-            end
-        end
-    end
-    pageView:addEventListener(PageViewCallBack)
-    pageView:scrollToPage(1)
+    pageView:scrollToPage(1)--初始页面为战斗界面
     self:addChild(pageView, 0)
     return pageView
 end
@@ -104,6 +92,41 @@ function MainScene:createBg()
     bgLayer:setAnchorPoint(0.5,0.5)
     bgLayer:setPosition(width*0.5,height*0.5)
     bgLayer:addTo(self)
+end
+
+--[[
+    函数用途：底部按钮栏
+    --]]
+function MainScene:bottomTab(layer,pageView)
+    local bottomLayer = BottomTab:createBottomTab(layer)
+
+    --未选择
+    local shopUnselectedLayer = BottomTab:shopUnselectedLayer(bottomLayer)
+    local atlasUnselectedLayer = BottomTab:atlasUnselectedLayer(bottomLayer)
+    local battleUnselectedLayer = BottomTab:battleUnselectedLayer(bottomLayer)
+    --已选择
+    local shopSelectedLayer = BottomTab:shopSelectedLayer(bottomLayer)
+    local atlasSelectedLayer = BottomTab:atlasSelectedLayer(bottomLayer)
+    local battleSelectedLayer = BottomTab:battleSelectedLayer(bottomLayer)
+    --点击事件
+    BottomTab:clickEvent(pageView,shopUnselectedLayer,atlasUnselectedLayer,battleUnselectedLayer,
+            shopSelectedLayer,atlasSelectedLayer,battleSelectedLayer)
+
+    -- 触摸回调
+    local function PageViewCallBack(sender,event)
+        -- 翻页时
+        if event==ccui.PageViewEventType.turning then
+            local index = pageView:getCurPageIndex()--获取页码，从0开始
+            if index == 0 then--商店状态
+                BottomTab:shopState(shopSelectedLayer,atlasSelectedLayer,battleSelectedLayer)
+            elseif index == 1 then--战斗状态
+                BottomTab:battleState(shopSelectedLayer,atlasSelectedLayer,battleSelectedLayer)
+            elseif index == 2 then--图鉴状态
+                BottomTab:atlasState(shopSelectedLayer,atlasSelectedLayer,battleSelectedLayer)
+            end
+        end
+    end
+    pageView:addEventListener(PageViewCallBack)
 end
 
 

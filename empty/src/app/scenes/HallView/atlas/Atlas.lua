@@ -1034,19 +1034,6 @@ function Atlas:createTroopPanel(layer)
     --three:setAnchorPoint(0.5,0.5)
     three:pos(17,20)
     three:addTo(selectBtn3)
-
-
-    -- self:createTroopItem(layer,"ui/hall/common/Tower-Icon/01.png"
-    -- ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_disturb.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.13.png",0,0)
-    -- self:createTroopItem(layer,"ui/hall/common/Tower-Icon/06.png"
-    -- ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.12.png",130,0)
-    -- self:createTroopItem(layer,"ui/hall/common/Tower-Icon/08.png"
-    -- ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.11.png",130+130,0)
-    -- self:createTroopItem(layer,"ui/hall/common/Tower-Icon/09.png"
-    -- ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",130*3,0)
-    -- self:createTroopItem(layer,"ui/hall/common/Tower-Icon/07.png"
-    -- ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.9.png",130*4,0)
-
 end
 
 function Atlas:createPageviewPanel1(layer)

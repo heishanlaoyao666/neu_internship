@@ -6,7 +6,6 @@ local TreasureChestOpenObtainView = {}
 local KnapsackData = require("app.data.KnapsackData")
 --[[
     函数用途：二级界面-宝箱开启获得物品弹窗
-    参数：层，普通卡数量，稀有卡数量，史诗卡数量，传奇卡数量，可获得的金币数量
     --]]
 function TreasureChestOpenObtainView:obtainFromTreasurePanel(layer,TreasureChestType,coinNum)
     --灰色背景
@@ -35,7 +34,6 @@ end
 
 --[[
     函数用途：创建灰色背景
-    参数：层
     --]]
 function TreasureChestOpenObtainView:grayLayer(layer)--参数：层
     local width ,height = display.width,display.height
@@ -53,7 +51,6 @@ end
 
 --[[
     函数用途：金币的展示
-    参数：弹窗层，金币数量
     --]]
 function TreasureChestOpenObtainView:goldCoinDisplay(obtainBg,coinNum)
     --金币获得
@@ -69,7 +66,6 @@ function TreasureChestOpenObtainView:goldCoinDisplay(obtainBg,coinNum)
 end
 --[[
     函数用途：确认按钮
-    参数：灰色背景层，弹窗背景层
     --]]
 function TreasureChestOpenObtainView:confirmButton(grayLayer,obtainBg)
     --按钮：确认按钮
@@ -113,7 +109,6 @@ end
 
 --[[
     函数用途：展示开启普通宝箱所获得的碎片
-    参数：弹窗背景层
 --]]
 function TreasureChestOpenObtainView:normalObtained(obtainBg)
     math.randomseed(os.time())
@@ -172,7 +167,6 @@ end
 
 --[[
     函数用途：展示开启稀有宝箱所获得的碎片
-    参数：弹窗背景层
 --]]
 function TreasureChestOpenObtainView:rareObtained(obtainBg)
     local nCardNum = 74--两张普通卡
@@ -229,7 +223,6 @@ end
 
 --[[
     函数用途：展示开启史诗宝箱所获得的碎片
-    参数：弹窗背景层
 --]]
 function TreasureChestOpenObtainView:epicObtained(obtainBg)
     math.randomseed(os.time())
@@ -316,7 +309,6 @@ end
 
 --[[
     函数用途：展示开启传说宝箱所获得的碎片
-    参数：弹窗背景层
 --]]
 function TreasureChestOpenObtainView:legendObtained(obtainBg)
     math.randomseed(os.time())
