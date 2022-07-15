@@ -7,7 +7,6 @@ local ConstDef = require("app.def.ConstDef")
 local EventDef = require("app.def.EventDef")
 local EventManager = require("app/manager/EventManager.lua")
 
-local Target = nil --类型：table 目标点表
 --[[--
     构造函数
 
@@ -26,6 +25,7 @@ function Enemy:ctor(life,sp,tag,player)
     self.sp_give_=sp
     self.tag_=tag
 
+    self.target = nil --类型：table 目标点表
     self.target_id = 0
     
     --数值和状态区赋值
@@ -99,10 +99,10 @@ end
     @return none
 ]]
 function Enemy:setTarget(target)
-    Target = target
-    self.speed_ = Target.LENGTH/36
-    self.x_ =Target[self.target_id].X
-    self.y_ =Target[self.target_id].Y
+    self.target = target
+    self.speed_ = self.target.LENGTH/18
+    self.x_ =self.target[self.target_id].X
+    self.y_ =self.target[self.target_id].Y
     self.target_id = 1
     -- if self.target_id == 0 then
         
@@ -160,30 +160,30 @@ function Enemy:update(dt)
     --父物体update
     Enemy.super.update(self,dt)
 
-    if self.target_id>Target.MAXID then
+    if self.target_id>self.target.MAXID then
         self:destory()
         return
     end
-    if Target[self.target_id].MOVEX~=0 then
-        if (Target[self.target_id].MOVEX == 1 and self.x_>=Target[self.target_id].X) or (Target[self.target_id].MOVEX == -1 and self.x_<=Target[self.target_id].X) then
+    if self.target[self.target_id].MOVEX~=0 then
+        if (self.target[self.target_id].MOVEX == 1 and self.x_>=self.target[self.target_id].X) or (self.target[self.target_id].MOVEX == -1 and self.x_<=self.target[self.target_id].X) then
         self.target_id=self.target_id+1
-        if self.target_id>Target.MAXID then
+        if self.target_id>self.target.MAXID then
             return
         end
-        self.x_=Target[self.target_id].X or self.x_
+        self.x_=self.target[self.target_id].X or self.x_
         end
     else
-        if (Target[self.target_id].MOVEY == 1 and self.y_>=Target[self.target_id].Y) or (Target[self.target_id].MOVEY == -1 and self.y_<=Target[self.target_id].Y) then
+        if (self.target[self.target_id].MOVEY == 1 and self.y_>=self.target[self.target_id].Y) or (self.target[self.target_id].MOVEY == -1 and self.y_<=self.target[self.target_id].Y) then
         self.target_id=self.target_id+1
-        if self.target_id>Target.MAXID then
+        if self.target_id>self.target.MAXID then
             return
         end
-        self.y_=Target[self.target_id].Y or self.y_
+        self.y_=self.target[self.target_id].Y or self.y_
         end
     end
     self:count()
-    self.x_ =self.x_ + Target[self.target_id].MOVEX*self.true_speed_*dt
-    self.y_ =self.y_ + Target[self.target_id].MOVEY*self.true_speed_*dt
+    self.x_ =self.x_ + self.target[self.target_id].MOVEX*self.true_speed_*dt
+    self.y_ =self.y_ + self.target[self.target_id].MOVEY*self.true_speed_*dt
     -- if not self.isDeath_ then
     --     if self.y_ < display.bottom - ConstDef.ENEMY_PLANE_SIZE.HEIGHT then
     --         self:destory()

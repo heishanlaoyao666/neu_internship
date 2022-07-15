@@ -7,7 +7,7 @@ local OppositeTowerView = class("OppositeTowerView", function()
 end)
 local ConstDef = require("app/def/ConstDef")
 local GameData = require("app/data/GameData.lua")
-
+local TowerDef = require("app.def.TowerDef")
 --[[--
     构造函数
 
@@ -100,11 +100,19 @@ end
 
     @return none
 ]]
-function OppositeTowerView:showView(tower)
-    -- self.towerSprite
-    -- self.towerType
-    -- self.towerRarity
-    -- self.towerSkill
+function OppositeTowerView:showView(tower_id)
+    local res= "ui/battle/Battle interface/"
+    self.towerSprite:setTexture(string.format(res.."Tower/tower_%u.png",tower_id))
+    self.towerType:setTexture(string.format(res.."Angle sign-Tower_type/TowerType-"..TowerDef.TABLE[tower_id].TYPE..".png"))
+    local rarity ={
+        [1] ="普通",
+        [2] ="稀有",
+        [3] ="史诗",
+        [4] ="传说",
+    }
+    self.towerRarity:setString(rarity[TowerDef.TABLE[tower_id].RARITY])
+    self.towerSkill:setString(TowerDef.TABLE[tower_id].INFORMATION)
+    self.towerName:setString(TowerDef.TABLE[tower_id].NAME)
     self:setVisible(true)
     self.container_:setScale(0)
     self.container_:runAction(cc.ScaleTo:create(0.15, 1))

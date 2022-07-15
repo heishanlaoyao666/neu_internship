@@ -150,12 +150,16 @@ function Player:upTowerGrade(i)
         self.tower_array[i].grade_=self.tower_array[i].grade_+1
     end
 end
+function Player:towerCreateCost()
+    self.sp_=self.sp_-self.sp_cost
+    self.sp_cost=self.sp_cost+10
+end
 --[[--
     塔创建
 
     @param none
 
-    @return number
+    @return table
 ]]
 function Player:createTower()
     local sum =0 
@@ -167,14 +171,11 @@ function Player:createTower()
         end
     end
     if sum == 15 then
-        return
+        return nil
     end
     if self.sp_<self.sp_cost then
-        return
+        return nil
     end
-    self.sp_=self.sp_-self.sp_cost
-    self.sp_cost=self.sp_cost+10
-
     local random = math.random(1,15)
     local x = random%5
     local y =math.modf(random/5)+1
@@ -196,7 +197,15 @@ function Player:createTower()
         end
     end
     local id=math.random(1,5)
-    self:createTowerEnd(self.tower_array[id].id_,self.tower_array[id].level_,self.tower_array[id].grade_,x,y)
+    local table = {
+        id = self.tower_array[id].id_,
+        level =self.tower_array[id].level_,
+        grade = self.tower_array[id].grade_,
+        x = x,
+        y =y,
+    }
+    return table
+    --self:createTowerEnd(self.tower_array[id].id_,self.tower_array[id].level_,self.tower_array[id].grade_,x,y)
 end
 
 --[[--
@@ -210,9 +219,14 @@ end
 ]]
 function Player:createTowerEnd(id,level,grade,x,y)
     local tower=Tower.new(id,level,grade,self)
-        tower:setX(ConstDef.TOWER_POS.DOWN_X+ConstDef.TOWER_POS.MOVE_X*(x-1))
-        tower:setY(ConstDef.TOWER_POS.DOWN_Y+ConstDef.TOWER_POS.MOVE_Y*(y-1))
-        self.towers[y][x] = tower
+    if self.tag_==ConstDef.GAME_TAG.UP then
+        tower:setX(ConstDef.TOWER_POS.UP_X+ConstDef.TOWER_POS.MOVE_X_UP*(x-1))
+        tower:setY(ConstDef.TOWER_POS.UP_Y+ConstDef.TOWER_POS.MOVE_Y_UP*(y-1))
+    else
+        tower:setX(ConstDef.TOWER_POS.DOWN_X+ConstDef.TOWER_POS.MOVE_X_DOWN*(x-1))
+        tower:setY(ConstDef.TOWER_POS.DOWN_Y+ConstDef.TOWER_POS.MOVE_Y_DOWN*(y-1))
+    end
+    self.towers[y][x] = tower
     --为塔添加buff
     for i = 1, #TowerDef.BUFF[id].TOWER do
         local data = TowerDef.BUFF[id].TOWER[i]
@@ -289,7 +303,6 @@ function Player:createMonster(life,givesp,tag)
     end
     monster:setTarget(ConstDef.TARGET[self.tag_])
     self.monsters_[#self.monsters_+1] = monster
-    print(self.tag_.." "..#self.monsters_)
 end
 function Player:update(dt)
     local destoryBullets = {}
@@ -368,7 +381,9 @@ end
     @return number
 ]]
 function Player:bulletCreate(tower)
-
+    if tower:getPlayer()~=self then
+        return
+    end
     local bullet = Bullet.new(tower)
     bullet:setX(tower:getX())
     bullet:setY(tower:getY())

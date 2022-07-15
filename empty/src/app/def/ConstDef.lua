@@ -9,12 +9,15 @@ local ConstDef = {
         DOWN = 2,
     },
     TOWER_POS = {
-        UP_X = 155,
-        DOWN_X = 160,
+        UP_X = 555,
         UP_Y = 1095,
-        DOWN_Y = 510,
-        MOVE_X = 100,
-        MOVE_Y = -110,
+        MOVE_X_UP = -100,
+        MOVE_Y_UP = -110,
+        DOWN_X = 160,
+        DOWN_Y = 290,
+        MOVE_X_DOWN = 100,
+        MOVE_Y_DOWN = 110,
+
     },
     MONSTER_TAG = {
         NORMAL = 1, --普通怪
@@ -207,30 +210,30 @@ ConstDef.BUFF={
 ConstDef.TARGET ={
     [ConstDef.GAME_TAG.UP] = {
         MAXID = 3,
-        LENGTH= 360*2+600,
+        LENGTH= 460*2+600,
         [0] ={
             MOVEX = 1,
             MOVEY = 1,
-            X = 660,
-            Y = 1160,
+            X = 655,
+            Y = 1245,
         },
         [1] ={
             MOVEX = 0,
             MOVEY = -1,
-            X = 660,
-            Y = 800,
+            X = 655,
+            Y = 785,
         },
         [2] ={
             MOVEX = -1,
             MOVEY = 0,
-            X = 60,
-            Y = 800,
+            X = 55,
+            Y = 785,
         },
         [3] ={
             MOVEX = 0,
             MOVEY = 1,
-            X = 60,
-            Y = 1160,
+            X = 55,
+            Y = 1245,
         },
     },
     [ConstDef.GAME_TAG.DOWN] ={

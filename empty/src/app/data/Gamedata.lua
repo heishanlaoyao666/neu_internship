@@ -13,8 +13,17 @@ local KnapsackData = require("app.data.KnapsackData")
 local DamageInfo =require("app/data/DamageInfo.lua")
 
 
+local MsgController=require("app/msg/MsgController.lua")
+local MsgDef=require("app.msg.MsgDef")
+
 local damages_ = {} --类型:伤害信息数组
 
+local gameframe = 0 --类型:当前客户端游戏帧
+local severframe = 1 -- 类型:当前服务器游戏帧
+local runframe = 0 --类型:已经运行的游戏帧
+local handelframe = {} --类型:每帧行为存放
+
+local last_dt = 0.016
 local moveTower = {
     tower =nil,
     x = 0,
@@ -44,9 +53,68 @@ function GameData:init()
     self.game_time_=0
     self.game_stage_ = 0
 
+    --联机游戏需要参数
+    self.serialNumber = 0
+    self.pid = 0
+    self.waitHandle={
+    }
+    self.socketTick = 0
+    gameframe = 0 --类型:当前客户端游戏帧
+    severframe = 0 -- 类型:当前服务器游戏帧
+    handelframe = {} --类型:每帧行为存放
     EventManager:regListener(EventDef.ID.INIT_DAMAGE, self, function(damage)
         damages_[#damages_+1] = damage
         --audio.playEffect("sounds/fireEffect.ogg", false)
+    end)
+    --初始化msg控制器的监听
+    MsgController:registerListener(self,function (msg)
+        if msg["type"] == MsgDef.MSG_TYPE_ACK.GAMEPLAY then
+            if msg["severframe"]>runframe then
+                severframe=msg["severframe"]
+                handelframe[severframe]={}
+                handelframe[severframe]["handle"]=msg["handle"] or {}
+                handelframe[severframe]["dt"]=msg["dt"]/1000
+                while gameframe<= severframe do
+                    handelframe[gameframe]=handelframe[gameframe] or handelframe[gameframe-1]
+                    --处理塔生成
+                    handelframe[gameframe]["handle"]["create"]=handelframe[gameframe]["handle"]["create"] or {}
+                    for i = 1, #handelframe[gameframe]["handle"]["create"] do
+                        local table = handelframe[gameframe]["handle"]["create"][i]
+                        local info = {
+                            id = table["id"],
+                            level = table["level"],
+                            grade = table["grade"],
+                            x = table["x"],
+                            y = table["y"],
+                        }
+                        if table["pid"]==self.pid then
+                            self.player_:createTowerEnd(info.id,info.level,info.grade,info.x,info.y)
+                            self.player_:towerCreateCost()
+                        else
+                            self.opposite_:createTowerEnd(info.id,info.level,info.grade,info.x,info.y)
+                            self.opposite_:towerCreateCost()
+                    end
+                end
+                --处理塔合成
+                for i = 1, #handelframe[gameframe]["compose"] do
+                    
+                end
+                -- --处理塔强化
+                -- for i = 1, #handelframe[gameframe]["upgrade"] do
+                    
+                -- end
+
+                self:update(handelframe[gameframe]["dt"] or last_dt)
+                runframe=gameframe
+                gameframe=gameframe+1
+            end
+            end
+        elseif  msg["type"] == MsgDef.MSG_TYPE_ACK.BOSSTRUE then
+            EventManager:doEvent(EventDef.ID.OPPOSITE_SELECT,ConstDef.BOSS[msg["boss"]].ID)
+            self:setGameState(ConstDef.GAME_STATE.PLAY)
+            gameframe=1
+            self:sendGamePlay()
+        end
     end)
 end
 --[[--
@@ -57,6 +125,7 @@ end
     @return none
 ]]
 function GameData:playerInit(msg)
+    math.randomseed(msg["random"])
     if msg["data1"]["nick"]==KnapsackData:getName() then
         print("是本家"..msg["data1"]["nick"])
         self:setTowerArray(msg["data1"]["towerArray"], ConstDef.GAME_TAG.DOWN)
@@ -70,6 +139,8 @@ function GameData:playerInit(msg)
         self.player_:setName(msg["data2"]["nick"])
         self.opposite_:setName(msg["data1"]["nick"])
     end
+    self.serialNumber=msg["serialNumber"]
+    self.pid=msg["pid"]
 end
 --[[--
     设置塔阵容
@@ -160,8 +231,8 @@ function GameData:isValidTouch(x, y)
     if y >=display.cy then
         return false
     end
-    local pos_x=(x-ConstDef.TOWER_POS.DOWN_X)/ConstDef.TOWER_POS.MOVE_X+0.5
-    local pos_y=(y-ConstDef.TOWER_POS.DOWN_Y)/ConstDef.TOWER_POS.MOVE_Y+0.5
+    local pos_x=(x-ConstDef.TOWER_POS.DOWN_X)/ConstDef.TOWER_POS.MOVE_X_DOWN+0.5
+    local pos_y=(y-ConstDef.TOWER_POS.DOWN_Y)/ConstDef.TOWER_POS.MOVE_Y_DOWN+0.5
 
     pos_x= math.ceil(pos_x)
     pos_y = math.ceil(pos_y)
@@ -221,8 +292,8 @@ function GameData:moveToEnd(x, y)
         return
     end
     -- print("是否移动")
-    local pos_x=(x-ConstDef.TOWER_POS.DOWN_X)/ConstDef.TOWER_POS.MOVE_X+0.5
-    local pos_y=(y-ConstDef.TOWER_POS.DOWN_Y)/ConstDef.TOWER_POS.MOVE_Y+0.5
+    local pos_x=(x-ConstDef.TOWER_POS.DOWN_X)/ConstDef.TOWER_POS.MOVE_X_DOWN+0.5
+    local pos_y=(y-ConstDef.TOWER_POS.DOWN_Y)/ConstDef.TOWER_POS.MOVE_Y_DOWN+0.5
 
     pos_x= math.ceil(pos_x)
     pos_y = math.ceil(pos_y)
@@ -243,6 +314,58 @@ function GameData:moveToEnd(x, y)
     moveTower.tower:setX(moveTower.x)
     moveTower.tower:setY(moveTower.y)
     --allies_[1]:setY(y)
+end
+--[[--
+    获取塔执行消息
+
+    @param none
+
+    @return number
+]]
+function GameData:sendGamePlay()
+    local msg = {
+        type= MsgDef.MSG_TYPE_REQ.GAMEPLAY,
+        serialNumber=self.serialNumber,
+        pid = self.pid,
+        gameframe=gameframe,
+        handle=self.waitHandle
+    }
+    self.waitHandle={}
+    MsgController:sendMsg(msg)
+end
+--[[--
+    获取塔生成消息
+
+    @param none
+
+    @return number
+]]
+function GameData:sendTowerCreate()
+    local table = self.player_:createTower()
+    table["pid"]=self.pid
+    if table ~= nil then
+        self.waitHandle["create"]=table
+    end
+end
+--[[--
+    发送合成信息
+
+    @param none
+
+    @return none
+]]
+function GameData:sendTowerCompose()
+    return self.gameState_
+end
+--[[--
+    发送塔强化信息
+
+    @param none
+
+    @return none
+]]
+function GameData:sendTowerUpgrade()
+    return self.gameState_
 end
 --[[--
     获取游戏状态
@@ -282,7 +405,13 @@ end
     @return none
 ]]
 function GameData:setGameBoss(boss)
-    self.game_boss_=boss
+    local msg = {
+        type= MsgDef.MSG_TYPE_REQ.BOSSTRUE,
+        boss = boss,
+        pid = self.pid,
+        serialNumber=self.serialNumber
+    }
+    MsgController:sendMsg(msg)
 end
 --[[--
     设置游戏boss
@@ -312,14 +441,14 @@ function GameData:update(dt)
         --精英怪物
         if self.monset_stage_%4 == 0 then
             self.player_:createMonster(5*stage_.LIFE*(self.monset_stage_+1),stage_.SP,ConstDef.MONSTER_TAG.PLUS)
-            --self.opposite_:createMonster(5*stage_.LIFE*(self.monset_stage_+1),stage_.SP,ConstDef.MONSTER_TAG.PLUS)
+            self.opposite_:createMonster(5*stage_.LIFE*(self.monset_stage_+1),stage_.SP,ConstDef.MONSTER_TAG.PLUS)
         end
         self.monster_tick_=self.monster_tick_-stage_.TICK
         for i = 1, stage_.NUMBER do
             self.player_:createMonster(stage_.LIFE*self.monset_stage_,stage_.SP,ConstDef.MONSTER_TAG.NORMAL)
             self.opposite_:createMonster(stage_.LIFE*self.monset_stage_,stage_.SP,ConstDef.MONSTER_TAG.NORMAL)
         end
-        --self.opposite_:createMonster(stage_.LIFE*self.monset_stage_,stage_.SP,ConstDef.MONSTER_TAG.NORMAL)
+
     end
     self.monster_tick_=self.monster_tick_+dt 
     self.game_time_=self.game_time_+dt
@@ -340,6 +469,9 @@ function GameData:update(dt)
     for i = 1, #damages_ do
         damages_[i]:update(dt)
     end
+
+    --上传操作
+    self:sendGamePlay()
 end
 
 

@@ -35,8 +35,8 @@ function KnapsackData:init()
     self.cups_ = 0
     self.pid_ = 0
     math.randomseed(tostring(os.time()):reverse():sub(1,7))
-    --self.name_ = "50885"..math.random(100)
-    self.name_ = "508851"
+    self.name_ = "50885"..math.random(100)
+    --self.name_ = "508851"
     for i = 1, 20 do
         towerData[i]={}
         towerData[i].unlock_=false --塔是否解锁
@@ -110,6 +110,16 @@ function KnapsackData:init()
             Shopdata:initItem(msg["shopData"])
         end
     end)
+end
+--[[--
+    背包获取用户pid
+
+    @param none
+
+    @return none
+]]
+function KnapsackData:getPidid()
+    return self.pid_
 end
 --[[--
     背包获取用户名
@@ -264,6 +274,7 @@ end
     @return none
 ]]
 function KnapsackData:sendData()
+    print("数据推送函数调用")
     --全部数据向服务器推送
     if MsgController:isConnect() then
         local msg = self:getDataTable()

@@ -96,12 +96,12 @@ end
     @return none
 ]]
 function PlayView:onEnter()
-    EventManager:regListener(EventDef.ID.VIEW_OPEN, self, function(state)
+    EventManager:regListener(EventDef.ID.VIEW_OPEN, self, function(state,tower_id)
         if state == ConstDef.GAME_VIEW.OPPOSITEBOSS then
             --self.oppositeTowerView_:showView()
             self.oppositeBossView_:showView()
         elseif state == ConstDef.GAME_VIEW.OPPOSITETOWER then
-            self.oppositeTowerView_:showView()
+            self.oppositeTowerView_:showView(tower_id)
         elseif state == ConstDef.GAME_VIEW.SURRENDER then
             self.surrenderView_:showView()
         end

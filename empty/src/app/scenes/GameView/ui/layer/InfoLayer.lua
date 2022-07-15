@@ -62,7 +62,7 @@ function InfoLayer:initView()
     createBtn:setPosition(display.width*0.5, 180)
     createBtn:addTouchEventListener(function(sender, eventType)
         if eventType == 2 then
-            player:createTower()
+            GameData:sendTowerCreate()
         end
     end)
     self.createTTF = cc.Label:createWithTTF(player:getSpCost(),"ui/font/fzbiaozjw.ttf",24)
@@ -161,7 +161,6 @@ function InfoLayer:BossBtnCreate()
             end
         end)
     end
-    GameData:setGameState(ConstDef.GAME_STATE.PLAY)
     self:removeChild(self.randomBossView)
     self.randomBossView=nil
 end

@@ -138,7 +138,6 @@ function RandomBossView:update(dt)
             end
         end
         GameData:setGameBoss(minId)
-        EventManager:doEvent(EventDef.ID.OPPOSITE_SELECT,ConstDef.BOSS[minId].ID)
         self.bossSprites_= nil
         --self:hideView()
         return

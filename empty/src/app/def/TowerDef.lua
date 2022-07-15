@@ -175,6 +175,12 @@ TowerDef.TABLE = {
                 VALUE_UPGRADE = 24,
                 VALUE_ENHANCE = 40,
             },
+            [2] = {
+                ID = TowerDef.SKILL.EXTRA_DAMAGE,
+                VALUE = 120,
+                VALUE_UPGRADE = 24,
+                VALUE_ENHANCE = 40,
+            },
         },
     },
     [4] ={
