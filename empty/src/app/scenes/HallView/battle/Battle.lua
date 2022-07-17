@@ -2,7 +2,7 @@
 ----编写人员：孙靖博、郑蕾
 ---修订人员：郑蕾
 ---最后修改日期：7/15
-local Battle = class("Battle")
+local Battle = {}
 local Ladder = require("app.scenes.HallView.battle.Ladder")
 local Music = require("app/data/Music")
 local SettingMusic = require("src/app/scenes/SettingMusic")

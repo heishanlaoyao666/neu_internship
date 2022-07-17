@@ -1,8 +1,10 @@
 ----内容：宝箱开启确认弹窗
 ----编写人员：郑蕾
 ---修订人员：郑蕾
----最后修改日期：7/15
+---最后修改日期：7/17
 local TreasureChestOpenView = {}
+
+local ShopDef = require("app.def.ShopDef")
 local KnapsackData = require("app.data.KnapsackData")
 local TreasureChestOpenObtainView = require("app.scenes.HallView.common.TreasureChestOpenObtainView")
 local GeneralView = require("app.scenes.HallView.common.GeneralView")
@@ -18,7 +20,7 @@ function TreasureChestOpenView:treasureChestOpenConfirmPanel(ShopLayer,treasureP
     local grayLayer = self:grayLayer(ShopLayer)
 
     --图片：弹窗背景
-    local popLayer = ccui.ImageView:create("ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/bg-pop-up.png")
+    local popLayer = ccui.ImageView:create(ShopDef.OPEN_VIEW.BG)
     popLayer:pos(display.cx, display.cy)
     popLayer:setAnchorPoint(0.5, 0.5)
     popLayer:addTo(grayLayer)
@@ -72,15 +74,15 @@ end
     --]]
 function TreasureChestOpenView:goldCoinDisplay(popLayer,coinNum)
     --图片：金币背景
-    local coinBg =ccui.ImageView:create("ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/bg-gold coin.png")
+    local coinBg =ccui.ImageView:create(ShopDef.OPEN_VIEW.COIN_BG)
     coinBg:setPosition(cc.p(120, 180))
     coinBg:addTo(popLayer)
     --图片：金币
-    local coin =ccui.ImageView:create("ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Icon - gold coin.png")
+    local coin =ccui.ImageView:create(ShopDef.OPEN_VIEW.COIN_ICON)
     coin:setPosition(cc.p(65, 100))
     coin:addTo(coinBg)
     --文本：金币数量
-    local cNum = cc.Label:createWithTTF(coinNum,"ui/font/fzbiaozjw.ttf",24)
+    local cNum = cc.Label:createWithTTF("+"..coinNum,"ui/font/fzbiaozjw.ttf",24)
     cNum:setPosition(cc.p(60,40))
     cNum:setColor(cc.c3b(165, 237, 255))
     cNum:enableOutline(cc.c4b(0, 0, 0, 255),1)--字体描边
@@ -91,10 +93,7 @@ end
     函数用途：宝箱开启按钮
     --]]
 function TreasureChestOpenView:openButton(ShopLayer,grayLayer,popLayer,coinNum,price,treasureChestType)
-    local openButton = ccui.Button:create(
-            "ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Button - on.png",
-            "ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Button - on.png",
-            "ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Button - on.png")
+    local openButton = ccui.Button:create(ShopDef.OPEN_VIEW.OPEN_BUTTON,ShopDef.OPEN_VIEW.OPEN_BUTTON,ShopDef.OPEN_VIEW.OPEN_BUTTON)
     openButton:setPosition(cc.p(300, 0))
     openButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
         if eventType == ccui.TouchEventType.began then
@@ -140,10 +139,7 @@ end
     函数用途：关闭窗口按钮
     --]]
 function TreasureChestOpenView:closeButton(ShopLayer,grayLayer,popLayer)
-    local closeButton = ccui.Button:create(
-            "ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Button - off.png",
-            "ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Button - off.png",
-            "ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Button - off.png")
+    local closeButton = ccui.Button:create(ShopDef.OPEN_VIEW.CLOSE_BUTTON,ShopDef.OPEN_VIEW.CLOSE_BUTTON,ShopDef.OPEN_VIEW.CLOSE_BUTTON)
     closeButton:setPosition(cc.p(570, 330))
     closeButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
         if eventType == ccui.TouchEventType.began then
@@ -168,34 +164,34 @@ end
     --]]
 function TreasureChestOpenView:fragmentInTreasure(layer,nCardNum,rCardNum,eCardNum,lCardNum)
     --普通
-    local nIcon =ccui.ImageView:create("ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Icon - normal.png")
+    local nIcon =ccui.ImageView:create(ShopDef.OPEN_VIEW.N_ICON)
     nIcon:setPosition(cc.p(240, 220))
     nIcon:addTo(layer)
-    local nBg = ccui.ImageView:create("ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/bg-text.png")
+    local nBg = ccui.ImageView:create(ShopDef.OPEN_VIEW.TEXT_BG)
     nBg:setPosition(cc.p(320, 240))
     nBg:addTo(layer)
-    local nBg1 = ccui.ImageView:create("ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/bg-text.png")
-    nBg1:setPosition(cc.p(320, 210))
-    nBg1:addTo(layer)
+    local nTextBg = ccui.ImageView:create(ShopDef.OPEN_VIEW.TEXT_BG)
+    nTextBg:setPosition(cc.p(320, 210))
+    nTextBg:addTo(layer)
     local normalText= cc.Label:createWithTTF("普通","ui/font/fzbiaozjw.ttf",20)
     normalText:setPosition(cc.p(320,240))
     normalText:setColor(cc.c3b(214, 214, 231))
     normalText:enableOutline(cc.c4b(0, 0, 0, 255),2)--字体描边
     normalText:addTo(layer)
-    local normalNum= cc.Label:createWithTTF(nCardNum,"ui/font/fzbiaozjw.ttf",20)
+    local normalNum= cc.Label:createWithTTF("X"..nCardNum,"ui/font/fzbiaozjw.ttf",20)
     normalNum:setPosition(cc.p(320,210))
     normalNum:setColor(cc.c3b(214, 214, 231))
     normalNum:enableOutline(cc.c4b(0, 0, 0, 255),1)--字体描边
     normalNum:addTo(layer)
 
     --稀有
-    local rIcon =ccui.ImageView:create("ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Icon - RARE.png")
+    local rIcon =ccui.ImageView:create(ShopDef.OPEN_VIEW.R_ICON)
     rIcon:setPosition(cc.p(410, 220))
     rIcon:addTo(layer)
-    local rBg = ccui.ImageView:create("ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/bg-text.png")
+    local rBg = ccui.ImageView:create(ShopDef.OPEN_VIEW.TEXT_BG)
     rBg:setPosition(cc.p(490, 240))
     rBg:addTo(layer)
-    local rBg1 = ccui.ImageView:create("ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/bg-text.png")
+    local rBg1 = ccui.ImageView:create(ShopDef.OPEN_VIEW.TEXT_BG)
     rBg1:setPosition(cc.p(490, 210))
     rBg1:addTo(layer)
     local rareText= cc.Label:createWithTTF("稀有","ui/font/fzbiaozjw.ttf",20)
@@ -203,19 +199,19 @@ function TreasureChestOpenView:fragmentInTreasure(layer,nCardNum,rCardNum,eCardN
     rareText:setColor(cc.c3b(79, 187, 245))
     rareText:enableOutline(cc.c4b(0, 0, 0, 255),2)--字体描边
     rareText:addTo(layer)
-    local rareNum= cc.Label:createWithTTF(rCardNum,"ui/font/fzbiaozjw.ttf",20)
+    local rareNum= cc.Label:createWithTTF("X"..rCardNum,"ui/font/fzbiaozjw.ttf",20)
     rareNum:setPosition(cc.p(490,210))
     rareNum:setColor(cc.c3b(79, 187, 245))
     rareNum:enableOutline(cc.c4b(0, 0, 0, 255),1)--字体描边
     rareNum:addTo(layer)
     --史诗
-    local eIcon =ccui.ImageView:create("ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Icon - Epic.png")
+    local eIcon =ccui.ImageView:create(ShopDef.OPEN_VIEW.E_ICON)
     eIcon:setPosition(cc.p(240, 130))
     eIcon:addTo(layer)
-    local eBg = ccui.ImageView:create("ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/bg-text.png")
+    local eBg = ccui.ImageView:create(ShopDef.OPEN_VIEW.TEXT_BG)
     eBg:setPosition(cc.p(320, 150))
     eBg:addTo(layer)
-    local eBg1 = ccui.ImageView:create("ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/bg-text.png")
+    local eBg1 = ccui.ImageView:create(ShopDef.OPEN_VIEW.TEXT_BG)
     eBg1:setPosition(cc.p(320, 120))
     eBg1:addTo(layer)
     local epicText= cc.Label:createWithTTF("史诗","ui/font/fzbiaozjw.ttf",20)
@@ -223,20 +219,20 @@ function TreasureChestOpenView:fragmentInTreasure(layer,nCardNum,rCardNum,eCardN
     epicText:setColor(cc.c3b(210, 102, 249))
     epicText:enableOutline(cc.c4b(0, 0, 0, 255),2)--字体描边
     epicText:addTo(layer)
-    local epicNum= cc.Label:createWithTTF(eCardNum,"ui/font/fzbiaozjw.ttf",20)
+    local epicNum= cc.Label:createWithTTF("X"..eCardNum,"ui/font/fzbiaozjw.ttf",20)
     epicNum:setPosition(cc.p(320,120))
     epicNum:setColor(cc.c3b(210, 102, 249))
     epicNum:enableOutline(cc.c4b(0, 0, 0, 255),1)--字体描边
     epicNum:addTo(layer)
     --传说
     if lCardNum ~="X0" then
-        local lIcon =ccui.ImageView:create("ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Icon-legend.png")
+        local lIcon =ccui.ImageView:create(ShopDef.OPEN_VIEW.L_ICON)
         lIcon:setPosition(cc.p(410, 130))
         lIcon:addTo(layer)
-        local lBg = ccui.ImageView:create("ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/bg-text.png")
+        local lBg = ccui.ImageView:create(ShopDef.OPEN_VIEW.TEXT_BG)
         lBg:setPosition(cc.p(490, 150))
         lBg:addTo(layer)
-        local lBg1 = ccui.ImageView:create("ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/bg-text.png")
+        local lBg1 = ccui.ImageView:create(ShopDef.OPEN_VIEW.TEXT_BG)
         lBg1:setPosition(cc.p(490, 120))
         lBg1:addTo(layer)
         local legendText= cc.Label:createWithTTF("传说","ui/font/fzbiaozjw.ttf",20)
@@ -244,7 +240,7 @@ function TreasureChestOpenView:fragmentInTreasure(layer,nCardNum,rCardNum,eCardN
         legendText:setColor(cc.c3b(250, 198, 17))
         legendText:enableOutline(cc.c4b(0, 0, 0, 255),2)--字体描边
         legendText:addTo(layer)
-        local legendNum= cc.Label:createWithTTF(lCardNum,"ui/font/fzbiaozjw.ttf",20)
+        local legendNum= cc.Label:createWithTTF("X"..lCardNum,"ui/font/fzbiaozjw.ttf",20)
         legendNum:setPosition(cc.p(490,120))
         legendNum:setColor(cc.c3b(250, 198, 17))
         legendNum:enableOutline(cc.c4b(0, 0, 0, 255),1)--字体描边

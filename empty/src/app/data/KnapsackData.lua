@@ -17,6 +17,7 @@ local initlevel = {}
 local a = {}
 
 local Shopdata = require("app.data.Shopdata")
+local ShopDef = require("app.def.ShopDef")
 
 local isLogin = false --类型:boolen,是否已经注册
 local isMatch = false --类型:是否正在匹配
@@ -36,7 +37,6 @@ function KnapsackData:init()
     self.pid_ = 0
     math.randomseed(tostring(os.time()):reverse():sub(1,7))
     self.name_ = "10000"..math.random(100)
-    --self.name_ = "508851"
     for i = 1, 20 do
         towerData[i]={}
         towerData[i].unlock_=false --塔是否解锁
@@ -58,8 +58,8 @@ function KnapsackData:init()
     end
 
     for i = 1,6 do
-        Shopdata.ITEM[i].SOLD_OUT = false
-        Shopdata.ITEM[i].ID = 01
+        ShopDef.ITEM[i].SOLD_OUT = false
+        ShopDef.ITEM[i].ID = 01
     end
 
     --初始化msg控制器的监听
@@ -398,7 +398,7 @@ end
 ]]
 function KnapsackData:getITEM_ID(i)
     --向服务器拿数据
-    return Shopdata.ITEM[i].ID
+    return ShopDef.ITEM[i].ID
 end
 --[[--
     更改商品ID
@@ -408,7 +408,7 @@ end
     @return none
 ]]
 function KnapsackData:setITEM_ID(i,id)
-    Shopdata.ITEM[i].ID = id
+    ShopDef.ITEM[i].ID = id
     --向服务器推送数据
 end
 
@@ -422,7 +422,7 @@ end
 ]]
 function KnapsackData:getSoldOutState(i)
     --向服务器拿数据
-    return Shopdata.ITEM[i].SOLD_OUT
+    return ShopDef.ITEM[i].SOLD_OUT
 end
 --[[--
     更改商品出售状态
@@ -432,7 +432,7 @@ end
     @return none
 ]]
 function KnapsackData:setSoldOutState(i,state)
-    Shopdata.ITEM[i].SOLD_OUT = state
+    ShopDef.ITEM[i].SOLD_OUT = state
     --向服务器推送数据
     if MsgController:isConnect() then
         local msg={

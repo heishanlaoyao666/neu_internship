@@ -24,14 +24,11 @@ function MainScene:ctor()
     end, 0.1)
     EventManager:regListener(EventDef.ID.KNAPSACK_LOGIN,self,function ()
         self:createBg()--创建主界面背景图
-        local shop = Shop.new()
-        local atlas = Atlas.new()
-        local battle = Battle.new()
-        local layer1 = shop:ShopPanelCreate()
-        local layer2 = battle:battlePanelCreate()
-        local layer3 = atlas:createCollectionPanel()
 
-        local pageView = self:sliderView(layer1,layer2,layer3)--将商店、战斗、图鉴界面加入到翻页中
+        local shopLayer = Shop:ShopPanelCreate()
+        local battleLayer = Battle:battlePanelCreate()
+        local atlasLayer = Atlas:createCollectionPanel()
+        local pageView = self:sliderView(shopLayer,battleLayer,atlasLayer)--将商店、战斗、图鉴界面加入到翻页中
 
         local layer = ccui.Layout:create()
         layer:setBackGroundColorOpacity(180)--设置为透明
@@ -40,7 +37,6 @@ function MainScene:ctor()
         layer:setPosition(cc.p(display.cx, display.cy))
         layer:setContentSize(720, 1280)
         layer:addTo(self)
-
         self:bottomTab(layer,pageView)--底部按钮导航栏
         TopTab:createMiddleTopPanel(layer)--顶部信息栏
 
@@ -65,7 +61,7 @@ end
 --[[
     函数用途：实现左右翻页
     --]]
-function MainScene:sliderView(layer1,layer2,layer3)
+function MainScene:sliderView(shopLayer,battleLayer,atlasLayer)
     -- PageView
     local pageView = ccui.PageView:create()
     -- 设置PageView容器尺寸
@@ -73,9 +69,9 @@ function MainScene:sliderView(layer1,layer2,layer3)
     pageView:setTouchEnabled(true)
     pageView:setAnchorPoint(0.5, 0.5)
     pageView:setPosition(display.cx, display.cy-140)
-    pageView:addPage(layer1)
-    pageView:addPage(layer2)
-    pageView:addPage(layer3)
+    pageView:addPage(shopLayer)
+    pageView:addPage(battleLayer)
+    pageView:addPage(atlasLayer)
     pageView:scrollToPage(1)--初始页面为战斗界面
     self:addChild(pageView, 0)
     return pageView
@@ -198,8 +194,7 @@ end
 ]]
 function MainScene:update(dt)
     KnapsackData:update(dt)
-    TopTab:setDiamondsString(KnapsackData:getDiamonds())
-    TopTab:setCoinString(KnapsackData:getGoldCoin())
-    Shop:refresh()
+    TopTab:update(dt)
+    Shop:update(dt)
 end
 return MainScene

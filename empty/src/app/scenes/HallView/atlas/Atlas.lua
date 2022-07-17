@@ -1,5 +1,5 @@
 
-local Atlas = class("Atlas")
+local Atlas = {}
 
 local Headdata = require("app/data/Headdata")
 local Towerdata = require("app/data/Towerdata")

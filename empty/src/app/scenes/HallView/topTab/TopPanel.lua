@@ -11,7 +11,19 @@ local TowerDef  = require("app.def.TowerDef")
 local Music = require("app/data/Music")
 local SettingMusic = require("src/app/scenes/SettingMusic")
 
-
+function TopPanel:ctor()
+    self:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, handler(self, self.update))
+    self:performWithDelay(function()
+        self:scheduleUpdate()
+    end,1)
+end
+--[[
+    函数用途：顶部栏帧循环
+    --]]
+function TopPanel:update(dt)
+    self:setDiamondsString(KnapsackData:getDiamonds())
+    self:setCoinString(KnapsackData:getGoldCoin())
+end
 --[[
     函数用途：创建顶部信息栏
     --]]
