@@ -24,7 +24,7 @@ function GeneralView:popUpLayer(grayLayer,msgType)
     elseif msgType == self.Type[4] then--图鉴：金币不足
         self.text = ccui.ImageView:create("ui/hall/common/SecondaryInterface-General notification Popup/Text - upgrade failed - you do not have enough gold coins.png")
     elseif msgType == self.Type[5] then--图鉴：碎片不足
-        self.text = ccui.ImageView:create("ui/hall/common/SecondaryInterface-General notification Popup/Text - upgrade failed - you have insufficient cards")
+        self.text = ccui.ImageView:create("ui/hall/common/SecondaryInterface-General notification Popup/Text - upgrade failed - you have insufficient cards.png")
     end
 
     self.text:setAnchorPoint(0.5,0.5)
