@@ -138,7 +138,7 @@ function InfoLayer:initView()
         self:addChild(self.randomBossView)
     end
     --开始初始化
-    self:initData(player:getName(),opposite:getName(),3,3,120)
+    self:initData(player:getName(),opposite:getName(),3,3,180)
 end
 --[[--
     BOSS按钮创建
@@ -225,10 +225,7 @@ function InfoLayer:towerInfo(i)
     towerBtn:setAnchorPoint(0.5, 0)
     towerBtn:addTouchEventListener(function(sender, eventType)
         if eventType == 2 then
-            player:upTowerGrade(i)
-            local newtower=player:getTowerArray()[i]
-            towerBtn.img:setTexture(string.format(string.format("ui/battle/Battle interface/Grade/LV.%u.png",newtower.grade_)))
-            towerBtn.spLaber:setString(player:getTowerGradeCost(i))
+            GameData:upTowerGrade(i)
         end
     end)
     --强化等级信息
@@ -255,6 +252,12 @@ function InfoLayer:towerInfo(i)
     as_tt:setPosition(75,80)
     towerBtn:addChild(as_tt)
 
+    --注册事件(很奇怪)
+    EventManager:regListener(EventDef.ID.UP_TOWER_GRADE,towerBtn,function ()
+        local newtower=player:getTowerArray()[i]
+        towerBtn.img:setTexture(string.format(string.format("ui/battle/Battle interface/Grade/LV.%u.png",newtower.grade_)))
+        towerBtn.spLaber:setString(player:getTowerGradeCost(i))
+    end)
     return towerBtn
 end
 --[[--
@@ -295,9 +298,7 @@ function InfoLayer:update(dt)
     end
     self.spLabel_:setString(player:setSp(0))
     self.createTTF:setString(player:getSpCost())
-    -- self.lifeLabelBmf_:setString(tostring(GameData:getLife()))
-    -- self.scoreLabelBmf_:setString(tostring(GameData:getScore()))
-
+    self.timeremainingLaber_:setString(timeChange(GameData:getGameTime()))
 end
 
 --[[--
@@ -308,7 +309,6 @@ end
     @return none
 ]]
 function InfoLayer:onEnter()
-    
 end
 
 --[[--

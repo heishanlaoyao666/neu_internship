@@ -4,6 +4,10 @@
 ---最后修改日期：7/15
 local Battle = class("Battle")
 local Ladder = require("app.scenes.HallView.battle.Ladder")
+local GameData = require("app/data/GameData.lua")
+local KnapsackData=require("app.data.KnapsackData")
+local EventDef = require("app/def/EventDef.lua")
+local EventManager = require("app/manager/EventManager.lua")
 function Battle:ctor()
 end
 
@@ -50,6 +54,14 @@ end
     函数用途：匹配弹窗
     --]]
 function Battle:matchingPopLayer(battleLayer)
+    GameData:init()
+    KnapsackData:gameMatch()
+    EventManager:regListener(EventDef.ID.CREATE_GAME, self, function(msg)
+        GameData:playerInit(msg)
+        local ABtn = import("app.scenes.GameView.GameScene"):new()
+        display.replaceScene(ABtn,"turnOffTiles",0.5)
+        EventManager:unRegListener(EventDef.ID.CREATE_GAME, self)
+    end)
     --灰色背景
     local grayLayer = self:grayLayer(battleLayer)
     --弹窗背景
@@ -64,16 +76,15 @@ function Battle:matchingPopLayer(battleLayer)
     matchImage:addTo(popLayer)
     --回调函数，进入游戏内界面
     local function callBack()
-        local ABtn = import("app.scenes.GameView.GameScene"):new()
-        display.replaceScene(ABtn,"turnOffTiles",0.5)
+        return true
     end
-    local rotate  = cc.RotateBy:create(3,360);--旋转
+    local rotate  = cc.RotateBy:create(360,360*360);--旋转
     local sequence = cc.Sequence:create(rotate,rotate,rotate,cc.CallFunc:create(callBack))
     matchImage:runAction(sequence)
 
     --取消匹配按钮
     self:cancelButton(grayLayer,popLayer)
-
+    
 end
 --[[
     函数用途：创建灰色背景
@@ -110,6 +121,7 @@ function Battle:cancelButton(grayLayer,popLayer)
         elseif eventType == ccui.TouchEventType.ended then
             self:setButtonScale(1,1,sender)
             grayLayer:setVisible(false)
+            KnapsackData:cancelMatch()
         elseif eventType == ccui.TouchEventType.canceled then
             self:setButtonScale(1,1,sender)
 

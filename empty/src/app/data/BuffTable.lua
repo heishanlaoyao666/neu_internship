@@ -10,6 +10,25 @@ local DamageInfo =require("app/data/DamageInfo.lua")
 local EventManager = require("app/manager/EventManager.lua")
 --表中使用的方法定义 target代表buff的携带者
 --OnOccur(buff,target,...)
+function BossCreate(buff,target)
+    local monsters =target:getPlayer():getMonster()
+    local newlife = 0
+    for i = 1, #monsters do
+        newlife=newlife+monsters[i]:getLife()
+        monsters[i]:destory()
+    end
+    target:setLife(newlife*0.5)
+end
+function GetLife(buff,target)
+    local monsters =target:getPlayer():getMonster()
+    local newlife = 0
+    for i = 1, #monsters do
+        newlife=newlife+monsters[i]:getLife()
+    end
+    if newlife~=0 then
+        target:setLife(newlife-target:getLife())
+    end
+end
 --OnCast(buff,target,...)
 function StackUpForAttack(buff,tower)
     buff:setStack(1)
@@ -416,6 +435,25 @@ BuffTable = {
     ["tower_copy"] = function ()
 
     end,
+    --怪物拥有的buff
+    ["get_life"] = function ()
+        local buff = BuffObj.new(
+            "get_life",
+            {},
+            0,
+            1,
+            0,
+            GetLife,
+            nil,
+            nil,
+            nil,
+            nil,
+            nil,
+            nil,
+            nil
+        )
+        return buff
+    end,
     --boss所持有的buff
     ["boss_tag"] =  function ()
         local buff = BuffObj.new(
@@ -425,6 +463,24 @@ BuffTable = {
             1,
             0,
             nil,
+            nil,
+            nil,
+            nil,
+            nil,
+            nil,
+            nil,
+            nil
+        )
+        return buff
+    end,
+    ["boss_create"]=function ()
+        local buff = BuffObj.new(
+            "boss_create",
+            {},
+            0,
+            1,
+            0,
+            BossCreate,
             nil,
             nil,
             nil,
@@ -453,6 +509,7 @@ BuffTable = {
         )
         return buff
     end,
+
 }
 
 --[[--

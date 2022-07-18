@@ -58,12 +58,23 @@ function GameData:init()
     self.pid = 0
     self.waitHandle={
     }
-    self.socketTick = 0
+    self.socketTick = 16
+    self.remain_time = 0
     gameframe = 0 --类型:当前客户端游戏帧
     severframe = 0 -- 类型:当前服务器游戏帧
     handelframe = {} --类型:每帧行为存放
     EventManager:regListener(EventDef.ID.INIT_DAMAGE, self, function(damage)
         damages_[#damages_+1] = damage
+        --audio.playEffect("sounds/fireEffect.ogg", false)
+    end)
+    EventManager:regListener(EventDef.ID.OPPOSITE_ENEMY, self, function(monster)
+        if monster:getTag()~=ConstDef.GAME_TAG.LIFE then
+            if monster:getPlayer():getTag()~=ConstDef.GAME_TAG.UP then
+                self:createMonster(self.opposite_,100,ConstDef.MONSTER_TAG.LIFE)
+            else
+                self:createMonster(self.player_,100,ConstDef.MONSTER_TAG.LIFE)
+            end
+        end
         --audio.playEffect("sounds/fireEffect.ogg", false)
     end)
     --初始化msg控制器的监听
@@ -74,40 +85,48 @@ function GameData:init()
                 handelframe[severframe]={}
                 handelframe[severframe]["handle"]=msg["handle"] or {}
                 handelframe[severframe]["dt"]=msg["dt"]/1000
+                handelframe[severframe]["time"]=msg["time"]
                 while gameframe<= severframe do
-                    handelframe[gameframe]=handelframe[gameframe] or handelframe[gameframe-1]
+                    handelframe[gameframe]=handelframe[gameframe] or {}
+                    handelframe[gameframe]["handle"]=handelframe[gameframe]["handle"] or {}
                     --处理塔生成
                     handelframe[gameframe]["handle"]["create"]=handelframe[gameframe]["handle"]["create"] or {}
                     for i = 1, #handelframe[gameframe]["handle"]["create"] do
                         local table = handelframe[gameframe]["handle"]["create"][i]
-                        local info = {
-                            id = table["id"],
-                            level = table["level"],
-                            grade = table["grade"],
-                            x = table["x"],
-                            y = table["y"],
-                        }
                         if table["pid"]==self.pid then
-                            self.player_:createTowerEnd(info.id,info.level,info.grade,info.x,info.y)
+                            self.player_:createTowerEnd(table["id"],table["x"],table["y"])
                             self.player_:towerCreateCost()
                         else
-                            self.opposite_:createTowerEnd(info.id,info.level,info.grade,info.x,info.y)
+                            self.opposite_:createTowerEnd(table["id"],table["x"],table["y"])
                             self.opposite_:towerCreateCost()
+                        end
                     end
+                    --处理塔合成
+                    handelframe[gameframe]["handle"]["compose"]=handelframe[gameframe]["handle"]["compose"] or {}
+                    for i = 1, #handelframe[gameframe]["handle"]["compose"] do
+                        local table = handelframe[gameframe]["handle"]["compose"][i]
+                        if table["pid"]==self.pid then
+                            self.player_:composeTower(table["x1"],table["y1"],table["x2"],table["y2"],table["id"])
+                        else
+                            self.opposite_:composeTower(table["x1"],table["y1"],table["x2"],table["y2"],table["id"])
+                        end
+                    end
+                    --处理塔强化
+                    handelframe[gameframe]["handle"]["upgrade"]=handelframe[gameframe]["handle"]["upgrade"] or {}
+                    for i = 1, #handelframe[gameframe]["handle"]["upgrade"] do
+                        local table = handelframe[gameframe]["handle"]["upgrade"][i]
+                        if table["pid"]==self.pid then
+                            self.player_:upTowerGrade(table["i"])
+                            EventManager:doEvent(EventDef.ID.UP_TOWER_GRADE)
+                        else
+                            self.opposite_:upTowerGrade(table["i"])
+                        end
+                    end
+                    self:update(handelframe[gameframe]["dt"] or last_dt)
+                    self.remain_time=handelframe[severframe]["time"]
+                    runframe=gameframe
+                    gameframe=gameframe+1
                 end
-                --处理塔合成
-                for i = 1, #handelframe[gameframe]["compose"] do
-                    
-                end
-                -- --处理塔强化
-                -- for i = 1, #handelframe[gameframe]["upgrade"] do
-                    
-                -- end
-
-                self:update(handelframe[gameframe]["dt"] or last_dt)
-                runframe=gameframe
-                gameframe=gameframe+1
-            end
             end
         elseif  msg["type"] == MsgDef.MSG_TYPE_ACK.BOSSTRUE then
             EventManager:doEvent(EventDef.ID.OPPOSITE_SELECT,ConstDef.BOSS[msg["boss"]].ID)
@@ -196,7 +215,31 @@ end
 function GameData:GameOver()
 
 end
+--[[--
+    获取游戏总时间
 
+    @param none
+
+    @return boolean
+]]
+function GameData:getGameTime()
+    return self.remain_time/1000
+end
+
+--[[--
+    玩家塔强化
+
+    @param none
+
+    @return boolean
+]]
+function GameData:upTowerGrade(i)
+    local table={
+        ["pid"]=self.pid,
+        ["i"]=i
+    }
+    self.waitHandle["upgrade"]=table
+end
 --[[--
     是否游戏中
 
@@ -301,7 +344,16 @@ function GameData:moveToEnd(x, y)
     if move_tower and move_tower~=moveTower.tower then
         --进行合成
         if move_tower:getID() ==  moveTower.tower:getID() and  move_tower:getGrade()==moveTower.tower:getGrade() then
-            self.player_:composeTower(move_tower,moveTower.tower)
+            if move_tower:getGrade()<7 then
+                self.waitHandle["compose"]={
+                    x1=pos_x,
+                    y1=pos_y,
+                    x2=moveTower.location_x,
+                    y2=moveTower.location_y,
+                    pid=self.pid
+                }
+            end
+            --self.player_:composeTower(pos_x,pos_y,moveTower.location_x,moveTower.location_y)
             -- move_tower:destory()
             -- self.player_:getTowers()[pos_y][pos_x]=moveTower.tower
             -- moveTower.tower:setGrade()
@@ -342,8 +394,8 @@ end
 ]]
 function GameData:sendTowerCreate()
     local table = self.player_:createTower()
-    table["pid"]=self.pid
     if table ~= nil then
+        table["pid"]=self.pid
         self.waitHandle["create"]=table
     end
 end
@@ -424,6 +476,17 @@ function GameData:getGameBoss(boss)
     return self.game_boss_
 end
 --[[--
+    创建怪物
+
+    @param dt 类型：number，帧间隔，单位秒
+
+    @return none
+]]
+function GameData:createMonster(player,life,tag)
+    local stage_=ConstDef.BOSS.MONSTER_STAGE[self.game_stage_]
+    player:createMonster(life,stage_.SP,tag)
+end
+--[[--
     帧刷新
 
     @param dt 类型：number，帧间隔，单位秒
@@ -440,13 +503,13 @@ function GameData:update(dt)
         self.monset_stage_=self.monset_stage_+1
         --精英怪物
         if self.monset_stage_%4 == 0 then
-            self.player_:createMonster(5*stage_.LIFE*(self.monset_stage_+1),stage_.SP,ConstDef.MONSTER_TAG.PLUS)
-            self.opposite_:createMonster(5*stage_.LIFE*(self.monset_stage_+1),stage_.SP,ConstDef.MONSTER_TAG.PLUS)
+            self:createMonster(self.player_,5*stage_.LIFE*(self.monset_stage_+1),ConstDef.MONSTER_TAG.PLUS)
+            self:createMonster(self.opposite_,5*stage_.LIFE*(self.monset_stage_+1),ConstDef.MONSTER_TAG.PLUS)
         end
         self.monster_tick_=self.monster_tick_-stage_.TICK
         for i = 1, stage_.NUMBER do
-            self.player_:createMonster(stage_.LIFE*self.monset_stage_,stage_.SP,ConstDef.MONSTER_TAG.NORMAL)
-            self.opposite_:createMonster(stage_.LIFE*self.monset_stage_,stage_.SP,ConstDef.MONSTER_TAG.NORMAL)
+            self:createMonster(self.player_,stage_.LIFE*self.monset_stage_,ConstDef.MONSTER_TAG.NORMAL)
+            self:createMonster(self.opposite_,stage_.LIFE*self.monset_stage_,ConstDef.MONSTER_TAG.NORMAL)
         end
 
     end
@@ -454,8 +517,8 @@ function GameData:update(dt)
     self.game_time_=self.game_time_+dt
     if self.game_time_>=stage_.TIME then
         if stage_.BOSS then
-            self.player_:createMonster(self.game_stage_*50000,stage_.SP,self.game_boss_)
-            self.opposite_:createMonster(self.game_stage_*50000,stage_.SP,self.game_boss_)
+            self:createMonster(self.player_,self.game_stage_*50000,self.game_boss_)
+            self:createMonster(self.opposite_,self.game_stage_*50000,self.game_boss_)
             print("boss生成")
         end
         print("阶段转换")

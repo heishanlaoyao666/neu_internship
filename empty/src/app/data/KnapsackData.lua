@@ -35,7 +35,7 @@ function KnapsackData:init()
     self.cups_ = 0
     self.pid_ = 0
     math.randomseed(tostring(os.time()):reverse():sub(1,7))
-    self.name_ = "50885"..math.random(100)
+    self.name_ = "50885"..math.random(10)
     --self.name_ = "508851"
     for i = 1, 20 do
         towerData[i]={}
@@ -556,6 +556,21 @@ function KnapsackData:gameMatch()
         loginname = self.name_,
     }
     isMatch=true
+    MsgController:sendMsg(msg)
+end
+--[[--
+    取消匹配消息发送
+
+    @param none
+
+    @return none
+]]
+function KnapsackData:cancelMatch()
+    local msg = {
+        type = MsgDef.MSG_TYPE_REQ.CANCELMATCH,
+        loginname = self.name_,
+    }
+    isMatch=false
     MsgController:sendMsg(msg)
 end
 --[[--

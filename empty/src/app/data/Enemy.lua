@@ -89,6 +89,7 @@ function Enemy:destory()
         self.isDeath_ = true
         self.player_:setSp(self.sp_give_)
         EventManager:doEvent(EventDef.ID.DESTORY_ENEMY, self)
+        EventManager:doEvent(EventDef.ID.OPPOSITE_ENEMY,self)
     end
 end
 --[[--

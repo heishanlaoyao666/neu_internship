@@ -129,6 +129,7 @@ function Object:addBuff(buffInfo)
         end
     end
     self.buffMap_[#self.buffMap_+1] = buffmodel
+    buffmodel:onOccur()
 end
 --[[--
     碰撞判定

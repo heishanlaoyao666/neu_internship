@@ -10,13 +10,13 @@ local ConstDef = {
     },
     TOWER_POS = {
         UP_X = 555,
-        UP_Y = 1095,
+        UP_Y = 875,
         MOVE_X_UP = -100,
-        MOVE_Y_UP = -110,
+        MOVE_Y_UP = 110,
         DOWN_X = 160,
-        DOWN_Y = 290,
+        DOWN_Y = 510,
         MOVE_X_DOWN = 100,
-        MOVE_Y_DOWN = 110,
+        MOVE_Y_DOWN = -110,
 
     },
     MONSTER_TAG = {
@@ -27,6 +27,7 @@ local ConstDef = {
         BOSS_2 = 5, --BOSS怪
         BOSS_3 = 6, --BOSS怪
         BOSS_4 = 7, --BOSS怪
+        LIFE = 8, --生命怪
     },
     MONSTER_SIZE = {
         [1]={
@@ -56,6 +57,10 @@ local ConstDef = {
         [7]={
             WIDTH = 72,
             HEIGHT = 74,
+        },
+        [8]={
+            WIDTH = 43,
+            HEIGHT = 44,
         },
     },
     MONSTERBOSS_SIZE = {
@@ -183,6 +188,11 @@ ConstDef.BUFF={
             NAME = "boss_tag",
             ADDSTACK = 1,
             PERMANENT = true,
+        },
+        [2] ={
+            NAME = "boss_create",
+            ADDSTACK = 1,
+            PERMANENT = true,
         }
     },
     [ConstDef.MONSTER_TAG.BOSS_2]={
@@ -190,6 +200,10 @@ ConstDef.BUFF={
             NAME = "boss_tag",
             ADDSTACK = 1,
             PERMANENT = true,
+        },
+        [2] ={
+            NAME = "boss_create",
+            ADDSTACK = 1,
         }
     },
     [ConstDef.MONSTER_TAG.BOSS_3]={
@@ -197,6 +211,10 @@ ConstDef.BUFF={
             NAME = "boss_tag",
             ADDSTACK = 1,
             PERMANENT = true,
+        },
+        [2] ={
+            NAME = "boss_create",
+            ADDSTACK = 1,
         }
     },
     [ConstDef.MONSTER_TAG.BOSS_4]={
@@ -204,8 +222,19 @@ ConstDef.BUFF={
             NAME = "boss_tag",
             ADDSTACK = 1,
             PERMANENT = true,
+        },
+        [2] ={
+            NAME = "boss_create",
+            ADDSTACK = 1,
         }
     },
+    [ConstDef.MONSTER_TAG.LIFE]={
+        [1]={
+            NAME = "get_life",
+            ADDSTACK = 1,
+            PERMANENT = true,
+        }
+    }
 }
 ConstDef.TARGET ={
     [ConstDef.GAME_TAG.UP] = {

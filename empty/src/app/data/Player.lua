@@ -58,6 +58,15 @@ function Player:setName(name)
     self.name_=name
 end
 --[[--
+    设置玩家所在半区标签
+
+    @param none
+    @return tag
+]]
+function Player:getTag()
+    return self.tag_
+end
+--[[--
     获取玩家名字
 
     @param none
@@ -116,6 +125,16 @@ end
 ]]
 function Player:getTowerArray()
     return self.tower_array
+end
+--[[--
+    获取怪物数组
+
+    @param number
+
+    @return tower_array
+]]
+function Player:getMonster()
+    return self.monsters_
 end
 --[[--
     获取塔阵容第i个的强化所需费用
@@ -196,11 +215,7 @@ function Player:createTower()
             y = y-1
         end
     end
-    local id=math.random(1,5)
     local table = {
-        id = self.tower_array[id].id_,
-        level =self.tower_array[id].level_,
-        grade = self.tower_array[id].grade_,
         x = x,
         y =y,
     }
@@ -212,13 +227,13 @@ end
     塔最终创建
 
     @param id
-    @param level
-    @param grade
+    @param x
+    @param y
 
     @return number
 ]]
-function Player:createTowerEnd(id,level,grade,x,y)
-    local tower=Tower.new(id,level,grade,self)
+function Player:createTowerEnd(id,x,y,grade)
+    local tower=Tower.new(self.tower_array[id].id_,self.tower_array[id].level_,grade or self.tower_array[id].grade_,self)
     if self.tag_==ConstDef.GAME_TAG.UP then
         tower:setX(ConstDef.TOWER_POS.UP_X+ConstDef.TOWER_POS.MOVE_X_UP*(x-1))
         tower:setY(ConstDef.TOWER_POS.UP_Y+ConstDef.TOWER_POS.MOVE_Y_UP*(y-1))
@@ -248,24 +263,14 @@ end
 
     @param tower1
     @param tower2
+    @param id
 
     @return number
 ]]
-function Player:composeTower(tower1,tower2)
-    local x = 0
-    local y = 0
-    for i = 1, 3 do
-        for j = 1, 5 do
-            if self.towers[i][j]==tower1 then
-                y = i
-                x = j
-            end
-        end
-    end
-    tower1:destory()
-    tower2:destory()
-    local id=math.random(1,5)
-    self:createTowerEnd(self.tower_array[id].id_,self.tower_array[id].level_,tower1:getGrade()+1,x,y)
+function Player:composeTower(tower1_x,tower1_y,tower2_x,tower2_y,id)
+    self.towers[tower1_y][tower1_x]:destory()
+    self.towers[tower2_y][tower2_x]:destory()
+    self:createTowerEnd(self.tower_array[id].id_,tower1_x,tower1_y,self.towers[tower1_y][tower1_x]:getGrade()+1)
 end
 --[[--
     怪物创建
@@ -278,20 +283,11 @@ end
 ]]
 function Player:createMonster(life,givesp,tag)
     local monster = Monster.new(life,givesp,tag,self)
-
-    if tag ~= ConstDef.MONSTER_TAG.NORMAL and tag~=ConstDef.MONSTER_TAG.SPEED and tag~=ConstDef.MONSTER_TAG.PLUS then
-        local newlife = 0
-        for i = 1, #self.monsters_ do
-            newlife=newlife+self.monsters_[i]:getLife()
-            self.monsters_[i]:destory()
-        end
-        monster:setLife(newlife*0.5)
-    end
     --给monster添加buff
     for i = 1, #ConstDef.BUFF[tag] do
         local data = ConstDef.BUFF[tag][i]
         monster:addBuff(BuffTable:addBuffInfo(
-            nil,
+            monster,
             monster,
             BuffTable[data.NAME],
             BuffTable[data.ADDSTACK],
