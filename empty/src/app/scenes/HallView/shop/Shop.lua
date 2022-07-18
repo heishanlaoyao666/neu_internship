@@ -24,7 +24,7 @@ function Shop:update(dt)
     --商店刷新
     self:refresh()
     --商店倒计时
-    self:countDown()
+    --self:countDown()
 end
 
 --[[
@@ -447,6 +447,6 @@ function Shop:countDown()
     local curM = tonumber(os.date("%M"))
     local h = 24-curH-1
     local m = 60-curM
-    self.refreshLabel:setString(h..":"..m)
+    --self.refreshLabel:setString(h..":"..m)
 end
 return Shop
