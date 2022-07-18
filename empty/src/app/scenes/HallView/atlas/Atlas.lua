@@ -773,41 +773,69 @@ function Atlas:towerinfoPanel(collectLayer,path,bg,towertype,rank)--稀有度背
 
 
 
-    --按钮：强化按钮
-    local intensityButton = ccui.Button:create(
-            "ui/hall/Atlas/Secondaryinterface_towerinfo/button_intensify.png",
-            "ui/hall/Atlas/Secondaryinterface_towerinfo/button_intensify.png",
-            "ui/hall/Atlas/Secondaryinterface_towerinfo/button_intensify.png")
-    intensityButton:setPosition(cc.p(120, 110))
-    intensityButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
-        if eventType == ccui.TouchEventType.began then
-            local scale = cc.ScaleTo:create(1,0.9)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
-        elseif eventType == ccui.TouchEventType.ended then
-            local MusicOn = SettingMusic:isMusic1()
-            print(MusicOn)
-            if MusicOn == true then
-                local audio = require("framework.audio")
-                audio.loadFile(Music.COMMON[1], function ()
-                    audio.playEffect(Music.COMMON[1])
-                end)
-            else
-                local audio = require("framework.audio")
-                audio.loadFile(Music.COMMON[1], function ()
-                    audio.stopEffect()
-                end)
-            end
-            local scale = cc.ScaleTo:create(1,1)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
-        elseif eventType == ccui.TouchEventType.canceled then
-            local scale = cc.ScaleTo:create(1,1)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
-        end
-    end)
-    intensityButton:addTo(popLayer)
+--按钮：强化按钮
+local intensityButton = ccui.Button:create(
+    "ui/hall/Atlas/Secondaryinterface_towerinfo/button_intensify.png",
+    "ui/hall/Atlas/Secondaryinterface_towerinfo/button_intensify.png",
+    "ui/hall/Atlas/Secondaryinterface_towerinfo/button_intensify.png")
+intensityButton:setPosition(cc.p(120, 110))
+intensityButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
+if eventType == ccui.TouchEventType.began then
+    local scale = cc.ScaleTo:create(1,0.9)
+    local ease_elastic = cc.EaseElasticOut:create(scale)
+    sender:runAction(ease_elastic)
+
+    if skillpng ~= nil and TowerDef.TABLE[chartnum].SKILLS[1].VALUE_UPGRADE ~= 0 then
+        aupdateskill1label=cc.Label:createWithTTF("+"..TowerDef.TABLE[chartnum].SKILLS[1].VALUE_ENHANCE,"ui/font/fzzdhjw.ttf",26)
+        aupdateskill1label:setScale(1)
+        aupdateskill1label:setColor(cc.c3b(255, 255, 255))
+        aupdateskill1label:setAnchorPoint(0,1)
+        aupdateskill1label:pos(0+185,240)
+        aupdateskill1label:enableOutline(cc.c4b(20, 20, 66, 255),2)
+        aupdateskill1label:addTo(popLayer)
+    end
+
+    if skillpng2 ~= nil and TowerDef.TABLE[chartnum].SKILLS[2].VALUE_UPGRADE ~= 0 then
+        aupdateskill2label=cc.Label:createWithTTF("+"..TowerDef.TABLE[chartnum].SKILLS[2].VALUE_ENHANCE,"ui/font/fzzdhjw.ttf",26)
+        aupdateskill2label:setScale(1)
+        aupdateskill2label:setColor(cc.c3b(255, 255, 255))
+        aupdateskill2label:setAnchorPoint(0,1)
+        aupdateskill2label:pos(0+495,240)
+        aupdateskill2label:enableOutline(cc.c4b(20, 20, 66, 255),2)
+        aupdateskill2label:addTo(popLayer)
+    end
+
+elseif eventType == ccui.TouchEventType.ended then
+    local MusicOn = SettingMusic:isMusic1()
+    print(MusicOn)
+    if MusicOn == true then
+        local audio = require("framework.audio")
+        audio.loadFile(Music.COMMON[1], function ()
+            audio.playEffect(Music.COMMON[1])
+        end)
+    else
+        local audio = require("framework.audio")
+        audio.loadFile(Music.COMMON[1], function ()
+            audio.stopEffect()
+        end)
+    end
+
+    aupdateskill1label:setVisible(false)
+    aupdateskill2label:setVisible(false)
+
+    local scale = cc.ScaleTo:create(1,1)
+    local ease_elastic = cc.EaseElasticOut:create(scale)
+    sender:runAction(ease_elastic)
+elseif eventType == ccui.TouchEventType.canceled then
+    aupdateskill1label:setVisible(false)
+    aupdateskill2label:setVisible(false)
+
+    local scale = cc.ScaleTo:create(1,1)
+    local ease_elastic = cc.EaseElasticOut:create(scale)
+    sender:runAction(ease_elastic)
+end
+end)
+intensityButton:addTo(popLayer)
 
     --按钮：使用按钮
     local usingButton = ccui.Button:create(

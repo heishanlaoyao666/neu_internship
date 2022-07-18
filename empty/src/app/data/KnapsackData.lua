@@ -262,10 +262,15 @@ end
 ]]
 function KnapsackData:setTowerFragment_(id,number)
     --向服务器拿数据
+    if towerData[id].fragment_ + number <0 then
+        print("碎片不足无法购买")
+        return false
+    else
     towerData[id].fragment_=towerData[id].fragment_+number
     --向服务器推送数据
     self:sendData()
     return towerData[id].fragment_
+    end
 end
 --[[--
     --向服务器推送数据
