@@ -32,7 +32,7 @@ end
     --]]
 function Shop:refresh()
     local time = os.date("%X")--"%H:%M:%S"
-    if time =="15:03:59" then
+    if time =="23:59:59" then
         --清除遮罩
         for i = 1,6 do
             KnapsackData:setSoldOutState(i,false)

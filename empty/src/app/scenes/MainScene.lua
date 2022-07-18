@@ -6,7 +6,7 @@ local TopTab = require("app.scenes.HallView.topTab.TopPanel")
 local BottomTab = require("app.scenes.HallView.bottomTab.BottomTab")
 local Shop = require("app.scenes.HallView.shop.Shop")
 local Battle = require("app.scenes.HallView.battle.Battle")
-local Atlas = require("app.scenes..HallView.atlas.Atlas")
+local Atlas = require("app.scenes.HallView.atlas.Atlas")
 
 local Music = require("app/data/Music")
 local SettingMusic = require("src/app/scenes/SettingMusic")
