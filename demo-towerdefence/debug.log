@@ -1,0 +1,531 @@
+
+{
+	gl.supports_OES_map_buffer: false
+	gl.supports_vertex_array_object: true
+	cocos2d.x.version: Quick-Cocos2dx-Community 3.7.10 Release
+	gl.vendor: Intel Inc.
+	gl.supports_PVRTC: false
+	gl.renderer: Intel Iris OpenGL Engine
+	cocos2d.x.compiled_with_profiler: false
+	cocos2d.x.build_type: DEBUG
+	cocos2d.x.compiled_with_gl_state_cache: true
+	gl.max_texture_size: 16384
+	gl.supports_ETC1: false
+	gl.supports_BGRA8888: false
+	gl.max_texture_units: 16
+	gl.supports_OES_packed_depth_stencil: false
+	gl.supports_ATITC: false
+	gl.supports_discard_framebuffer: false
+	gl.supports_NPOT: true
+	gl.version: 2.1 INTEL-16.5.11
+	gl.supports_S3TC: true
+	gl.supports_OES_depth24: false
+}
+
+
+Quick-Cocos2dx-Community C++ support ready.
+------------------------------------------------
+LOAD LUA FILE: /Users/tiansongmin/Downloads/demo-towerdefence/src/main.lua
+------------------------------------------------
+[LUA-print] ===========================================================
+[LUA-print]               LOAD QUICK FRAMEWORK
+[LUA-print] ===========================================================
+[LUA-print] [INFO] 
+[LUA-print] [INFO] # DEBUG                        = 1
+[LUA-print] [INFO] #
+[LUA-print] [INFO] # device.platform              = mac
+[LUA-print] [INFO] # device.model                 = unknown
+[LUA-print] [INFO] # device.language              = cn
+[LUA-print] [INFO] # device.writablePath          = /Users/tiansongmin/Downloads/demo-towerdefence/
+[LUA-print] [INFO] # device.directorySeparator    = /
+[LUA-print] [INFO] # device.pathSeparator         = :
+[LUA-print] [INFO] #
+libpng warning: iCCP: known incorrect sRGB profile
+[LUA-print] [INFO] # CONFIG_SCREEN_AUTOSCALE      = FILL_ALL
+[LUA-print] [INFO] # CONFIG_SCREEN_WIDTH          = 720.00
+[LUA-print] [INFO] # CONFIG_SCREEN_HEIGHT         = 1280.00
+[LUA-print] [INFO] # display.widthInPixels        = 382.50
+[LUA-print] [INFO] # display.heightInPixels       = 680.00
+[LUA-print] [INFO] # display.contentScaleFactor   = 0.53
+[LUA-print] [INFO] # display.width                = 382.50
+[LUA-print] [INFO] # display.height               = 680.00
+[LUA-print] [INFO] # display.cx                   = 191.25
+[LUA-print] [INFO] # display.cy                   = 340.00
+[LUA-print] [INFO] # display.left                 = 0.00
+[LUA-print] [INFO] # display.right                = 382.50
+[LUA-print] [INFO] # display.top                  = 680.00
+[LUA-print] [INFO] # display.bottom               = 0.00
+[LUA-print] [INFO] # display.c_left               = -191.25
+[LUA-print] [INFO] # display.c_right              = 191.25
+[LUA-print] [INFO] # display.c_top                = 340.00
+[LUA-print] [INFO] # display.c_bottom             = -340.00
+[LUA-print] [INFO] # display.scale                = 0.53
+[LUA-print] [INFO] # display.scaleX               = 0.53
+[LUA-print] [INFO] # display.scaleY               = 0.53
+[LUA-print] [INFO] #
+[LUA-print] [I]	MsgManager:connect() [line:46]	 IS_TEST= true
+[LUA-print] [I]	TestServer:startServer() [line:58]	
+libpng warning: iCCP: known incorrect sRGB profile
+libpng warning: iCCP: known incorrect sRGB profile
+libpng warning: iCCP: known incorrect sRGB profile
+libpng warning: iCCP: known incorrect sRGB profile
+libpng warning: iCCP: known incorrect sRGB profile
+[LUA-print] [I]	UserInfo:gameStart() [line:261]	
+[LUA-print] [I]	BottomInfoLayer:ctor() [line:39]	 <var> = {
+    initGame = function: 0x18f30338,
+    isWin_ = false,
+    opponentInfo_ = {
+        bulletMap_ = {
+        },
+        delEnemyIds_ = {
+        },
+        enemyMap_ = {
+        },
+        hitBulets_ = {
+        },
+        newBullets_ = {
+        },
+        newEnemys_ = {
+        },
+        spCost = 100,
+        spCount = 9999,
+        towerMap_ = {
+        },
+    },
+    selfInfo_ = {
+        bulletMap_ = {
+        },
+        delEnemyIds_ = {
+        },
+        enemyMap_ = {
+        },
+        hitBulets_ = {
+        },
+        newBullets_ = {
+        },
+        newEnemys_ = {
+        },
+        spCost = 100,
+        spCount = 90000,
+        towerMap_ = {
+        },
+    },
+    state_ = 2,
+}
+[LUA-print] [I]	MsgController:func() [line:197]	 <var> = {
+    ret = 0,
+    spCost = 150,
+    spCount = 89900,
+    tower = {
+        fireTime = 0,
+        id = 6,
+        level = 1,
+        pos = 12,
+        towerId = 1,
+    },
+    type = 202,
+    userId = 10086,
+}
+libpng warning: iCCP: known incorrect sRGB profile
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 5,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 4,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 9,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 1,
+}
+[LUA-print] [I]	MsgController:func() [line:197]	 <var> = {
+    ret = 0,
+    spCost = 200,
+    spCount = 89750,
+    tower = {
+        fireTime = 0,
+        id = 17,
+        level = 1,
+        pos = 5,
+        towerId = 1,
+    },
+    type = 202,
+    userId = 10086,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 11,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 13,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 7,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 3,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 2,
+}
+[LUA-print] [I]	UserInfo:gameStop() [line:284]	
+[LUA-print] [I]	UserInfo:gameStart() [line:261]	
+[LUA-print] [I]	BottomInfoLayer:ctor() [line:39]	 <var> = {
+    initGame = function: 0x18f30338,
+    isWin_ = false,
+    opponentInfo_ = {
+        bulletMap_ = {
+        },
+        delEnemyIds_ = {
+        },
+        enemyMap_ = {
+        },
+        hitBulets_ = {
+        },
+        newBullets_ = {
+        },
+        newEnemys_ = {
+        },
+        spCost = 100,
+        spCount = 9999,
+        towerMap_ = {
+        },
+    },
+    selfInfo_ = {
+        bulletMap_ = {
+        },
+        delEnemyIds_ = {
+        },
+        enemyMap_ = {
+        },
+        hitBulets_ = {
+        },
+        newBullets_ = {
+        },
+        newEnemys_ = {
+        },
+        spCost = 200,
+        spCount = 89750,
+        towerMap_ = {
+        },
+    },
+    state_ = 2,
+}
+[LUA-print] [I]	MsgController:func() [line:197]	 <var> = {
+    ret = 0,
+    spCost = 150,
+    spCount = 89900,
+    tower = {
+        fireTime = 0,
+        id = 29,
+        level = 1,
+        pos = 11,
+        towerId = 1,
+    },
+    type = 202,
+    userId = 10086,
+}
+[LUA-print] [I]	MsgController:func() [line:197]	 <var> = {
+    ret = 0,
+    spCost = 200,
+    spCount = 89750,
+    tower = {
+        fireTime = 0,
+        id = 31,
+        level = 1,
+        pos = 3,
+        towerId = 1,
+    },
+    type = 202,
+    userId = 10086,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 24,
+}
+[LUA-print] [I]	MsgController:func() [line:197]	 <var> = {
+    ret = 0,
+    spCost = 250,
+    spCount = 89550,
+    tower = {
+        fireTime = 0,
+        id = 34,
+        level = 1,
+        pos = 5,
+        towerId = 1,
+    },
+    type = 202,
+    userId = 10086,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 26,
+}
+[LUA-print] [I]	MsgController:func() [line:197]	 <var> = {
+    ret = 0,
+    spCost = 300,
+    spCount = 89300,
+    tower = {
+        fireTime = 0,
+        id = 38,
+        level = 1,
+        pos = 12,
+        towerId = 1,
+    },
+    type = 202,
+    userId = 10086,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 27,
+    2 = 25,
+}
+[LUA-print] [I]	MsgController:func() [line:197]	 <var> = {
+    ret = 0,
+    spCost = 350,
+    spCount = 89000,
+    tower = {
+        fireTime = 0,
+        id = 43,
+        level = 1,
+        pos = 4,
+        towerId = 1,
+    },
+    type = 202,
+    userId = 10086,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 28,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 42,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 33,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 48,
+    2 = 37,
+}
+[LUA-print] [I]	UserInfo:gameStop() [line:284]	
+[LUA-print] [I]	UserInfo:gameStart() [line:261]	
+[LUA-print] [I]	BottomInfoLayer:ctor() [line:39]	 <var> = {
+    initGame = function: 0x18f30338,
+    isWin_ = false,
+    opponentInfo_ = {
+        bulletMap_ = {
+        },
+        delEnemyIds_ = {
+        },
+        enemyMap_ = {
+        },
+        hitBulets_ = {
+        },
+        newBullets_ = {
+        },
+        newEnemys_ = {
+        },
+        spCost = 100,
+        spCount = 9999,
+        towerMap_ = {
+        },
+    },
+    selfInfo_ = {
+        bulletMap_ = {
+        },
+        delEnemyIds_ = {
+        },
+        enemyMap_ = {
+        },
+        hitBulets_ = {
+        },
+        newBullets_ = {
+        },
+        newEnemys_ = {
+        },
+        spCost = 350,
+        spCount = 89000,
+        towerMap_ = {
+        },
+    },
+    state_ = 2,
+}
+[LUA-print] [I]	MsgController:func() [line:197]	 <var> = {
+    ret = 0,
+    spCost = 150,
+    spCount = 89900,
+    tower = {
+        fireTime = 0,
+        id = 58,
+        level = 1,
+        pos = 13,
+        towerId = 1,
+    },
+    type = 202,
+    userId = 10086,
+}
+[LUA-print] [I]	MsgController:func() [line:197]	 <var> = {
+    ret = 0,
+    spCost = 200,
+    spCount = 89750,
+    tower = {
+        fireTime = 0,
+        id = 59,
+        level = 1,
+        pos = 9,
+        towerId = 1,
+    },
+    type = 202,
+    userId = 10086,
+}
+[LUA-print] [I]	MsgController:func() [line:197]	 <var> = {
+    ret = 0,
+    spCost = 250,
+    spCount = 89550,
+    tower = {
+        fireTime = 0,
+        id = 62,
+        level = 1,
+        pos = 3,
+        towerId = 1,
+    },
+    type = 202,
+    userId = 10086,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 57,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 55,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 54,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 60,
+}
+[LUA-print] [I]	MsgController:func() [line:197]	 <var> = {
+    ret = 0,
+    spCost = 300,
+    spCount = 89300,
+    tower = {
+        fireTime = 0,
+        id = 69,
+        level = 1,
+        pos = 6,
+        towerId = 1,
+    },
+    type = 202,
+    userId = 10086,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 56,
+}
+[LUA-print] [I]	MsgController:func() [line:197]	 <var> = {
+    ret = 0,
+    spCost = 350,
+    spCount = 89000,
+    tower = {
+        fireTime = 0,
+        id = 74,
+        level = 1,
+        pos = 12,
+        towerId = 1,
+    },
+    type = 202,
+    userId = 10086,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 67,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 64,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 72,
+}
+[LUA-print] [I]	MsgController:func() [line:197]	 <var> = {
+    ret = 0,
+    spCost = 400,
+    spCount = 88650,
+    tower = {
+        fireTime = 0,
+        id = 77,
+        level = 1,
+        pos = 2,
+        towerId = 1,
+    },
+    type = 202,
+    userId = 10086,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 76,
+}
+[LUA-print] [I]	UserInfo:gameStop() [line:284]	
+[LUA-print] [I]	UserInfo:gameStart() [line:261]	
+[LUA-print] [I]	BottomInfoLayer:ctor() [line:39]	 <var> = {
+    initGame = function: 0x18f30338,
+    isWin_ = false,
+    opponentInfo_ = {
+        bulletMap_ = {
+        },
+        delEnemyIds_ = {
+        },
+        enemyMap_ = {
+        },
+        hitBulets_ = {
+        },
+        newBullets_ = {
+        },
+        newEnemys_ = {
+        },
+        spCost = 100,
+        spCount = 9999,
+        towerMap_ = {
+        },
+    },
+    selfInfo_ = {
+        bulletMap_ = {
+        },
+        delEnemyIds_ = {
+        },
+        enemyMap_ = {
+        },
+        hitBulets_ = {
+        },
+        newBullets_ = {
+        },
+        newEnemys_ = {
+        },
+        spCost = 400,
+        spCount = 88650,
+        towerMap_ = {
+        },
+    },
+    state_ = 2,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 86,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 87,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 88,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 89,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 90,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 91,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 92,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 93,
+}
+[LUA-print] [I]	BattleLayer:onUpdate() [line:89]	 <var> = {
+    1 = 94,
+}
+[LUA-print] [I]	UserInfo:gameStop() [line:284]	

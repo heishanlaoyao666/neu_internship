@@ -1,0 +1,34 @@
+
+levelup_before.png
+size: 953,518
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+SJguangci/guangci
+  rotate: false
+  xy: 516, 260
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+SJguangci_1
+  rotate: false
+  xy: 516, 2
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+guangyun
+  rotate: false
+  xy: 2, 4
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+shengji
+  rotate: true
+  xy: 774, 300
+  size: 216, 177
+  orig: 216, 177
+  offset: 0, 0
+  index: -1

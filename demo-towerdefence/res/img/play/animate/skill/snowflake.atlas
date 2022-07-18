@@ -1,0 +1,13 @@
+
+snowflake.png
+size: 40,44
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+xuehua
+  rotate: false
+  xy: 2, 2
+  size: 36, 40
+  orig: 36, 40
+  offset: 0, 0
+  index: -1

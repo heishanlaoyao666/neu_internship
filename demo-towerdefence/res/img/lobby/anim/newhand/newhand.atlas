@@ -1,0 +1,41 @@
+
+newhand.png
+size: 374,296
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+egg
+  rotate: true
+  xy: 182, 84
+  size: 210, 190
+  orig: 210, 190
+  offset: 0, 0
+  index: -1
+head
+  rotate: true
+  xy: 2, 68
+  size: 226, 178
+  orig: 226, 178
+  offset: 0, 0
+  index: -1
+left hand
+  rotate: false
+  xy: 2, 11
+  size: 73, 55
+  orig: 73, 55
+  offset: 0, 0
+  index: -1
+right hand
+  rotate: false
+  xy: 77, 13
+  size: 73, 53
+  orig: 73, 53
+  offset: 0, 0
+  index: -1
+tail
+  rotate: true
+  xy: 182, 2
+  size: 80, 164
+  orig: 80, 164
+  offset: 0, 0
+  index: -1

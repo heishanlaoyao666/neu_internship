@@ -1,0 +1,62 @@
+
+legend_6.png
+size: 695,170
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+shenti
+  rotate: true
+  xy: 2, 2
+  size: 166, 362
+  orig: 166, 362
+  offset: 0, 0
+  index: -1
+weiba
+  rotate: true
+  xy: 366, 10
+  size: 158, 110
+  orig: 158, 110
+  offset: 0, 0
+  index: -1
+yanjing
+  rotate: false
+  xy: 478, 3
+  size: 101, 37
+  orig: 101, 37
+  offset: 0, 0
+  index: -1
+youer
+  rotate: true
+  xy: 625, 45
+  size: 22, 53
+  orig: 22, 53
+  offset: 0, 0
+  index: -1
+youshou
+  rotate: false
+  xy: 555, 42
+  size: 68, 126
+  orig: 68, 126
+  offset: 0, 0
+  index: -1
+youtui
+  rotate: false
+  xy: 625, 69
+  size: 68, 99
+  orig: 68, 99
+  offset: 0, 0
+  index: -1
+zuoer
+  rotate: false
+  xy: 581, 8
+  size: 64, 32
+  orig: 64, 32
+  offset: 0, 0
+  index: -1
+zuoshou
+  rotate: false
+  xy: 478, 42
+  size: 75, 126
+  orig: 75, 126
+  offset: 0, 0
+  index: -1

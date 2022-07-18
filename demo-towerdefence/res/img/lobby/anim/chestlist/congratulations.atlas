@@ -1,0 +1,20 @@
+
+congratulations.png
+size: 774,516
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+guangci
+  rotate: false
+  xy: 516, 258
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+jiemian/guangyun
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1

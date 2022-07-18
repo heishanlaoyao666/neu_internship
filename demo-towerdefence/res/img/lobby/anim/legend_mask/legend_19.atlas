@@ -1,0 +1,83 @@
+
+legend_19.png
+size: 1024,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+chi
+  rotate: false
+  xy: 703, 62
+  size: 134, 85
+  orig: 134, 85
+  offset: 0, 0
+  index: -1
+shenti
+  rotate: true
+  xy: 514, 123
+  size: 128, 187
+  orig: 128, 187
+  offset: 0, 0
+  index: -1
+sj1
+  rotate: false
+  xy: 338, 2
+  size: 65, 63
+  orig: 65, 63
+  offset: 0, 0
+  index: -1
+sj2
+  rotate: false
+  xy: 2, 3
+  size: 41, 46
+  orig: 41, 46
+  offset: 0, 0
+  index: -1
+sj3
+  rotate: false
+  xy: 669, 90
+  size: 20, 31
+  orig: 20, 31
+  offset: 0, 0
+  index: -1
+tou
+  rotate: false
+  xy: 338, 67
+  size: 174, 184
+  orig: 174, 184
+  offset: 0, 0
+  index: -1
+weiba
+  rotate: false
+  xy: 2, 51
+  size: 334, 200
+  orig: 334, 200
+  offset: 0, 0
+  index: -1
+youjiao
+  rotate: true
+  xy: 875, 54
+  size: 107, 118
+  orig: 107, 118
+  offset: 0, 0
+  index: -1
+youshou
+  rotate: true
+  xy: 703, 149
+  size: 102, 170
+  orig: 102, 170
+  offset: 0, 0
+  index: -1
+zuojiao
+  rotate: false
+  xy: 875, 163
+  size: 133, 88
+  orig: 133, 88
+  offset: 0, 0
+  index: -1
+zuoshou
+  rotate: true
+  xy: 514, 44
+  size: 77, 153
+  orig: 77, 153
+  offset: 0, 0
+  index: -1
