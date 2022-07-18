@@ -1,9 +1,12 @@
 ----内容：二级界面-宝箱开启获得物品弹窗
 ----编写人员：郑蕾
 ---修订人员：郑蕾
----最后修改日期：7/15
+---最后修改日期：7/17
 local TreasureChestOpenObtainView = {}
+local ShopDef = require("app.def.ShopDef")
 local KnapsackData = require("app.data.KnapsackData")
+local Music = require("app/data/Music")
+local SettingMusic = require("src/app/scenes/SettingMusic")
 --[[
     函数用途：二级界面-宝箱开启获得物品弹窗
     --]]
@@ -11,7 +14,7 @@ function TreasureChestOpenObtainView:obtainFromTreasurePanel(layer,TreasureChest
     --灰色背景
     local grayLayer = self:grayLayer(layer)
     --图片：弹窗背景
-    local obtainBg =ccui.ImageView:create("ui/hall/common/SecondaryInterface-Open the treasure chest to obtain the item pop-up window/bg-pop-up.png")
+    local obtainBg =ccui.ImageView:create(ShopDef.OBTAIN_VIEW.BG)
     obtainBg:setPosition(cc.p(display.cx, display.cy+140))
     obtainBg:addTo(grayLayer)
     obtainBg:setTouchEnabled(true)--屏蔽一级界面
@@ -54,7 +57,7 @@ end
     --]]
 function TreasureChestOpenObtainView:goldCoinDisplay(obtainBg,coinNum)
     --金币获得
-    local coinObtained =ccui.ImageView:create("ui/hall/common/SecondaryInterface-Open the treasure chest to obtain the item pop-up window/Icon - gold coin.png")
+    local coinObtained =ccui.ImageView:create(ShopDef.OBTAIN_VIEW.COIN_ICON)
     coinObtained:setPosition(cc.p(300, -40))
     coinObtained:addTo(obtainBg)
     --文本：金币数量
@@ -69,10 +72,7 @@ end
     --]]
 function TreasureChestOpenObtainView:confirmButton(grayLayer,obtainBg)
     --按钮：确认按钮
-    local confirmButton = ccui.Button:create(
-            "ui/hall/common/SecondaryInterface-Open the treasure chest to obtain the item pop-up window/Button - confirm.png",
-            "ui/hall/common/SecondaryInterface-Open the treasure chest to obtain the item pop-up window/Button - confirm.png",
-            "ui/hall/common/SecondaryInterface-Open the treasure chest to obtain the item pop-up window/Button - confirm.png")
+    local confirmButton = ccui.Button:create(ShopDef.OBTAIN_VIEW.CONFIRM,ShopDef.OBTAIN_VIEW.CONFIRM,ShopDef.OBTAIN_VIEW.CONFIRM)
     confirmButton:setAnchorPoint(0.5,0.5)
     confirmButton:setPosition(cc.p(display.cx, -130))
     confirmButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
@@ -81,6 +81,19 @@ function TreasureChestOpenObtainView:confirmButton(grayLayer,obtainBg)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
         elseif eventType == ccui.TouchEventType.ended then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.playEffect(Music.COMMON[1])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.stopEffect()
+                end)
+            end
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)

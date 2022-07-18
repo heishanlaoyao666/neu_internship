@@ -39,36 +39,26 @@ end
     --]]
 function Ladder:moveButton(highLadderLayer)
     --按钮：左滑
-    local leftButton = ccui.Button:create(
-            "ui/hall/battle/rank/slideLeft.png",
-            "ui/hall/battle/rank/slideLeft.png",
-            "ui/hall/battle/rank/slideLeft.png")
+    local leftButton = ccui.Button:create("ui/hall/battle/rank/slideLeft.png","ui/hall/battle/rank/slideLeft.png","ui/hall/battle/rank/slideLeft.png")
     leftButton:setPosition(cc.p(30, 160))
     leftButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
         if eventType == ccui.TouchEventType.began then
             self:setButtonScale(1,0.9,sender)
-
         elseif eventType == ccui.TouchEventType.ended then
             self:setButtonScale(1,1,sender)
-
         elseif eventType == ccui.TouchEventType.canceled then
             self:setButtonScale(1,1,sender)
         end
     end)
     leftButton:addTo(highLadderLayer)
     --按钮：右滑
-    local rightButton = ccui.Button:create(
-            "ui/hall/battle/rank/slideRight.png",
-            "ui/hall/battle/rank/slideRight.png",
-            "ui/hall/battle/rank/slideRight.png")
+    local rightButton = ccui.Button:create("ui/hall/battle/rank/slideRight.png","ui/hall/battle/rank/slideRight.png","ui/hall/battle/rank/slideRight.png")
     rightButton:setPosition(cc.p(645, 160))
     rightButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
         if eventType == ccui.TouchEventType.began then
             self:setButtonScale(1,0.9,sender)
-
         elseif eventType == ccui.TouchEventType.ended then
             self:setButtonScale(1,1,sender)
-
         elseif eventType == ccui.TouchEventType.canceled then
             self:setButtonScale(1,1,sender)
         end

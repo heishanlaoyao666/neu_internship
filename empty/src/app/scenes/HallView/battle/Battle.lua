@@ -2,7 +2,7 @@
 ----编写人员：孙靖博、郑蕾
 ---修订人员：郑蕾
 ---最后修改日期：7/15
-local Battle = class("Battle")
+local Battle = {}
 local Ladder = require("app.scenes.HallView.battle.Ladder")
 local GameData = require("app/data/GameData.lua")
 local KnapsackData=require("app.data.KnapsackData")
@@ -81,6 +81,19 @@ function Battle:matchingPopLayer(battleLayer)
     local rotate  = cc.RotateBy:create(360,360*360);--旋转
     local sequence = cc.Sequence:create(rotate,rotate,rotate,cc.CallFunc:create(callBack))
     matchImage:runAction(sequence)
+    local MusicOn = SettingMusic:isMusic1()
+    print(MusicOn)
+    if MusicOn == true then
+        local audio = require("framework.audio")
+        audio.loadFile(Music.BATTLEMATCH[1], function ()
+            audio.playEffect(Music.BATTLEMATCH[1])
+        end)
+    else
+        local audio = require("framework.audio")
+        audio.loadFile(Music.BATTLEMATCH[1], function ()
+            audio.stopEffect()
+        end)
+    end
 
     --取消匹配按钮
     self:cancelButton(grayLayer,popLayer)

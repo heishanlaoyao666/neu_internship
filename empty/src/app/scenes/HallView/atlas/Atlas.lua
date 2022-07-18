@@ -1,9 +1,10 @@
 
-local Atlas = class("Atlas")
+local Atlas = {}
 
 local Headdata = require("app/data/Headdata")
 local Towerdata = require("app/data/Towerdata")
 local TowerDef = require("app/def/TowerDef")
+local TroopLayer = require("app.scenes.HallView.atlas.TroopLayer")
 local KnapsackData = require("app.data.KnapsackData")
 local Music = require("app/data/Music")
 local SettingMusic = require("src/app/scenes/SettingMusic")
@@ -38,8 +39,8 @@ function Atlas:createCollectionPanel()
     --collectLayer:setBackGroundColorType(1)
     collectLayer:setAnchorPoint(0, 0)
     collectLayer:setPosition(0, display.top)
-    --阵容区域
-    self:createTroopPanel(collectLayer)
+    --阵容区域**************************************************************************
+    TroopLayer:createTroopPanel(collectLayer)
 
     --listView翻页
     local listView = ccui.ListView:create()
@@ -298,58 +299,6 @@ function Atlas:createCollectedItem(AtlasLayer,collectLayer,path,bg,towertype,ran
     -- towertype_control.png
     -- towertype_disturb.png
     -- towertype_summon.png
-
-end
-
---二级页面（使用）
-function Atlas:towerusingPanel(collectLayer,bg)
-    local width ,height = display.width,display.height
-    --层：灰色背景
-    local towerusingLayer = ccui.Layout:create()
-    --towerusingLayer:setBackGroundColor(cc.c4b(0,0,0,128))
-    --towerusingLayer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
-    towerusingLayer:setBackGroundColorOpacity(180)--设置透明度
-    towerusingLayer:setContentSize(width, height)
-    towerusingLayer:pos(width*0.5, height *0.5)
-    towerusingLayer:setAnchorPoint(0.5, 0.5)
-    towerusingLayer:addTo(collectLayer)
-    --towerusingLayer:setTouchEnabled(true)--屏蔽一级界面
-
-    local pop2Layer = ccui.ImageView:create("ui/hall/Atlas/Secondaryinterface_towerusing/group119.png")
-    pop2Layer:pos(display.cx,display.cy)
-    pop2Layer:setAnchorPoint(0.5,0.5)
-    pop2Layer:addTo(towerusingLayer)
-
-    local changetowericon = ccui.ImageView:create(bg)
-    changetowericon:setPosition(304,230)
-    changetowericon:setScale(1)
-    changetowericon:addTo(pop2Layer)
-
-    --按钮：取消替换
-    local cancelButton = ccui.Button:create(
-            "ui/hall/Atlas/Secondaryinterface_towerusing/BT.png",
-            "ui/hall/Atlas/Secondaryinterface_towerusing/BT.png",
-            "ui/hall/Atlas/Secondaryinterface_towerusing/BT.png")
-    cancelButton:setPosition(cc.p(300, 70))
-    cancelButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
-        if eventType == ccui.TouchEventType.began then
-            local scale = cc.ScaleTo:create(1,0.9)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
-        elseif eventType == ccui.TouchEventType.ended then
-            local scale = cc.ScaleTo:create(1,1)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
-            towerusingLayer:setVisible(false)--隐藏二级弹窗
-            collectLayer:setTouchEnabled(true)
-        elseif eventType == ccui.TouchEventType.canceled then
-            local scale = cc.ScaleTo:create(1,1)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
-        end
-    end)
-    cancelButton:addTo(pop2Layer)
-
 
 end
 
@@ -836,6 +785,19 @@ function Atlas:towerinfoPanel(collectLayer,path,bg,towertype,rank)--稀有度背
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
         elseif eventType == ccui.TouchEventType.ended then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.playEffect(Music.COMMON[1])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.stopEffect()
+                end)
+            end
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
@@ -859,9 +821,22 @@ function Atlas:towerinfoPanel(collectLayer,path,bg,towertype,rank)--稀有度背
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
         elseif eventType == ccui.TouchEventType.ended then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.playEffect(Music.COMMON[1])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.stopEffect()
+                end)
+            end
             towerinfoLayer:setVisible(false)
-            self:towerusingPanel(collectLayer,bg)
-
+            --替换弹窗
+            TroopLayer:towerUsingPanel(collectLayer,bg)
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
@@ -942,200 +917,6 @@ function Atlas:towerinfoPanel(collectLayer,path,bg,towertype,rank)--稀有度背
     closeButton:addTo(popLayer)
 end
 
---阵容层
-function Atlas:createTroopPanel(layer)
-    local width,height = display.width,display.top
-    --当前阵容底图
-    local currenttroop=ccui.ImageView:create("ui/hall/Atlas/Subinterface_currentsquad/bottomchart_title.png")
-    currenttroop:setScale(1)
-    currenttroop:setAnchorPoint(0,1)
-    currenttroop:pos(0+35,height-50)
-    currenttroop:addTo(layer)
-
-    local currenttroopblack=ccui.ImageView:create("ui/hall/Atlas/Subinterface_currentsquad/bottomchart_area.png")
-    currenttroopblack:setScale(1)
-    currenttroopblack:setAnchorPoint(0,1)
-    currenttroopblack:pos(0+35,height-135)
-    currenttroopblack:addTo(layer)
-    --当前阵容文字
-    local trooplabel=cc.Label:createWithTTF("当前阵容","ui/font/fzbiaozjw.ttf",40)
-    trooplabel:setAnchorPoint(0,1)
-    trooplabel:pos(0+200,height-70)
-    trooplabel:addTo(layer)
-
-    -- local pageview = ccui.PageView:create()
-    -- pageview:addTo(layer)
-    -- pageview:setContentSize(layer:getContentSize().width, 150)
-    -- pageview:setTouchEnabled(false)
-    -- pageview:setAnchorPoint(0, 0)
-    -- pageview:setPosition(layer:getContentSize().width * 0.025, layer:getContentSize().height * 0.05)
-
-
-    --self:createPageviewPanel2(layer):setVisible(false)
-    --三个按钮
-    local selectBtn1 = ccui.Button:create(
-            "ui/hall/Atlas/Subinterface_currentsquad/icon_unselectes.png",
-            "ui/hall/Atlas/Subinterface_currentsquad/icon_selected.png",
-            "ui/hall/Atlas/Subinterface_currentsquad/icon_unselectes.png"
-    )
-    selectBtn1:setAnchorPoint(0,1)
-    selectBtn1:pos(400,height-70)
-    selectBtn1:addTo(layer)
-    selectBtn1:addTouchEventListener(function(sender, eventType)
-        if 2 == eventType then
-            --打开设置面板
-            self:createPageviewPanel1(layer)
-        end
-    end)
-    local one=ccui.ImageView:create("ui/hall/Atlas/Subinterface_currentsquad/number_1.png")
-    one:setScale(1)
-    --one:setAnchorPoint(0.5,0.5)
-    one:pos(17,20)
-    one:addTo(selectBtn1)
-
-
-    local selectBtn2 = ccui.Button:create(
-            "ui/hall/Atlas/Subinterface_currentsquad/icon_unselectes.png",
-            "ui/hall/Atlas/Subinterface_currentsquad/icon_selected.png",
-            "ui/hall/Atlas/Subinterface_currentsquad/icon_unselectes.png"
-    )
-    selectBtn2:setAnchorPoint(0,1)
-    selectBtn2:pos(450,height-70)
-    selectBtn2:addTo(layer)
-    selectBtn2:addTouchEventListener(function(sender, eventType)
-        if 2 == eventType then
-            --打开设置面板
-            self:createPageviewPanel2(layer)
-        end
-    end)
-    local two=ccui.ImageView:create("ui/hall/Atlas/Subinterface_currentsquad/number_2.png")
-    two:setScale(1)
-    --two:setAnchorPoint(0.5,0.5)
-    two:pos(17,20)
-    two:addTo(selectBtn2)
-
-
-    local selectBtn3 = ccui.Button:create(
-        "ui/hall/Atlas/Subinterface_currentsquad/icon_unselectes.png",
-        "ui/hall/Atlas/Subinterface_currentsquad/icon_selected.png",
-        "ui/hall/Atlas/Subinterface_currentsquad/icon_unselectes.png"
-    )
-    selectBtn3:setAnchorPoint(0,1)
-    selectBtn3:pos(500,height-70)
-    selectBtn3:addTo(layer)
-    selectBtn3:addTouchEventListener(function(sender, eventType)
-        if 2 == eventType then
-            --打开设置面板
-            self:createPageviewPanel3(layer)
-        end
-    end)
-    local three=ccui.ImageView:create("ui/hall/Atlas/Subinterface_currentsquad/number_3.png")
-    three:setScale(1)
-    --three:setAnchorPoint(0.5,0.5)
-    three:pos(17,20)
-    three:addTo(selectBtn3)
-end
-
-function Atlas:createPageviewPanel1(layer)
-    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/01.png"
-    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_disturb.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.13.png",0,0)
-    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/06.png"
-    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.12.png",130,0)
-    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/08.png"
-    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.11.png",130+130,0)
-    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/09.png"
-    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",130*3,0)
-    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/07.png"
-    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.9.png",130*4,0)
-end
-function Atlas:createPageviewPanel2(layer)
-    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/02.png"
-    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_disturb.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.13.png",0,0)
-    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/06.png"
-    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.12.png",130,0)
-    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/08.png"
-    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.11.png",130+130,0)
-    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/09.png"
-    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",130*3,0)
-    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/07.png"
-    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.9.png",130*4,0)
-end
-function Atlas:createPageviewPanel3(layer)
-     
-    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/03.png"
-    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_disturb.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.13.png",0,0)
-    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/06.png"
-    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.12.png",130,0)
-    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/08.png"
-    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.11.png",130+130,0)
-    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/09.png"
-    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.8.png",130*3,0)
-    self:createTroopItem(layer,"ui/hall/common/Tower-Icon/07.png"
-    ,"ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_attack.png","ui/hall/Atlas/Subinterface_currentsquad/rank/lv.9.png",130*4,0)
-
-end
-
-
---阵容按钮
-function Atlas:createTroopItem(layer,path,towertype,rank,offsetX,offsetY)--层级、图片路径、碎片数量、价格、偏移量
-
-    --按钮：商品1
-    local ItemButton = ccui.Button:create(path, path, path)
-    ItemButton:setPosition(cc.p(100+offsetX, display.top-340+offsetY+120))
-    ItemButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
-        if eventType == ccui.TouchEventType.began then
-            local scale = cc.ScaleTo:create(1,0.9)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
-
-        elseif eventType == ccui.TouchEventType.ended then
-            --self:goldPurchasePanel(layer,path,towertype,rank)
-            local scale = cc.ScaleTo:create(1,1)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
-
-        elseif eventType == ccui.TouchEventType.canceled then
-            local scale = cc.ScaleTo:create(1,1)
-            local ease_elastic = cc.EaseElasticOut:create(scale)
-            sender:runAction(ease_elastic)
-        end
-    end)
-    ItemButton:addTo(layer)
-
-    --攻击 辅助 控制 干扰 召唤
-    local fragmentBg =ccui.ImageView:create(towertype)
-    fragmentBg:setPosition(cc.p(90, 100))
-    fragmentBg:addTo(ItemButton)
-
-    --等级底图
-    local goldCoinIcon =ccui.ImageView:create("ui/hall/Atlas/Subinterface_currentsquad/bottomchart_rank.png")
-    goldCoinIcon:setPosition(cc.p(60, -20))
-    goldCoinIcon:addTo(ItemButton)
-
-    --等级
-    local Rank =ccui.ImageView:create(rank)
-    Rank:setPosition(cc.p(60, -20))
-    Rank:addTo(ItemButton)
-
-
-
-    -- HEAD01 = "ui/hall/common/Tower-Icon/01.png",
-    -- HEAD02 = "ui/hall/common/Tower-Icon/02.png",
-    -- HEAD03 = "ui/hall/common/Tower-Icon/03.png",
-    -- HEAD04 = "ui/hall/common/Tower-Icon/04.png",
-    -- HEAD05 = "ui/hall/common/Tower-Icon/05.png",
-
-
-    --ui\hall\Atlas\Secondaryinterface_towerinfo
-
-    --攻击 辅助 控制 干扰 召唤
-    -- towertype_attack.png
-    -- towertype_auxiliary.png
-    -- towertype_control.png
-    -- towertype_disturb.png
-    -- towertype_summon.png
-
-end
 
 
 function Atlas:onEnter()

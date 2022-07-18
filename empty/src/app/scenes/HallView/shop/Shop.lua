@@ -1,14 +1,32 @@
 ----内容：商店界面
 ----编写人员：郑蕾
 ---修订人员：郑蕾
----最后修改日期：7/15
-local Shop = class("Shop")
+---最后修改日期：7/17
+local Shop = {}
 local KnapsackData = require("app.data.KnapsackData")
 local GoldPurchaseView = require("app.scenes.HallView.shop.GoldPurchaseView")
 local TreasureChestOpenView = require("app.scenes.HallView.common.TreasureChestOpenView")
 local Shopdata = require("app.data.Shopdata")
+local ShopDef = require("app.def.ShopDef")
+local Music = require("app/data/Music")
+local SettingMusic = require("src/app/scenes/SettingMusic")
+
 function Shop:ctor()
+    self:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, handler(self, self.update))
+    self:performWithDelay(function()
+        self:scheduleUpdate()
+    end,1)
 end
+--[[
+    函数用途：商店帧循环
+    --]]
+function Shop:update(dt)
+    --商店刷新
+    self:refresh()
+    --商店倒计时
+    --self:countDown()
+end
+
 --[[
     函数用途：定点时间刷新
     --]]
@@ -19,31 +37,35 @@ function Shop:refresh()
         for i = 1,6 do
             KnapsackData:setSoldOutState(i,false)
         end
-        --更新卡牌
+        self.shade1:setVisible(false)
+        self.shade2:setVisible(false)
+        self.shade3:setVisible(false)
+        self.shade4:setVisible(false)
+        self.shade5:setVisible(false)
+        self.shade6:setVisible(false)
+        --更新卡牌ID并加载
         KnapsackData:setITEM_ID(2,Shopdata:randomId(1))
         KnapsackData:setITEM_ID(3,Shopdata:randomId(1))
         KnapsackData:setITEM_ID(4,Shopdata:randomId(1))
         KnapsackData:setITEM_ID(5,Shopdata:randomId(2))
         KnapsackData:setITEM_ID(6,Shopdata:randomId(3))
-
-        item2:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..KnapsackData:getITEM_ID(2)..".png")
-        --print(KnapsackData:getITEM_ID(2))
-
-        item3:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..KnapsackData:getITEM_ID(3)..".png")
-        --print(KnapsackData:getITEM_ID(3))
-
-        item4:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..KnapsackData:getITEM_ID(4)..".png")
-        --print(KnapsackData:getITEM_ID(4))
-
-        item5:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..KnapsackData:getITEM_ID(5)..".png")
-        --print(KnapsackData:getITEM_ID(5))
-
-        --print(KnapsackData:getITEM_ID(6))
-        item6:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..KnapsackData:getITEM_ID(6)..".png")
+        self.item2:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..KnapsackData:getITEM_ID(2)..".png")
+        self.item3:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..KnapsackData:getITEM_ID(3)..".png")
+        self.item4:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..KnapsackData:getITEM_ID(4)..".png")
+        self.item5:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..KnapsackData:getITEM_ID(5)..".png")
+        self.item6:loadTexture("ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..KnapsackData:getITEM_ID(6)..".png")
+        --恢复触摸状态
+        self.item1:setTouchEnabled(true)
+        self.item2:setTouchEnabled(true)
+        self.item3:setTouchEnabled(true)
+        self.item4:setTouchEnabled(true)
+        self.item5:setTouchEnabled(true)
+        self.item6:setTouchEnabled(true)
 
         KnapsackData:sendData()
     end
 end
+
 --[[
     函数用途：商店一级页面的展示
     --]]
@@ -91,22 +113,22 @@ function Shop:GoldStore(listView,ShopLayer)
     goldLayer:addTo(listView)
 
     --图片：金币商店标题背景条
-    local goldTitleBg = ccui.ImageView:create("ui/hall/shop/Goldcoin-shop/bg-title_block.png")
+    local goldTitleBg = ccui.ImageView:create(ShopDef.GOLD_STORE_TITLE.BG)
     goldTitleBg:setAnchorPoint(0, 1)
     goldTitleBg:setPosition(cc.p(0, display.top-690))
     goldTitleBg:addTo(goldLayer)
     --图片：金币商店
-    local goldStoreText = ccui.ImageView:create("ui/hall/shop/Goldcoin-shop/Title - gold_coin_store.png")
+    local goldStoreText = ccui.ImageView:create(ShopDef.GOLD_STORE_TITLE.TEXT)
     goldStoreText:setAnchorPoint(0.5, 0.5)
     goldStoreText:addTo(goldTitleBg)
     goldStoreText:setPosition(cc.p(display.cx,35))
 
     --图片：刷新背景条
-    local refreshBg = ccui.ImageView:create("ui/hall/shop/Goldcoin-shop/bg-remaining_refresh_time.png")
+    local refreshBg = ccui.ImageView:create(ShopDef.GOLD_STORE_TITLE.REFRESH_BG)
     refreshBg:setPosition(cc.p(display.cx, display.top-800))
     refreshBg:addTo(goldLayer)
     --图片：商店刷新剩余时间
-    local refreshText = ccui.ImageView:create("ui/hall/shop/Goldcoin-shop/Prompt-refresh_time_remaining.png")--文字：商店刷新剩余时间
+    local refreshText = ccui.ImageView:create(ShopDef.GOLD_STORE_TITLE.REFRESH_TEXT)--文字：商店刷新剩余时间
     refreshText:setAnchorPoint(0.5, 0.5)
     refreshText:addTo(refreshBg)
     refreshText:setPosition(cc.p(display.cx-100,25))
@@ -115,70 +137,60 @@ function Shop:GoldStore(listView,ShopLayer)
     local curM = tonumber(os.date("%M"))
     local h = 24-curH-1
     local m = 60-curM
-    local refreshLabel = cc.Label:createWithTTF(h..":"..m,"ui/font/fzbiaozjw.ttf",30)
-    refreshLabel:setPosition(cc.p(display.cx+50,25))
-    refreshLabel:setColor(cc.c3b(255, 206, 55))
-    refreshLabel:enableOutline(cc.c4b(0, 0, 0, 255),1)--字体描边
-    refreshLabel:addTo(refreshBg)
+    self.refreshLabel = cc.Label:createWithTTF(h..":"..m,"ui/font/fzbiaozjw.ttf",30)
+    self.refreshLabel:setPosition(cc.p(display.cx+50,25))
+    self.refreshLabel:setColor(cc.c3b(255, 206, 55))
+    self.refreshLabel:enableOutline(cc.c4b(0, 0, 0, 255),1)--字体描边
+    self.refreshLabel:addTo(refreshBg)
 
     --金币商店商品排列
     --免费商品
-    item1 = self:freeItem(goldLayer)
+    self.item1,self.shade1 = self:freeItem(goldLayer)
 
     --付费商品
     local offsetX = 0
     local offsetY = 0
-    item2 = self:createGoldItem(goldLayer,ShopLayer, offsetX,offsetY,2)
+    self.item2,self.shade2 = self:createGoldItem(goldLayer,ShopLayer,offsetX,offsetY,2)
     offsetX = offsetX+210
-    item3 = self:createGoldItem(goldLayer,ShopLayer, offsetX,offsetY,3)
+    self.item3,self.shade3= self:createGoldItem(goldLayer,ShopLayer,offsetX,offsetY,3)
     offsetX = -210
     offsetY = -220
-    item4 = self:createGoldItem(goldLayer,ShopLayer, offsetX,offsetY,4)
+    self.item4,self.shade4 = self:createGoldItem(goldLayer,ShopLayer,offsetX,offsetY,4)
     offsetX = offsetX+210
-    item5 = self:createGoldItem(goldLayer,ShopLayer, offsetX,offsetY,5)
+    self.item5,self.shade5 = self:createGoldItem(goldLayer,ShopLayer,offsetX,offsetY,5)
     offsetX = offsetX+210
-    item6 = self:createGoldItem(goldLayer,ShopLayer, offsetX,offsetY,6)
+    self.item6,self.shade6 = self:createGoldItem(goldLayer,ShopLayer,offsetX,offsetY,6)
 end
 
 --[[
     函数用途：购买免费商品
     --]]
 function Shop:freeItem(goldLayer)
-    local freeItemButton = ccui.Button:create(
-            "ui/hall/shop/Goldcoin-shop/bg-free_items.png",
-            "ui/hall/shop/Goldcoin-shop/bg-free_items.png",
-            "ui/hall/shop/Goldcoin-shop/bg-free_items.png"
-    )
+    local soldOutState = ShopDef.ITEM[1].SOLD_OUT
+    local freeItemButton = ccui.ImageView:create(ShopDef.FREE_ITEM.BG)
     freeItemButton:setPosition(cc.p(150, display.top-950))
     freeItemButton:addTo(goldLayer)
+    if soldOutState == false then
+        freeItemButton:setTouchEnabled(true)
+    else
+        freeItemButton:setTouchEnabled(false)
+    end
     --图片：钻石
-    local diamondIcon =ccui.ImageView:create(Shopdata.ITEM[1].ICON)
+    local diamondIcon =ccui.ImageView:create(ShopDef.FREE_ITEM.ICON)
     diamondIcon:setPosition(cc.p(78, 115))
     diamondIcon:addTo(freeItemButton)
     --文本：钻石数量
-    local freeItemNum = cc.Label:createWithTTF("X"..Shopdata.ITEM[1].FRAGMENT_NUM,"ui/font/fzbiaozjw.ttf",24)
+    local freeItemNum = cc.Label:createWithTTF("X"..ShopDef.ITEM[1].FRAGMENT_NUM,"ui/font/fzbiaozjw.ttf",24)
     freeItemNum:setPosition(cc.p(78,65))
     freeItemNum:setColor(cc.c3b(173, 196, 255))
     freeItemNum:enableOutline(cc.c4b(0, 0, 0, 255),1)--字体描边
     freeItemNum:addTo(freeItemButton)
     --图片：免费字样
-    local freeIcon =ccui.ImageView:create("ui/hall/shop/Goldcoin-shop/PriceIcon-free.png")
+    local freeIcon =ccui.ImageView:create(ShopDef.FREE_ITEM.TITLE)
     freeIcon:setPosition(cc.p(78, 25))
     freeIcon:addTo(freeItemButton)
     --售罄遮罩
-    local shade = ccui.Layout:create()
-    shade:setBackGroundColor(cc.c4b(0,0,0,128))
-    shade:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
-    shade:setBackGroundColorOpacity(128)--设置透明度
-    shade:setAnchorPoint(0,0)
-    shade:setPosition(cc.p(0, 0))
-    shade:setContentSize(156, 194)
-    shade:setVisible(Shopdata.ITEM[1].SOLD_OUT)
-    --售罄则不可点击
-    if Shopdata.ITEM[1].SOLD_OUT == true then
-        freeItemButton:setTouchEnabled(false)
-    end
-    shade:addTo(freeItemButton)
+    local shade = self:ItemShade(soldOutState,freeItemButton)
     --商品点击事件
     freeItemButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
         if eventType == ccui.TouchEventType.began then
@@ -187,6 +199,19 @@ function Shop:freeItem(goldLayer)
             sender:runAction(ease_elastic)
 
         elseif eventType == ccui.TouchEventType.ended then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.SHOP[1], function ()
+                    audio.playEffect(Music.SHOP[1])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.SHOP[1], function ()
+                    audio.stopEffect()
+                end)
+            end
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
@@ -207,26 +232,31 @@ function Shop:freeItem(goldLayer)
             sender:runAction(ease_elastic)
         end
     end)
+    return freeItemButton,shade
 end
 
 --[[
     函数用途：金币商店商品的展示:
     --]]
 function Shop:createGoldItem(goldLayer,ShopLayer,offsetX,offsetY,i)
-    local index = Shopdata.ITEM[i].ID
-    local fragNum = Shopdata.ITEM[i].FRAGMENT_NUM
-    local price = Shopdata.ITEM[i].PRICE
-    local soldOutState = Shopdata.ITEM[i].SOLD_OUT
+    local index = ShopDef.ITEM[i].ID
+    local fragNum = ShopDef.ITEM[i].FRAGMENT_NUM
+    local price = ShopDef.ITEM[i].PRICE
+    local soldOutState = ShopDef.ITEM[i].SOLD_OUT
     local path = "ui/hall/shop/Goldcoin-shop/CommodityIcon-tower_fragment/"..index..".png"
 
     --按钮：商品
     local ItemButton = ccui.ImageView:create(path)
     ItemButton:setPosition(cc.p(370+offsetX, display.top-950+offsetY))
-    ItemButton:setTouchEnabled(true)
+    if soldOutState == false then
+        ItemButton:setTouchEnabled(true)
+    else
+        ItemButton:setTouchEnabled(false)
+    end
     ItemButton:addTo(goldLayer)
 
     --图片：碎片数量背景
-    local fragmentBg =ccui.ImageView:create("ui/hall/shop/Goldcoin-shop/bg-fragment_number.png")
+    local fragmentBg =ccui.ImageView:create(ShopDef.GOLD_ITEM.FRAGMENT_BG)
     fragmentBg:setPosition(cc.p(110, 170))
     fragmentBg:addTo(ItemButton)
     --文本：碎片数量
@@ -236,7 +266,7 @@ function Shop:createGoldItem(goldLayer,ShopLayer,offsetX,offsetY,i)
     fragmentNum:enableOutline(cc.c4b(0, 0, 0, 255),1)--字体描边
     fragmentNum:addTo(fragmentBg)
     --图片：金币图标
-    local goldCoinIcon =ccui.ImageView:create("ui/hall/shop/Goldcoin-shop/PriceIcon-gold_coins.png")
+    local goldCoinIcon =ccui.ImageView:create(ShopDef.GOLD_ITEM.GOLD_COIN_ICON)
     goldCoinIcon:setPosition(cc.p(50, 30))
     goldCoinIcon:addTo(ItemButton)
     --文本：商品价格
@@ -246,16 +276,7 @@ function Shop:createGoldItem(goldLayer,ShopLayer,offsetX,offsetY,i)
     priceNum:enableOutline(cc.c4b(0, 0, 0, 255),1)--字体描边
     priceNum:addTo(ItemButton)
     --售罄遮罩
-    local shade = ccui.Layout:create()
-    shade:setBackGroundColor(cc.c4b(0,0,0,128))
-    shade:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
-    shade:setBackGroundColorOpacity(128)--设置透明度
-    shade:setAnchorPoint(0,0)
-    shade:setPosition(cc.p(0, 0))
-    shade:setContentSize(156, 194)
-    shade:setVisible(soldOutState)
-    shade:setTouchEnabled(false)
-    shade:addTo(ItemButton)
+    local shade = self:ItemShade(soldOutState,ItemButton)
 
     ItemButton:addTouchEventListener(function(sender,eventType)--按钮点击后放大缩小特效
         if eventType == ccui.TouchEventType.began then
@@ -264,6 +285,19 @@ function Shop:createGoldItem(goldLayer,ShopLayer,offsetX,offsetY,i)
             sender:runAction(ease_elastic)
 
         elseif eventType == ccui.TouchEventType.ended then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.SHOP[2], function ()
+                    audio.playEffect(Music.SHOP[2])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.SHOP[2], function ()
+                    audio.stopEffect()
+                end)
+            end
             GoldPurchaseView:goldPurchasePanel(ShopLayer, index, fragNum, price, shade,ItemButton,i)
             --self:goldPurchasePanel(layer,path,fragNum,price,ItemButton)
             local scale = cc.ScaleTo:create(1,1)
@@ -276,7 +310,7 @@ function Shop:createGoldItem(goldLayer,ShopLayer,offsetX,offsetY,i)
             sender:runAction(ease_elastic)
         end
     end)
-    return ItemButton
+    return ItemButton,shade
 end
 
 --[[
@@ -292,31 +326,35 @@ function Shop:diamondStore(listView,ShopLayer)
     diamondLayer:setContentSize(720, 800)
     diamondLayer:addTo(listView)
     --图片：钻石商店标题背景条
-    local diamondTitleBg = ccui.ImageView:create("ui/hall/shop/Diamond-shop/bg-title.png")
+    local diamondTitleBg = ccui.ImageView:create(ShopDef.DIAMOND_STORE_TITLE.BG)
     diamondTitleBg:setAnchorPoint(0, 1)
     diamondTitleBg:setPosition(cc.p(0, display.top-500))
     diamondTitleBg:addTo(diamondLayer)
     --图片：钻石商店
-    local diamondStoreText = ccui.ImageView:create("ui/hall/shop/Diamond-shop/Title-diamond_store.png")
+    local diamondStoreText = ccui.ImageView:create(ShopDef.DIAMOND_STORE_TITLE.TEXT)
     diamondStoreText:setAnchorPoint(0.5, 0.5)
     diamondStoreText:addTo(diamondTitleBg)
     diamondStoreText:setPosition(cc.p(display.cx,35))
 
-    self:createDiamondItem(ShopLayer,diamondLayer,"ui/hall/shop/Diamond-shop/bg-normal.png","ui/hall/shop/Diamond-shop/TreasureChest - normal.png"
-    , "ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Title - common treasure chest.png"
-    , "150",0,0,"X38","X7","X1","X0","+285")
+    self:createDiamondItem(ShopLayer,diamondLayer,ShopDef.NORMAL_TREASURE.BG,ShopDef.NORMAL_TREASURE.ICON,ShopDef.NORMAL_TREASURE.TITLE
+    , ShopDef.NORMAL_TREASURE.PRICE,0,0
+    ,ShopDef.NORMAL_TREASURE.N_CARD_NUM,ShopDef.NORMAL_TREASURE.R_CARD_NUM,ShopDef.NORMAL_TREASURE.E_CARD_NUM,ShopDef.NORMAL_TREASURE.L_CARD_NUM
+    ,ShopDef.NORMAL_TREASURE.COIN_NUM)
 
-    self:createDiamondItem(ShopLayer,diamondLayer,"ui/hall/shop/Diamond-shop/bg-rare.png","ui/hall/shop/Diamond-shop/TreasureChest - RARE.png"
-    , "ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Title - rare treasure chest.png"
-    ,"250",230,0,"X74","X14","X2","X0","+456")
+    self:createDiamondItem(ShopLayer,diamondLayer,ShopDef.RARE_TREASURE.BG,ShopDef.RARE_TREASURE.ICON,ShopDef.RARE_TREASURE.TITLE
+    ,ShopDef.RARE_TREASURE.PRICE,230,0
+    ,ShopDef.RARE_TREASURE.N_CARD_NUM,ShopDef.RARE_TREASURE.R_CARD_NUM,ShopDef.RARE_TREASURE.E_CARD_NUM,ShopDef.RARE_TREASURE.L_CARD_NUM
+    ,ShopDef.RARE_TREASURE.COIN_NUM)
 
-    self:createDiamondItem(ShopLayer,diamondLayer,"ui/hall/shop/Diamond-shop/bg-epic.png","ui/hall/shop/Diamond-shop/TreasureChest - Epic.png"
-    , "ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Title - Epic chest.png"
-    ,"750",460,0,"X139","X36","X7","X0~1","+1280")
+    self:createDiamondItem(ShopLayer,diamondLayer,ShopDef.EPIC_TREASURE.BG,ShopDef.EPIC_TREASURE.ICON,ShopDef.EPIC_TREASURE.TITLE
+    ,ShopDef.EPIC_TREASURE.PRICE,460,0
+    ,ShopDef.EPIC_TREASURE.N_CARD_NUM,ShopDef.EPIC_TREASURE.R_CARD_NUM,ShopDef.EPIC_TREASURE.E_CARD_NUM,ShopDef.EPIC_TREASURE.L_CARD_NUM
+    ,ShopDef.EPIC_TREASURE.COIN_NUM)
 
-    self:createDiamondItem(ShopLayer,diamondLayer,"ui/hall/shop/Diamond-shop/bg-legend.png","ui/hall/shop/Diamond-shop/TreasureChest - Legend.png"
-    , "ui/hall/common/SecondaryInterface-Treasure chest opening confirmation pop-up window/Title - legendary treasure chest.png"
-    ,"2500",230,-320,"X187","X51","X21","X1","+3040")
+    self:createDiamondItem(ShopLayer,diamondLayer,ShopDef.LEGEND_TREASURE.BG,ShopDef.LEGEND_TREASURE.ICON,ShopDef.LEGEND_TREASURE.TITLE
+    ,ShopDef.LEGEND_TREASURE.PRICE,230,-320
+    ,ShopDef.LEGEND_TREASURE.N_CARD_NUM,ShopDef.LEGEND_TREASURE.R_CARD_NUM,ShopDef.LEGEND_TREASURE.E_CARD_NUM,ShopDef.LEGEND_TREASURE.L_CARD_NUM
+    ,ShopDef.LEGEND_TREASURE.COIN_NUM)
 
 end
 
@@ -335,6 +373,19 @@ function Shop:createDiamondItem(ShopLayer,layer,bgPath,treasurePath,treasureType
             sender:runAction(ease_elastic)
 
         elseif eventType == ccui.TouchEventType.ended then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.SHOP[2], function ()
+                    audio.playEffect(Music.SHOP[2])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.SHOP[2], function ()
+                    audio.stopEffect()
+                end)
+            end
             TreasureChestOpenView:treasureChestOpenConfirmPanel(ShopLayer,treasurePath,treasureType
             ,nCardNum,rCardNum,eCardNum,lCardNum,coinNum,price)
             local scale = cc.ScaleTo:create(1,1)
@@ -369,17 +420,33 @@ end
 --[[
     函数用途：添加商品售罄遮罩
     --]]
-function Shop:ItemShade(layer,x,y)
+function Shop:ItemShade(soldOutState,ItemButton)
+    --售罄遮罩
     local shade = ccui.Layout:create()
     shade:setBackGroundColor(cc.c4b(0,0,0,128))
     shade:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
     shade:setBackGroundColorOpacity(128)--设置透明度
-    shade:setAnchorPoint(0.5,0.5)
-    shade:setPosition(cc.p(x, y))
+    shade:setAnchorPoint(0,0)
+    shade:setPosition(cc.p(0, 0))
     shade:setContentSize(156, 194)
-    shade:setTouchEnabled(true)
-    shade:addTo(layer)
-
+    shade:setVisible(soldOutState)
+    if soldOutState == true then--售罄
+        shade:setTouchEnabled(false)--不可触摸
+    elseif soldOutState == false then
+        shade:setTouchEnabled(true)
+    end
+    shade:addTo(ItemButton)
+return shade
 end
 
+--[[
+    函数用途：商品倒计时
+    --]]
+function Shop:countDown()
+    local curH = tonumber(os.date("%H"))
+    local curM = tonumber(os.date("%M"))
+    local h = 24-curH-1
+    local m = 60-curM
+    --self.refreshLabel:setString(h..":"..m)
+end
 return Shop

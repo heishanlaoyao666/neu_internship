@@ -8,8 +8,22 @@ local KnapsackData = require("app.data.KnapsackData")
 local SettingMusic = require("src/app/scenes/SettingMusic")
 local Towerdata = require("app/data/Towerdata")
 local TowerDef  = require("app.def.TowerDef")
+local Music = require("app/data/Music")
+local SettingMusic = require("src/app/scenes/SettingMusic")
 
-
+function TopPanel:ctor()
+    self:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, handler(self, self.update))
+    self:performWithDelay(function()
+        self:scheduleUpdate()
+    end,1)
+end
+--[[
+    函数用途：顶部栏帧循环
+    --]]
+function TopPanel:update(dt)
+    self:setDiamondsString(KnapsackData:getDiamonds())
+    self:setCoinString(KnapsackData:getGoldCoin())
+end
 --[[
     函数用途：创建顶部信息栏
     --]]
@@ -44,6 +58,19 @@ function TopPanel:createMiddleTopPanel(layer)
     headBtn:addTo(infoLayer)
     headBtn:addTouchEventListener(function(sender, eventType)
         if 2 == eventType then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.playEffect(Music.COMMON[1])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.stopEffect()
+                end)
+            end
             --更换头像
             self:replaceHeadIcon(layer)
         end
@@ -129,6 +156,19 @@ function TopPanel:createMiddleTopPanel(layer)
     menuBtn:addTo(infoLayer)
     menuBtn:addTouchEventListener(function(sender, eventType)
         if 2 == eventType then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.playEffect(Music.COMMON[1])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.stopEffect()
+                end)
+            end
             --打开设置面板
             self:menuPopLayer(layer)
         end
@@ -195,6 +235,19 @@ function TopPanel:menuPopLayer(layer)
     announceBtn:setPosition(cc.p(130, 340))
     announceBtn:addTouchEventListener(function(sender,eventType)--点击事件
         if eventType == ccui.TouchEventType.ended then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.playEffect(Music.COMMON[1])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.stopEffect()
+                end)
+            end
             --公告弹窗
             print("功能未实现")
         end
@@ -218,6 +271,19 @@ function TopPanel:menuPopLayer(layer)
     emailBtn:setPosition(cc.p(130, 250))
     emailBtn:addTouchEventListener(function(sender,eventType)--点击事件
         if eventType == ccui.TouchEventType.ended then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.playEffect(Music.COMMON[1])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.stopEffect()
+                end)
+            end
             --邮箱弹窗
             print("功能未实现")
         end
@@ -241,6 +307,19 @@ function TopPanel:menuPopLayer(layer)
     recordBtn:setPosition(cc.p(130, 160))
     recordBtn:addTouchEventListener(function(sender,eventType)--点击事件
         if eventType == ccui.TouchEventType.ended then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.playEffect(Music.COMMON[1])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.stopEffect()
+                end)
+            end
             --对战记录弹窗
             print("功能未实现")
         end
@@ -264,6 +343,19 @@ function TopPanel:menuPopLayer(layer)
     settingBtn:setPosition(cc.p(130, 70))
     settingBtn:addTouchEventListener(function(sender,eventType)--点击事件
         if eventType == ccui.TouchEventType.ended then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.playEffect(Music.COMMON[1])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.stopEffect()
+                end)
+            end
             --隐藏菜单弹窗
             menuLayer:setVisible(false)
             --打开设置弹窗
@@ -388,9 +480,41 @@ function TopPanel:settingLayer(grayLayer)
             print(isMusic)
             print("音乐开启")
 
+            local MusicOn = SettingMusic:isMusic2()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.MUSIC[1], function ()
+                    audio.playEffect(Music.MUSIC[1])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.MUSIC[1], function ()
+                    audio.stopEffect()
+                end)
+            end
+
             --音效是开启音效时候，全局变量设置为1，进入游戏界面如果全局变量1，则音效开启
         else
             print("2")
+
+            local isMusic = SettingMusic:setMusic2(false)
+            print(isMusic)
+            print("音乐关闭")
+
+            local MusicOn = SettingMusic:isMusic2()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.MUSIC[1], function ()
+                    audio.playEffect(Music.MUSIC[1])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.MUSIC[1], function ()
+                    audio.stopEffect()
+                end)
+            end
 
 
             local isMusic = SettingMusic:setMusic2(false)
@@ -466,6 +590,19 @@ function TopPanel:settingLayer(grayLayer)
     exitBtn:addTo(popUpBg)
     exitBtn:addTouchEventListener(function(sender, eventType)
         if 2 == eventType then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.playEffect(Music.COMMON[1])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.stopEffect()
+                end)
+            end
             popUpBg:setVisible(false)
             self:exitPopLayer(grayLayer)
         end
@@ -499,6 +636,19 @@ function TopPanel:exitPopLayer(grayLayer)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
         elseif eventType == ccui.TouchEventType.ended then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.playEffect(Music.COMMON[1])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.stopEffect()
+                end)
+            end
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
@@ -545,6 +695,19 @@ function TopPanel:replaceHeadIcon(layer)
     deleteBtn:pos(580,1010)
     deleteBtn:addTo(popUpLayer)
     deleteBtn:addTouchEventListener(function(sender, eventType)
+        local MusicOn = SettingMusic:isMusic1()
+        print(MusicOn)
+        if MusicOn == true then
+            local audio = require("framework.audio")
+            audio.loadFile(Music.COMMON[2], function ()
+                audio.playEffect(Music.COMMON[2])
+            end)
+        else
+            local audio = require("framework.audio")
+            audio.loadFile(Music.COMMON[2], function ()
+                audio.stopEffect()
+            end)
+        end
         if 2 == eventType then
             grayLayer:setVisible(false)--隐藏二级弹窗
         end
@@ -662,6 +825,19 @@ function TopPanel:replaceHeadIcon(layer)
     confirmBtn:addTo(popUpLayer)
     confirmBtn:addTouchEventListener(function(sender, eventType)
         if 2 == eventType then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.playEffect(Music.COMMON[1])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.stopEffect()
+                end)
+            end
             self.headBg:loadTexture(self.head)
             grayLayer:setVisible(false)--隐藏二级弹窗
         end
@@ -677,6 +853,19 @@ function TopPanel:createGetHead(layer,path,offsetX,offsetY)--层级、图片路�
     ItemButton:setPosition(cc.p(105+offsetX, display.top-430+offsetY))
     ItemButton:addTouchEventListener(function(sender,eventType)--点击事件
         if eventType == ccui.TouchEventType.ended then
+            local MusicOn = SettingMusic:isMusic1()
+            print(MusicOn)
+            if MusicOn == true then
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.playEffect(Music.COMMON[1])
+                end)
+            else
+                local audio = require("framework.audio")
+                audio.loadFile(Music.COMMON[1], function ()
+                    audio.stopEffect()
+                end)
+            end
             self.head = path
             self.headIcon:loadTexture(self.head)
             local i =tonumber(string.sub(path,-6,-5))
