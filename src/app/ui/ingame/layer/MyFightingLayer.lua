@@ -30,6 +30,7 @@ function MyFightingLayer:ctor()
 
     self.bulletMap_ = {} -- 子弹
     self.towerMap_ = {} -- 塔
+    self.towerStarMap_ = {} -- 塔的等级角标
     self.monsterMap_ = {} -- 小怪
     self.eliteMonsterMap_ = {} -- 精英怪
     self.bossMap_ = {} -- boss
@@ -177,7 +178,7 @@ function MyFightingLayer:onTouchEnded(x, y, tower1)
         local index_x, index_y = index[1], index[2]
         GameData:moveTo(index_x, index_y, tower1)
     else
-        GameData:mergingFightingTower(tower1, tower2)
+        GameData:mergingFightingTower(tower1, tower2, 1)
     end
     touchTower = nil
 end
@@ -203,8 +204,9 @@ function MyFightingLayer:onEnter()
         --角标
         spriteRes = "artcontent/battle(ongame)/battle_interface/anglemark_grade/%d.png"
         sprite = string.format(spriteRes, tower:getStar())
-        local angleMark = cc.Sprite:create(sprite)
+        local angleMark = ccui.ImageView:create(sprite)
         angleMark:setPosition(82, 87)
+        self.towerStarMap_[tower] = angleMark
         node:addChild(angleMark)
     end)
 
@@ -263,6 +265,32 @@ function MyFightingLayer:onEnter()
         node:removeFromParent()
         self.bulletMap_[bullet] = nil
     end)
+
+    --创建boss
+    EventManager:regListener(EventDef.ID.CREATE_BOSS, self, function(boss)
+        local spriteRes = "artcontent/battle(ongame)/randomboss_popup/boss_%d.png"
+        local sprite = string.format(spriteRes, boss:getId())
+        local node = MonsterSprite.new(sprite, boss)
+        node:setPosition(boss:getX(), boss:getY())
+        node:setScale(0.7)
+        self:addChild(node)
+        self.bossMap_[boss] = node
+    end)
+
+    --销毁boss
+    EventManager:regListener(EventDef.ID.DESTORY_BOSS, self, function(boss)
+        local node = self.bossMap_[boss]
+        node:removeFromParent()
+        self.bossMap_[boss] = nil
+    end)
+
+    --更新角标
+    EventManager:regListener(EventDef.ID.UPDATE_STAR, self, function(tower)
+        local spriteRes = "artcontent/battle(ongame)/battle_interface/anglemark_grade/%d.png"
+        local sprite = string.format(spriteRes, tower:getStar())
+        local node = self.towerStarMap_[tower]
+        node:loadTexture(sprite)
+    end)
 end
 
 --[[--
@@ -281,6 +309,9 @@ function MyFightingLayer:onExit()
     EventManager:unRegListener(EventDef.ID.DESTORY_ELITE_MONSTER, self)
     EventManager:unRegListener(EventDef.ID.CREATE_BULLET, self)
     EventManager:unRegListener(EventDef.ID.DESTORY_BULLET, self)
+    EventManager:unRegListener(EventDef.ID.CREATE_BOSS, self)
+    EventManager:unRegListener(EventDef.ID.DESTORY_BOSS, self)
+    EventManager:unRegListener(EventDef.ID.UPDATE_STAR, self)
 end
 
 --[[--
@@ -310,6 +341,11 @@ function MyFightingLayer:update(dt)
 
     --刷新子弹
     for _, node in pairs(self.bulletMap_) do
+        node:update(dt)
+    end
+
+    --刷新boss
+    for _, node in pairs(self.bossMap_) do
         node:update(dt)
     end
 

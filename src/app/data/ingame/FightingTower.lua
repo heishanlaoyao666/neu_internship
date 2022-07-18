@@ -30,8 +30,54 @@ function FightingTower:ctor(tower, indexTable, index, star)
 
     self.fireCd_ = 1 -- 攻速变化
 
+    self.sta_ = 0 -- 阶段
+    self.canShoot_ = 1
+
     EventManager:doEvent(EventDef.ID.CREATE_SELF, self)
 
+end
+--[[--
+    获取是否能射击
+
+    @parm none
+
+    @return number
+]]
+function FightingTower:getCanShoot()
+    return self.canShoot_
+end
+
+--[[--
+    获取是否能射击
+
+    @parm n 类型：number
+
+    @return none
+]]
+function FightingTower:setCanShoot(n)
+    self.canShoot_ = n
+end
+
+--[[--
+    获取阶段
+
+    @parm none
+
+    @return number
+]]
+function FightingTower:getSta()
+    return self.sta_
+end
+
+--[[--
+    设置阶段
+
+    @parm n 类型：number
+
+    @return none
+]]
+function FightingTower:setSta(n)
+    self.sta_ = n
 end
 
 --[[--
@@ -171,6 +217,9 @@ end
 ]]
 function FightingTower:starDown()
     self.star_ = self.star_ - 1
+    if self.star_ > 0 then
+        EventManager:doEvent(EventDef.ID.UPDATE_STAR, self)
+    end
 end
 
 --[[--

@@ -11,15 +11,21 @@ local ConstDef = {
 
     --敌人大小
     MONSTER_SIZE = {
+        --小怪
         {
             WIDTH = 43,
             HEIGHT = 44,
         },
-
+        --精英怪
         {
             WIDTH = 72,
             HEIGHT = 74,
-        }
+        },
+        --boss
+        {
+            WIDTH = 100,
+            HEIGHT = 100,
+        },
     },
 
     --敌人速度
@@ -60,6 +66,7 @@ local ConstDef = {
     --塔强化需要的能量
     ENHANCE_NEED_SP = {100, 200, 400, 700},
 
+    --游戏状态
     GAME_STATE = {
         PLAY = 1,
         ADMIT_DEFEAT = 2, -- 认输

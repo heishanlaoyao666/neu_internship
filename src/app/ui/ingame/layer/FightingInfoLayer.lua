@@ -16,6 +16,20 @@ local angelMark = {
     "artcontent/battle(ongame)/battle_interface/angelmark_towertype/towertype_sup.png",
     "artcontent/battle(ongame)/battle_interface/angelmark_towertype/towertype_control.png"
 }
+--boss名称
+local bossName = {
+    "BOSS-01",
+    "BOSS-02",
+    "BOSS-03",
+    "BOSS-04"
+}
+--boss介绍
+local bossIntroduction = {
+    "将所有防御塔变形。星级不变，种类随机变化。",
+    "每隔7秒沉默两个防御塔, 使其不能攻击, 直到BOSS被杀死。",
+    "出场时使所有防御塔降低一星，一星防御塔直接被摧毁，行进过程中每隔一段时间会向前方高速移动一次。",
+    "不受控制效果影响，在血量为75%、50%、25%时会召唤普通怪物三个，召唤期间无敌。"
+}
 
 --[[--
     构造函数
@@ -37,9 +51,21 @@ function FightingInfoLayer:ctor()
     self.introduction_ = {}
     self.isVisible_ = {}
 
+    self.bossBtn_ = nil
+    self.nextBossId_ = 0
+    self.bossSprite_ = nil
+    self.bossImage_ = nil
+    self.bossName_ = nil
+    self.bossIntroduction_ = nil
+
+    self.bossIntroIsVisable_ = 0
+
+    self.time_ = nil
+
     self:init()
     self:enemyInitView()
     self:initView()
+    self:bossInfo()
 end
 
 --[[--
@@ -51,6 +77,7 @@ end
 ]]
 function FightingInfoLayer:init()
     self.enemyLineup_ = GameData:getEnemyTowers()
+    self.nextBossId_ = GameData:getNextBossId()
 end
 
 
@@ -155,6 +182,7 @@ function FightingInfoLayer:enemyInitView()
     end
 end
 
+
 --[[--
     界面初始化
 
@@ -255,6 +283,73 @@ function FightingInfoLayer:initView()
 end
 
 --[[--
+    boss出现时间与介绍
+
+    @parm none
+
+    @return none
+]]
+function FightingInfoLayer:bossInfo()
+    --boss 按钮
+    local spriteRes = "artcontent/battle(ongame)/battle_interface/button_boss/boss_%d.png"
+    local sprite = string.format(spriteRes, self.nextBossId_)
+    self.bossBtn_ = ccui.Button:create(sprite)
+    self.bossBtn_:setPosition(display.cx - 120, display.cy + 70)
+    self.bossBtn_:addTouchEventListener(function(sender, eventType)
+        if eventType == 2 then
+            if self.bossIntroIsVisable_ == 0 then
+                self.bossSprite_:setVisible(true)
+                self.bossIntroIsVisable_ = 1
+            elseif self.bossIntroIsVisable_ == 1 then
+                self.bossSprite_:setVisible(false)
+                self.bossIntroIsVisable_ = 0
+            end
+        end
+    end)
+    self.bossBtn_:addTo(self)
+
+    --剩余时间
+    self.time_ = ccui.Text:create("02 : 00", "artcontent/font/fzbiaozjw.ttf", 30)
+    self.time_:setPosition(display.cx, display.cy + 70)
+    self.time_:addTo(self)
+
+    --boss介绍底图
+    self.bossSprite_ = cc.Sprite:create("artcontent/battle(ongame)/boss_informationpopup/basemap_popup.png")
+    self.bossSprite_:setPosition(display.cx, display.cy - 130)
+    self.bossSprite_:addTo(self)
+    self.bossSprite_:setVisible(false)
+
+    --boss图片
+    spriteRes = "artcontent/battle(ongame)/boss_informationpopup/boss_%d.png"
+    sprite = string.format(spriteRes, self.nextBossId_)
+    self.bossImage_ = ccui.ImageView:create(sprite)
+    self.bossImage_:setPosition(display.cx - 240, display.cy - 460)
+    self.bossImage_:addTo(self.bossSprite_)
+
+    --boss名字
+    self.bossName_ = ccui.Text:create(bossName[self.nextBossId_], "artcontent/font/fzbiaozjw.ttf", 26)
+    self.bossName_:setPosition(display.cx - 50, display.cy - 410)
+    self.bossName_:addTo(self.bossSprite_)
+
+    --boss介绍
+    self.bossIntroduction_ = ccui.Text:create("", "artcontent/font/fzbiaozjw.ttf", 22)
+    local skillIntroduction = bossIntroduction[self.nextBossId_]
+    local str = ""
+    while #skillIntroduction > 11 * 3 do
+        local stringFront = string.sub(skillIntroduction, 1, 11 * 3)
+        skillIntroduction = string.sub(skillIntroduction, 11 * 3 + 1, #skillIntroduction)
+        str = str .. stringFront .. "\n"
+    end
+    if #skillIntroduction > 0 then
+        str = str .. skillIntroduction
+    end
+    self.bossIntroduction_:setString(str)
+    self.bossIntroduction_:setAnchorPoint(0,1)
+    self.bossIntroduction_:setPosition(display.cx - 110, display.cy - 480)
+    self.bossIntroduction_:addTo(self.bossSprite_)
+end
+
+--[[--
     刷新生命
 
     @param none
@@ -265,15 +360,67 @@ function FightingInfoLayer:updatePoint()
     local myPoint = GameData:getMyPoint()
     local enemyPoint = GameData:getEnemyPoint()
     if myPoint > 0 and myPoint < 3 then
-        myPoint_[myPoint + 1]:loadTexture("artcontent/battle(ongame)/battle_interface/hp_empty.png")
+        for i = 3, myPoint + 1, -1 do
+            myPoint_[i]:loadTexture("artcontent/battle(ongame)/battle_interface/hp_empty.png")
+        end
     elseif myPoint == 0 then
+        myPoint_[myPoint + 1]:loadTexture("artcontent/battle(ongame)/battle_interface/hp_empty.png")
         GameData:setGameState(ConstDef.GAME_STATE.SETTLEMENT_DEFEAT)
     end
     if enemyPoint > 0 and enemyPoint < 3 then
+        for i = 3, enemyPoint + 1, -1 do
+            enemyPoint_[i]:loadTexture("artcontent/battle(ongame)/battle_interface/hp_empty.png")
+        end
+    elseif enemyPoint == 0 then
         enemyPoint_[enemyPoint + 1]:loadTexture("artcontent/battle(ongame)/battle_interface/hp_empty.png")
-    elseif myPoint == 0 then
         GameData:setGameState(ConstDef.GAME_STATE.SETTLEMENT_VICTORY)
     end
+end
+
+--[[--
+    刷新boss介绍
+
+    @parm none
+
+    @return none
+]]
+function FightingInfoLayer:bossIntroductionUpdate()
+    if self.nextBossId_ ~= GameData:getNextBossId() then
+        self.nextBossId_ = GameData:getNextBossId()
+        --按钮更换
+        local spriteRes = "artcontent/battle(ongame)/battle_interface/button_boss/boss_%d.png"
+        local sprite = string.format(spriteRes, self.nextBossId_)
+        self.bossBtn_:loadTextureNormal(sprite)
+        --图片更换
+        spriteRes = "artcontent/battle(ongame)/boss_informationpopup/boss_%d.png"
+        sprite = string.format(spriteRes, self.nextBossId_)
+        self.bossImage_:loadTexture(sprite)
+        --名字更换
+        self.bossName_:setString(bossName[self.nextBossId_])
+        --介绍更换
+        local skillIntroduction = bossIntroduction[self.nextBossId_]
+        local str = ""
+        while #skillIntroduction > 11 * 3 do
+            local stringFront = string.sub(skillIntroduction, 1, 11 * 3)
+            skillIntroduction = string.sub(skillIntroduction, 11 * 3 + 1, #skillIntroduction)
+            str = str .. stringFront .. "\n"
+        end
+        if #skillIntroduction > 0 then
+            str = str .. skillIntroduction
+        end
+        self.bossIntroduction_:setString(str)
+    end
+end
+
+--[[--
+    刷新时间
+
+    @pram none
+
+    @return none
+]]
+function FightingInfoLayer:timeUpdate()
+    self.time_:setString(GameData:bossTime())
 end
 
 --[[--
@@ -286,6 +433,8 @@ end
 function FightingInfoLayer:update(dt)
     self.sumSpNum_:setString(GameData:getSumSp())
     self:updatePoint()
+    self:bossIntroductionUpdate()
+    self:timeUpdate()
 end
 
 return FightingInfoLayer

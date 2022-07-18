@@ -270,13 +270,43 @@ function RewardView:showView(myResult, myName, myTrophyNum, trophy, gold, diamon
     for i = 1, 3 do
         totalTrophy = totalTrophy + trophy[i]
         totalGold = totalGold + gold[i]
-        self.rewardTrophyNum_[i]:setString(tostring(trophy[i]))
-        self.rewardGoldNum_[i]:setString(tostring(gold[i]))
+        local str1
+        if trophy[i] >= 0 then
+            str1 = "+"..tostring(trophy[i])
+        else
+            str1 = tostring(trophy[i])
+        end
+        self.rewardTrophyNum_[i]:setString(str1)
+        local str2
+        if gold[i] >= 0 then
+            str2 = "+"..tostring(gold[i])
+        else
+            str2 = tostring(gold[i])
+        end
+        self.rewardGoldNum_[i]:setString(str2)
     end
-    self.rewardDiamondNum_[1]:setString(tostring(diamond))
-    self.rewardTrophyNum_[4]:setString(tostring(totalTrophy))
-    self.rewardGoldNum_[4]:setString(tostring(totalGold))
-    self.rewardDiamondNum_[2]:setString(tostring(diamond))
+    local str3
+    if diamond >= 0 then
+        str3 = "+"..tostring(diamond)
+    else
+        str3 = tostring(diamond)
+    end
+    self.rewardDiamondNum_[1]:setString(str3)
+    local str4
+    if totalTrophy >= 0 then
+        str4 = "+"..tostring(totalTrophy)
+    else
+        str4 = tostring(totalTrophy)
+    end
+    self.rewardTrophyNum_[4]:setString(str4)
+    local str5
+    if totalGold >= 0 then
+        str5 = "+"..tostring(totalGold)
+    else
+        str5 = tostring(totalGold)
+    end
+    self.rewardGoldNum_[4]:setString(str5)
+    self.rewardDiamondNum_[2]:setString(str3)
     self:setVisible(true)
     self:setScale(0)
     self:runAction(cc.ScaleTo:create(0.15, 1))

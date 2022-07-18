@@ -32,6 +32,9 @@ EventDef.ID = {
     BASE_INJURED = 25, -- 基地受伤
     GOODS_CHANGE=26, --商品改变
     GOLDSHOP_CHANGE=27, --金币商店改变
+    CREATE_BOSS = 28, -- 创建boss
+    DESTORY_BOSS = 29, -- 销毁boss
+    UPDATE_STAR = 30,
 }
 
 return EventDef
