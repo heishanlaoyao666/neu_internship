@@ -25,6 +25,8 @@ EventDef.ID = {
     UP_TOWER_GRADE = 770, --塔强化
     CHECKCOLLIDER = 550, --碰撞计算
     GAMESTATE_CHANGE = 666, -- 游戏状态变化
+    PLAYER_LIFE_CHANGE = 667,--玩家血量变化
+    PLAYER_SURRENDER = 668,-- 玩家投降
 
     KNAPSACK_LOGIN = 5088, --背包系统登陆
 

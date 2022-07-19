@@ -8,7 +8,7 @@ local MsgDef = {}
 -- 请求消息
 MsgDef.MSG_TYPE_REQ = {
     STARTGAME   =    1,
-	REFRESHHP   =    2,
+	GAMEOVER   =    2,
 	UPLOADSCORE =    3,
 	HEARTBEAT   =    4,
 	LOGIN       =    5,
@@ -26,6 +26,9 @@ MsgDef.MSG_TYPE_REQ = {
 	TOWERUPGRADE = 1003,
 	TOWERCREATE = 1004,
 	BOSSTRUE = 1005,
+	LIFECHANGE= 1006,
+	GAMEDATAOVER = 1007,
+	SURRENDER= 1008,
 }
 
 -- 响应消息
@@ -47,6 +50,11 @@ MsgDef.MSG_TYPE_ACK = {
 	TOWERUPGRADE=    0x80000 - 1003,
 	TOWERCREATE =    0x80000 - 1004,
 	BOSSTRUE    =    0x80000 - 1005,
+	LIFECHANGE  =    0x80000 - 1006,
+	GAMEWIN     =    0x80000 - 1007,
+	SURRENDER   =    0x80000 - 1008,
+	GAMELOSE    =    0x80000 - 1009,
+
 }
 
 return MsgDef

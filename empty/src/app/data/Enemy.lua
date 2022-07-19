@@ -163,6 +163,7 @@ function Enemy:update(dt)
 
     if self.target_id>self.target.MAXID then
         self:destory()
+        EventManager:doEvent(EventDef.ID.PLAYER_LIFE_CHANGE,self)
         return
     end
     if self.target[self.target_id].MOVEX~=0 then

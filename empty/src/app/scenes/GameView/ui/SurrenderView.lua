@@ -7,7 +7,8 @@ local SurrenderView = class("SurrenderView", function()
 end)
 local ConstDef = require("app/def/ConstDef")
 local GameData = require("app/data/GameData.lua")
-
+local EventDef = require("app/def/EventDef.lua")
+local EventManager = require("app/manager/EventManager.lua")
 --[[--
     构造函数
 
@@ -62,7 +63,7 @@ function SurrenderView:initView()
     surrenderBtn:setPosition(300, 60)
     surrenderBtn:addTouchEventListener(function(sender, eventType) 
         if eventType == 2 then
-            
+            EventManager:doEvent(EventDef.ID.PLAYER_SURRENDER)
         end
     end)
     --取消按钮

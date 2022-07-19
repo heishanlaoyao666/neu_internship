@@ -14,8 +14,10 @@ function BossCreate(buff,target)
     local monsters =target:getPlayer():getMonster()
     local newlife = 0
     for i = 1, #monsters do
-        newlife=newlife+monsters[i]:getLife()
-        monsters[i]:destory()
+        if monsters[i]:isDeath()~=true then
+            newlife=newlife+monsters[i]:getLife()
+            monsters[i]:destory()
+        end
     end
     target:setLife(newlife*0.5)
 end
@@ -23,7 +25,9 @@ function GetLife(buff,target)
     local monsters =target:getPlayer():getMonster()
     local newlife = 0
     for i = 1, #monsters do
-        newlife=newlife+monsters[i]:getLife()
+        if monsters[i]:isDeath()~=true and monsters[i]:getTag()~=ConstDef.MONSTER_TAG.LIFE then
+            newlife=newlife+monsters[i]:getLife()
+        end
     end
     if newlife~=0 then
         target:setLife(newlife-target:getLife())

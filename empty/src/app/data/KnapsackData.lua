@@ -306,6 +306,15 @@ function KnapsackData:getDataTable()
         table.towerData[i].level=towerData[i].level_  --塔当前等级
     end
     --塔阵容数据
+    table.towerArray={}
+    for i = 1, 3 do
+        table.towerArray[i]={}
+        for j = 1, 5 do
+            table.towerArray[j]={}
+            table.towerArray[i][j].id = towerArray[i][j].tower_id_
+            table.towerArray[i][j].level = towerArray[i][j].tower_level_
+        end
+    end
     return table
 end
 --[[--

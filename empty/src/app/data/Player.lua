@@ -24,6 +24,7 @@ function Player:ctor()
     self.tower_array = {} --塔阵容
     self.sp_ = 0 --sp点数
     self.sp_cost = 10 --生成塔需要的cost
+    self.life=3
     for i = 1,3 do
         self.towers[i]={}
         for j = 1,5 do
@@ -83,6 +84,16 @@ end
     @return sp_cost
 ]]
 function Player:getLife()
+    return self.life
+end
+--[[--
+    设置玩家生命
+
+    @param none
+
+    @return sp_cost
+]]
+function Player:setLife()
     return self.life
 end
 --[[--

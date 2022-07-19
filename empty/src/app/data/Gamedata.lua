@@ -67,6 +67,29 @@ function GameData:init()
         damages_[#damages_+1] = damage
         --audio.playEffect("sounds/fireEffect.ogg", false)
     end)
+    EventManager:regListener(EventDef.ID.PLAYER_SURRENDER, self, function()
+        local msg = {
+            type= MsgDef.MSG_TYPE_REQ.SURRENDER,
+            serialNumber=self.serialNumber,
+            pid=self.pid,
+            sd=999,
+        }
+        MsgController:sendMsg(msg)
+    end)
+    EventManager:regListener(EventDef.ID.PLAYER_LIFE_CHANGE, self, function(monster)
+        local msg = {
+            type= MsgDef.MSG_TYPE_REQ.LIFECHANGE,
+            serialNumber=self.serialNumber,
+            number=1,
+        }
+        if  monster:getPlayer():getTag() == ConstDef.GAME_TAG.UP then
+            msg["pid"]=self.pid
+        end
+        if monster:getTag()<=ConstDef.MONSTER_TAG.BOSS_4 and monster:getTag()>=ConstDef.MONSTER_TAG.BOSS_1 then
+            msg["number"]=2
+        end
+        MsgController:sendMsg(msg)
+    end)
     EventManager:regListener(EventDef.ID.OPPOSITE_ENEMY, self, function(monster)
         if monster:getTag()~=ConstDef.GAME_TAG.LIFE then
             if monster:getPlayer():getTag()~=ConstDef.GAME_TAG.UP then
@@ -133,7 +156,21 @@ function GameData:init()
             self:setGameState(ConstDef.GAME_STATE.PLAY)
             gameframe=1
             self:sendGamePlay()
+        elseif  msg["type"] == MsgDef.MSG_TYPE_ACK.LIFECHANGE then
+            if msg["pid"]==self.pid then
+                self.opposite_:setLife(msg["number"])
+            else
+                self.player_:setLife(msg["number"])
+            end
+        elseif  msg["type"] == MsgDef.MSG_TYPE_ACK.GAMEWIN then
+            print("赢了怎么说赢了")
+        elseif  msg["type"] == MsgDef.MSG_TYPE_ACK.GAMELOSE then
+            print("输了怎么说输了")
+        elseif  msg["type"] == MsgDef.MSG_TYPE_ACK.GAMEOVER then
+            msg["type"]=MsgDef.MSG_TYPE_REQ.GAMEOVER
+            MsgController:sendMsg(msg)
         end
+        
     end)
 end
 --[[--
