@@ -13,6 +13,17 @@ local EventManager = require("app/manager/EventManager.lua")
 local Music = require("app.data.Music")
 local SettingMusic = require("src.app.scenes.SettingMusic")
 function Battle:ctor()
+    self:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, handler(self, self.update))
+    self:performWithDelay(function()
+        self:scheduleUpdate()
+    end,1)
+end
+
+--[[
+    函数用途：（游戏外）战斗帧循环
+    --]]
+function Battle:update(dt)
+    --self:teamRefresh(self.tower1,self.quality1,self.levels1)
 end
 
 function Battle:battlePanelCreate()
@@ -31,6 +42,7 @@ function Battle:battlePanelCreate()
 
     --当前队伍展示
     self:teamShow(battleLayer)
+
     return battleLayer
 end
 
@@ -160,12 +172,19 @@ function Battle:teamShow(layer)
     showLayer:setAnchorPoint(0, 0)
     showLayer:setPosition(30, 310)
     showLayer:addTo(layer)
-    self.tower1 = self:createTroopItem(showLayer,KnapsackData:getTowerArray(1)[1].tower_id_,0)
-    self.tower2 = self:createTroopItem(showLayer,KnapsackData:getTowerArray(1)[2].tower_id_,130*1)
-    self.tower3 = self:createTroopItem(showLayer,KnapsackData:getTowerArray(1)[3].tower_id_,130*2)
-    self.tower4 = self:createTroopItem(showLayer,KnapsackData:getTowerArray(1)[4].tower_id_,130*3)
-    self.tower5 = self:createTroopItem(showLayer,KnapsackData:getTowerArray(1)[5].tower_id_,130*4)
+    self:createTroopItem(showLayer,KnapsackData:getTowerArray(1)[1].tower_id_,0)
+    self:createTroopItem(showLayer,KnapsackData:getTowerArray(1)[2].tower_id_,130*1)
+    self:createTroopItem(showLayer,KnapsackData:getTowerArray(1)[3].tower_id_,130*2)
+    self:createTroopItem(showLayer,KnapsackData:getTowerArray(1)[4].tower_id_,130*3)
+    self:createTroopItem(showLayer,KnapsackData:getTowerArray(1)[5].tower_id_,130*4)
 end
+
+function Battle:teamRefresh(tower,quality,levels)
+    tower:loadTexture(Towerdata.OBTAINED[KnapsackData:getTowerArray(1)[1].tower_id_])
+    quality:loadTexture("ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_"..TowerDef.TABLE[Towerdata.OBTAINED[KnapsackData:getTowerArray(1)[1].tower_id_]].TYPE..".png")
+    levels:loadTexture("ui/hall/Atlas/Subinterface_currentsquad/rank/lv."..KnapsackData:getTowerGrade(tonumber(string.sub(Towerdata.OBTAINED[KnapsackData:getTowerArray(1)[1].tower_id_],27,-5)))..".png")
+end
+
 
 --[[
     函数用途：创建阵容内的塔
@@ -198,6 +217,8 @@ function Battle:createTroopItem(layer,i,offsetX)
     local levels =ccui.ImageView:create(level)
     levels:setPosition(cc.p(60, -20))
     levels:addTo(ItemButton)
+
+    return
 end
 
 

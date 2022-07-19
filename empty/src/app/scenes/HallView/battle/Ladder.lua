@@ -13,6 +13,7 @@ local GeneralView = require("app.scenes.HallView.common.GeneralView")
     --]]
 function Ladder:ladderCreate(battleLayer)
     self.cups = KnapsackData:getCups()
+    print("奖杯数"..self.cups)
     --层：天梯背景层
     local highLadderLayer = ccui.ImageView:create("ui/hall/battle/rank/highLadderBg.png")
     highLadderLayer:pos(display.cx, display.top-180)
@@ -70,7 +71,7 @@ end
     函数用途：展示各个进度的奖励
     --]]
 function Ladder:awards(battleLayer,listView)
-    local num = self.cups/50--奖励进度,最多23个
+    local num = math.floor(self.cups/50)--奖励进度,最多23个
     print("共可领取的奖励个数为:"..num)
     for i = 1,num do--已达成，未领取
         local bg = "ui/hall/battle/rank/availableButNotReceive.png"

@@ -101,11 +101,11 @@ function TroopLayer:troopFirstCreate(originX,arrayLine,collectLayer)
     selectedState:addTo(self.troop1stLayer)
     --层级,卡牌图片路径,卡牌类型,卡牌等级,offsetX,offsetY
 
-    self:createTroopItem(self.troop1stLayer,self.FirstTowerArray[1].tower_id_,0,0,1,1)
-    self:createTroopItem(self.troop1stLayer,self.FirstTowerArray[2].tower_id_,130,0,1,2)
-    self:createTroopItem(self.troop1stLayer,self.FirstTowerArray[3].tower_id_,130+130,0,1,3)
-    self:createTroopItem(self.troop1stLayer,self.FirstTowerArray[4].tower_id_,130*3,0,1,4)
-    self:createTroopItem(self.troop1stLayer,self.FirstTowerArray[5].tower_id_,130*4,0,1,5)
+    self:createTroopItem(self.troop1stLayer,self.FirstTowerArray[1].tower_id_,0,1,1)
+    self:createTroopItem(self.troop1stLayer,self.FirstTowerArray[2].tower_id_,130,1,2)
+    self:createTroopItem(self.troop1stLayer,self.FirstTowerArray[3].tower_id_,130+130,1,3)
+    self:createTroopItem(self.troop1stLayer,self.FirstTowerArray[4].tower_id_,130*3,1,4)
+    self:createTroopItem(self.troop1stLayer,self.FirstTowerArray[5].tower_id_,130*4,1,5)
 
 end
 
@@ -147,11 +147,11 @@ function TroopLayer:troopSecondCreate(originX,arrayLine,collectLayer)
     selectedState:pos(420,238)
     selectedState:addTo(self.troop2ndLayer)
     --层级,卡牌图片路径,卡牌类型,卡牌等级,offsetX,offsetY
-    self:createTroopItem(self.troop2ndLayer,self.SecondTowerArray[1].tower_id_,0,0,2,1)
-    self:createTroopItem(self.troop2ndLayer,self.SecondTowerArray[2].tower_id_,130,0,2,2)
-    self:createTroopItem(self.troop2ndLayer,self.SecondTowerArray[3].tower_id_,130+130,0,2,3)
-    self:createTroopItem(self.troop2ndLayer,self.SecondTowerArray[4].tower_id_,130*3,0,2,4)
-    self:createTroopItem(self.troop2ndLayer,self.SecondTowerArray[5].tower_id_,130*4,0,2,5)
+    self:createTroopItem(self.troop2ndLayer,self.SecondTowerArray[1].tower_id_,0,2,1)
+    self:createTroopItem(self.troop2ndLayer,self.SecondTowerArray[2].tower_id_,130,2,2)
+    self:createTroopItem(self.troop2ndLayer,self.SecondTowerArray[3].tower_id_,130+130,2,3)
+    self:createTroopItem(self.troop2ndLayer,self.SecondTowerArray[4].tower_id_,130*3,2,4)
+    self:createTroopItem(self.troop2ndLayer,self.SecondTowerArray[5].tower_id_,130*4,2,5)
 
 end
 
@@ -263,7 +263,7 @@ function TroopLayer:createTroopItem(layer,i,offsetX,troop,location)
             sender:runAction(ease_elastic)
             if self.i~=0 then--如果ID存在则替换，替换后设置为0放置再次点击会继续替换
                 self:Change(ItemButton,quality,levels,self.i)
-                --
+
                 print(troop..","..location..","..self.i..","..KnapsackData:getTowerGrade(self.i))
                 --第troop个阵容，第troop个阵容的第location个位置,新卡的ID，新卡的等级
                 KnapsackData:setTowerArray(troop,location,self.i,KnapsackData:getTowerGrade(self.i))
@@ -345,7 +345,7 @@ function TroopLayer:towerUsingPanel(collectLayer,icon)
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
-            self.towerusingLayer:setVisible(false)--隐藏二级弹窗
+            self.towerUsingLayer:setVisible(false)--隐藏二级弹窗
             collectLayer:setTouchEnabled(true)
         elseif eventType == ccui.TouchEventType.canceled then
             local scale = cc.ScaleTo:create(1,1)
