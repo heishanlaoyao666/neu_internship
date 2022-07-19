@@ -703,17 +703,18 @@ function Atlas:towerinfoPanel(collectLayer,path,bg,towertype,rank)--稀有度背
             if KnapsackData:setTowerFragment_(chartnum,-KnapsackData:getupgradefrag(chartnum)) then
                 print("升级后碎片数量为"..KnapsackData:getTowerFragment_(chartnum))
                             --消耗金币
-            if KnapsackData:setGoldCoin(-KnapsackData:getupgradecoin(chartnum)) then--如果金币充足
-                print("升级后金币数量为"..KnapsackData:getGoldCoin())
-            else--金币不足
-                popLayer:setVisible(false)
-                GeneralView:popUpLayer(towerinfoLayer,"CardGold")
-            end
-            KnapsackData:sendData()
+                if KnapsackData:setGoldCoin(-KnapsackData:getupgradecoin(chartnum)) then--如果金币充足
+                    print("升级后金币数量为"..KnapsackData:getGoldCoin())
+                else--金币不足
+                    popLayer:setVisible(false)
+                    GeneralView:popUpLayer(towerinfoLayer,"CardGold")
+                end
+                
             else--碎片不足
                 popLayer:setVisible(false)
                 GeneralView:popUpLayer(towerinfoLayer,"CardFragment")
             end
+            KnapsackData:sendData()
 
             -- --消耗金币
             -- if KnapsackData:setGoldCoin(-KnapsackData:getupgradecoin(chartnum)) then--如果金币充足
