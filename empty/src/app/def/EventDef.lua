@@ -31,6 +31,22 @@ EventDef.ID = {
     KNAPSACK_LOGIN = 5088, --背包系统登陆
 
     CREATE_GAME = 50885,--游戏创建
+
+    score_show_1 =11111,--结算分数演示1
+    SCORE_SHOW_2 =22222,--结算分数演示2
+    SCORE_SHOW_3 =33333,--结算分数演示3
+
+    INTO_GAME = 1001,--进入游戏
+    SELECT_BOSS = 1002,--选择boss
+    CONFIRM_BOSS = 1003,--选中boss
+    BOSS_SHOW = 1004,--boss出现
+    TOWER_BUILD = 1005,--防御塔生成
+    TOWER_COMPOSE = 1006,--防御塔合成
+    TOWER_ATK = 1007,--防御塔攻击
+    TOWER_ATK_HIT = 1008,--防御塔击中目标
+    WIN = 1009,--胜利音效
+    GET_AWRADS = 1010,--领取奖励音效
+    LOSE = 1011,--失败音效
 }
 
 return EventDef
