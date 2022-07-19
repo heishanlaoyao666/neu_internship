@@ -4,10 +4,14 @@
 ---最后修改日期：7/15
 local Battle = {}
 local Ladder = require("app.scenes.HallView.battle.Ladder")
+local Towerdata = require("app.data.Towerdata")
+local TowerDef = require("app.def.TowerDef")
 local GameData = require("app/data/GameData.lua")
 local KnapsackData=require("app.data.KnapsackData")
 local EventDef = require("app/def/EventDef.lua")
 local EventManager = require("app/manager/EventManager.lua")
+local Music = require("app.data.Music")
+local SettingMusic = require("src.app.scenes.SettingMusic")
 function Battle:ctor()
 end
 
@@ -25,7 +29,26 @@ function Battle:battlePanelCreate()
     --开始游戏按钮
     self:playGames(battleLayer)
 
+    --当前队伍展示
+    self:teamShow(battleLayer)
     return battleLayer
+end
+
+--[[
+    函数用途：创建灰色背景
+    --]]
+function Battle:grayLayer(battleLayer)--参数：层
+    local width ,height = display.width,display.height
+    local grayLayer = ccui.Layout:create()
+    grayLayer:setBackGroundColor(cc.c4b(0,0,0,128))
+    grayLayer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
+    grayLayer:setBackGroundColorOpacity(128)--设置透明度
+    grayLayer:setContentSize(width, height)
+    grayLayer:pos(width/2, height/2+140)
+    grayLayer:setAnchorPoint(0.5, 0.5)
+    grayLayer:addTo(battleLayer)
+    grayLayer:setTouchEnabled(true)--屏蔽一级界面
+    return grayLayer
 end
 
 --[[
@@ -38,8 +61,9 @@ function Battle:playGames(battleLayer)
         disabled = "ui/hall/battle/Button-Battle_Mode.png"
     }
     local NewGameBtn = ccui.Button:create(images["normal"], images["pressed"], images["disabled"])
+    NewGameBtn:setScale(0.9)
     NewGameBtn:setAnchorPoint(cc.p(0.5 ,0.5))
-    NewGameBtn:setPosition(cc.p(display.cx, display.cy+50))
+    NewGameBtn:setPosition(cc.p(display.cx, display.cy+70))
     NewGameBtn:setEnabled(true)
     NewGameBtn:addTouchEventListener(function(sender, eventType)
         if eventType == ccui.TouchEventType.ended then
@@ -48,7 +72,6 @@ function Battle:playGames(battleLayer)
     end)
     NewGameBtn:addTo(battleLayer)
 end
-
 
 --[[
     函数用途：匹配弹窗
@@ -99,23 +122,6 @@ function Battle:matchingPopLayer(battleLayer)
     self:cancelButton(grayLayer,popLayer)
     
 end
---[[
-    函数用途：创建灰色背景
-    --]]
-function Battle:grayLayer(battleLayer)--参数：层
-    local width ,height = display.width,display.height
-    local grayLayer = ccui.Layout:create()
-    grayLayer:setBackGroundColor(cc.c4b(0,0,0,128))
-    grayLayer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
-    grayLayer:setBackGroundColorOpacity(128)--设置透明度
-    grayLayer:setContentSize(width, height)
-    grayLayer:pos(width/2, height/2+140)
-    grayLayer:setAnchorPoint(0.5, 0.5)
-    grayLayer:addTo(battleLayer)
-    grayLayer:setTouchEnabled(true)--屏蔽一级界面
-    return grayLayer
-end
-
 
 --[[
     函数用途：取消按钮
@@ -142,6 +148,59 @@ function Battle:cancelButton(grayLayer,popLayer)
     end)
     cancelButton:addTo(popLayer)
 end
+
+--[[
+    函数用途:当前队伍展示
+    --]]
+function Battle:teamShow(layer)
+    local showLayer = ccui.Layout:create()
+    showLayer:setBackGroundColorOpacity(180)--设置为透明
+    --showLayer:setBackGroundColorType(1)
+    showLayer:setContentSize(662,140)
+    showLayer:setAnchorPoint(0, 0)
+    showLayer:setPosition(30, 310)
+    showLayer:addTo(layer)
+    self.tower1 = self:createTroopItem(showLayer,KnapsackData:getTowerArray(1)[1].tower_id_,0)
+    self.tower2 = self:createTroopItem(showLayer,KnapsackData:getTowerArray(1)[2].tower_id_,130*1)
+    self.tower3 = self:createTroopItem(showLayer,KnapsackData:getTowerArray(1)[3].tower_id_,130*2)
+    self.tower4 = self:createTroopItem(showLayer,KnapsackData:getTowerArray(1)[4].tower_id_,130*3)
+    self.tower5 = self:createTroopItem(showLayer,KnapsackData:getTowerArray(1)[5].tower_id_,130*4)
+end
+
+--[[
+    函数用途：创建阵容内的塔
+    参数：i--塔总列表中的顺序
+          troop--第几个阵容
+          location--在阵容中的位置
+    --]]
+function Battle:createTroopItem(layer,i,offsetX)
+    --图片路径
+    local path = Towerdata.OBTAINED[i]
+    --塔类型
+    local towerType = "ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_"..TowerDef.TABLE[i].TYPE..".png"
+    --塔ID
+    local id = tonumber(string.sub(path,27,-5))
+    --塔等级
+    local level = "ui/hall/Atlas/Subinterface_currentsquad/rank/lv."..KnapsackData:getTowerGrade(id)..".png"
+
+    --按钮
+    local ItemButton = ccui.ImageView:create(path)
+    ItemButton:setPosition(cc.p(75+offsetX, 100))
+    ItemButton:setTouchEnabled(true)
+    ItemButton:addTo(layer)
+
+    --攻击 辅助 控制 干扰 召唤
+    local quality =ccui.ImageView:create(towerType)
+    quality:setPosition(cc.p(90, 100))
+    quality:addTo(ItemButton)
+
+    --等级
+    local levels =ccui.ImageView:create(level)
+    levels:setPosition(cc.p(60, -20))
+    levels:addTo(ItemButton)
+end
+
+
 
 --[[
     函数用途：按钮放缩特效

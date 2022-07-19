@@ -37,7 +37,6 @@ function KnapsackData:init()
     self.pid_ = 0
     math.randomseed(tostring(os.time()):reverse():sub(1,7))
     self.name_ = "50885"..math.random(10)
-    --self.name_ = "508851"
     for i = 1, 20 do
         towerData[i]={}
         towerData[i].unlock_=false --塔是否解锁

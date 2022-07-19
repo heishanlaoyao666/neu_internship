@@ -9,9 +9,15 @@ local KnapsackData = require("app.data.KnapsackData")
 local Music = require("app.data.Music")
 local SettingMusic = require("src.app.scenes.SettingMusic")
 
---阵容层
+--[[
+    函数用途：当前阵容
+    --]]
 function TroopLayer:createTroopPanel(collectLayer)
     local height = display.top
+    self.i = 0
+    self.FirstTowerArray = KnapsackData:getTowerArray(1)
+    self.SecondTowerArray = KnapsackData:getTowerArray(2)
+    self.ThirdTowerArray = KnapsackData:getTowerArray(3)
     --阵容底图
     local troopBg=ccui.ImageView:create("ui/hall/Atlas/Subinterface_currentsquad/bottomchart_area.png")
     troopBg:setScale(1)
@@ -94,11 +100,12 @@ function TroopLayer:troopFirstCreate(originX,arrayLine,collectLayer)
     selectedState:pos(350,238)
     selectedState:addTo(self.troop1stLayer)
     --层级,卡牌图片路径,卡牌类型,卡牌等级,offsetX,offsetY
-    self:createTroopItem(self.troop1stLayer,1,0,0)
-    self:createTroopItem(self.troop1stLayer,6,130,0)
-    self:createTroopItem(self.troop1stLayer,8,130+130,0)
-    self:createTroopItem(self.troop1stLayer,9,130*3,0)
-    self:createTroopItem(self.troop1stLayer,7,130*4,0)
+
+    self:createTroopItem(self.troop1stLayer,self.FirstTowerArray[1].tower_id_,0,0,1,1)
+    self:createTroopItem(self.troop1stLayer,self.FirstTowerArray[2].tower_id_,130,0,1,2)
+    self:createTroopItem(self.troop1stLayer,self.FirstTowerArray[3].tower_id_,130+130,0,1,3)
+    self:createTroopItem(self.troop1stLayer,self.FirstTowerArray[4].tower_id_,130*3,0,1,4)
+    self:createTroopItem(self.troop1stLayer,self.FirstTowerArray[5].tower_id_,130*4,0,1,5)
 
 end
 
@@ -140,11 +147,11 @@ function TroopLayer:troopSecondCreate(originX,arrayLine,collectLayer)
     selectedState:pos(420,238)
     selectedState:addTo(self.troop2ndLayer)
     --层级,卡牌图片路径,卡牌类型,卡牌等级,offsetX,offsetY
-    self:createTroopItem(self.troop2ndLayer,2,0,0)
-    self:createTroopItem(self.troop2ndLayer,6,130,0)
-    self:createTroopItem(self.troop2ndLayer,8,130+130,0)
-    self:createTroopItem(self.troop2ndLayer,9,130*3,0)
-    self:createTroopItem(self.troop2ndLayer,7,130*4,0)
+    self:createTroopItem(self.troop2ndLayer,self.SecondTowerArray[1].tower_id_,0,0,2,1)
+    self:createTroopItem(self.troop2ndLayer,self.SecondTowerArray[2].tower_id_,130,0,2,2)
+    self:createTroopItem(self.troop2ndLayer,self.SecondTowerArray[3].tower_id_,130+130,0,2,3)
+    self:createTroopItem(self.troop2ndLayer,self.SecondTowerArray[4].tower_id_,130*3,0,2,4)
+    self:createTroopItem(self.troop2ndLayer,self.SecondTowerArray[5].tower_id_,130*4,0,2,5)
 
 end
 
@@ -186,24 +193,33 @@ function TroopLayer:troopThirdCreate(originX,arrayLine,collectLayer)
     selectedState:pos(490,238)
     selectedState:addTo(self.troop3rdLayer)
     --层级,卡牌图片路径,卡牌类型,卡牌等级,offsetX,offsetY
-    self:createTroopItem(self.troop3rdLayer,3,0,0)
-    self:createTroopItem(self.troop3rdLayer,6,130,0)
-    self:createTroopItem(self.troop3rdLayer,8,130+130,0)
-    self:createTroopItem(self.troop3rdLayer,9,130*3,0)
-    self:createTroopItem(self.troop3rdLayer,7,130*4,0)
+    self:createTroopItem(self.troop3rdLayer,self.ThirdTowerArray[1].tower_id_,0,3,1)
+    self:createTroopItem(self.troop3rdLayer,self.ThirdTowerArray[2].tower_id_,130,3,2)
+    self:createTroopItem(self.troop3rdLayer,self.ThirdTowerArray[3].tower_id_,130*2,3,3)
+    self:createTroopItem(self.troop3rdLayer,self.ThirdTowerArray[4].tower_id_,130*3,3,4)
+    self:createTroopItem(self.troop3rdLayer,self.ThirdTowerArray[5].tower_id_,130*4,3,5)
 
 end
 
---阵容按钮
-function TroopLayer:createTroopItem(layer,i,offsetX,offsetY)
+--[[
+    函数用途：创建阵容内的塔
+    参数：i--塔总列表中的顺序
+          troop--第几个阵容
+          location--在阵容中的位置
+    --]]
+function TroopLayer:createTroopItem(layer,i,offsetX,troop,location)
+    --图片路径
     local path = Towerdata.OBTAINED[i]
+    --塔类型
     local towerType = "ui/hall/Atlas/Secondaryinterface_towerinfo/towertype_"..TowerDef.TABLE[i].TYPE..".png"
+    --塔ID
     local id = tonumber(string.sub(path,27,-5))
+    --塔等级
     local level = "ui/hall/Atlas/Subinterface_currentsquad/rank/lv."..KnapsackData:getTowerGrade(id)..".png"
 
     --按钮
     local ItemButton = ccui.ImageView:create(path)
-    ItemButton:setPosition(cc.p(75+offsetX, offsetY+120))
+    ItemButton:setPosition(cc.p(75+offsetX, 120))
     ItemButton:setTouchEnabled(true)
     ItemButton:addTo(layer)
 
@@ -247,17 +263,20 @@ function TroopLayer:createTroopItem(layer,i,offsetX,offsetY)
             sender:runAction(ease_elastic)
             if self.i~=0 then--如果ID存在则替换，替换后设置为0放置再次点击会继续替换
                 self:Change(ItemButton,quality,levels,self.i)
+                --
+                print(troop..","..location..","..self.i..","..KnapsackData:getTowerGrade(self.i))
+                --第troop个阵容，第troop个阵容的第location个位置,新卡的ID，新卡的等级
+                KnapsackData:setTowerArray(troop,location,self.i,KnapsackData:getTowerGrade(self.i))
                 self.i = 0
             end
             self.towerUsingLayer:setVisible(false)--隐藏弹窗
-
+            KnapsackData:sendData()
         elseif eventType == ccui.TouchEventType.canceled then
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
             sender:runAction(ease_elastic)
         end
     end)
-
 end
 
 --[[
@@ -273,9 +292,12 @@ function TroopLayer:Change(ItemButton,quality,levels,i)
     levels:loadTexture(level)
 end
 
---二级页面（使用）
+--[[
+    函数用途：二级界面：塔使用窗口
+    --]]
 function TroopLayer:towerUsingPanel(collectLayer,icon)
     local width ,height = display.width,display.height
+    --取id
     self.i = tonumber(string.sub(icon,27,-5))
     --层：背景层
     self.towerUsingLayer = ccui.Layout:create()
@@ -285,12 +307,12 @@ function TroopLayer:towerUsingPanel(collectLayer,icon)
     self.towerUsingLayer:pos(width*0.5, height *0.5)
     self.towerUsingLayer:setAnchorPoint(0.5, 0.5)
     self.towerUsingLayer:addTo(collectLayer)
-
+    --弹窗背景
     local popLayer = ccui.ImageView:create("ui/hall/Atlas/Secondaryinterface_towerusing/group119.png")
     popLayer:pos(display.cx,display.cy)
     popLayer:setAnchorPoint(0.5,0.5)
     popLayer:addTo(self.towerUsingLayer)
-
+    --塔图片
     local towerIcon = ccui.ImageView:create(icon)
     towerIcon:setPosition(304,230)
     towerIcon:addTo(popLayer)
