@@ -141,6 +141,7 @@ function DamageInfo:Count(tag)
         self.target_:addBuff(self.addBuffMap_[i])
     end
     EventManager:doEvent(EventDef.ID.CREATE_DAMAGE, self)
+    EventManager:doEvent(EventDef.ID.TOWER_ATK_HIT)
 end
 --[[--
     伤害信息帧刷新

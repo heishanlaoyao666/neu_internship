@@ -95,7 +95,6 @@ function Battle:matchingPopLayer(battleLayer)
         GameData:playerInit(msg)
         local ABtn = import("app.scenes.GameView.GameScene"):new()
         display.replaceScene(ABtn,"turnOffTiles",0.5)
-        EventManager:unRegListener(EventDef.ID.CREATE_GAME, self)
     end)
     --灰色背景
     local grayLayer = self:grayLayer(battleLayer)

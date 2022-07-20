@@ -124,6 +124,7 @@ function GameData:init()
                             self.opposite_:createTowerEnd(table["id"],table["x"],table["y"])
                             self.opposite_:towerCreateCost()
                         end
+                        EventManager:doEvent(EventDef.ID.TOWER_BUILD)
                     end
                     --处理塔合成
                     handelframe[gameframe]["handle"]["compose"]=handelframe[gameframe]["handle"]["compose"] or {}
@@ -134,6 +135,7 @@ function GameData:init()
                         else
                             self.opposite_:composeTower(table["x1"],table["y1"],table["x2"],table["y2"],table["id"])
                         end
+                        EventManager:doEvent(EventDef.ID.TOWER_COMPOSE)
                     end
                     --处理塔强化
                     handelframe[gameframe]["handle"]["upgrade"]=handelframe[gameframe]["handle"]["upgrade"] or {}
@@ -154,6 +156,7 @@ function GameData:init()
             end
         elseif  msg["type"] == MsgDef.MSG_TYPE_ACK.BOSSTRUE then
             EventManager:doEvent(EventDef.ID.OPPOSITE_SELECT,ConstDef.BOSS[msg["boss"]].ID)
+            EventManager:doEvent(EventDef.ID.CONFIRM_BOSS)
             self:setGameState(ConstDef.GAME_STATE.PLAY)
             gameframe=1
             self:sendGamePlay()
@@ -164,16 +167,17 @@ function GameData:init()
                 self.player_:setLife(msg["number"])
             end
         elseif  msg["type"] == MsgDef.MSG_TYPE_ACK.GAMEWIN then
+            EventManager:doEvent(EventDef.ID.WIN)
             print("赢了怎么说赢了")
             self:setGameState(ConstDef.GAME_STATE.WIN,msg)
         elseif  msg["type"] == MsgDef.MSG_TYPE_ACK.GAMELOSE then
             print("输了怎么说输了")
+            EventManager:doEvent(EventDef.ID.LOSE)
             self:setGameState(ConstDef.GAME_STATE.LOSE,msg)
         elseif  msg["type"] == MsgDef.MSG_TYPE_ACK.GAMEOVER then
             msg["type"]=MsgDef.MSG_TYPE_REQ.GAMEOVER
             MsgController:sendMsg(msg)
         end
-        
     end)
 end
 --[[--
@@ -551,12 +555,12 @@ function GameData:update(dt)
             self:createMonster(self.player_,stage_.LIFE*self.monset_stage_,ConstDef.MONSTER_TAG.NORMAL)
             self:createMonster(self.opposite_,stage_.LIFE*self.monset_stage_,ConstDef.MONSTER_TAG.NORMAL)
         end
-
     end
     self.monster_tick_=self.monster_tick_+dt 
     self.game_time_=self.game_time_+dt
     if self.game_time_>=stage_.TIME then
         if stage_.BOSS then
+            EventManager:doEvent(EventDef.ID.BOSS_SHOW)
             self:createMonster(self.player_,self.game_stage_*50000,self.game_boss_)
             self:createMonster(self.opposite_,self.game_stage_*50000,self.game_boss_)
             print("boss生成")

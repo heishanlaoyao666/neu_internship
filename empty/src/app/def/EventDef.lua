@@ -32,7 +32,7 @@ EventDef.ID = {
 
     CREATE_GAME = 50885,--游戏创建
 
-    score_show_1 =11111,--结算分数演示1
+    SCORE_SHOW_1 =11111,--结算分数演示1
     SCORE_SHOW_2 =22222,--结算分数演示2
     SCORE_SHOW_3 =33333,--结算分数演示3
 

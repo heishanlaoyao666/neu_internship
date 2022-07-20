@@ -7,6 +7,8 @@ end)
 local ConstDef = require("app/def/ConstDef.lua")
 local GameData = require("app/data/GameData.lua")
 local TowerDef     = require("app.def.TowerDef")
+local EventDef = require("app.def.EventDef.lua")
+local EventManager = require("app/manager/EventManager.lua")
 local width, height = 720, 1280
 --[[--
     构造函数
@@ -66,7 +68,8 @@ function GameLoseView:initView()
     surrenderBtn:setPosition(display.cx, height*0.1)
     surrenderBtn:addTouchEventListener(function(sender, eventType)
         if eventType == 2 then
-            --返回大厅
+            local Main = import("app.scenes.MainScene"):new()
+            display.replaceScene(Main,"turnOffTiles",0.5)
         end
     end)
     -- 屏蔽点击
@@ -130,7 +133,7 @@ function GameLoseView:showView(msg)
     self.player_name_:setPosition(width*0.2,height*0.2)
     self.player_name_:setAnchorPoint(0,0.5)
     self.player_name_:addTo(self.loseLayout)
-    --敌方塔阵容
+    --我方塔阵容
     move_x=width*0.1
     for i = 1, 5 do
         --类型:table 塔信息 .id_(塔id) .level_(塔等级) .grade_(塔强化等级)
@@ -160,6 +163,7 @@ function GameLoseView:showView(msg)
     down_cup_text:setPosition(40,15)
     down_cup_text:addTo(down_cup_bg)
 
+    EventManager:doEvent(EventDef.ID.SCORE_SHOW_1)
     self:setVisible(true)
     -- self.container_:setScale(0)
     -- self.container_:runAction(cc.ScaleTo:create(0.15, 1))

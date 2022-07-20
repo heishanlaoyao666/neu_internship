@@ -87,6 +87,7 @@ end
     @return none
 ]]
 function RandomBossView:showView()
+    EventManager:doEvent(EventDef.ID.SELECT_BOSS)
     self:setVisible(true)
     -- self.container_:setScale(0)
     -- self.container_:runAction(cc.ScaleTo:create(0.15, 1))

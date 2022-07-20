@@ -391,6 +391,7 @@ function Player:bulletCreate(tower)
     if tower:getPlayer()~=self then
         return
     end
+    EventManager:doEvent(EventDef.ID.TOWER_ATK)
     local bullet = Bullet.new(tower)
     bullet:setX(tower:getX())
     bullet:setY(tower:getY())

@@ -39,6 +39,7 @@ function PlayView:ctor()
     self.gameWinView = nil --类型: GameWinView, 游戏胜利画面
     self:initView()
 
+    EventManager:doEvent(EventDef.ID.INTO_GAME)
     self:registerScriptHandler(function(event)
         if event == "enter" then
             self:onEnter()
