@@ -67,7 +67,7 @@ function KnapsackData:init()
         if msg["type"] == MsgDef.MSG_TYPE_ACK.LOGIN then
             self.goldcoin_=msg["gold"]
             self.diamonds_=msg["diamond"]
-            self.cups=msg["cup"]
+            self.cups_=msg["cup"]
             self.pid_=msg["pid"]
             for i = 1, 20 do
                 towerData[i].unlock_=msg["towerData"][i]["unlock"]
@@ -163,9 +163,9 @@ end
 
     @return none
 ]]
-function KnapsackData:setTowerArray(i,j,tower_id,tower_level)
+function KnapsackData:setTowerArray(i,j,tower_id)
     towerArray[i][j].tower_id_=tower_id
-    towerArray[i][j].tower_level_=tower_level
+    towerArray[i][j].tower_level_=towerData[tower_id].level_
 end
 --[[--
     获取塔阵容
@@ -314,7 +314,7 @@ function KnapsackData:getDataTable()
     for i = 1, 3 do
         table.towerArray[i]={}
         for j = 1, 5 do
-            table.towerArray[j]={}
+            table.towerArray[i][j]={}
             table.towerArray[i][j].id = towerArray[i][j].tower_id_
             table.towerArray[i][j].level = towerArray[i][j].tower_level_
         end

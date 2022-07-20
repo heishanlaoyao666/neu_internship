@@ -12,8 +12,8 @@ local FightLayer = require("app/scenes/GameView/ui/layer/FightLayer.lua")
 local OppositeBossView = require("app/scenes/GameView/ui/OppositeBossView.lua")
 local OppositeTowerView = require("app/scenes/GameView/ui/OppositeTowerView.lua")
 local SurrenderView = require("app/scenes/GameView/ui/SurrenderView.lua")
-local ResultView = require("app/scenes/GameView/ui/ResultView")
-
+local GameLoseView = require("app/scenes/GameView/ui/GameLoseView")
+local GameWinView = require("app/scenes/GameView/ui/GameWinView")
 local ConstDef = require("app/def/ConstDef.lua")
 local EventDef = require("app/def/EventDef.lua")
 local EventManager = require("app/manager/EventManager.lua")
@@ -35,8 +35,8 @@ function PlayView:ctor()
     self.oppositeTowerView_ = nil --类型：OppositeTowerView,对面塔信息界面
     self.oppositeBossView_ = nil --类型： OppositeBossView，对面boss信息界面
 
-    self.resultView_ = nil -- 类型：ResultView，结算界面
-
+    self.gameLoseView = nil -- 类型：GameLoseView,游戏失败画面
+    self.gameWinView = nil --类型: GameWinView, 游戏胜利画面
     self:initView()
 
     self:registerScriptHandler(function(event)
@@ -83,9 +83,12 @@ function PlayView:initView()
     self.oppositeBossView_:setVisible(false)
     
 
-    self.resultView_ = ResultView.new()
-    self:addChild(self.resultView_)
-    self.resultView_:setVisible(false)
+    self.gameLoseView = GameLoseView.new()
+    self:addChild(self.gameLoseView)
+    self.gameLoseView:setVisible(false)
+    self.gameWinView = GameWinView.new()
+    self:addChild(self.gameWinView)
+    self.gameWinView:setVisible(false)
 end
 
 --[[--
@@ -106,9 +109,12 @@ function PlayView:onEnter()
             self.surrenderView_:showView()
         end
     end)
-    EventManager:regListener(EventDef.ID.GAMESTATE_CHANGE, self, function(state)
-        if state == ConstDef.GAME_STATE.RESULT then
-            self.resultView_:showView()
+    EventManager:regListener(EventDef.ID.GAMESTATE_CHANGE, self, function(state,msg)
+        if state == ConstDef.GAME_STATE.LOSE then
+            self.surrenderView_:hideView()
+            self.gameLoseView:showView(msg)
+        elseif state == ConstDef.GAME_STATE.WIN then
+            self.gameWinView:showView(msg)
         elseif state == ConstDef.GAME_STATE.INIT then
             self.randomBossView_:showView()
         end

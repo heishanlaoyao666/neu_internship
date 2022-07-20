@@ -63,6 +63,7 @@ function GameData:init()
     gameframe = 0 --类型:当前客户端游戏帧
     severframe = 0 -- 类型:当前服务器游戏帧
     handelframe = {} --类型:每帧行为存放
+    damages_={}
     EventManager:regListener(EventDef.ID.INIT_DAMAGE, self, function(damage)
         damages_[#damages_+1] = damage
         --audio.playEffect("sounds/fireEffect.ogg", false)
@@ -164,8 +165,10 @@ function GameData:init()
             end
         elseif  msg["type"] == MsgDef.MSG_TYPE_ACK.GAMEWIN then
             print("赢了怎么说赢了")
+            self:setGameState(ConstDef.GAME_STATE.WIN,msg)
         elseif  msg["type"] == MsgDef.MSG_TYPE_ACK.GAMELOSE then
             print("输了怎么说输了")
+            self:setGameState(ConstDef.GAME_STATE.LOSE,msg)
         elseif  msg["type"] == MsgDef.MSG_TYPE_ACK.GAMEOVER then
             msg["type"]=MsgDef.MSG_TYPE_REQ.GAMEOVER
             MsgController:sendMsg(msg)
@@ -295,9 +298,9 @@ end
 
     @return none
 ]]
-function GameData:setGameState(state)
+function GameData:setGameState(state,msg)
     self.gameState_ = state
-    EventManager:doEvent(EventDef.ID.GAMESTATE_CHANGE, state)
+    EventManager:doEvent(EventDef.ID.GAMESTATE_CHANGE, state,msg)
 end
 --[[--
     位置是否在下方有效范围（判定能否点击）

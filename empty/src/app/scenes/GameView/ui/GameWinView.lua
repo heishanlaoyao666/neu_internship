@@ -7,7 +7,8 @@ local GameWinView = class("GameWinView", function()
 end)
 local ConstDef = require("app/def/ConstDef.lua")
 local GameData = require("app/data/GameData.lua")
-
+local TowerDef     = require("app.def.TowerDef")
+local width, height = 720, 1280
 --[[--
     构造函数
 
@@ -17,8 +18,6 @@ local GameData = require("app/data/GameData.lua")
 ]]
 function GameWinView:ctor()
     self.container_ = nil -- 类型：Layout，控件容器
-    self.scoreLabel_ = nil -- 类型：Text，分数
-    self.historyLabel_ = nil -- 类型：Text，历史最高
 
     self:initView()
 end
@@ -31,29 +30,26 @@ end
     @return none
 ]]
 function GameWinView:initView()
-    -- local width, height = 300, 300
-    -- self.container_ = ccui.Layout:create()
-    -- self.container_:setBackGroundColor(cc.c3b(200, 200, 200))
-    -- self.container_:setBackGroundColorType(1)
-    -- self.container_:setContentSize(width, height)
-    -- self.container_:addTo(self)
-    -- self.container_:setAnchorPoint(0.5, 0.5)
-    -- self.container_:setPosition(display.cx, display.cy)
 
-    -- local label = ccui.Text:create("Game Over", "ui/font/FontNormal.ttf", 40)
-    -- label:setAnchorPoint(0.5, 0.5)
-    -- label:setPosition(width * 0.5, height - 40)
-    -- self.container_:addChild(label)
+    self.container_ = ccui.Layout:create()
+    self.container_:setBackGroundColor(cc.c3b(0, 0, 0))
+    self.container_:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
+    self.container_:setBackGroundColorOpacity(128)--设置透明度
+    self.container_:setBackGroundColorType(1)
+    self.container_:setContentSize(width, height)
+    self.container_:addTo(self)
+    self.container_:setAnchorPoint(0.5, 0.5)
+    self.container_:setPosition(display.cx, display.cy)
 
-    -- self.scoreLabel_ = ccui.Text:create("分数 : ".. GameData:getScore(), "ui/font/FontNormal.ttf", 30)
-    -- self.scoreLabel_:setAnchorPoint(0.5, 0.5)
-    -- self.scoreLabel_:setPosition(width * 0.5, height - 120)
-    -- self.container_:addChild(self.scoreLabel_)
-
-    -- self.historyLabel_ = ccui.Text:create("历史最佳 : ".. GameData:getHistory(), "ui/font/FontNormal.ttf", 30)
-    -- self.historyLabel_:setAnchorPoint(0.5, 0.5)
-    -- self.historyLabel_:setPosition(width * 0.5, height - 190)
-    -- self.container_:addChild(self.historyLabel_)
+    self.winLayout = ccui.Layout:create()
+    self.winLayout:setBackGroundColor(cc.c3b(255, 255, 255))
+    self.winLayout:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)--设置颜色模式
+    self.winLayout:setBackGroundColorOpacity(128)--设置透明度
+    self.winLayout:setBackGroundColorType(1)
+    self.winLayout:setContentSize(width, height*0.25)
+    self.winLayout:addTo(self.container_)
+    self.winLayout:setAnchorPoint(0.5, 0.5)
+    self.winLayout:setPosition(display.cx, display.cy+height*0.2)
 
     -- 屏蔽点击
     self:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event) 
@@ -72,7 +68,8 @@ end
     @return none
 ]]
 function GameWinView:showView(msg)
-    -- self:setVisible(true)
+    
+    self:setVisible(true)
     -- self.container_:setScale(0)
     -- self.container_:runAction(cc.ScaleTo:create(0.15, 1))
     -- self.scoreLabel_:setString("分数 : ".. GameData:getScore())

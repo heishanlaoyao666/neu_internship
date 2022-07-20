@@ -85,7 +85,8 @@ local ConstDef = {
         INIT = 1,   -- 初始状态
         PLAY = 2,   -- 游戏状态
         PAUSE = 3,  -- 暂停状态
-        RESULT= 4,  -- 结算状态
+        WIN   = 4,  -- 结算状态赢
+        LOSE  = 5,  -- 结算状态输
     },
     GAME_VIEW = {
         OPPOSITEBOSS = 1, --对方boss信息界面
