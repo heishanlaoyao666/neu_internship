@@ -23,6 +23,7 @@ end
 function TopPanel:update(dt)
     self:setDiamondsString(KnapsackData:getDiamonds())
     self:setCoinString(KnapsackData:getGoldCoin())
+    self:setCupsString(KnapsackData:getCups())
 end
 --[[
     函数用途：创建顶部信息栏
