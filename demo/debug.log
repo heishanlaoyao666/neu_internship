@@ -1,0 +1,1274 @@
+Quick-Cocos2dx-Community C++ support ready.
+
+------------------------------------------------
+
+LOAD LUA FILE: D:/CocoProject/project/demo/src/main.lua
+
+------------------------------------------------
+
+[LUA-print] ===========================================================
+
+[LUA-print]               LOAD QUICK FRAMEWORK
+
+[LUA-print] ===========================================================
+
+[LUA-print] [INFO] 
+
+[LUA-print] [INFO] # DEBUG                        = 1
+
+[LUA-print] [INFO] #
+
+[LUA-print] [INFO] # device.platform              = windows
+
+[LUA-print] [INFO] # device.model                 = unknown
+
+[LUA-print] [INFO] # device.language              = cn
+
+[LUA-print] [INFO] # device.writablePath          = D:\CocoProject\project\demo\
+
+[LUA-print] [INFO] # device.directorySeparator    = \
+
+[LUA-print] [INFO] # device.pathSeparator         = ;
+
+[LUA-print] [INFO] #
+
+[LUA-print] [INFO] # CONFIG_SCREEN_AUTOSCALE      = FIXED_HEIGHT
+
+[LUA-print] [INFO] # CONFIG_SCREEN_WIDTH          = 720.00
+
+[LUA-print] [INFO] # CONFIG_SCREEN_HEIGHT         = 1280.00
+
+[LUA-print] [INFO] # display.widthInPixels        = 720.00
+
+[LUA-print] [INFO] # display.heightInPixels       = 1280.00
+
+[LUA-print] [INFO] # display.contentScaleFactor   = 1.00
+
+[LUA-print] [INFO] # display.width                = 720.00
+
+[LUA-print] [INFO] # display.height               = 1280.00
+
+[LUA-print] [INFO] # display.cx                   = 360.00
+
+[LUA-print] [INFO] # display.cy                   = 640.00
+
+[LUA-print] [INFO] # display.left                 = 0.00
+
+[LUA-print] [INFO] # display.right                = 720.00
+
+[LUA-print] [INFO] # display.top                  = 1280.00
+
+[LUA-print] [INFO] # display.bottom               = 0.00
+
+[LUA-print] [INFO] # display.c_left               = -360.00
+
+[LUA-print] [INFO] # display.c_right              = 360.00
+
+[LUA-print] [INFO] # display.c_top                = 640.00
+
+[LUA-print] [INFO] # display.c_bottom             = -640.00
+
+[LUA-print] [INFO] #
+
+[LUA-print] init
+
+[LUA-print] 客户端接收到了	Connecting
+
+[LUA-print] connecting ...
+
+[LUA-print] WAIT .... 
+
+[Edit text] content size = (390.000000, 60.000000)
+
+[Edit text] content size = (390.000000, 60.000000)
+
+[Edit text] content size = (390.000000, 60.000000)
+
+[Edit text] content size = (390.000000, 60.000000)
+
+[Edit text] content size = (390.000000, 60.000000)
+
+[Edit text] content size = (390.000000, 60.000000)
+
+[LUA-print] 客户端接收到了	Connected
+
+[LUA-print] connected. now can send
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] lalallalala
+
+[LUA-print] 1
+
+[LUA-print] login	12	12
+
+[LUA-print] init
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] 输出======CountdownComp.ctor()=========
+
+[LUA-print] 倒计时进行中。。。。
+
+[LUA-print] init
+
+[LUA-print] init
+
+[LUA-print] init
+
+[LUA-print] �[LUA-print] init
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] Mapping succeed!
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-pr[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- create enemy -----
+
+[LUA-print] card ctor
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- create enemy -----
+
+[LUA-print] card ctor
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-pr[LUA-print] 客户端接收到了	[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-pr[LUA-print] 客户端接收到了	[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-pr[LUA-print] 客户端接收到了	[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-pr[LUA-print] 客户端接收到了	[LUA-pri[LUA-print] This is a sync from se[LUA-print] This is a sync from server!
+
+[LUA-pr[LUA-print] ----- player update --[LUA-pr[LUA-print] 客户端接收到了	[LUA-pri[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	[LUA-pri[LUA-print] This is a sync from se[LUA-prin[LUA-print] ----- player update --[LUA-pr[LUA-print] ----- player update --[LUA-pr[LUA-print] 客户端接收到了	[LUA-pri[LUA-print] This is a sync from se[LUA-print] This is a sync from server!
+
+[LUA-pr[LUA-print] ----- player update --[LUA-pr[LUA-print] 客户端接收到了	[LUA-pri[LUA-print] This is a sync from se[LUA-print] This is a sync from server!
+
+[LUA-pr[LUA-print] ----- player update --[LUA-pr[LUA-print] 客户端接收到了	[LUA-pri[LUA-print] This is a sync from se[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-pr[LUA-print] 客户端接收到了	[LUA-pri[LUA-print] This is a sync from se[LUA-prin[LUA-print] ----- player update --[LUA-pr[LUA-print] ----- player update --[LUA-pr[LUA-print] 客户端接收到了	[LUA-pri[LUA-print] This is a sync from se[LUA-prin[LUA-print] ----- player update --[LUA-pr[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	[LUA-pri[LUA-print] This is a sync from se[LUA-prin[LUA-print] ----- player update --[LUA-print] ----- player update -----
+
+[LUA-pr[LUA-print] 客户端接收到了	[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-pr[LUA-print] 客户端接收到了	[LUA-pri[LUA-print] This is a sync from se[LUA-prin[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	[LUA-pri[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update --[LUA-pr[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	[LUA-pri[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	[LUA-pri[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	[LUA-pri[LUA-print] This is a sync from se[LUA-prin[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update --[LUA-pr[LUA-print] 客户端接收到了	[LUA-pri[LUA-print] This is a sync from se[LUA-prin[LUA-print] ----- player update --[LUA-pr[LUA-print] ----- player update --[LUA-pr[LUA-print] 客户端接收到了	[LUA-pri[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	[LUA-pri[LUA-print] This is a sync from se[LUA-prin[LUA-print] ----- player update --[LUA-pr[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	[LUA-pri[LUA-print] This is a sync from se[LUA-prin[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update --[LUA-pr[LUA-print] 客户端接收到了	[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-pr[LUA-print] ----- player update --[LUA-pr[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- create enemy -----
+
+[LUA-print] card ctor
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- create enemy -----
+
+[LUA-print] card ctor
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- create hurt -----
+
+[LUA-print] ----- add hurt -----
+
+[LUA-print] 29
+
+[LUA-print] ----- create hurt -----
+
+[LUA-print] ----- add hurt -----
+
+[LUA-print] 29
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- create hurt -----
+
+[LUA-print] ----- add hurt -----
+
+[LUA-print] 20
+
+[LUA-print] ----- create hurt -----
+
+[LUA-print] ----- add hurt -----
+
+[LUA-print] 20
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- create hurt -----
+
+[LUA-print] ----- add hurt -----
+
+[LUA-print] 29
+
+[LUA-print] ----- create hurt -----
+
+[LUA-print] ----- add hurt -----
+
+[LUA-print] 29
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- create hurt -----
+
+[LUA-print] ----- add hurt -----
+
+[LUA-print] 20
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- create hurt -----
+
+[LUA-print] ----- add hurt -----
+
+[LUA-print] 20
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- create enemy -----
+
+[LUA-print] card ctor
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- create hurt -----
+
+[LUA-print] ----- add hurt -----
+
+[LUA-print] 20
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from se[LUA-prin[LUA-print] ----- player update --[LUA-pr[LUA-print] ----- player update --[LUA-pr[LUA-print] 客户端接收到了	[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-pr[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	[LUA-pri[LUA-print] This is a sync from se[LUA-print] This is a sync from server!
+
+[LUA-pr[LUA-print] ----- player update --[LUA-pr[LUA-print] 客户端接收到了	[LUA-pri[LUA-print] This is a sync from se[LUA-prin[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	[LUA-pri[LUA-print] This is a sync from se[LUA-prin[LUA-print] ----- player update --[LUA-pr[LUA-print] ----- player update --[LUA-pr[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from se[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-pr[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	[LUA-pri[LUA-print] This is a sync from se[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-pr[LUA-print] 客户端接收到了	[LUA-print] 客户端接收到了	Data
+
+[LUA-prin[LUA-print] ----- player update --[LUA-print] ----- player update -----
+
+[LUA-pr[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update --[LUA-pr[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	[LUA-pri[LUA-print] This is a sync from se[LUA-prin[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update --[LUA-pr[LUA-print] 客户端接收到了	[LUA-pri[LUA-print] This is a sync from se[LUA-prin[LUA-print] ----- player update --[LUA-pr[LUA-print] ----- player update --[LUA-pr[LUA-print] 客户端接收到了	[LUA-pri[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update --[LUA-pr[LUA-print] ----- player update --[LUA-pr[LUA-print] ----- create hurt ----[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- create hurt -----
+
+[LUA-print] ----- ad[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update --[LUA-pr[LUA-print] 客户端接收到了	[LUA-pri[LUA-print] This is a sync from se[LUA-prin[LUA-print] ----- player update --[LUA-pr[LUA-print] ----- player update --[LUA-pr[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	[LUA-pri[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update --[LUA-pr[LUA-print] ----- player update --[LUA-pr[LUA-print] 客户端接收到了	[LUA-pri[LUA-print] This is a sync from se[LUA-print] This is a sync from server!
+
+[LUA-pr[LUA-print] ----- player update --[LUA-pr[LUA-print] 客户端接收到了	[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-pr[LUA-print] ----- player update --[LUA-pr[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] init
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] This is a sync from server!
+
+[LUA-print] ----- player update -----
+
+[LUA-print] ----- player update -----
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] init
+
+[LUA-print] WINNER NAME	123
+
+[LUA-print] enemy.integral	112
+
+[LUA-print] me.integral	191
+
+[LUA-print] me.integral D	0
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] 客户端接收到了	Data
+
+[LUA-print] anim on exit
+
+[LUA-print] tcp fin
+
+[LUA-print] init
+
+[LUA-print] init
+
+[LUA-print] 客户端接收到了	Closed
+
+a
+
+[LUA-print] anim on exit
+
+[LUA-print] tcp fin
+
+[LUA-print] init
+
+[LUA-print] init
+
+[LUA-print] 客户端接收到了	Closed
+
