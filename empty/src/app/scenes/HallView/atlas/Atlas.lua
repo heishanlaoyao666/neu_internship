@@ -769,6 +769,7 @@ function Atlas:towerinfoPanel(collectLayer,path,bg,towertype,rank)--稀有度背
             updatefirecdlabel:setVisible(false)
             updateskill1label:setVisible(false)
             updateskill2label:setVisible(false)
+            KnapsackData:sendData()
 
             local scale = cc.ScaleTo:create(1,1)
             local ease_elastic = cc.EaseElasticOut:create(scale)
