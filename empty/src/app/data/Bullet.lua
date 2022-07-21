@@ -20,6 +20,7 @@ function Bullet:ctor(tower)
     self.tower_id_ = tower:getID() --类型：number，塔编号
     self.speed_x_ = 0 --x方向速度
     self.speed_y_ = 0 --y方向速度
+    self.target_ =nil --子弹目标
     --buff表初始化
     EventManager:doEvent(EventDef.ID.CREATE_BULLET, self)
 end
