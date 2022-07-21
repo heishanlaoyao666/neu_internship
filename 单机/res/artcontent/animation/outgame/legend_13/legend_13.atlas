@@ -1,0 +1,69 @@
+
+legend_13.png
+size: 734,251
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+erhuan
+  rotate: true
+  xy: 684, 113
+  size: 29, 31
+  orig: 29, 31
+  offset: 0, 0
+  index: -1
+guang
+  rotate: false
+  xy: 2, 2
+  size: 269, 247
+  orig: 269, 247
+  offset: 0, 0
+  index: -1
+shenti
+  rotate: false
+  xy: 499, 112
+  size: 183, 137
+  orig: 183, 137
+  offset: 0, 0
+  index: -1
+tou
+  rotate: false
+  xy: 273, 85
+  size: 224, 164
+  orig: 224, 164
+  offset: 0, 0
+  index: -1
+weiba
+  rotate: true
+  xy: 273, 11
+  size: 72, 127
+  orig: 72, 127
+  offset: 0, 0
+  index: -1
+yanjing
+  rotate: true
+  xy: 684, 144
+  size: 105, 48
+  orig: 105, 48
+  offset: 0, 0
+  index: -1
+youshou
+  rotate: false
+  xy: 515, 6
+  size: 110, 104
+  orig: 110, 104
+  offset: 0, 0
+  index: -1
+youtui
+  rotate: false
+  xy: 627, 8
+  size: 101, 102
+  orig: 101, 102
+  offset: 0, 0
+  index: -1
+zuotui
+  rotate: false
+  xy: 402, 7
+  size: 111, 76
+  orig: 111, 76
+  offset: 0, 0
+  index: -1

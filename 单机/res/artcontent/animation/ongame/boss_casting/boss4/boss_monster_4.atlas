@@ -1,0 +1,48 @@
+
+boss_monster_4.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+doupeng
+  rotate: false
+  xy: 2, 90
+  size: 200, 158
+  orig: 200, 158
+  offset: 0, 0
+  index: -1
+fazhang
+  rotate: true
+  xy: 2, 30
+  size: 58, 170
+  orig: 58, 170
+  offset: 0, 0
+  index: -1
+feather
+  rotate: false
+  xy: 204, 119
+  size: 190, 129
+  orig: 190, 129
+  offset: 0, 0
+  index: -1
+toudai
+  rotate: false
+  xy: 204, 91
+  size: 162, 26
+  orig: 162, 26
+  offset: 0, 0
+  index: -1
+yandi
+  rotate: true
+  xy: 396, 121
+  size: 127, 31
+  orig: 127, 31
+  offset: 0, 0
+  index: -1
+yanjing
+  rotate: false
+  xy: 2, 2
+  size: 115, 26
+  orig: 115, 26
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,97 @@
+
+boss_monster_2_stroke.png
+size: 1024,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: false
+  xy: 358, 62
+  size: 133, 64
+  orig: 133, 64
+  offset: 0, 0
+  index: -1
+face
+  rotate: false
+  xy: 593, 39
+  size: 97, 87
+  orig: 97, 87
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 2, 15
+  size: 178, 111
+  orig: 178, 111
+  offset: 0, 0
+  index: -1
+shentiyinying
+  rotate: false
+  xy: 182, 26
+  size: 130, 36
+  orig: 130, 36
+  offset: 0, 0
+  index: -1
+touding
+  rotate: false
+  xy: 751, 10
+  size: 46, 47
+  orig: 46, 47
+  offset: 0, 0
+  index: -1
+toudingyinding
+  rotate: false
+  xy: 182, 64
+  size: 174, 62
+  orig: 174, 62
+  offset: 0, 0
+  index: -1
+x
+  rotate: false
+  xy: 493, 29
+  size: 98, 97
+  orig: 98, 97
+  offset: 0, 0
+  index: -1
+you
+  rotate: false
+  xy: 692, 59
+  size: 72, 67
+  orig: 72, 67
+  offset: 0, 0
+  index: -1
+youlian
+  rotate: false
+  xy: 766, 59
+  size: 34, 67
+  orig: 34, 67
+  offset: 0, 0
+  index: -1
+youtui
+  rotate: false
+  xy: 875, 83
+  size: 37, 43
+  orig: 37, 43
+  offset: 0, 0
+  index: -1
+zuo
+  rotate: false
+  xy: 692, 2
+  size: 57, 55
+  orig: 57, 55
+  offset: 0, 0
+  index: -1
+zuolian
+  rotate: false
+  xy: 802, 65
+  size: 30, 61
+  orig: 30, 61
+  offset: 0, 0
+  index: -1
+zuotui
+  rotate: false
+  xy: 834, 81
+  size: 39, 45
+  orig: 39, 45
+  offset: 0, 0
+  index: -1

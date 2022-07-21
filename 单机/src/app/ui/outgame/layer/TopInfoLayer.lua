@@ -1,0 +1,199 @@
+--[[--
+    顶部信息层
+    TopInfoLayer.lua
+]]
+local TopInfoLayer = class("TopInfoLayer", require("app.ui.outgame.layer.BaseLayer"))
+local OutGameData = require("app.data.outgame.OutGameData")
+local PortraitSelectionView = require("app.ui.outgame.view.PortraitSelectionView")
+
+--[[--
+    构造函数
+
+    @param none
+
+    @return none
+]]
+function TopInfoLayer:ctor()
+    TopInfoLayer.super.ctor(self)
+    cc.UserDefault:getInstance():setStringForKey("昵称","久妹")
+    --cc.UserDefault:getInstance():setIntegerForKey("奖杯数",200)
+
+    self.portraitSelectionView_=nil --头像选择界面
+    self.container_ = nil -- 类型：Layout，控件容器
+    self.avatarBtn_=nil --类型：Button，头像按钮
+    self.name=nil  --类型：TTF，玩家昵称文本
+    self.trophynum=nil --类型：TTF，奖杯数文本
+    self.goldcoinnum=nil --类型：TTF，金币数文本
+    self.diamondsnnum=nil --类型：TTF，钻石数文本
+
+    self:initView()
+end
+
+--[[--
+    界面初始化
+
+    @param none
+
+    @return none
+]]
+function TopInfoLayer:initView()
+    local width, height = display.width, 80
+    local tempfilename
+    self.container_ = ccui.Layout:create()
+    self.container_:setContentSize(display.width, height)
+    self.container_:addTo(self)
+    self.container_:setAnchorPoint(0.5, 1)
+    self.container_:setPosition(display.cx, display.height)
+
+    --底图S
+    local baseTopTbarSprite = display.newSprite("artcontent/lobby_ongame/topbar_playerinformation/base_topbar.png")
+    self.container_:addChild(baseTopTbarSprite)
+    baseTopTbarSprite:setContentSize(width, height)
+    baseTopTbarSprite:setAnchorPoint(0.5, 1)
+    baseTopTbarSprite:setPosition(width / 2, 0)
+
+    --昵称底图
+    local baseNicknameSprite = display.newSprite("artcontent/lobby_ongame/topbar_playerinformation/base_nickname.png")
+    self.container_:addChild(baseNicknameSprite)
+    baseNicknameSprite:setContentSize(width / 2, height / 2)
+    baseNicknameSprite:setAnchorPoint(0.5, 1)
+    baseNicknameSprite:setPosition(width / 2 - 50, 0)
+
+    --默认头像
+    self.avatarBtn_ = ccui.Button:create("artcontent/lobby_ongame/topbar_playerinformation/default_avatar.png")
+    self.container_:addChild(self.avatarBtn_)
+    self.avatarBtn_:setAnchorPoint(0.5, 1)
+    self.avatarBtn_:setPosition(width / 2 - 280, height / 2 + 20)
+
+    self.avatarBtn_:addTouchEventListener(
+        function(sender, eventType)
+            -- ccui.TouchEventType
+            if 2 == eventType then -- touch end
+                self.portraitSelectionView_=PortraitSelectionView:new():addTo(self)
+                if cc.UserDefault:getInstance():getBoolForKey("音效") then
+                    audio.playEffect("sounds/ui_btn_click.OGG",false)
+                end
+            end
+        end
+    )
+
+    --砖石和金币底图
+    tempfilename="artcontent/lobby_ongame/topbar_playerinformation/base_Diamonds&goldcoins.png"
+    local baseMoneySprite =display.newSprite(tempfilename)
+    self.container_:addChild(baseMoneySprite)
+    --baseMoneySprite:setScale(0.4)
+    baseMoneySprite:setAnchorPoint(0.5, 1)
+    baseMoneySprite:setPosition(width / 2 + 190, 50)
+    local baseMoneyContentSize= baseMoneySprite:getContentSize()
+
+    --金币
+    local goldSprite = display.newSprite("artcontent/lobby_ongame/topbar_playerinformation/goldcoin.png")
+    self.container_:addChild(goldSprite)
+    --sprite3:setContentSize(width, height)
+    goldSprite:setAnchorPoint(0.5, 1)
+    goldSprite:setPosition(width / 2 + 120, 50)
+    self.goldcoinnum=display.newTTFLabel({
+		text = "0",
+        size = 25,
+        color = display.COLOR_WHITE
+	})
+	:align(display.LEFT_CENTER,baseMoneyContentSize.width/2-50,baseMoneyContentSize.height/2)
+	:addTo(baseMoneySprite)
+
+    --砖石和金币底图
+    local baseMoneySprite1 = display.newSprite(tempfilename)
+    self.container_:addChild(baseMoneySprite1)
+    baseMoneySprite1:setAnchorPoint(0.5, 1)
+    baseMoneySprite1:setPosition(width / 2 + 190, 0)
+
+    --砖石
+    local diamondsSprite = display.newSprite("artcontent/lobby_ongame/topbar_playerinformation/diamonds.png")
+    self.container_:addChild(diamondsSprite)
+    diamondsSprite:setAnchorPoint(0.5, 1)
+    diamondsSprite:setPosition(width / 2 + 120, 0)
+    self.diamondsnnum=display.newTTFLabel({
+		text = "0",
+        size = 25,
+        color = display.COLOR_WHITE
+	})
+	:align(display.LEFT_CENTER,baseMoneyContentSize.width/2-50,baseMoneyContentSize.height/2)
+	:addTo(baseMoneySprite1)
+
+    --菜单按钮
+    local menuBtn = ccui.Button:create("artcontent/lobby_ongame/topbar_playerinformation/button_menu.png")
+    self.container_:addChild(menuBtn)
+    menuBtn:setAnchorPoint(0.5, 1)
+    menuBtn:setPosition(width / 2 + 310, 40)
+
+    menuBtn:addTouchEventListener(
+        function(sender, eventType)
+            -- ccui.TouchEventType
+            if 2 == eventType then -- touch end
+                require("src/app/ui/outgame/layer/MenuLayer.lua"):new():addTo(self)
+                if cc.UserDefault:getInstance():getBoolForKey("音效") then
+                    audio.playEffect("sounds/ui_btn_click.OGG",false)
+                end
+            end
+        end
+    )
+
+
+    self.name=display.newTTFLabel({
+		text = "九妹",
+        size = 30,
+        color = display.COLOR_WHITE
+	})
+	:align(display.LEFT_CENTER, 20,baseNicknameSprite:getContentSize().height/2+50)
+	:addTo(baseNicknameSprite)
+
+    --奖杯
+    local trophySprite = display.newSprite("artcontent/lobby_ongame/topbar_playerinformation/trophy.png")
+    baseNicknameSprite:addChild(trophySprite)
+    --sprite8:setContentSize(width / 2, height / 2)
+    trophySprite:setAnchorPoint(0.5, 0)
+    trophySprite:setPosition(40,baseNicknameSprite:getContentSize().height/2-10)
+    self.trophynum=display.newTTFLabel({
+		text = "0",
+        size = 25,
+        color = cc.c3b(255, 215, 0)
+	})
+	:align(display.LEFT_CENTER, 70,baseNicknameSprite:getContentSize().height/2+5)
+    :addTo(baseNicknameSprite)
+    -- self.trophynum=ccui.TextBMFont:create(tostring(0), "artcontent/font/num_account.fnt")
+    -- :setScale(0.45)
+	-- :addTo(baseNicknameSprite)
+    -- :setAnchorPoint(0, 0.5)
+    -- :align(display.LEFT_CENTER, 70,baseNicknameSprite:getContentSize().height/2+6)
+    --:setPosition(70,baseNicknameSprite:getContentSize().height/2+5)
+    --数据信息
+    self.name:setString(cc.UserDefault:getInstance():getStringForKey("昵称"))
+    self.trophynum:setString(tostring(OutGameData:getTrophy()))
+    self.goldcoinnum:setString(tostring(OutGameData:getGold()))
+    self.diamondsnnum:setString(tostring(OutGameData:getDiamond()))
+end
+
+--[[--
+    界面刷新
+
+    @param dt 类型：number，帧间隔，单位秒
+
+    @return none
+]]
+
+function TopInfoLayer:setSprite1(filename)
+    -- body
+    self.avatarBtn_:loadTextureNormal(filename)
+end
+
+function TopInfoLayer:setData()
+    -- body
+    self.name:setString(cc.UserDefault:getInstance():getStringForKey("昵称"))
+    self.trophynum:setString(tostring(OutGameData:getTrophy()))
+    self.goldcoinnum:setString(tostring(OutGameData:getGold()))
+    self.diamondsnnum:setString(tostring(OutGameData:getDiamond()))
+end
+
+function TopInfoLayer:update(dt)
+end
+
+return TopInfoLayer
