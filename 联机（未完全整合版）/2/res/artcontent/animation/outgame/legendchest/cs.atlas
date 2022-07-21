@@ -1,0 +1,104 @@
+
+cs.png
+size: 1534,840
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1/td_by_xs_02
+  rotate: false
+  xy: 1288, 392
+  size: 208, 192
+  orig: 208, 192
+  offset: 0, 0
+  index: -1
+baoxiang_bihe
+  rotate: false
+  xy: 2, 14
+  size: 346, 310
+  orig: 346, 310
+  offset: 0, 0
+  index: -1
+baoxiangdi
+  rotate: true
+  xy: 1386, 586
+  size: 252, 146
+  orig: 252, 146
+  offset: 0, 0
+  index: -1
+baoxiangdi_F
+  rotate: true
+  xy: 866, 10
+  size: 314, 176
+  orig: 314, 176
+  offset: 0, 0
+  index: -1
+baoxiangding
+  rotate: false
+  xy: 1030, 622
+  size: 354, 216
+  orig: 354, 216
+  offset: 0, 0
+  index: -1
+guangci
+  rotate: false
+  xy: 350, 68
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+guangsi
+  rotate: false
+  xy: 2, 326
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+guangyun
+  rotate: false
+  xy: 516, 326
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+huangguanghuan
+  rotate: false
+  xy: 1030, 364
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+huanghuan
+  rotate: false
+  xy: 608, 68
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+kuodaguangyun
+  rotate: false
+  xy: 1302, 262
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+xiaolizi
+  rotate: false
+  xy: 1302, 132
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+xingxing
+  rotate: false
+  xy: 1302, 2
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+yuanhuan
+  rotate: false
+  xy: 1044, 106
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
